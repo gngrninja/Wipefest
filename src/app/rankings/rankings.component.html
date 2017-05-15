@@ -1,0 +1,5 @@
+<ul *ngIf="rankings">
+  <li *ngFor="let ranking of rankings" (click)="selectRanking(ranking)">
+    {{ranking.guild}}
+  </li>
+</ul>

@@ -1,3 +1,33 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container">
+
+  <h1>
+    Warcraft Logs Raid CD Analysis
+  </h1>
+
+  <div class="row">
+    <div class="col-sm-4" *ngIf="!zones">
+      Loading...
+    </div>
+
+    <div class="col-sm-4" *ngIf="zones">
+      <h2>Zones </h2>
+
+      <zone [zone]="nighthold()" (encounterEmitter)="selectEncounter($event)"></zone>
+      <!--<zone [zone]="trialOfValor()" (encounterEmitter)="selectEncounter($event)"></zone>-->
+      <!--<zone [zone]="emeraldNightmare()" (encounterEmitter)="selectEncounter($event)"></zone>-->
+    </div>
+
+    <div class="col-sm-4" *ngIf="selectedEncounter">
+      <h2>{{selectedEncounter.name}}</h2>
+
+      <rankings [rankings]="rankings" (rankingEmitter)="selectRanking($event)"></rankings>
+    </div>
+
+    <div class="col-sm-4" *ngIf="selectedRanking">
+      <h2>{{selectedRanking.guild}}</h2>
+
+      <events [events]="events"></events>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,9 @@
+<h3>{{zone.name}} </h3>
+
+<ul>
+  <span *ngFor="let encounter of zone.encounters">
+  <li *ngIf="encounter.id==1866" (click)="selectEncounter(encounter)">
+    {{encounter.name}}
+  </li>
+  </span>
+</ul>

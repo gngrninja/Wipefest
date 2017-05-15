@@ -4,17 +4,24 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
+import { ZoneComponent } from './zone/zone.component';
+import { RankingsComponent } from './rankings/rankings.component';
+import { EventsComponent } from './events/events.component'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ZoneComponent,
+    RankingsComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [ WarcraftLogsApiService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let event of events">
+    {{event.ability.name}} - {{parseTimestamp(event.timestamp)}}
+  </li>
+</ul>
