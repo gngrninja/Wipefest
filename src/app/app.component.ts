@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
     this.selectedRanking = ranking;
     this.events = null;
 
+    this.warcraftLogsApiService.getReport(ranking.reportID);
     this.warcraftLogsApiService.getEvents(ranking.reportID, 0, ranking.duration, this.getEventFilter());
   }
 

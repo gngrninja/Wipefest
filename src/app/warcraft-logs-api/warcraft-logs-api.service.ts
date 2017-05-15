@@ -5,6 +5,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import { Zone } from "./zone";
 import { Ranking } from "./ranking";
 import { CombatEvent } from "./combat-event";
+import { Report } from "./report";
 
 @Injectable()
 export class WarcraftLogsApiService {
@@ -21,10 +22,14 @@ export class WarcraftLogsApiService {
   private events$: BehaviorSubject<CombatEvent[]> = new BehaviorSubject(null);
   events: Observable<CombatEvent[]>;
 
+  private report$: BehaviorSubject<Report> = new BehaviorSubject(null);
+  report: Observable<Report>;
+
   constructor(private http: Http) {
     this.zones = this.zones$.asObservable();
     this.rankings = this.rankings$.asObservable();
     this.events = this.events$.asObservable();
+    this.report = this.report$.asObservable();
 
     this.getZones();
   }
@@ -47,11 +52,9 @@ export class WarcraftLogsApiService {
       .toPromise()
       .then(res => this.rankings$.next(res.json().rankings))
       .catch(this.handleError);
-
-    // https://www.warcraftlogs.com/v1/rankings/encounter/1866?metric=execution&difficulty=5&limit=200&api_key=4755ffa6214768b13beab7deb1bfc85f
   }
 
-  getEvents(reportId: string, start: number, end: number, filter: string) {
+  getEvents(reportId: string, start: number, end: number, filter: string): Promise<void> {
     return this.http.get(this.url
       + "report/events/" + reportId
       + "?api_key=" + this.apiKey
@@ -61,8 +64,15 @@ export class WarcraftLogsApiService {
       .toPromise()
       .then(res => this.events$.next(res.json().events))
       .catch(this.handleError);
+  }
 
-    // https://www.warcraftlogs.com/v1/report/events/ZQqdW2G8hXDfntvT?start=0&end=910752&filter=ability.id%20in%20%2831821%2C62618%2C98008%2C97462%2C64843%2C108280%2C740%2C115310%2C15286%2C196718%29&api_key=4755ffa6214768b13beab7deb1bfc85f
+  getReport(reportId: string): Promise<void> {
+    return this.http.get(this.url
+      + "report/fights/" + reportId
+      + "?api_key=" + this.apiKey, { headers: new Headers() })
+      .toPromise()
+      .then(res => this.report$.next(res.json()))
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
