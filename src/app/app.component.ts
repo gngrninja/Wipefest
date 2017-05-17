@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { WarcraftLogsApiService } from "./warcraft-logs-api/warcraft-logs-api.service";
 import { Zone, Encounter } from "./warcraft-logs-api/zone";
 import { Ranking } from "./warcraft-logs-api/ranking";
-import { CombatEvent } from "./warcraft-logs-api/combat-event"
+import { CombatEvent } from "./warcraft-logs-api/combat-event";
 
 @Component({
   selector: 'app-root',
@@ -22,14 +22,14 @@ export class AppComponent implements OnInit {
   constructor(private warcraftLogsApiService: WarcraftLogsApiService) {}
 
   ngOnInit() {
-    this.warcraftLogsApiService.zones.subscribe(zones => this.zones = zones);
+    this.warcraftLogsApiService.zones.subscribe(zones => { this.zones = zones; });
     this.warcraftLogsApiService.rankings.subscribe(rankings => this.rankings = rankings);
     this.warcraftLogsApiService.events.subscribe(events => this.events = events);
   }
 
-  private emeraldNightmare() { return this.zones.filter(z => z.id == 10)[0]; }
-  private trialOfValor() { return this.zones.filter(z => z.id == 12)[0]; }
-  private nighthold() { return this.zones.filter(z => z.id == 11)[0]; }
+  private emeraldNightmare() { return this.zones.filter(z => z.id === 10)[0]; }
+  private trialOfValor() { return this.zones.filter(z => z.id === 12)[0]; }
+  private nighthold() { return this.zones.filter(z => z.id === 11)[0]; }
 
   private selectEncounter(encounter: Encounter) {
     this.selectedEncounter = encounter;
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
   private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 227427, 221783, 211152, 206939, 206744, 167819];
 
   private getEventFilter(): string {
-    let filter = "type = 'cast' and ability.id in (" + this.raidCooldownIds.join(", ") + ", " + this.guldanAbilityIds.join(", ") + ")";
+    const filter = `type = 'cast' and ability.id in (${this.raidCooldownIds.join(", ")}, ${this.guldanAbilityIds.join(", ")})`;
 
     return filter;
   }

@@ -1,7 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
+﻿import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
@@ -19,7 +20,8 @@ import { EventsComponent } from './events/events.component'
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    NgbModule.forRoot()
   ],
   providers: [ WarcraftLogsApiService ],
   bootstrap: [AppComponent]
