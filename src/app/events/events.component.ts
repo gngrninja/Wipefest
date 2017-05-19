@@ -21,12 +21,11 @@ export class EventsComponent implements OnInit {
     this.warcraftLogsApiService.report.subscribe(report => this.report = report);
   }
 
-  private getEventSource(event: CombatEvent) {
-    if (event.sourceIsFriendly) {
-      return this.report.friendlies.filter(x => x.id === event.sourceID)[0];
-    } else {
-      return this.report.enemies.filter(x => x.id === event.sourceID)[0];
-    }
+  private friendlyEvents(): CombatEvent[] {
+    return this.events.filter(x => x.sourceIsFriendly);
   }
 
+  private unfriendlyEvents(): CombatEvent[] {
+    return this.events.filter(x => !x.sourceIsFriendly);
+  }
 }

@@ -1,5 +1,6 @@
-﻿<ul>
-  <li *ngFor="let event of events">
-    {{getEventSource(event).name}} - {{event.ability.name}} - {{event.timestamp | date:"m:ss"}}
-  </li>
-</ul>
+﻿<div class="col-sm-6">
+  <event *ngFor="let event of unfriendlyEvents()" (event)="event" (report)="report"></event>
+</div>
+<div class="col-sm-6">
+  <event *ngFor="let event of friendlyEvents()" (event)="event" (report)="report"></event>
+</div>

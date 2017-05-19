@@ -8,14 +8,16 @@ import { AppComponent } from './app.component';
 import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
 import { ZoneComponent } from './zone/zone.component';
 import { RankingsComponent } from './rankings/rankings.component';
-import { EventsComponent } from './events/events.component'
+import { EventsComponent } from './events/events.component';
+import { EventComponent } from './event/event.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     ZoneComponent,
     RankingsComponent,
-    EventsComponent
+    EventsComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,

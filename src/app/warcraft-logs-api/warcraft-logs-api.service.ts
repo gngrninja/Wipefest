@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {BehaviorSubject, Observable} from "rxjs";
@@ -30,11 +30,9 @@ export class WarcraftLogsApiService {
     this.rankings = this.rankings$.asObservable();
     this.events = this.events$.asObservable();
     this.report = this.report$.asObservable();
-
-    this.getZones();
   }
 
-  private getZones(): Promise<void> {
+  getZones(): Promise<void> {
     return this.http.get(this.url + "zones?api_key=" + this.apiKey, { headers: new Headers() })
       .toPromise()
       .then(res => this.zones$.next(res.json()))

@@ -1,25 +1,26 @@
 ﻿<nav class="navbar navbar-toggleable-sm navbar-light bg-faded">
   <div class="container">
-    <a class="navbar-brand" href="#">Event Analysis</a>
+    <span class="navbar-brand">Event Analysis</span>
     <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       &#9776;
     </button>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-xs" id="navbar">
       <ul class="nav navbar-nav">
         <li class="nav-item" *ngIf="zones">
-          <a class="nav-link" href="#">
+          <span class="nav-link">
             {{nighthold().name}}
-          </a>
+          </span>
         </li>
         <li class="nav-item" *ngIf="zones">
-          <a class="nav-link" href="#">Gul'dan</a>
+          <span class="nav-link">
+            {{selectedEncounter.name}}
+          </span>
         </li>
         <li class="dropdown" *ngIf="selectedRanking">
           <div ngbDropdown class="d-inline-block dropdown-links">
-            <a href="#" ngbDropdownToggle class="nav-link" id="dropdown" role="button">{{selectedRanking.guild}} <span class="caret"></span></a>
+            <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">{{selectedRanking.guild}} <span class="caret"></span></span>
             <ul class="dropdown-menu" aria-labelledby="dropdown">
               <rankings [rankings]="rankings" (rankingEmitter)="selectRanking($event)"></rankings>
-              <li class="dropdown-item"><a href="#">Action</a></li>
             </ul>
           </div>
         </li>
@@ -31,28 +32,20 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-sm-4" *ngIf="!zones">
+    <div class="col-sm-12" *ngIf="!selectedRanking">
       Loading...
     </div>
 
-    <div class="col-sm-4" *ngIf="zones">
-      <h2>Zones </h2>
-
-      <zone [zone]="nighthold()" (encounterEmitter)="selectEncounter($event)"></zone>
-      <!--<zone [zone]="trialOfValor()" (encounterEmitter)="selectEncounter($event)"></zone>-->
-      <!--<zone [zone]="emeraldNightmare()" (encounterEmitter)="selectEncounter($event)"></zone>-->
-    </div>
-
-    <div class="col-sm-4" *ngIf="selectedEncounter">
-      <h2>{{selectedEncounter.name}}</h2>
-
-      <rankings [rankings]="rankings" (rankingEmitter)="selectRanking($event)"></rankings>
-    </div>
-
-    <div class="col-sm-4" *ngIf="selectedRanking">
+    <div class="col-sm-12" *ngIf="selectedRanking">
       <h2>{{selectedRanking.guild}}</h2>
+      
+      <div *ngIf="!events">
+        Loading...
+      </div>
 
-      <events [events]="events"></events>
+      <div *ngIf="events">
+        <events [events]="events"></events>
+      </div>
     </div>
   </div>
 

@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
     this.warcraftLogsApiService.zones.subscribe(zones => { this.zones = zones; });
     this.warcraftLogsApiService.rankings.subscribe(rankings => this.rankings = rankings);
     this.warcraftLogsApiService.events.subscribe(events => this.events = events);
+
+    this.warcraftLogsApiService.getZones().then(() => this.selectEncounter(this.nighthold().encounters.filter(x => x.id === 1866)[0]));
   }
 
   private emeraldNightmare() { return this.zones.filter(z => z.id === 10)[0]; }
@@ -37,7 +39,7 @@ export class AppComponent implements OnInit {
     this.rankings = null;
     this.events = null;
 
-    this.warcraftLogsApiService.getRankings(encounter.id, "execution", 5, 2, 20);
+    this.warcraftLogsApiService.getRankings(encounter.id, "execution", 5, 2, 20).then(() => this.selectRanking(this.rankings[0]));
   }
 
   private selectRanking(ranking: Ranking) {
