@@ -1,6 +1,1 @@
-﻿<div class="col-sm-6">
-  <event *ngFor="let event of unfriendlyEvents()" (event)="event" (report)="report"></event>
-</div>
-<div class="col-sm-6">
-  <event *ngFor="let event of friendlyEvents()" (event)="event" (report)="report"></event>
-</div>
+﻿<event *ngFor="let event of events" [event]="event" [report]="report"></event>

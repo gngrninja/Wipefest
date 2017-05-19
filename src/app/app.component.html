@@ -1,10 +1,10 @@
-﻿<nav class="navbar navbar-toggleable-sm navbar-light bg-faded">
+﻿<nav class="navbar sticky-top navbar-toggleable-md navbar-inverse bg-inverse">
   <div class="container">
     <span class="navbar-brand">Event Analysis</span>
-    <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler hidden-md-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       &#9776;
     </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-xs" id="navbar">
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-md" id="navbar">
       <ul class="nav navbar-nav">
         <li class="nav-item" *ngIf="zones">
           <span class="nav-link">
@@ -18,7 +18,9 @@
         </li>
         <li class="dropdown" *ngIf="selectedRanking">
           <div ngbDropdown class="d-inline-block dropdown-links">
-            <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">{{selectedRanking.guild}} <span class="caret"></span></span>
+            <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">
+            {{selectedRanking.guild}} <span class="caret"></span>
+            </span>
             <ul class="dropdown-menu" aria-labelledby="dropdown">
               <rankings [rankings]="rankings" (rankingEmitter)="selectRanking($event)"></rankings>
             </ul>
@@ -37,7 +39,7 @@
     </div>
 
     <div class="col-sm-12" *ngIf="selectedRanking">
-      <h2>{{selectedRanking.guild}}</h2>
+      <h2>{{selectedRanking.guild}}<span class="hidden-xs-down"> vs {{selectedEncounter.name}}</span></h2>
       
       <div *ngIf="!events">
         Loading...
@@ -48,5 +50,13 @@
       </div>
     </div>
   </div>
+
+  <footer>
+    <hr />
+    <div class="container">
+      All data is retrieved from the <a href="http://warcraftlogs.com" target="_blank">Warcraft Logs</a> API.
+    </div>
+  </footer>
+  <br />
 
 </div>

@@ -20,12 +20,4 @@ export class EventsComponent implements OnInit {
   ngOnInit() {
     this.warcraftLogsApiService.report.subscribe(report => this.report = report);
   }
-
-  private friendlyEvents(): CombatEvent[] {
-    return this.events.filter(x => x.sourceIsFriendly);
-  }
-
-  private unfriendlyEvents(): CombatEvent[] {
-    return this.events.filter(x => !x.sourceIsFriendly);
-  }
 }

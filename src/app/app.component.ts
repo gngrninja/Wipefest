@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     this.rankings = null;
     this.events = null;
 
-    this.warcraftLogsApiService.getRankings(encounter.id, "execution", 5, 2, 20).then(() => this.selectRanking(this.rankings[0]));
+    this.warcraftLogsApiService.getRankings(encounter.id, "execution", 5, 2, 20).then(() => this.selectRanking(this.rankings[3]));
   }
 
   private selectRanking(ranking: Ranking) {
@@ -50,8 +50,8 @@ export class AppComponent implements OnInit {
     this.warcraftLogsApiService.getEvents(ranking.reportID, 0, ranking.duration, this.getEventFilter());
   }
 
-  private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];
-  private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 227427, 221783, 211152, 206939, 206744, 167819];
+  private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222, 30449];
+  private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 227427, 221783, 211152, 206939, 206744, 167819, 211439, 221408, 208801, 226975, 221486];
 
   private getEventFilter(): string {
     const filter = `type = 'cast' and ability.id in (${this.raidCooldownIds.join(", ")}, ${this.guldanAbilityIds.join(", ")})`;
