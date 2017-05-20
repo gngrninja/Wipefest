@@ -1,6 +1,6 @@
 ﻿<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
   <div class="container">
-    <span class="navbar-brand">Warcraft Fight Club</span>
+    <span class="navbar-brand">Wipefest (Alpha)</span>
     <button class="navbar-toggler hidden-md-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       &#9776;
     </button>
@@ -18,7 +18,7 @@
             </ul>
           </div>
         </li>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="hidden-md-down">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <form class="form-inline my-lg-0">
           <input name="searchTerm" class="form-control mr-sm-2" type="text" placeholder="Report" [(ngModel)]="searchTerm" />
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit" (click)="search()">Search</button>
