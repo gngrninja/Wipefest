@@ -1,3 +1,21 @@
-﻿.unfriendly {
+﻿table {
+  width: 100%;
+}
+
+td.event {
+  width: 47%;
+}
+
+td.timestamp {
+  text-align: center;
+}
+
+div.friendly {
   text-align: right;
+}
+
+img {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
 }

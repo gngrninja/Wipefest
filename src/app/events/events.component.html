@@ -1,1 +1,23 @@
-﻿<event *ngFor="let event of events" [event]="event" [report]="report"></event>
+﻿<table class="table-hover">
+  <tr *ngFor="let event of events">
+    <td class="event">
+      <div *ngIf="event.sourceIsFriendly" class="friendly">
+        <span class="hidden-md-down">{{source(event).name}} - </span>
+        <span class="hidden-xs-down">{{event.ability.name}}</span>
+        <span class="hidden-sm-up">{{initials(event.ability.name)}}</span>
+        <img src="{{iconUrl(event)}}" alt="{{event.ability.name}}" />
+      </div>
+    </td>
+    <td class="timestamp">
+      {{event.timestamp | date:"m:ss"}}
+    </td>
+    <td class="event">
+      <div *ngIf="!event.sourceIsFriendly" class="unfriendly">
+        <img src="{{iconUrl(event)}}" alt="{{event.ability.name}}" />
+        <span class="hidden-xs-down">{{event.ability.name}}</span>
+        <span class="hidden-sm-up">{{initials(event.ability.name)}}</span>
+        <span class="hidden-md-down"> - {{source(event).name}}</span>
+      </div>
+    </td>
+  </tr>
+</table>
