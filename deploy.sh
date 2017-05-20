@@ -1,2 +1,1 @@
-﻿ng build
-ls dist
+﻿ls dist

@@ -8,4 +8,5 @@ deployment:
   production:
     branch: master
     commands:
+      - ng build
       - sh ./deploy.sh
