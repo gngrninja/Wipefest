@@ -39,4 +39,11 @@ export class EventsComponent implements OnInit {
     private initials(input: string): string {
         return input.split(" ").map(w => w[0]).join("");
     }
+
+    formatTimestamp(timestamp: number): string {
+        let minutes = Math.floor(timestamp / 60000);
+        let seconds = Math.floor(timestamp / 1000) - 60 * minutes;
+
+        return minutes + ":" + ("00" + seconds).substring(seconds.toString().length);
+    }
 }

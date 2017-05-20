@@ -11,7 +11,7 @@
       </div>
     </td>
     <td class="timestamp">
-      {{(event.timestamp - fight.start_time) | date:"m:ss"}}
+      {{formatTimestamp(event.timestamp - fight.start_time)}}
     </td>
     <td class="event">
       <div *ngIf="!event.sourceIsFriendly" class="unfriendly">
