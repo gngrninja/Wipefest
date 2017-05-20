@@ -1,0 +1,11 @@
+﻿dependencies:
+  pre:
+    - npm install angular-cli@latest -g
+test:
+  override:
+    - "true"
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./deploy.sh

@@ -1,0 +1,2 @@
+﻿ng build
+ls dist
