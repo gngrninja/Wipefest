@@ -6,15 +6,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
-import { ZoneComponent } from './zone/zone.component';
-import { RankingsComponent } from './rankings/rankings.component';
 import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ZoneComponent,
-    RankingsComponent,
     EventsComponent
   ],
   imports: [

@@ -5,15 +5,19 @@
         <span class="hidden-md-down">{{source(event).name}} - </span>
         <span class="hidden-xs-down">{{event.ability.name}}</span>
         <span class="hidden-sm-up">{{initials(event.ability.name)}}</span>
-        <img src="{{iconUrl(event)}}" alt="{{event.ability.name}}" />
+        <a href="http://wowhead.com/spell={{event.ability.guid}}" target="_blank">
+          <img src="{{iconUrl(event)}}" alt="{{event.ability.name}}" />
+        </a>
       </div>
     </td>
     <td class="timestamp">
-      {{event.timestamp | date:"m:ss"}}
+      {{(event.timestamp - fight.start_time) | date:"m:ss"}}
     </td>
     <td class="event">
       <div *ngIf="!event.sourceIsFriendly" class="unfriendly">
-        <img src="{{iconUrl(event)}}" alt="{{event.ability.name}}" />
+        <a href="http://wowhead.com/spell={{event.ability.guid}}" target="_blank">
+          <img src="{{iconUrl(event)}}" alt="{{event.ability.name}}" />
+        </a>
         <span class="hidden-xs-down">{{event.ability.name}}</span>
         <span class="hidden-sm-up">{{initials(event.ability.name)}}</span>
         <span class="hidden-md-down"> - {{source(event).name}}</span>

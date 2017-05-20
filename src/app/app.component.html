@@ -1,31 +1,28 @@
-﻿<nav class="navbar sticky-top navbar-toggleable-md navbar-inverse bg-inverse">
+﻿<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
   <div class="container">
-    <span class="navbar-brand">Event Analysis</span>
+    <span class="navbar-brand">Warcraft Fight Club</span>
     <button class="navbar-toggler hidden-md-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       &#9776;
     </button>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-md" id="navbar">
-      <ul class="nav navbar-nav">
-        <li class="nav-item" *ngIf="zones">
-          <span class="nav-link">
-            {{nighthold().name}}
-          </span>
-        </li>
-        <li class="nav-item" *ngIf="zones">
-          <span class="nav-link">
-            {{selectedEncounter.name}}
-          </span>
-        </li>
-        <li class="dropdown" *ngIf="selectedRanking">
+      <ul class="navbar-nav mr-auto">
+        <li class="dropdown" *ngIf="selectedFight">
           <div ngbDropdown class="d-inline-block dropdown-links">
             <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">
-            {{selectedRanking.guild}} <span class="caret"></span>
+            {{selectedFight.name}} ({{selectedFight.id}}) <span class="caret"></span>
             </span>
             <ul class="dropdown-menu" aria-labelledby="dropdown">
-              <rankings [rankings]="rankings" (rankingEmitter)="selectRanking($event)"></rankings>
+              <li *ngFor="let fight of selectedReport.fights" (click)="selectFight(fight)" class="dropdown-item">
+                {{fight.name}} ({{fight.id}})
+              </li>
             </ul>
           </div>
         </li>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <form class="form-inline my-lg-0">
+          <input name="searchTerm" class="form-control mr-sm-2" type="text" placeholder="Report" [(ngModel)]="searchTerm" />
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit" (click)="search()">Search</button>
+        </form>
       </ul>
     </div>
   </div>
@@ -34,19 +31,19 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-sm-12" *ngIf="!selectedRanking">
+    <div class="col-sm-12" *ngIf="!selectedFight">
       Loading...
     </div>
 
-    <div class="col-sm-12" *ngIf="selectedRanking">
-      <h2>{{selectedRanking.guild}}<span class="hidden-xs-down"> vs {{selectedEncounter.name}}</span></h2>
+    <div class="col-sm-12" *ngIf="selectedFight">
+      <h2>{{selectedReportId}}<span class="hidden-xs-down"> vs {{selectedFight.name}}</span></h2>
       
       <div *ngIf="!events">
         Loading...
       </div>
 
       <div *ngIf="events">
-        <events [events]="events"></events>
+        <events [events]="events" [fight]="selectedFight"></events>
       </div>
     </div>
   </div>
@@ -54,7 +51,7 @@
   <footer>
     <hr />
     <div class="container">
-      All data is retrieved from the <a href="http://warcraftlogs.com" target="_blank">Warcraft Logs</a> API.
+      All data is retrieved from the <a href="http://warcraftlogs.com" target="_blank">Warcraft Logs</a> API. Tooltips from <a href="http://wowhead.com" target="_blank">Wowhead</a>.
     </div>
   </footer>
   <br />
