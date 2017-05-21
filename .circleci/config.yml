@@ -6,5 +6,6 @@ jobs:
       - image: alexsuch/angular-cli
     steps:
       - checkout
+      - run: npm install
       - run: ng build
       - run: ls dist
