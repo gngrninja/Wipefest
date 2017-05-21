@@ -1,0 +1,10 @@
+﻿version: 2
+jobs:
+  build:
+    working_directory: .
+    docker:
+      - image: alexsuch/angular-cli
+    steps:
+      - checkout
+      - run: ng build
+      - run: ls dist
