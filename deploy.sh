@@ -1,1 +1,15 @@
-﻿ls dist
+﻿#!/bin/sh
+FTP_HOST=$FTP_HOST
+FTP_USER=$FTP_USER
+FTP_PASSWORD=$FTP_PASSWORD
+FILES='dist/*'
+
+ftp -n $FTP_HOST <<END_SCRIPT
+quote USER $FTP_USER
+quote PASS $FTP_PASSWORD
+binary
+prompt
+mput $FILES
+quit
+END_SCRIPT
+exit 0

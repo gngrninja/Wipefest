@@ -7,5 +7,9 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: ng build --prod
+      - run: ng build
       - run: ls dist
+      - run: sh deploy.sh
+      - deploy:
+          name: Development
+          command: sh deploy.sh
