@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+﻿#!/bin/bash
 FTP_HOST=$FTP_HOST
 FTP_USER=$FTP_USER
 FTP_PASSWORD=$FTP_PASSWORD

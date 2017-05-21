@@ -9,7 +9,7 @@ jobs:
       - run: npm install
       - run: ng build
       - run: ls dist
-      - run: sh deploy.sh
+      - run: apk add ftp
       - deploy:
           name: Development
           command: sh deploy.sh
