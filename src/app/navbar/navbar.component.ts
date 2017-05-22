@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { WarcraftLogsApiService } from "app/warcraft-logs-api/warcraft-logs-api.service";
-import { Report, Fight } from "app/warcraft-logs-api/report";
+import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
+import { Report, Fight } from "app/warcraft-logs/report";
 
 @Component({
     selector: 'navbar',
@@ -16,8 +16,8 @@ export class NavbarComponent implements OnInit {
     @Output() whenReportIsSelected: EventEmitter<Report> = new EventEmitter<Report>();
     @Output() whenFightIsSelected: EventEmitter<Fight> = new EventEmitter<Fight>();
     
-    constructor(private warcraftLogsApiService: WarcraftLogsApiService) {
-        this.warcraftLogsApiService.report.subscribe(report => this.selectedReport = report);
+    constructor(private warcraftLogsService: WarcraftLogsService) {
+        this.warcraftLogsService.report.subscribe(report => this.selectedReport = report);
     }
 
     ngOnInit() {
@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
     }
 
     private selectReport() {
-        this.warcraftLogsApiService.getReport(this.reportId)
+        this.warcraftLogsService.getReport(this.reportId)
             .then(() => {
                 this.selectedReport.fights = this.selectedReport.fights.filter(x => x.boss == 1866).reverse();
                 this.whenReportIsSelected.emit(this.selectedReport);

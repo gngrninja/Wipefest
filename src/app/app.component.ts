@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { WarcraftLogsApiService } from "./warcraft-logs-api/warcraft-logs-api.service";
-import { Ranking } from "./warcraft-logs-api/ranking";
-import { CombatEvent } from "./warcraft-logs-api/combat-event";
-import { Report, Fight } from "./warcraft-logs-api/report";
+import { WarcraftLogsService } from "./warcraft-logs/warcraft-logs.service";
+import { Ranking } from "./warcraft-logs/ranking";
+import { CombatEvent } from "./warcraft-logs/combat-event";
+import { Report, Fight } from "./warcraft-logs/report";
 
 @Component({
     selector: 'app-root',
@@ -16,10 +16,10 @@ export class AppComponent implements OnInit {
 
     private events: CombatEvent[];
 
-    constructor(private warcraftLogsApiService: WarcraftLogsApiService) { }
+    constructor(private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
-        this.warcraftLogsApiService.events.subscribe(events => this.events = events);
+        this.warcraftLogsService.events.subscribe(events => this.events = events);
     }
 
     private selectReport(report: Report) {
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
         this.selectedFight = fight;
 
         this.events = null;
-        this.warcraftLogsApiService.getEvents(this.selectedReport.id, fight.start_time, fight.end_time, this.getEventFilter());
+        this.warcraftLogsService.getEvents(this.selectedReport.id, fight.start_time, fight.end_time, this.getEventFilter());
     }
 
     private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];

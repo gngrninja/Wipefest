@@ -1,7 +1,7 @@
 ﻿import { Component, Input, OnInit } from '@angular/core';
-import { CombatEvent } from "../warcraft-logs-api/combat-event"
-import { WarcraftLogsApiService } from "../warcraft-logs-api/warcraft-logs-api.service";
-import { Report, Fight } from "../warcraft-logs-api/report";
+import { CombatEvent } from "../warcraft-logs/combat-event"
+import { WarcraftLogsService } from "../warcraft-logs/warcraft-logs.service";
+import { Report, Fight } from "../warcraft-logs/report";
 
 @Component({
     selector: 'events',
@@ -18,10 +18,10 @@ export class EventsComponent implements OnInit {
 
     report: Report;
 
-    constructor(private warcraftLogsApiService: WarcraftLogsApiService) { }
+    constructor(private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
-        this.warcraftLogsApiService.report.subscribe(report => this.report = report);
+        this.warcraftLogsService.report.subscribe(report => this.report = report);
     }
 
     private source(event: CombatEvent) {

@@ -8,7 +8,7 @@ import { CombatEvent } from "./combat-event";
 import { Report } from "./report";
 
 @Injectable()
-export class WarcraftLogsApiService {
+export class WarcraftLogsService {
 
   private url = "https://www.warcraftlogs.com/v1/";
   private apiKey = "4755ffa6214768b13beab7deb1bfc85f";

@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
+import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
 import { EventsComponent } from './events/events.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SpinnerComponent } from './spinner/spinner.component';
@@ -23,7 +23,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [ WarcraftLogsApiService ],
+  providers: [ WarcraftLogsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
