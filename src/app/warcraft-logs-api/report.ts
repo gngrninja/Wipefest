@@ -1,5 +1,6 @@
 ﻿export class Report {
 
+    id: string;
     friendlies: Friendly[];
     enemies: Enemy[];
     fights: Fight[];

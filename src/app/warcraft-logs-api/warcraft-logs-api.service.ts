@@ -69,7 +69,12 @@ export class WarcraftLogsApiService {
       + "report/fights/" + reportId
       + "?api_key=" + this.apiKey, { headers: new Headers() })
       .toPromise()
-      .then(res => this.report$.next(res.json()))
+        .then(res => {
+            let report = res.json();
+            report.id = reportId;
+
+            this.report$.next(report);
+        })
       .catch(this.handleError);
   }
 

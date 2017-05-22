@@ -7,11 +7,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
 import { EventsComponent } from './events/events.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EventsComponent
+    EventsComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

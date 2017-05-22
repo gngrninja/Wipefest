@@ -1,42 +1,15 @@
-﻿<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-  <div class="container">
-    <span class="navbar-brand">Wipefest (alpha)</span>
-    <button class="navbar-toggler hidden-md-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      &#9776;
-    </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-md" id="navbar">
-      <ul class="navbar-nav mr-auto">
-        <li class="dropdown" *ngIf="selectedFight">
-          <div ngbDropdown class="d-inline-block dropdown-links">
-            <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">
-            {{selectedFight.name}} ({{selectedFight.id}}) <span class="caret"></span>
-            </span>
-            <ul class="dropdown-menu" aria-labelledby="dropdown">
-              <li *ngFor="let fight of selectedReport.fights" (click)="selectFight(fight)" class="dropdown-item">
-                {{fight.name}} ({{fight.id}})
-              </li>
-            </ul>
-          </div>
-        </li>
-        <span class="hidden-md-down">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <form class="form-inline my-lg-0">
-          <input name="searchTerm" class="form-control mr-sm-2" type="text" placeholder="Report" [(ngModel)]="searchTerm" />
-          <button class="btn btn-outline-info my-2 my-sm-0" type="submit" (click)="search()">Search</button>
-        </form>
-      </ul>
-    </div>
-  </div>
-</nav>
+﻿<navbar (whenReportIsSelected)="selectReport($event)"
+        (whenFightIsSelected)="selectFight($event)"></navbar>
 
 <div class="container">
 
   <div class="row">
-    <div class="col-sm-12" *ngIf="!selectedFight">
+    <div class="col-sm-12 loading" *ngIf="!events">
       Loading...
     </div>
 
-    <div class="col-sm-12" *ngIf="selectedFight">
-      <h2>{{selectedReportId}}<span class="hidden-xs-down"> vs {{selectedFight.name}}</span></h2>
+    <div class="col-sm-12" *ngIf="events">
+      <h2>{{selectedReport.id}}<span class="hidden-xs-down"> vs {{selectedFight.name}}</span></h2>
       
       <div *ngIf="!events">
         Loading...
