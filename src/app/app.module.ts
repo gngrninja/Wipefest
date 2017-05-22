@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { WarcraftLogsApiService } from './warcraft-logs-api/warcraft-logs-api.service';
 import { EventsComponent } from './events/events.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EventsComponent,
-    NavbarComponent
+    NavbarComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

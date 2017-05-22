@@ -4,20 +4,15 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-sm-12 loading" *ngIf="!events">
-      Loading...
+    <div class="col-sm-12" *ngIf="!selectedFight">
+      <spinner></spinner>
     </div>
 
-    <div class="col-sm-12" *ngIf="events">
+    <div class="col-sm-12" *ngIf="selectedFight">
       <h2>{{selectedReport.id}}<span class="hidden-xs-down"> vs {{selectedFight.name}}</span></h2>
-      
-      <div *ngIf="!events">
-        Loading...
-      </div>
 
-      <div *ngIf="events">
-        <events [events]="events" [fight]="selectedFight"></events>
-      </div>
+      <spinner *ngIf="!events"></spinner>
+      <events *ngIf="events" [events]="events" [fight]="selectedFight"></events>
     </div>
   </div>
 
