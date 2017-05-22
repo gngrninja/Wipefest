@@ -9,11 +9,11 @@
         <li class="dropdown" *ngIf="selectedFight">
           <div ngbDropdown class="d-inline-block dropdown-links">
             <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">
-              {{selectedFight.name}} ({{selectedFight.id}}) <span class="caret"></span>
+              {{selectedFight.name}} ({{selectedFight.kill ? "Kill" : "Wipe"}}) ({{selectedFight.id}}) <span class="caret"></span>
             </span>
             <ul class="dropdown-menu" aria-labelledby="dropdown">
               <li *ngFor="let fight of selectedReport.fights" (click)="selectFight(fight)" class="dropdown-item">
-                {{fight.name}} ({{fight.id}})
+                {{fight.name}} ({{fight.kill ? "Kill" : "Wipe"}}) ({{fight.id}})
               </li>
             </ul>
           </div>

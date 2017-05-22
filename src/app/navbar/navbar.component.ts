@@ -21,8 +21,8 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.searchTerm = "KAVknfHTWv1PrzXR";
-        this.reportId = "WKy1xcRbQvYdnM4m";
+        this.reportId = "KAVknfHTWv1PrzXR";
+        //this.reportId = "WKy1xcRbQvYdnM4m";
         this.selectReport();
     }
 

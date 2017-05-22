@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-sm-12" *ngIf="selectedFight">
-      <h2>{{selectedReport.id}}<span class="hidden-xs-down"> vs {{selectedFight.name}}</span></h2>
+      <h2>{{selectedReport.id}}<span class="hidden-xs-down"> vs {{selectedFight.name}} ({{selectedFight.kill ? "Kill" : "Wipe"}})</span></h2>
 
       <spinner *ngIf="!events"></spinner>
       <events *ngIf="events" [events]="events" [fight]="selectedFight"></events>
