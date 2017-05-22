@@ -1,15 +1,8 @@
-﻿#!/bin/bash
-FTP_HOST=$FTP_HOST
-FTP_USER=$FTP_USER
-FTP_PASSWORD=$FTP_PASSWORD
+﻿#!/bin/sh
 FILES='dist/*'
 
-ftp -n $FTP_HOST <<END_SCRIPT
-quote USER $FTP_USER
-quote PASS $FTP_PASSWORD
-binary
-prompt
+lftp -u $FTP_USER,$FTP_PASSWORD $FTP_HOST <<END_SCRIPT
+set ssl:verify-certificate no
 mput $FILES
-quit
+exit
 END_SCRIPT
-exit 0

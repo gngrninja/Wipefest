@@ -3,13 +3,12 @@ jobs:
   build:
     working_directory: ~/wipefest
     docker:
-      - image: alexsuch/angular-cli
+      - image: joshyaxley/angular-cli
     steps:
       - checkout
       - run: npm install
       - run: ng build
       - run: ls dist
-      - run: apk add ftp
       - deploy:
           name: Development
           command: sh deploy.sh
