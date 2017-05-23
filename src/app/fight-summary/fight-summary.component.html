@@ -1,0 +1,12 @@
+﻿<p><div class="row">
+  <div class="col-sm-12" *ngIf="!fight">
+    <spinner></spinner>
+  </div>
+
+  <div class="col-sm-12" *ngIf="fight">
+    <h2>{{report.id}}<span class="hidden-xs-down"> vs {{fight.name}} ({{fight.kill ? "Kill" : "Wipe"}})</span></h2>
+
+    <spinner *ngIf="!events"></spinner>
+    <events *ngIf="events" [events]="events" [fight]="fight"></events>
+  </div>
+</div>

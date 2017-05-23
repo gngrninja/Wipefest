@@ -9,13 +9,15 @@ import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
 import { EventsComponent } from './events/events.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { FightSummaryComponent } from './fight-summary/fight-summary.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EventsComponent,
     NavbarComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    FightSummaryComponent
   ],
   imports: [
     BrowserModule,
