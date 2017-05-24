@@ -10,6 +10,7 @@ import { EventsComponent } from './events/events.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FightSummaryComponent } from './fight-summary/fight-summary.component';
+import { WipefestService } from "app/wipefest.service";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { FightSummaryComponent } from './fight-summary/fight-summary.component';
     HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [ WarcraftLogsService ],
+  providers: [ WarcraftLogsService, WipefestService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,28 +2,37 @@
 import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
+import { WipefestService } from "app/wipefest.service";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'fight-summary',
     templateUrl: './fight-summary.component.html',
     styleUrls: ['./fight-summary.component.css']
 })
-export class FightSummaryComponent implements OnInit, OnChanges {
+export class FightSummaryComponent implements OnInit {
 
-    @Input() report: Report;
-    @Input() fight: Fight;
+    private report: Report;
+    private fight: Fight;
 
     private events: CombatEvent[];
 
-    constructor(private warcraftLogsService: WarcraftLogsService) { }
+    constructor(
+        private warcraftLogsService: WarcraftLogsService,
+        private wipefestService: WipefestService) { }
 
     ngOnInit() {
         this.warcraftLogsService.events.subscribe(events => this.events = events);
+
+        this.wipefestService.selectedReport.subscribe(report => this.report = report);
+        this.wipefestService.selectedFight.subscribe(fight => this.selectFight(fight));
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    private selectFight(fight: Fight) {
+        this.fight = fight;
+        this.events = null;
+
         if (this.report && this.fight) {
-            this.events = null;
             this.warcraftLogsService.getEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter());
         }
     }

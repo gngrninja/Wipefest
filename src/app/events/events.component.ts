@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { CombatEvent } from "../warcraft-logs/combat-event"
 import { WarcraftLogsService } from "../warcraft-logs/warcraft-logs.service";
 import { Report, Fight } from "../warcraft-logs/report";
@@ -8,22 +8,12 @@ import { Report, Fight } from "../warcraft-logs/report";
     templateUrl: './events.component.html',
     styleUrls: ['./events.component.css']
 })
-export class EventsComponent implements OnInit {
+export class EventsComponent {
 
-    @Input()
-    events: CombatEvent[];
-
-    @Input()
-    fight: Fight;
-
-    report: Report;
-
-    constructor(private warcraftLogsService: WarcraftLogsService) { }
-
-    ngOnInit() {
-        this.warcraftLogsService.report.subscribe(report => this.report = report);
-    }
-
+    @Input() events: CombatEvent[];
+    @Input() fight: Fight;
+    @Input() report: Report;
+    
     private source(event: CombatEvent) {
         if (event.sourceIsFriendly) {
             return this.report.friendlies.filter(x => x.id === event.sourceID)[0];
@@ -40,7 +30,7 @@ export class EventsComponent implements OnInit {
         return input.split(" ").map(w => w[0]).join("");
     }
 
-    formatTimestamp(timestamp: number): string {
+    private formatTimestamp(timestamp: number): string {
         let minutes = Math.floor(timestamp / 60000);
         let seconds = Math.floor(timestamp / 1000) - 60 * minutes;
 
