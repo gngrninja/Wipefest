@@ -28,8 +28,6 @@ export class NavbarComponent implements OnInit {
             }
         });
         this.wipefestService.selectedFight.subscribe(fight => this.selectedFight = fight);
-        
-        //this.reportId = "KAVknfHTWv1PrzXR";
     }
 
     private selectFight(fight: Fight) {

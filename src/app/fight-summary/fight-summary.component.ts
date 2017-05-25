@@ -3,7 +3,7 @@ import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import 'rxjs/add/operator/switchMap';
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WipefestService } from "app/wipefest.service";
 
 @Component({
@@ -20,19 +20,11 @@ export class FightSummaryComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private wipefestService: WipefestService,
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
-        this.warcraftLogsService.report.subscribe(report => {
-            this.report = report;
-            if (this.report) {
-                this.report.fights = this.report.fights.filter(x => x.boss == 1866).sort(function (a, b) { return b.id - a.id; });
-                this.wipefestService.selectReport(this.report);
-            }
-        });
-        this.warcraftLogsService.events.subscribe(events => this.events = events);
-
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 
@@ -41,7 +33,18 @@ export class FightSummaryComponent implements OnInit {
         let fightId = params["fightId"];
 
         this.warcraftLogsService.getReport(reportId)
-            .then(() => this.tryToSelectFightById(fightId));
+            .subscribe(report => {
+                this.selectReport(report);
+                this.tryToSelectFightById(fightId);
+            }, () => this.router.navigate([""]));
+    }
+
+    private selectReport(report: Report) {
+        this.report = report;
+        if (this.report) {
+            this.report.fights = this.report.fights.filter(x => x.boss == 1866).sort(function (a, b) { return b.id - a.id; });
+            this.wipefestService.selectReport(this.report);
+        }
     }
 
     private tryToSelectFightById(fightId) {
@@ -64,7 +67,9 @@ export class FightSummaryComponent implements OnInit {
 
         this.events = null;
         if (this.report && this.fight) {
-            this.warcraftLogsService.getEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter());
+            this.warcraftLogsService
+                .getEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter())
+                .subscribe(events => this.events = events, () => this.router.navigate([""]));
         }
     }
 
