@@ -2,8 +2,9 @@
 import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
+import 'rxjs/add/operator/switchMap';
+import { ActivatedRoute, Params } from "@angular/router";
 import { WipefestService } from "app/wipefest.service";
-import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'fight-summary',
@@ -18,20 +19,50 @@ export class FightSummaryComponent implements OnInit {
     private events: CombatEvent[];
 
     constructor(
-        private warcraftLogsService: WarcraftLogsService,
-        private wipefestService: WipefestService) { }
+        private route: ActivatedRoute,
+        private wipefestService: WipefestService,
+        private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
+        this.warcraftLogsService.report.subscribe(report => {
+            this.report = report;
+            if (this.report) {
+                this.report.fights = this.report.fights.filter(x => x.boss == 1866).sort(function (a, b) { return b.id - a.id; });
+                this.wipefestService.selectReport(this.report);
+            }
+        });
         this.warcraftLogsService.events.subscribe(events => this.events = events);
 
-        this.wipefestService.selectedReport.subscribe(report => this.report = report);
-        this.wipefestService.selectedFight.subscribe(fight => this.selectFight(fight));
+        this.route.params.subscribe((params) => this.handleRoute(params));
+    }
+
+    private handleRoute(params: Params) {
+        let reportId = params["reportId"];
+        let fightId = params["fightId"];
+
+        this.warcraftLogsService.getReport(reportId)
+            .then(() => this.tryToSelectFightById(fightId));
+    }
+
+    private tryToSelectFightById(fightId) {
+        if (fightId) {
+            let matchingFights = this.report.fights.filter(x => x.id == +fightId);
+
+            if (matchingFights.length > 0) {
+                this.selectFight(matchingFights[0]);
+            } else {
+                this.selectFight(this.report.fights[0]);
+            }
+        } else {
+            this.selectFight(this.report.fights[0]);
+        }
     }
 
     private selectFight(fight: Fight) {
         this.fight = fight;
-        this.events = null;
+        this.wipefestService.selectFight(this.fight);
 
+        this.events = null;
         if (this.report && this.fight) {
             this.warcraftLogsService.getEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter());
         }

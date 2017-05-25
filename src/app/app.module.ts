@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -10,23 +11,43 @@ import { EventsComponent } from './events/events.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FightSummaryComponent } from './fight-summary/fight-summary.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 import { WipefestService } from "app/wipefest.service";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EventsComponent,
-    NavbarComponent,
-    SpinnerComponent,
-    FightSummaryComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    NgbModule.forRoot()
-  ],
-  providers: [ WarcraftLogsService, WipefestService ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        EventsComponent,
+        NavbarComponent,
+        SpinnerComponent,
+        FightSummaryComponent,
+        WelcomeComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        RouterModule.forRoot([
+            {
+                path: "report/:reportId/fight/:fightId",
+                component: FightSummaryComponent
+            },
+            {
+                path: "report/:reportId",
+                component: FightSummaryComponent
+            },
+            {
+                path: "",
+                component: WelcomeComponent
+            },
+            {
+                path: "**",
+                redirectTo: ""
+            }
+        ]),
+        NgbModule.forRoot()
+    ],
+    providers: [WarcraftLogsService, WipefestService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,14 +1,14 @@
 ﻿import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { Report, Fight } from "app/warcraft-logs/report";
-import { Observable, BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
 export class WipefestService {
 
-    private selectedReport$: BehaviorSubject<Report> = new BehaviorSubject(null);
+    private selectedReport$ = new BehaviorSubject<Report>(null);
     selectedReport: Observable<Report>;
 
-    private selectedFight$: BehaviorSubject<Fight> = new BehaviorSubject(null);
+    private selectedFight$ = new BehaviorSubject<Fight>(null);
     selectedFight: Observable<Fight>;
 
     constructor() {
