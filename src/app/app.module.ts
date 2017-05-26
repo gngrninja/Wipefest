@@ -13,6 +13,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { FightSummaryComponent } from './fight-summary/fight-summary.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WipefestService } from "app/wipefest.service";
+import { ReportSummaryComponent } from './report-summary/report-summary.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { WipefestService } from "app/wipefest.service";
         NavbarComponent,
         SpinnerComponent,
         FightSummaryComponent,
-        WelcomeComponent
+        WelcomeComponent,
+        ReportSummaryComponent
     ],
     imports: [
         BrowserModule,
@@ -34,7 +36,7 @@ import { WipefestService } from "app/wipefest.service";
             },
             {
                 path: "report/:reportId",
-                component: FightSummaryComponent
+                component: ReportSummaryComponent
             },
             {
                 path: "",

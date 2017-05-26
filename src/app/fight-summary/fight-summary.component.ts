@@ -2,7 +2,6 @@
 import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
-import 'rxjs/add/operator/switchMap';
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WipefestService } from "app/wipefest.service";
 
@@ -42,7 +41,9 @@ export class FightSummaryComponent implements OnInit {
     private selectReport(report: Report) {
         this.report = report;
         if (this.report) {
-            this.report.fights = this.report.fights.filter(x => x.boss == 1866).sort(function (a, b) { return b.id - a.id; });
+            this.report.fights = this.report.fights
+                //.filter(x => x.boss == 1866)
+                .sort(function (a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
         }
     }
