@@ -4,6 +4,8 @@ import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WipefestService } from "app/wipefest.service";
+import { FightEvent } from "app/fight-events/fight-event";
+import { AbilityEvent, Ability } from "app/fight-events/ability-event";
 
 @Component({
     selector: 'fight-summary',
@@ -15,7 +17,7 @@ export class FightSummaryComponent implements OnInit {
     private report: Report;
     private fight: Fight;
 
-    private events: CombatEvent[];
+    private events: FightEvent[] = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -66,11 +68,23 @@ export class FightSummaryComponent implements OnInit {
         this.fight = fight;
         this.wipefestService.selectFight(this.fight);
 
+        this.populateEvents();
+    }
+
+    private populateEvents() {
         this.events = null;
         if (this.report && this.fight) {
             this.warcraftLogsService
-                .getEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter())
-                .subscribe(events => this.events = events, () => this.router.navigate([""]));
+                .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter())
+                .subscribe(combatEvents => {
+                    this.events =
+                        combatEvents.map(
+                            x => new AbilityEvent(
+                                x.timestamp - this.fight.start_time,
+                                x.sourceIsFriendly,
+                                this.getCombatEventSource(x).name,
+                                new Ability(x.ability.name, x.ability.type, x.ability.guid, x.ability.abilityIcon)));
+                }, () => this.router.navigate([""]));
         }
     }
 
@@ -81,6 +95,14 @@ export class FightSummaryComponent implements OnInit {
         const filter = `type = 'cast' and ability.id in (${this.raidCooldownIds.join(", ")}, ${this.guldanAbilityIds.join(", ")})`;
 
         return filter;
+    }
+
+    private getCombatEventSource(event: CombatEvent) {
+        if (event.sourceIsFriendly) {
+            return this.report.friendlies.filter(x => x.id === event.sourceID)[0];
+        } else {
+            return this.report.enemies.filter(x => x.id === event.sourceID)[0];
+        }
     }
 
 }

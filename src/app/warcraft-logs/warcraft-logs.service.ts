@@ -14,7 +14,7 @@ export class WarcraftLogsService {
 
     constructor(private http: Http) { }
 
-    getEvents(reportId: string, start: number, end: number, filter: string): Observable<CombatEvent[]> {
+    getCombatEvents(reportId: string, start: number, end: number, filter: string): Observable<CombatEvent[]> {
         return this.http.get(this.url
             + "report/events/" + reportId
             + "?api_key=" + this.apiKey

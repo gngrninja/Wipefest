@@ -40,6 +40,7 @@ export class ReportSummaryComponent implements OnInit {
                 //.filter(x => x.boss == 1866)
                 .sort(function (a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
+            this.wipefestService.selectFight(this.report.fights[0]);
 
             this.populateEncounters();
         }

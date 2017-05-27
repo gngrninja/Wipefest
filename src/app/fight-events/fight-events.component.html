@@ -1,0 +1,23 @@
+﻿<table class="table-hover">
+  <tr *ngFor="let event of events">
+    <td class="event">
+      <div *ngIf="event.isFriendly" class="friendly">
+        <span class="hidden-md-down">{{event.title}}</span>
+        <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
+        <span class="hidden-sm-up">{{event.shortTitle}}</span>
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)" [ability]="event.ability"></ability-icon>
+      </div>
+    </td>
+    <td class="timestamp">
+      {{event.minutesAndSeconds}}
+    </td>
+    <td class="event">
+      <div *ngIf="!event.isFriendly" class="unfriendly">
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)" [ability]="event.ability"></ability-icon>
+        <span class="hidden-md-down">{{event.title}}</span>
+        <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
+        <span class="hidden-sm-up">{{event.shortTitle}}</span>
+      </div>
+    </td>
+  </tr>
+</table>
