@@ -13,3 +13,7 @@ td.timestamp {
 div.friendly {
   text-align: right;
 }
+
+tr.death {
+  background-color: rgb(255, 216, 216);
+}

@@ -1,11 +1,29 @@
 ﻿<table class="table-hover">
-  <tr *ngFor="let event of events">
+  <tr *ngFor="let event of events" class="{{event.rowClass}}">
     <td class="event">
       <div *ngIf="event.isFriendly" class="friendly">
+        
         <span class="hidden-md-down">{{event.title}}</span>
         <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
         <span class="hidden-sm-up">{{event.shortTitle}}</span>
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)" [ability]="event.ability"></ability-icon>
+
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)"
+                      [abilityId]="event.ability.guid"
+                      [abilityIcon]="event.ability.abilityIcon"
+                      [alt]="event.ability.name"
+                      [linkToWowhead]="true"></ability-icon>
+
+        <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
+                      [abilityId]="event.killingBlow.guid"
+                      [abilityIcon]="event.killingBlow.abilityIcon"
+                      [alt]="event.killingBlow.name"
+                      [linkToWowhead]="true"></ability-icon>
+
+        <ability-icon *ngIf="event.isInstanceOf(DeathEvent)"
+                      [abilityId]="140283"
+                      [abilityIcon]="'inv_misc_bone_skull_02.jpg'"
+                      [alt]="Death"
+                      [linkToWowhead]="false"></ability-icon>
       </div>
     </td>
     <td class="timestamp">
@@ -13,7 +31,18 @@
     </td>
     <td class="event">
       <div *ngIf="!event.isFriendly" class="unfriendly">
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)" [ability]="event.ability"></ability-icon>
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)"
+                      [abilityId]="event.ability.guid"
+                      [abilityIcon]="event.ability.abilityIcon"
+                      [alt]="event.ability.name"
+                      [linkToWowhead]="true"></ability-icon>
+
+        <ability-icon *ngIf="event.isInstanceOf(DeathEvent)"
+                      [abilityId]="140283"
+                      [abilityIcon]="'inv_misc_bone_skull_02.jpg'"
+                      [alt]="Death"
+                      [linkToWowhead]="false"></ability-icon>
+
         <span class="hidden-md-down">{{event.title}}</span>
         <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
         <span class="hidden-sm-up">{{event.shortTitle}}</span>

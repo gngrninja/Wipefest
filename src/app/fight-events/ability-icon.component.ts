@@ -4,9 +4,10 @@ import { Ability } from "app/fight-events/ability-event";
 @Component({
     selector: 'ability-icon',
     template: `
-    <a href="{{ability.url}}" target="_blank">
-      <img src="{{ability.iconUrl}}" alt="{{ability.name}}" />
+    <a *ngIf="linkToWowhead" href="http://wowhead.com/spell={{abilityId}}" target="_blank">
+      <img src="https://www.warcraftlogs.com/img/icons/abilities/{{abilityIcon}}" alt="{{alt}}" />
     </a>
+    <img *ngIf="!linkToWowhead" src="https://www.warcraftlogs.com/img/icons/abilities/{{abilityIcon}}" alt="{{alt}}" />
   `,
     styles: [`
     a:hover {
@@ -21,6 +22,9 @@ import { Ability } from "app/fight-events/ability-event";
 })
 export class AbilityIconComponent {
 
-    @Input() ability: Ability;
+    @Input() abilityId: number;
+    @Input() abilityIcon: string;
+    @Input() alt: string;
+    @Input() linkToWowhead: boolean;
 
 }

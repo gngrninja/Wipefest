@@ -1,4 +1,5 @@
 ﻿import { FightEvent } from "app/fight-events/fight-event";
+import { CombatAbility } from "app/warcraft-logs/combat-event";
 
 export class AbilityEvent extends FightEvent {
 
@@ -34,18 +35,24 @@ export class AbilityEvent extends FightEvent {
 
 export class Ability {
 
-    constructor(
-        public name: string,
-        public type: number,
-        public guid: number,
-        public abilityIcon: string) { }
+    name: string;
+    type: number;
+    guid: number;
+    abilityIcon: string;
+
+    constructor(combatAbility: CombatAbility) {
+        this.name = combatAbility.name;
+        this.type = combatAbility.type;
+        this.guid = combatAbility.guid;
+        this.abilityIcon = combatAbility.abilityIcon;
+    }
 
     get iconUrl(): string {
         return `https://www.warcraftlogs.com/img/icons/abilities/${this.abilityIcon}`;
     }
 
     get url(): string {
-        return `http://wowhead.com/spell=${this.guid}}`;
+        return `http://wowhead.com/spell=${this.guid}`;
     }
 
 }

@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WipefestService } from "app/wipefest.service";
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent, Ability } from "app/fight-events/ability-event";
+import { DeathEvent } from "app/fight-events/death-event";
 
 @Component({
     selector: 'fight-summary',
@@ -17,7 +18,7 @@ export class FightSummaryComponent implements OnInit {
     private report: Report;
     private fight: Fight;
 
-    private events: FightEvent[] = null;
+    private events: FightEvent[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -72,19 +73,40 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private populateEvents() {
-        this.events = null;
+        this.events = [];
         if (this.report && this.fight) {
             this.warcraftLogsService
-                .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.getEventFilter())
-                .subscribe(combatEvents => {
-                    this.events =
+                .getCombatEvents(
+                this.report.id,
+                this.fight.start_time,
+                this.fight.end_time,
+                this.getEventFilter())
+                .subscribe(combatEvents =>
+                    this.events = this.events.concat(
                         combatEvents.map(
                             x => new AbilityEvent(
                                 x.timestamp - this.fight.start_time,
                                 x.sourceIsFriendly,
                                 this.getCombatEventSource(x).name,
-                                new Ability(x.ability.name, x.ability.type, x.ability.guid, x.ability.abilityIcon)));
-                }, () => this.router.navigate([""]));
+                                new Ability(x.ability))))
+                        .sort((a, b) => a.timestamp - b.timestamp),
+                () => this.router.navigate([""]));
+
+            this.warcraftLogsService
+                .getDeaths(
+                this.report.id,
+                this.fight.start_time,
+                this.fight.end_time)
+                .subscribe(deaths =>
+                    this.events = this.events.concat(
+                        deaths.map(
+                            death => new DeathEvent(
+                                death.timestamp - this.fight.start_time,
+                                true,
+                                death.name,
+                                death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null)))
+                        .sort((a, b) => a.timestamp - b.timestamp),
+                () => this.router.navigate([""]));
         }
     }
 

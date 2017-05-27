@@ -4,6 +4,8 @@
         public timestamp: number,
         public isFriendly: boolean) { }
 
+    rowClass = "";
+
     abstract get title(): string;
     abstract get mediumTitle(): string;
     abstract get shortTitle(): string;

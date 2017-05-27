@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { CombatEvent } from "./combat-event";
 import { Report } from "./report";
 import { Router } from "@angular/router";
+import { Death } from "app/warcraft-logs/death";
 
 @Injectable()
 export class WarcraftLogsService {
@@ -13,6 +14,19 @@ export class WarcraftLogsService {
     private apiKey = "4755ffa6214768b13beab7deb1bfc85f";
 
     constructor(private http: Http) { }
+
+    getReport(reportId: string): Observable<Report> {
+        return this.http.get(this.url
+            + "report/fights/" + reportId
+            + "?api_key=" + this.apiKey, { headers: new Headers() })
+            .map(response => {
+                let report = response.json();
+                report.id = reportId;
+
+                return report;
+            })
+            .catch(this.handleError);
+    }
 
     getCombatEvents(reportId: string, start: number, end: number, filter: string): Observable<CombatEvent[]> {
         return this.http.get(this.url
@@ -25,16 +39,13 @@ export class WarcraftLogsService {
             .catch(this.handleError);
     }
 
-    getReport(reportId: string): Observable<Report> {
+    getDeaths(reportId: string, start: number, end: number): Observable<Death[]> {
         return this.http.get(this.url
-            + "report/fights/" + reportId
-            + "?api_key=" + this.apiKey, { headers: new Headers() })
-            .map(response => {
-                let report = response.json();
-                report.id = reportId;
-
-                return report;
-            })
+            + "report/tables/deaths/" + reportId
+            + "?api_key=" + this.apiKey
+            + "&start=" + start
+            + "&end=" + end, { headers: new Headers() })
+            .map(response => response.json().entries)
             .catch(this.handleError);
     }
 
