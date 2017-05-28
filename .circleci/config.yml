@@ -6,6 +6,11 @@ jobs:
       - image: joshyaxley/angular-cli
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - wipefest-npm-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - wipefest-npm-deps-{{ .Branch }}
+            - wipefest-npm-deps-
       - run: npm install
       - run: ng build
       - run: ls dist
