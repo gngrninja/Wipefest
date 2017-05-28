@@ -12,6 +12,10 @@ jobs:
             - wipefest-npm-deps-{{ .Branch }}
             - wipefest-npm-deps-
       - run: npm install
+      - save_cache:
+          key: wipefest-npm-deps-{{ checksum "package.json" }}
+          paths:
+            - .node_modules
       - run: ng build
       - run: ls dist
       - deploy:
