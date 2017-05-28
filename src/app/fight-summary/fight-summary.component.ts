@@ -8,6 +8,7 @@ import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent, Ability } from "app/fight-events/ability-event";
 import { DeathEvent } from "app/fight-events/death-event";
 import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
+import { SpawnEvent } from "app/fight-events/spawn-event";
 
 @Component({
     selector: 'fight-summary',
@@ -79,6 +80,7 @@ export class FightSummaryComponent implements OnInit {
             this.populatePhaseChangeEvents();
             this.populateAbilityEvents();
             this.populateDeathEvents();
+            this.populateSpawnEvents();
         }
     }
 
@@ -143,13 +145,52 @@ export class FightSummaryComponent implements OnInit {
                             death.timestamp - this.fight.start_time,
                             true,
                             death.name,
-                            death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null)))
+                            death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
+                            death.events && death.events[0] && death.events[0].ability ? this.getCombatEventSource(death.events[0]).name : null)))
                     .sort((a, b) => a.timestamp - b.timestamp),
             () => this.router.navigate([""]));
     }
 
+    private populateSpawnEvents() {
+        if (this.fight.boss == 1866 && this.fight.difficulty == 5) { // Mythic Gul'dan
+            this.warcraftLogsService
+                .getCombatEvents(
+                this.report.id,
+                this.fight.start_time,
+                this.fight.end_time,
+                "source.name = 'Soul Fragment of Azzinoth' and type = 'applybuff' and ability.name = 'Fervor'")
+                .subscribe(combatEvents =>
+                    this.events = this.events.concat(
+                        combatEvents.map(
+                            combatEvent => new SpawnEvent(
+                                combatEvent.timestamp - this.fight.start_time,
+                                false,
+                                "Soul Fragment of Azzinoth",
+                                combatEvent.sourceInstance)))
+                        .sort((a, b) => a.timestamp - b.timestamp),
+                () => this.router.navigate([""]));
+
+            this.warcraftLogsService
+                .getCombatEvents(
+                this.report.id,
+                this.fight.start_time,
+                this.fight.end_time,
+                "source.name = 'Nightorb' and type = 'applybuff' and ability.name = 'Distortion Aura'")
+                .subscribe(combatEvents =>
+                    this.events = this.events.concat(
+                        combatEvents.map(
+                            combatEvent => new SpawnEvent(
+                                combatEvent.timestamp - this.fight.start_time,
+                                false,
+                                "Nightorb",
+                                combatEvent.sourceInstance)))
+                        .sort((a, b) => a.timestamp - b.timestamp),
+                () => this.router.navigate([""]));
+        }
+    }
+
     private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];
-    private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 221408, 208801, 226975, 221486, 30449, 218124];
+    private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124];
 
     private getCombatEventFilter(abilityIds: number[]): string {
         const filter = `type = 'cast' and ability.id in (${abilityIds.join(", ")})`;

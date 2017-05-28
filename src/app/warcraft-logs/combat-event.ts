@@ -12,6 +12,7 @@
     resourceActor: number;
     sourceID: number;
     sourceIsFriendly: boolean;
+    sourceInstance: number;
     spellPower: number;
     target: Target;
     targetIsFriendly: boolean;

@@ -8,7 +8,8 @@ export class DeathEvent extends FightEvent {
         public timestamp: number,
         public isFriendly: boolean,
         private source: string,
-        private killingBlow: Ability) {
+        private killingBlow: Ability,
+        private from: string) {
 
         super(timestamp, isFriendly);
     }
@@ -17,7 +18,7 @@ export class DeathEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly && this.killingBlow) {
-            return this.source + " died - " + this.killingBlow.name;
+            return this.source + " died to " + (this.killingBlow.name == "Melee" ? "melee from " + this.from : this.killingBlow.name);
         } else {
             return this.source + " died";
         }

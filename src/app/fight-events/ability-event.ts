@@ -16,9 +16,9 @@ export class AbilityEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly) {
-            return this.source + " - " + this.ability.name + " (" + this.sequence + ")";
+            return this.source + " casts " + this.ability.name + " (" + this.sequence + ")";
         } else {
-            return this.ability.name + " (" + this.sequence + ")" + " - " + this.source;
+            return this.ability.name + " (" + this.sequence + ")" + " cast by " + this.source;
         }
     }
     get mediumTitle(): string {
@@ -26,10 +26,6 @@ export class AbilityEvent extends FightEvent {
     }
     get shortTitle(): string {
         return this.initials(this.ability.name) + " (" + this.sequence + ")";
-    }
-
-    private initials(input: string): string {
-        return input.split(" ").map(w => w[0]).join("");
     }
 
 }

@@ -22,11 +22,8 @@
                       [alt]="event.killingBlow.name"
                       [linkToWowhead]="true"></ability-icon>
 
-        <ability-icon *ngIf="event.isInstanceOf(DeathEvent)"
-                      [abilityId]="140283"
-                      [abilityIcon]="'inv_misc_bone_skull_02.jpg'"
-                      [alt]="Death"
-                      [linkToWowhead]="false"></ability-icon>
+        <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
       </div>
     </td>
     <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="timestamp">
@@ -40,11 +37,8 @@
                       [alt]="event.ability.name"
                       [linkToWowhead]="true"></ability-icon>
 
-        <ability-icon *ngIf="event.isInstanceOf(DeathEvent)"
-                      [abilityId]="140283"
-                      [abilityIcon]="'inv_misc_bone_skull_02.jpg'"
-                      [alt]="Death"
-                      [linkToWowhead]="false"></ability-icon>
+        <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
 
         <span class="hidden-md-down">{{event.title}}</span>
         <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>

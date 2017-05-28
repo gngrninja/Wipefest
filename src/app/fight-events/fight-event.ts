@@ -17,6 +17,10 @@
         return minutes + ":" + ("00" + seconds).substring(seconds.toString().length);
     }
 
+    protected initials(input: string): string {
+        return input.split(" ").map(w => w[0]).join("");
+    }
+
     isInstanceOf(classType: any): boolean {
         return this instanceof classType;
     }
