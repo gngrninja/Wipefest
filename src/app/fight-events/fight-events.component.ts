@@ -2,6 +2,7 @@
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent } from "app/fight-events/ability-event";
 import { DeathEvent } from "app/fight-events/death-event";
+import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 
 @Component({
     selector: 'fight-events',
@@ -14,5 +15,6 @@ export class FightEventsComponent {
     
     AbilityEvent = AbilityEvent;
     DeathEvent = DeathEvent;
+    PhaseChangeEvent = PhaseChangeEvent;
 
 }

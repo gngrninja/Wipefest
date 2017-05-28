@@ -1,6 +1,9 @@
 ﻿<table class="table-hover">
   <tr *ngFor="let event of events" class="{{event.rowClass}}">
-    <td class="event">
+    <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3" class="phase-change">
+      <h5>{{event.title}}</h5>
+    </td>
+    <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="event">
       <div *ngIf="event.isFriendly" class="friendly">
         
         <span class="hidden-md-down">{{event.title}}</span>
@@ -26,10 +29,10 @@
                       [linkToWowhead]="false"></ability-icon>
       </div>
     </td>
-    <td class="timestamp">
+    <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="timestamp">
       {{event.minutesAndSeconds}}
     </td>
-    <td class="event">
+    <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="event">
       <div *ngIf="!event.isFriendly" class="unfriendly">
         <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)"
                       [abilityId]="event.ability.guid"

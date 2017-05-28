@@ -7,8 +7,8 @@
     rowClass = "";
 
     abstract get title(): string;
-    abstract get mediumTitle(): string;
-    abstract get shortTitle(): string;
+    get mediumTitle(): string { return this.title; };
+    get shortTitle(): string { return this.title; };
 
     get minutesAndSeconds(): string {
         let minutes = Math.floor(this.timestamp / 60000);

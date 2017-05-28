@@ -15,5 +15,9 @@ div.friendly {
 }
 
 tr.death {
-  background-color: rgb(255, 216, 216);
+  background-color: rgb(255, 236, 201);
+}
+
+td.phase-change {
+  text-align: center;
 }
