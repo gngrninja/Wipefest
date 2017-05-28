@@ -12,7 +12,7 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - .node_modules
+            - node_modules
       - run: ng build
       - run: ls dist
       - deploy:
