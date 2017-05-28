@@ -124,7 +124,8 @@ export class FightSummaryComponent implements OnInit {
                             x.timestamp - this.fight.start_time,
                             x.sourceIsFriendly,
                             this.getCombatEventSource(x).name,
-                            new Ability(x.ability))))
+                            new Ability(x.ability),
+                            combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))
                     .sort((a, b) => a.timestamp - b.timestamp),
             () => this.router.navigate([""]));
     }

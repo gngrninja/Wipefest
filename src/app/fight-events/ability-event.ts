@@ -8,6 +8,7 @@ export class AbilityEvent extends FightEvent {
         public isFriendly: boolean,
         private source: string,
         private ability: Ability,
+        private sequence: number,
         private target: string = null) {
 
         super(timestamp, isFriendly);
@@ -15,16 +16,16 @@ export class AbilityEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly) {
-            return this.source + " - " + this.ability.name;
+            return this.source + " - " + this.ability.name + " (" + this.sequence + ")";
         } else {
-            return this.ability.name + " - " + this.source;
+            return this.ability.name + " (" + this.sequence + ")" + " - " + this.source;
         }
     }
     get mediumTitle(): string {
-        return this.ability.name;
+        return this.ability.name + " (" + this.sequence + ")";
     }
     get shortTitle(): string {
-        return this.initials(this.ability.name);
+        return this.initials(this.ability.name) + " (" + this.sequence + ")";
     }
 
     private initials(input: string): string {
