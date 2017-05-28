@@ -7,13 +7,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - wipefest-npm-deps-{{ .Branch }}-{{ checksum "package.json" }}
-            - wipefest-npm-deps-{{ .Branch }}
-            - wipefest-npm-deps-
+          key: dependency-cache-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: wipefest-npm-deps-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - .node_modules
       - run: ng build
