@@ -48,7 +48,7 @@ import { AbilityIconComponent } from './fight-events/ability-icon.component';
                 path: "**",
                 redirectTo: ""
             }
-        ]),
+        ], { useHash: true }),
         NgbModule.forRoot()
     ],
     providers: [WarcraftLogsService, WipefestService],
