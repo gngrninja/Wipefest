@@ -14,6 +14,10 @@ div.friendly {
   text-align: right;
 }
 
+tr.heroism {
+  background-color: rgb(233, 236, 255);
+}
+
 tr.death {
   background-color: rgb(255, 236, 201);
 }

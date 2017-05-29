@@ -12,7 +12,7 @@ import { Report, Fight } from "app/warcraft-logs/report";
 export class ReportSummaryComponent implements OnInit {
 
     private report: Report;
-    private encounters: Fight[][] = [];
+    private encounters: Fight[][];
 
     constructor(
         private route: ActivatedRoute,
@@ -37,7 +37,7 @@ export class ReportSummaryComponent implements OnInit {
         this.report = report;
         if (this.report) {
             this.report.fights = this.report.fights
-                //.filter(x => x.boss == 1866)
+                .filter(x => x.boss == 1866 && x.difficulty == 5)
                 .sort(function (a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
             this.wipefestService.selectFight(this.report.fights[0]);
@@ -47,6 +47,7 @@ export class ReportSummaryComponent implements OnInit {
     }
 
     private populateEncounters() {
+        this.encounters = [];
         this.report.fights.forEach(fight => {
             var alreadyBeenMapped = this.encounters.filter(x => x.filter(y => y.boss == fight.boss).length > 0).length > 0;
             var isABoss = fight.boss != 0;

@@ -9,6 +9,7 @@ import { AbilityEvent, Ability } from "app/fight-events/ability-event";
 import { DeathEvent } from "app/fight-events/death-event";
 import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { SpawnEvent } from "app/fight-events/spawn-event";
+import { HeroismEvent } from "app/fight-events/heroism-event";
 
 @Component({
     selector: 'fight-summary',
@@ -47,7 +48,7 @@ export class FightSummaryComponent implements OnInit {
         this.report = report;
         if (this.report) {
             this.report.fights = this.report.fights
-                //.filter(x => x.boss == 1866)
+                .filter(x => x.boss == 1866 && x.difficulty == 5)
                 .sort(function (a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
         }
@@ -79,6 +80,7 @@ export class FightSummaryComponent implements OnInit {
         if (this.report && this.fight) {
             this.populatePhaseChangeEvents();
             this.populateAbilityEvents();
+            this.populateHeroismEvents();
             this.populateDeathEvents();
             this.populateSpawnEvents();
         }
@@ -128,6 +130,24 @@ export class FightSummaryComponent implements OnInit {
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
                             combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))
+                    .sort((a, b) => a.timestamp - b.timestamp),
+            () => this.router.navigate([""]));
+    }
+
+    private populateHeroismEvents() {
+        this.warcraftLogsService
+            .getCombatEvents(
+            this.report.id,
+            this.fight.start_time,
+            this.fight.end_time,
+            "type = 'applybuff' and ability.id in (32182, 80353, 2825, 90355, 160452)")
+            .subscribe(combatEvents =>
+                this.events = this.events.concat(
+                    combatEvents.map(x => Math.floor(x.timestamp / 1000))
+                        .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
+                        .map(x => new HeroismEvent(
+                            x * 1000 - this.fight.start_time,
+                            new Ability(combatEvents.filter(y => y.timestamp - x * 1000 < 1000)[0].ability))))
                     .sort((a, b) => a.timestamp - b.timestamp),
             () => this.router.navigate([""]));
     }

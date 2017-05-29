@@ -10,7 +10,7 @@
         <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
         <span class="hidden-sm-up">{{event.shortTitle}}</span>
 
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)"
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(HeroismEvent)"
                       [abilityId]="event.ability.guid"
                       [abilityIcon]="event.ability.abilityIcon"
                       [alt]="event.ability.name"
