@@ -166,7 +166,7 @@ export class FightSummaryComponent implements OnInit {
                             true,
                             death.name,
                             death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                            death.events && death.events[0] && death.events[0].ability ? this.getCombatEventSource(death.events[0]).name : null)))
+                            death.events && death.events[0] && this.getCombatEventSource(death.events[0]) ? this.getCombatEventSource(death.events[0]).name : null)))
                     .sort((a, b) => a.timestamp - b.timestamp),
             () => this.router.navigate([""]));
     }
