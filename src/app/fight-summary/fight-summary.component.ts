@@ -18,8 +18,8 @@ import { HeroismEvent } from "app/fight-events/heroism-event";
 })
 export class FightSummaryComponent implements OnInit {
 
-    private report: Report;
-    private fight: Fight;
+    report: Report;
+    fight: Fight;
 
     private events: FightEvent[] = [];
 

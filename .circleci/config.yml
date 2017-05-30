@@ -13,7 +13,7 @@ jobs:
           key: npm-dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: ng build
+      - run: ng build --prod
       - run: ls dist
       - deploy:
           name: Development

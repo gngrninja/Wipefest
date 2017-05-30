@@ -11,7 +11,7 @@ import { Report, Fight } from "app/warcraft-logs/report";
 })
 export class ReportSummaryComponent implements OnInit {
 
-    private report: Report;
+    report: Report;
     private encounters: Fight[][];
 
     constructor(

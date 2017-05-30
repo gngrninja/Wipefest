@@ -10,9 +10,10 @@ import { WipefestService } from "app/wipefest.service";
 })
 export class NavbarComponent implements OnInit {
 
-    private reportId: string;
+    isNavbarCollapsed: boolean = false;
+    reportId: string;
     private report: Report;
-    private selectedFight: Fight;
+    selectedFight: Fight;
     
     constructor(
         private router: Router,
