@@ -10,7 +10,7 @@
         <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
         <span class="hidden-sm-up">{{event.shortTitle}}</span>
 
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(HeroismEvent)"
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
                       [abilityId]="event.ability.guid"
                       [abilityIcon]="event.ability.abilityIcon"
                       [alt]="event.ability.name"
@@ -31,7 +31,7 @@
     </td>
     <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="event">
       <div *ngIf="!event.isFriendly" class="unfriendly">
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent)"
+        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent)"
                       [abilityId]="event.ability.guid"
                       [abilityIcon]="event.ability.abilityIcon"
                       [alt]="event.ability.name"

@@ -14,6 +14,7 @@
     sourceIsFriendly: boolean;
     sourceInstance: number;
     spellPower: number;
+    targetID: number;
     target: Target;
     targetIsFriendly: boolean;
     type: string;

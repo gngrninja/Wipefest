@@ -10,6 +10,7 @@ import { DeathEvent } from "app/fight-events/death-event";
 import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
+import { DebuffEvent } from "app/fight-events/debuff-event";
 
 @Component({
     selector: 'fight-summary',
@@ -80,6 +81,7 @@ export class FightSummaryComponent implements OnInit {
         if (this.report && this.fight) {
             this.populatePhaseChangeEvents();
             this.populateAbilityEvents();
+            this.populateDebuffEvents();
             this.populateHeroismEvents();
             this.populateDeathEvents();
             this.populateSpawnEvents();
@@ -96,7 +98,7 @@ export class FightSummaryComponent implements OnInit {
                 this.report.id,
                 this.fight.start_time,
                 this.fight.end_time,
-                this.getCombatEventFilter([227427, 211439]))
+                this.getCombatEventFilter("cast", [227427, 211439]))
                 .subscribe(combatEvents => {
                     let phaseTwoCombatEvents = combatEvents.filter(x => x.ability.guid == 227427);
                     if (phaseTwoCombatEvents.length > 0) {
@@ -108,7 +110,7 @@ export class FightSummaryComponent implements OnInit {
                         phaseChangeEvents.push(new PhaseChangeEvent(phaseThreeCombatEvents[0].timestamp - this.fight.start_time, 3));
                     }
 
-                    this.events = this.events.concat(phaseChangeEvents).sort((a, b) => a.timestamp - b.timestamp);
+                    this.events = this.sortEvents(this.events.concat(phaseChangeEvents));
                 },
                 () => this.router.navigate([""]));
         }
@@ -122,15 +124,33 @@ export class FightSummaryComponent implements OnInit {
             this.fight.end_time,
             this.getAbilityEventsFilter())
             .subscribe(combatEvents =>
-                this.events = this.events.concat(
+                this.events = this.sortEvents(this.events.concat(
                     combatEvents.map(
                         x => new AbilityEvent(
                             x.timestamp - this.fight.start_time,
                             x.sourceIsFriendly,
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
-                            combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))
-                    .sort((a, b) => a.timestamp - b.timestamp),
+                            combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))),
+            () => this.router.navigate([""]));
+    }
+
+    private populateDebuffEvents() {
+        this.warcraftLogsService
+            .getCombatEvents(
+            this.report.id,
+            this.fight.start_time,
+            this.fight.end_time,
+            this.getDebuffEventsFilter())
+            .subscribe(combatEvents =>
+                this.events = this.sortEvents(this.events.concat(
+                    combatEvents.map(
+                        x => new DebuffEvent(
+                            x.timestamp - this.fight.start_time,
+                            x.sourceIsFriendly,
+                            this.getCombatEventSource(x).name,
+                            new Ability(x.ability),
+                            combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
             () => this.router.navigate([""]));
     }
 
@@ -142,13 +162,12 @@ export class FightSummaryComponent implements OnInit {
             this.fight.end_time,
             "type = 'applybuff' and ability.id in (32182, 80353, 2825, 90355, 160452)")
             .subscribe(combatEvents =>
-                this.events = this.events.concat(
+                this.events = this.sortEvents(this.events.concat(
                     combatEvents.map(x => Math.floor(x.timestamp / 1000))
                         .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
                         .map(x => new HeroismEvent(
                             x * 1000 - this.fight.start_time,
-                            new Ability(combatEvents.filter(y => y.timestamp - x * 1000 < 1000)[0].ability))))
-                    .sort((a, b) => a.timestamp - b.timestamp),
+                            new Ability(combatEvents.filter(y => y.timestamp - x * 1000 < 1000)[0].ability))))),
             () => this.router.navigate([""]));
     }
 
@@ -159,15 +178,14 @@ export class FightSummaryComponent implements OnInit {
             this.fight.start_time,
             this.fight.end_time)
             .subscribe(deaths =>
-                this.events = this.events.concat(
+                this.events = this.sortEvents(this.events.concat(
                     deaths.map(
                         death => new DeathEvent(
                             death.timestamp - this.fight.start_time,
                             true,
                             death.name,
                             death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                            death.events && death.events[0] && this.getCombatEventSource(death.events[0]) ? this.getCombatEventSource(death.events[0]).name : null)))
-                    .sort((a, b) => a.timestamp - b.timestamp),
+                            death.events && death.events[0] && this.getCombatEventSource(death.events[0]) ? this.getCombatEventSource(death.events[0]).name : null)))),
             () => this.router.navigate([""]));
     }
 
@@ -180,14 +198,13 @@ export class FightSummaryComponent implements OnInit {
                 this.fight.end_time,
                 "source.name = 'Soul Fragment of Azzinoth' and type = 'applybuff' and ability.name = 'Fervor'")
                 .subscribe(combatEvents =>
-                    this.events = this.events.concat(
+                    this.events = this.sortEvents(this.events.concat(
                         combatEvents.map(
                             combatEvent => new SpawnEvent(
                                 combatEvent.timestamp - this.fight.start_time,
                                 false,
                                 "Soul Fragment of Azzinoth",
-                                combatEvent.sourceInstance)))
-                        .sort((a, b) => a.timestamp - b.timestamp),
+                                combatEvent.sourceInstance)))),
                 () => this.router.navigate([""]));
 
             this.warcraftLogsService
@@ -197,37 +214,57 @@ export class FightSummaryComponent implements OnInit {
                 this.fight.end_time,
                 "source.name = 'Nightorb' and type = 'applybuff' and ability.name = 'Distortion Aura'")
                 .subscribe(combatEvents =>
-                    this.events = this.events.concat(
+                    this.events = this.sortEvents(this.events.concat(
                         combatEvents.map(
                             combatEvent => new SpawnEvent(
                                 combatEvent.timestamp - this.fight.start_time,
                                 false,
                                 "Nightorb",
-                                combatEvent.sourceInstance)))
-                        .sort((a, b) => a.timestamp - b.timestamp),
+                                combatEvent.sourceInstance)))),
                 () => this.router.navigate([""]));
         }
     }
 
     private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];
-    private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124];
+    private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124, 220957];
+    private guldanDebuffIds = [206847];
 
-    private getCombatEventFilter(abilityIds: number[]): string {
-        const filter = `type = 'cast' and ability.id in (${abilityIds.join(", ")})`;
+    private getCombatEventFilter(type: string, abilityIds: number[]): string {
+        const filter = `type = '${type}' and ability.id in (${abilityIds.join(", ")})`;
 
         return filter;
     }
 
     private getAbilityEventsFilter(): string {
-        return this.getCombatEventFilter(this.raidCooldownIds.concat(this.guldanAbilityIds));
+        return this.getCombatEventFilter("cast", this.raidCooldownIds.concat(this.guldanAbilityIds));
+    }
+
+    private getDebuffEventsFilter(): string {
+        return this.getCombatEventFilter("applydebuff", this.raidCooldownIds.concat(this.guldanDebuffIds));
     }
 
     private getCombatEventSource(event: CombatEvent) {
         if (event.sourceIsFriendly) {
             return this.report.friendlies.filter(x => x.id === event.sourceID)[0];
         } else {
-            return this.report.enemies.filter(x => x.id === event.sourceID)[0];
+            if (event.type == "applydebuff" && event.targetIsFriendly) {
+                return this.report.friendlies.filter(x => x.id === event.targetID)[0];
+            } else {
+                return this.report.enemies.filter(x => x.id === event.sourceID)[0];
+            }
         }
+    }
+
+    private sortEvents(events: FightEvent[]): FightEvent[] {
+        return events.sort((a: any, b: any) => {
+            let sort = a.timestamp - b.timestamp;
+
+            if (a["sequence"] && b["sequence"]) {
+                sort = sort || a.sequence - b.sequence;
+            }
+
+            return sort;
+        });
     }
 
 }
