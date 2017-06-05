@@ -17,7 +17,7 @@ export class DebuffEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly) {
-            return this.source + " gained " + this.ability.name + " (" + this.sequence + ")";
+            return this.source + " gains " + this.ability.name + " (" + this.sequence + ")";
         } else {
             return this.ability.name + " (" + this.sequence + ")" + " applied to " + this.source;
         }

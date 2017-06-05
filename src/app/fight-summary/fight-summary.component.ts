@@ -141,13 +141,30 @@ export class FightSummaryComponent implements OnInit {
             this.report.id,
             this.fight.start_time,
             this.fight.end_time,
-            this.getDebuffEventsFilter())
+            this.getCombatEventFilter("applydebuff", [206847]))
             .subscribe(combatEvents =>
                 this.events = this.sortEvents(this.events.concat(
                     combatEvents.map(
                         x => new DebuffEvent(
                             x.timestamp - this.fight.start_time,
                             x.sourceIsFriendly,
+                            this.getCombatEventSource(x).name,
+                            new Ability(x.ability),
+                            combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
+            () => this.router.navigate([""]));
+
+        this.warcraftLogsService
+            .getCombatEvents(
+            this.report.id,
+            this.fight.start_time,
+            this.fight.end_time,
+            this.getCombatEventFilter("applydebuff", [227040]))
+            .subscribe(combatEvents =>
+                this.events = this.sortEvents(this.events.concat(
+                    combatEvents.map(
+                        x => new DebuffEvent(
+                            x.timestamp - this.fight.start_time,
+                            true,
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
                             combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
@@ -227,7 +244,6 @@ export class FightSummaryComponent implements OnInit {
 
     private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];
     private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124, 220957];
-    private guldanDebuffIds = [206847];
 
     private getCombatEventFilter(type: string, abilityIds: number[]): string {
         const filter = `type = '${type}' and ability.id in (${abilityIds.join(", ")})`;
@@ -237,10 +253,6 @@ export class FightSummaryComponent implements OnInit {
 
     private getAbilityEventsFilter(): string {
         return this.getCombatEventFilter("cast", this.raidCooldownIds.concat(this.guldanAbilityIds));
-    }
-
-    private getDebuffEventsFilter(): string {
-        return this.getCombatEventFilter("applydebuff", this.raidCooldownIds.concat(this.guldanDebuffIds));
     }
 
     private getCombatEventSource(event: CombatEvent) {
