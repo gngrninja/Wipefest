@@ -10,7 +10,7 @@ export class PhaseChangeEvent extends FightEvent {
     }
     
     get title(): string {
-        return "Phase " + this.phase;
+        return "Phase " + this.phase + " (" + this.minutesAndSeconds + ")";
     }
 
 }

@@ -147,7 +147,7 @@ export class FightSummaryComponent implements OnInit {
                     combatEvents.map(
                         x => new DebuffEvent(
                             x.timestamp - this.fight.start_time,
-                            x.sourceIsFriendly,
+                            false,
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
                             combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
