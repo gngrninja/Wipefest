@@ -1,0 +1,54 @@
+﻿<div class="card-deck">
+  <div class="card mb-3">
+    <h4 class="card-header">
+      Character (to do)
+    </h4>
+    <div class="card-block">
+      <p class="card-text">
+        Find reports for a specific character.
+      </p>
+      <input class="form-control mb-2" type="text" placeholder="Character" [(ngModel)]="character" />
+      <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="characterRealm" />
+      <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="characterRegion" />
+      <div class="text-right">
+        <a routerLink="">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3">
+    <h4 class="card-header">
+      Guild (to do)
+    </h4>
+    <div class="card-block">
+      <p class="card-text">
+        Find reports for a specific guild.
+      </p>
+      <input class="form-control mb-2" type="text" placeholder="Guild" [(ngModel)]="guild" />
+      <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="guildRealm" />
+      <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="guildRegion" />
+      <div class="text-right">
+        <a routerLink="">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3">
+    <h4 class="card-header">
+      Report
+    </h4>
+    <div class="card-block">
+      <p class="card-text">
+        Find a report using its unique identifier.
+      </p>
+      <input class="form-control mb-2" type="text" placeholder="Report" [(ngModel)]="reportId" />
+      <div class="text-right">
+        <a routerLink="report/{{reportId.trim()}}">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

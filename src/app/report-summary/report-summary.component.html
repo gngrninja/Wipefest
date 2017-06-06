@@ -1,4 +1,6 @@
-﻿<div *ngIf="report">
+﻿<spinner *ngIf="!report"></spinner>
+
+<div *ngIf="report">
   <h2 class="mb-3 mt-3">{{report.id}}</h2>
 
   <div *ngFor="let encounter of encounters" class="card mb-3">

@@ -15,6 +15,7 @@ import { WipefestService } from "app/wipefest.service";
 import { ReportSummaryComponent } from './report-summary/report-summary.component';
 import { FightEventsComponent } from './fight-events/fight-events.component';
 import { AbilityIconComponent } from './fight-events/ability-icon.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { AbilityIconComponent } from './fight-events/ability-icon.component';
         WelcomeComponent,
         ReportSummaryComponent,
         FightEventsComponent,
-        AbilityIconComponent
+        AbilityIconComponent,
+        SearchComponent
     ],
     imports: [
         BrowserModule,
