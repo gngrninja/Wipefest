@@ -7,6 +7,14 @@
 })
 export class SearchComponent {
 
-    reportId: string = "";
+    character = "";
+    characterRealm = "";
+    characterRegion = "";
+
+    guild = "";
+    guildRealm = "";
+    guildRegion = "";
+
+    reportId = "";
 
 }
