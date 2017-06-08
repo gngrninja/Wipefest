@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, Params } from "@angular/router";
 import { WipefestService } from "app/wipefest.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Report, Fight } from "app/warcraft-logs/report";
+import { ErrorHandler } from "app/errorHandler";
 
 @Component({
     selector: 'app-report-summary',
@@ -30,7 +31,7 @@ export class ReportSummaryComponent implements OnInit {
         this.warcraftLogsService.getReport(reportId)
             .subscribe(report => {
                 this.selectReport(report);
-            }, () => this.router.navigate([""]));
+            }, error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private selectReport(report: Report) {

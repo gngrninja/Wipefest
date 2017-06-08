@@ -11,6 +11,7 @@ import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
+import { ErrorHandler } from "app/errorHandler";
 
 @Component({
     selector: 'fight-summary',
@@ -42,7 +43,7 @@ export class FightSummaryComponent implements OnInit {
             .subscribe(report => {
                 this.selectReport(report);
                 this.tryToSelectFightById(fightId);
-            }, () => this.router.navigate([""]));
+            }, error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private selectReport(report: Report) {
@@ -112,7 +113,7 @@ export class FightSummaryComponent implements OnInit {
 
                     this.events = this.sortEvents(this.events.concat(phaseChangeEvents));
                 },
-                () => this.router.navigate([""]));
+                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
         }
     }
 
@@ -132,7 +133,7 @@ export class FightSummaryComponent implements OnInit {
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
                             combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))),
-            () => this.router.navigate([""]));
+            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private populateDebuffEvents() {
@@ -151,7 +152,7 @@ export class FightSummaryComponent implements OnInit {
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
                             combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
-            () => this.router.navigate([""]));
+            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
 
         this.warcraftLogsService
             .getCombatEvents(
@@ -168,7 +169,7 @@ export class FightSummaryComponent implements OnInit {
                             this.getCombatEventSource(x).name,
                             new Ability(x.ability),
                             combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
-            () => this.router.navigate([""]));
+            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private populateHeroismEvents() {
@@ -185,7 +186,7 @@ export class FightSummaryComponent implements OnInit {
                         .map(x => new HeroismEvent(
                             x * 1000 - this.fight.start_time,
                             new Ability(combatEvents.filter(y => y.timestamp - x * 1000 < 1000)[0].ability))))),
-            () => this.router.navigate([""]));
+            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private populateDeathEvents() {
@@ -203,7 +204,7 @@ export class FightSummaryComponent implements OnInit {
                             death.name,
                             death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
                             death.events && death.events[0] && this.getCombatEventSource(death.events[0]) ? this.getCombatEventSource(death.events[0]).name : null)))),
-            () => this.router.navigate([""]));
+            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private populateSpawnEvents() {
@@ -222,7 +223,7 @@ export class FightSummaryComponent implements OnInit {
                                 false,
                                 "Soul Fragment of Azzinoth",
                                 combatEvent.sourceInstance)))),
-                () => this.router.navigate([""]));
+                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
 
             this.warcraftLogsService
                 .getCombatEvents(
@@ -238,7 +239,7 @@ export class FightSummaryComponent implements OnInit {
                                 false,
                                 "Nightorb",
                                 combatEvent.sourceInstance)))),
-                () => this.router.navigate([""]));
+                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
         }
     }
 

@@ -16,6 +16,8 @@ import { ReportSummaryComponent } from './report-summary/report-summary.componen
 import { FightEventsComponent } from './fight-events/fight-events.component';
 import { AbilityIconComponent } from './fight-events/ability-icon.component';
 import { SearchComponent } from './search/search.component';
+import { CharacterSearchResultsComponent } from './character-search-results/character-search-results.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +29,9 @@ import { SearchComponent } from './search/search.component';
         ReportSummaryComponent,
         FightEventsComponent,
         AbilityIconComponent,
-        SearchComponent
+        SearchComponent,
+        CharacterSearchResultsComponent,
+        ErrorComponent
     ],
     imports: [
         BrowserModule,
@@ -35,12 +39,20 @@ import { SearchComponent } from './search/search.component';
         HttpModule,
         RouterModule.forRoot([
             {
+                path: "character/:character/:realm/:region",
+                component: CharacterSearchResultsComponent
+            },
+            {
                 path: "report/:reportId/fight/:fightId",
                 component: FightSummaryComponent
             },
             {
                 path: "report/:reportId",
                 component: ReportSummaryComponent
+            },
+            {
+                path: "error",
+                component: ErrorComponent
             },
             {
                 path: "",

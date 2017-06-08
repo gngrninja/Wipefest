@@ -1,0 +1,11 @@
+﻿.error {
+  margin: 0 auto;
+  text-align: center;
+  padding: 60px 30px;
+}
+
+.error .error-code {
+  color: #2d353c;
+  font-size: 64px;
+  line-height: 100px;
+}

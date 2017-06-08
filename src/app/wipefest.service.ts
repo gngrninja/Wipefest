@@ -1,4 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
+import { Response } from "@angular/http";
 import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { Report, Fight } from "app/warcraft-logs/report";
 
@@ -11,6 +12,8 @@ export class WipefestService {
     private selectedFight$ = new BehaviorSubject<Fight>(null);
     selectedFight: Observable<Fight>;
 
+    private errors: Response[] = [];
+
     constructor() {
         this.selectedReport = this.selectedReport$.asObservable();
         this.selectedFight = this.selectedFight$.asObservable();
@@ -22,6 +25,18 @@ export class WipefestService {
 
     selectFight(fight: Fight) {
         this.selectedFight$.next(fight);
+    }
+
+    throwError(error: Response) {
+        this.errors.push(error);
+    }
+
+    getLastError(): Response {
+        if (this.errors.length == 0) {
+            return null;
+        }
+
+        return this.errors[this.errors.length - 1];
     }
 
 }
