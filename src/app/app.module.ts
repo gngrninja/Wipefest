@@ -18,6 +18,7 @@ import { AbilityIconComponent } from './fight-events/ability-icon.component';
 import { SearchComponent } from './search/search.component';
 import { CharacterSearchResultsComponent } from './character-search-results/character-search-results.component';
 import { ErrorComponent } from './error/error.component';
+import { NotFoundComponent } from './error/not-found.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { ErrorComponent } from './error/error.component';
         AbilityIconComponent,
         SearchComponent,
         CharacterSearchResultsComponent,
-        ErrorComponent
+        ErrorComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,
@@ -60,7 +62,7 @@ import { ErrorComponent } from './error/error.component';
             },
             {
                 path: "**",
-                redirectTo: ""
+                component: NotFoundComponent
             }
         ], { useHash: true }),
         NgbModule.forRoot()
