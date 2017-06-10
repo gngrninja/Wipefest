@@ -20,19 +20,19 @@ export class SearchComponent {
 
     reportId = "";
 
-    private searchByCharacter() {
+    searchByCharacter() {
         if (this.character.trim() && this.characterRealm.trim() && this.characterRegion.trim()) {
             this.router.navigate([`/character/${this.character.trim()}/${this.characterRealm.trim()}/${this.characterRegion.trim()}`]);
         }
     }
 
-    private searchByGuild() {
+    searchByGuild() {
         if (this.guild.trim() && this.guildRealm.trim() && this.guildRegion.trim()) {
 
         }
     }
 
-    private searchByReport() {
+    searchByReport() {
         if (this.reportId.trim()) {
             this.router.navigate([`/report/${this.reportId.trim()}`]);
         }
