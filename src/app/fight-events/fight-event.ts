@@ -1,4 +1,4 @@
-﻿import { Timestamp } from "app/timestamp";
+﻿import { Timestamp } from "app/helpers/timestamp-helper";
 
 export abstract class FightEvent {
 

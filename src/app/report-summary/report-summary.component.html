@@ -3,17 +3,25 @@
 <div *ngIf="report">
   <h2 class="mb-3 mt-3">{{report.id}}</h2>
 
-  <div *ngFor="let encounter of encounters" class="card mb-3">
-    <h4 class="card-header">{{encounter[0].name}}</h4>
-    <div class="card-block">
-      <p class="card-text">
-        <a *ngFor="let fight of encounter"
-           routerLink="/report/{{report.id}}/fight/{{fight.id}}"
-           [ngClass]="{'btn-success': fight.kill, 'btn-danger': !fight.kill}"
-           class="btn mb-1 mr-1">
-          {{fight.kill ? "Kill" : "Wipe"}} ({{fight.id}})
-        </a>
-      </p>
+  <div *ngFor="let encounters of encountersByDifficulty">
+    <div *ngIf="encounters.length > 0" class="card mb-3">
+      <h3 class="card-header">{{Difficulty.ToString(encounters[0][0].difficulty)}}</h3>
+      <div class="card-block">
+        <div *ngFor="let encounter of encounters" class="card mb-3">
+          <h4 class="card-header">{{encounter[0].name}}</h4>
+          <div class="card-block">
+            <p class="card-text">
+              <a *ngFor="let fight of encounter"
+                 routerLink="/report/{{report.id}}/fight/{{fight.id}}"
+                 [ngClass]="{'btn-success': fight.kill, 'btn-danger': !fight.kill}"
+                 class="btn mb-1 mr-1">
+                {{fight.kill ? "Kill" : "Wipe"}} ({{fight.id}})
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>

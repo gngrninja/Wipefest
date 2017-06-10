@@ -4,7 +4,7 @@ import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Parse, ParseSpecData } from "app/warcraft-logs/parse";
 import { ErrorHandler } from "app/errorHandler";
 import { WipefestService } from "app/wipefest.service";
-import { Timestamp } from "app/timestamp";
+import { Timestamp } from "app/helpers/timestamp-helper";
 
 @Component({
     selector: 'character-search-results',

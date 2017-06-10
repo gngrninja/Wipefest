@@ -4,6 +4,7 @@ import { WipefestService } from "app/wipefest.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Report, Fight } from "app/warcraft-logs/report";
 import { ErrorHandler } from "app/errorHandler";
+import { Difficulty } from "app/helpers/difficulty-helper";
 
 @Component({
     selector: 'app-report-summary',
@@ -12,8 +13,17 @@ import { ErrorHandler } from "app/errorHandler";
 })
 export class ReportSummaryComponent implements OnInit {
 
+    Difficulty = Difficulty;
+
     report: Report;
-    private encounters: Fight[][];
+
+    get encountersByDifficulty(): Fight[][][] {
+        return [this.mythicEncounters, this.heroicEncounters, this.normalEncounters];
+    }
+
+    mythicEncounters: Fight[][];
+    heroicEncounters: Fight[][];
+    normalEncounters: Fight[][];
 
     constructor(
         private route: ActivatedRoute,
@@ -48,12 +58,33 @@ export class ReportSummaryComponent implements OnInit {
     }
 
     private populateEncounters() {
-        this.encounters = [];
+        this.mythicEncounters = [];
+        this.heroicEncounters = [];
+        this.normalEncounters = [];
+
         this.report.fights.forEach(fight => {
-            var alreadyBeenMapped = this.encounters.filter(x => x.filter(y => y.boss == fight.boss).length > 0).length > 0;
             var isABoss = fight.boss != 0;
-            if (!alreadyBeenMapped && isABoss) {
-                this.encounters.push(this.report.fights.filter(x => x.boss == fight.boss));
+
+            if (isABoss) {
+                if (fight.difficulty == 5) {
+                    var alreadyBeenMapped = this.mythicEncounters.filter(x => x.some(y => y.boss == fight.boss)).length > 0;
+                    if (!alreadyBeenMapped) {
+                        this.mythicEncounters.push(this.report.fights.filter(x => x.boss == fight.boss && x.difficulty == 5));
+                    }
+                }
+                if (fight.difficulty == 4) {
+                    var alreadyBeenMapped = this.heroicEncounters.filter(x => x.some(y => y.boss == fight.boss)).length > 0;
+                    if (!alreadyBeenMapped) {
+                        this.heroicEncounters.push(this.report.fights.filter(x => x.boss == fight.boss && x.difficulty == 4));
+                    }
+                }
+                if (fight.difficulty == 3) {
+                    var alreadyBeenMapped = this.normalEncounters.filter(x => x.some(y => y.boss == fight.boss)).length > 0;
+                    if (!alreadyBeenMapped) {
+                        this.normalEncounters.push(this.report.fights.filter(x => x.boss == fight.boss && x.difficulty == 3));
+                    }
+                }
+
             }
         });
     }
