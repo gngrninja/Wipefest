@@ -1,4 +1,4 @@
-export class Parse {
+﻿export class Parse {
 
     difficulty: number;
     kill: number;
@@ -19,6 +19,7 @@ export class ParseSpec {
 
 export class ParseSpecData {
 
+    start_time: number;
     duration: number;
     percent: number;
     ilvl: number;

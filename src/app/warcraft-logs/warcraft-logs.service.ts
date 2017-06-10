@@ -23,7 +23,8 @@ export class WarcraftLogsService {
             + "/" + realm
             + "/" + region
             + "?api_key=" + this.apiKey
-            + "&zone=" + zone, { headers: new Headers() })
+            + "&zone=" + zone
+            + "&partition=2", { headers: new Headers() })
             .map(response => response.json())
             .catch(this.handleError);
     }

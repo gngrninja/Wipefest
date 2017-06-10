@@ -17,6 +17,7 @@ import { FightEventsComponent } from './fight-events/fight-events.component';
 import { AbilityIconComponent } from './fight-events/ability-icon.component';
 import { SearchComponent } from './search/search.component';
 import { CharacterSearchResultsComponent } from './character-search-results/character-search-results.component';
+import { SpecIconComponent } from './character-search-results/spec-icon.component';
 import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found.component';
 
@@ -32,6 +33,7 @@ import { NotFoundComponent } from './error/not-found.component';
         AbilityIconComponent,
         SearchComponent,
         CharacterSearchResultsComponent,
+        SpecIconComponent,
         ErrorComponent,
         NotFoundComponent
     ],

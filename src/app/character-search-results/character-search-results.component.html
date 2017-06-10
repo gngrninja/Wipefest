@@ -1,1 +1,27 @@
-﻿{{character}} ({{realm}}-{{region}})
+﻿<h2 class="mb-3 mt-3">{{character}}</h2>
+
+<spinner *ngIf="encounters.length == 0"></spinner>
+
+<div *ngFor="let encounter of encounters" class="card mb-3">
+  <h4 class="card-header">{{encounter[0].name}}</h4>
+  <div class="card-block">
+    <div class="card-deck">
+      <div *ngFor="let parse of encounter" class="card">
+        <h5 class="card-header">{{difficultyToString(parse.difficulty)}}</h5>
+        <div class="card-block">
+          <div *ngFor="let spec of parse.specs" class="mb-2">
+            <div *ngFor="let fight of spec.data">
+              <spec-icon [class]="spec.class" [spec]="spec.spec" [alt]="spec.spec + ' ' + spec.class"></spec-icon>
+              <a routerLink="/report/{{fight.report_code}}/fight/{{fight.report_fight}}">
+                {{fightTitle(fight)}}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

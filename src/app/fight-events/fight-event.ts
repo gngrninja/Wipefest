@@ -1,4 +1,6 @@
-﻿export abstract class FightEvent {
+﻿import { Timestamp } from "app/timestamp";
+
+export abstract class FightEvent {
 
     constructor(
         public timestamp: number,
@@ -11,10 +13,7 @@
     get shortTitle(): string { return this.title; };
 
     get minutesAndSeconds(): string {
-        let minutes = Math.floor(this.timestamp / 60000);
-        let seconds = Math.floor(this.timestamp / 1000) - 60 * minutes;
-
-        return minutes + ":" + ("00" + seconds).substring(seconds.toString().length);
+        return Timestamp.ToMinutesAndSeconds(this.timestamp);
     }
 
     protected initials(input: string): string {
