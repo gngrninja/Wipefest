@@ -181,7 +181,7 @@ export class FightSummaryComponent implements OnInit {
             "type = 'applybuff' and ability.id in (32182, 80353, 2825, 90355, 160452)")
             .subscribe(combatEvents =>
                 this.events = this.sortEvents(this.events.concat(
-                    combatEvents.map(x => Math.floor(x.timestamp / 1000))
+                    combatEvents.map(x => Math.ceil(x.timestamp / 1000))
                         .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
                         .map(x => new HeroismEvent(
                             x * 1000 - this.fight.start_time,
@@ -244,7 +244,13 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];
-    private guldanAbilityIds = [206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124, 220957];
+    private bossAbilityIds =
+    [
+        206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124, 220957, // Gul'dan
+        204316, 204372, 204448, 204471, // Skorpyron
+        211927, 206610, // Chronomatic Anomaly
+        207630, 208924, 206820, 208506, 207502, 206559, 206560, 206557, 207513, 206788, // Trilliax
+    ];
 
     private getCombatEventFilter(type: string, abilityIds: number[]): string {
         const filter = `type = '${type}' and ability.id in (${abilityIds.join(", ")})`;
@@ -253,7 +259,7 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private getAbilityEventsFilter(): string {
-        return this.getCombatEventFilter("cast", this.raidCooldownIds.concat(this.guldanAbilityIds));
+        return this.getCombatEventFilter("cast", this.raidCooldownIds.concat(this.bossAbilityIds));
     }
 
     private getCombatEventSource(event: CombatEvent) {
