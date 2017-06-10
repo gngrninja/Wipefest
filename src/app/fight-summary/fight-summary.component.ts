@@ -50,6 +50,7 @@ export class FightSummaryComponent implements OnInit {
         this.report = report;
         if (this.report) {
             this.report.fights = this.report.fights
+                .filter(x => x.size >= 10 && [3, 4, 5].indexOf(x.difficulty) != -1)
                 .sort(function (a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
         }
