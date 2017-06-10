@@ -7,9 +7,9 @@
       <p class="card-text">
         Find parses for a character.
       </p>
-      <input class="form-control mb-2" type="text" placeholder="Character" [(ngModel)]="character" />
-      <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="characterRealm" />
-      <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="characterRegion" />
+      <input class="form-control mb-2" type="text" placeholder="Character" [(ngModel)]="character" (keyup.enter)="searchByCharacter()" />
+      <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="characterRealm" (keyup.enter)="searchByCharacter()" />
+      <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="characterRegion" (keyup.enter)="searchByCharacter()" />
       <div class="text-right">
         <a routerLink="/character/{{character.trim()}}/{{characterRealm.trim()}}/{{characterRegion.trim()}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
@@ -43,7 +43,7 @@
       <p class="card-text">
         Find a report using its unique identifier.
       </p>
-      <input class="form-control mb-2" type="text" placeholder="Report" [(ngModel)]="reportId" />
+      <input class="form-control mb-2" type="text" placeholder="Report" [(ngModel)]="reportId" (keyup.enter)="searchByReport()" />
       <div class="text-right">
         <a routerLink="/report/{{reportId.trim()}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
