@@ -20,6 +20,7 @@ import { CharacterSearchResultsComponent } from './character-search-results/char
 import { SpecIconComponent } from './character-search-results/spec-icon.component';
 import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found.component';
+import { GuildSearchResultsComponent } from './guild-search-results/guild-search-results.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { NotFoundComponent } from './error/not-found.component';
         CharacterSearchResultsComponent,
         SpecIconComponent,
         ErrorComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        GuildSearchResultsComponent
     ],
     imports: [
         BrowserModule,
@@ -45,6 +47,10 @@ import { NotFoundComponent } from './error/not-found.component';
             {
                 path: "character/:character/:realm/:region",
                 component: CharacterSearchResultsComponent
+            },
+            {
+                path: "guild/:guild/:realm/:region",
+                component: GuildSearchResultsComponent
             },
             {
                 path: "report/:reportId/fight/:fightId",

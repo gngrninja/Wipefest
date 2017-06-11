@@ -19,7 +19,7 @@
   </div>
   <div class="card mb-3">
     <h4 class="card-header">
-      Guild (to do)
+      Guild
     </h4>
     <div class="card-block">
       <p class="card-text">
@@ -29,7 +29,7 @@
       <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="guildRealm" (keyup.enter)="searchByGuild()" />
       <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="guildRegion" (keyup.enter)="searchByGuild()" />
       <div class="text-right">
-        <a routerLink="/">
+        <a routerLink="/guild/{{guild.trim()}}/{{guildRealm.trim()}}/{{guildRegion.trim()}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
         </a>
       </div>

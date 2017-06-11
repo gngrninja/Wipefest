@@ -8,6 +8,7 @@ import { Report } from "./report";
 import { Router } from "@angular/router";
 import { Death } from "app/warcraft-logs/death";
 import { WipefestService } from "app/wipefest.service";
+import { GuildReport } from "app/warcraft-logs/guild-report";
 
 @Injectable()
 export class WarcraftLogsService {
@@ -25,6 +26,18 @@ export class WarcraftLogsService {
             + "?api_key=" + this.apiKey
             + "&zone=" + zone
             + "&partition=2", { headers: new Headers() })
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    getGuildReports(guild: string, realm: string, region: string, start: number, end: number): Observable<GuildReport[]> {
+        return this.http.get(this.url
+            + "reports/guild/" + guild
+            + "/" + realm
+            + "/" + region
+            + "?api_key=" + this.apiKey
+            + "&start=" + start
+            + "&end=" + end, { headers: new Headers() })
             .map(response => response.json())
             .catch(this.handleError);
     }

@@ -28,7 +28,7 @@ export class SearchComponent {
 
     searchByGuild() {
         if (this.guild.trim() && this.guildRealm.trim() && this.guildRegion.trim()) {
-
+            this.router.navigate([`/guild/${this.guild.trim()}/${this.guildRealm.trim()}/${this.guildRegion.trim()}`]);
         }
     }
 

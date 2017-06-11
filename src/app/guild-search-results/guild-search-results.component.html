@@ -1,0 +1,44 @@
+﻿<h2 class="mb-3 mt-3">{{guild}}</h2>
+
+<spinner *ngIf="reports == null"></spinner>
+
+<table *ngIf="reports != null && reports.length > 0" class="table table-hover">
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+      <th class="hidden-xs-down">
+        Owner
+      </th>
+      <th>
+        Uploaded
+      </th>
+      <th>
+        Duration
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let report of reports">
+      <td>
+        <a routerLink="/report/{{report.id}}">
+          {{report.title}}
+        </a>
+      </td>
+      <td class="hidden-xs-down">
+        {{report.owner}}
+      </td>
+      <td>
+        {{Timestamp.ToDateTimeString(report.start)}}
+      </td>
+      <td>
+        {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="reports != null && reports.length == 0">
+  No reports could be found for this guild.
+</p>
