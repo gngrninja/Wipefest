@@ -20,6 +20,8 @@ export class GuildSearchResultsComponent implements OnInit {
 
     Timestamp = Timestamp;
 
+    showSearch = false;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,

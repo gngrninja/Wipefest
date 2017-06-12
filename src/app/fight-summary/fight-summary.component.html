@@ -4,7 +4,12 @@
   </div>
 
   <div class="col-sm-12" *ngIf="fight">
-    <h2 class="mb-3 mt-3 text-center">{{report.id}}<span class="hidden-xs-down"> vs {{fight.name}} ({{fight.kill ? "Kill" : "Wipe"}}) ({{fight.id}})</span></h2>
+    <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
+    <div class="text-center mb-3">
+      <a routerLink="/report/{{report.id}}">
+        Back to report
+      </a>
+    </div>
 
     <spinner *ngIf="!events"></spinner>
     <fight-events *ngIf="events" [events]="events"></fight-events>

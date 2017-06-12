@@ -1,26 +1,5 @@
 ﻿<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
   <div class="container">
-    <a routerLink="/" class="navbar-brand">Wipefest (alpha)</a>
-    <button class="navbar-toggler hidden-md-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      &#9776;
-    </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-md" id="navbar">
-      <ul class="navbar-nav mr-auto">
-        <li class="dropdown" *ngIf="selectedFight">
-          <div ngbDropdown class="d-inline-block dropdown-links">
-            <span ngbDropdownToggle class="nav-link" id="dropdown" role="button">
-              {{selectedFight.name}} ({{selectedFight.kill ? "Kill" : "Wipe"}}) ({{selectedFight.id}}) <span class="caret"></span>
-            </span>
-            <div class="dropdown-menu" aria-labelledby="dropdown">
-              <a *ngFor="let fight of report.fights" (click)="selectFight(fight)"
-                 routerLink="/report/{{report.id}}/fight/{{fight.id}}"
-                 class="dropdown-item">
-                  {{fight.name}} ({{fight.kill ? "Kill" : "Wipe"}}) ({{fight.id}})
-              </a>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <a routerLink="/" class="navbar-brand">Wipefest</a>
   </div>
 </nav>

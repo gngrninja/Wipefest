@@ -21,6 +21,7 @@ import { SpecIconComponent } from './character-search-results/spec-icon.componen
 import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found.component';
 import { GuildSearchResultsComponent } from './guild-search-results/guild-search-results.component';
+import { ToggleableSearchComponent } from './search/toggleable-search.component';
 
 @NgModule({
     declarations: [
@@ -37,7 +38,8 @@ import { GuildSearchResultsComponent } from './guild-search-results/guild-search
         SpecIconComponent,
         ErrorComponent,
         NotFoundComponent,
-        GuildSearchResultsComponent
+        GuildSearchResultsComponent,
+        ToggleableSearchComponent
     ],
     imports: [
         BrowserModule,

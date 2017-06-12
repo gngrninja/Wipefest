@@ -4,6 +4,10 @@
     friendlies: Friendly[];
     enemies: Enemy[];
     fights: Fight[];
+    title: string;
+    owner: string;
+    start: number;
+    end: number;
 
 }
 

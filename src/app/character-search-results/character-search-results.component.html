@@ -1,4 +1,7 @@
-﻿<h2 class="mb-3 mt-3">{{character}}</h2>
+﻿<div class="container">
+  <h2 class="mb-2 mt-3"><span class="hidden-xs-down">Parses for </span>{{character}}</h2>
+  <toggleable-search [text]="'Search again'"></toggleable-search>
+</div>
 
 <spinner *ngIf="encounters.length == 0"></spinner>
 

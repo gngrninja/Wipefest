@@ -5,6 +5,7 @@ import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Report, Fight } from "app/warcraft-logs/report";
 import { ErrorHandler } from "app/errorHandler";
 import { Difficulty } from "app/helpers/difficulty-helper";
+import { Timestamp } from "app/helpers/timestamp-helper";
 
 @Component({
     selector: 'app-report-summary',
@@ -14,6 +15,7 @@ import { Difficulty } from "app/helpers/difficulty-helper";
 export class ReportSummaryComponent implements OnInit {
 
     Difficulty = Difficulty;
+    Timestamp = Timestamp;
 
     report: Report;
 

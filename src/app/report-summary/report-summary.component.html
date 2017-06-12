@@ -1,8 +1,11 @@
 ﻿<spinner *ngIf="!report"></spinner>
 
-<div *ngIf="report">
-  <h2 class="mb-3 mt-3">{{report.id}}</h2>
+<div *ngIf="report" class="container">
+  <h2 class="mb-2 mt-3">{{report.title}} ({{Timestamp.ToHoursOrMinutes(report.end - report.start)}}) - {{report.owner}}</h2>
+  <toggleable-search [text]="'Search again'"></toggleable-search>
+</div>
 
+<div *ngIf="report">
   <div *ngFor="let encounters of encountersByDifficulty">
     <div *ngIf="encounters.length > 0" class="card mb-3">
       <h3 class="card-header">{{Difficulty.ToString(encounters[0][0].difficulty)}}</h3>
