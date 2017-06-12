@@ -21,21 +21,25 @@ export class SearchComponent {
     reportId = "";
 
     searchByCharacter() {
-        if (this.character.trim() && this.characterRealm.trim() && this.characterRegion.trim()) {
-            this.router.navigate([`/character/${this.character.trim()}/${this.characterRealm.trim()}/${this.characterRegion.trim()}`]);
+        if (this.clean(this.character) && this.clean(this.characterRealm) && this.clean(this.characterRegion)) {
+            this.router.navigate([`/character/${this.clean(this.character)}/${this.clean(this.characterRealm)}/${this.clean(this.characterRegion)}`]);
         }
     }
 
     searchByGuild() {
-        if (this.guild.trim() && this.guildRealm.trim() && this.guildRegion.trim()) {
-            this.router.navigate([`/guild/${this.guild.trim()}/${this.guildRealm.trim()}/${this.guildRegion.trim()}`]);
+        if (this.clean(this.guild) && this.clean(this.guildRealm) && this.clean(this.guildRegion)) {
+            this.router.navigate([`/guild/${this.clean(this.guild)}/${this.clean(this.guildRealm)}/${this.clean(this.guildRegion)}`]);
         }
     }
 
     searchByReport() {
         if (this.reportId.trim()) {
-            this.router.navigate([`/report/${this.reportId.trim()}`]);
+            this.router.navigate([`/report/${this.clean(this.reportId)}`]);
         }
+    }
+
+    clean(input: string): string {
+        return input.trim().replace(/ /g, "-");
     }
 
 }

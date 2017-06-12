@@ -11,7 +11,7 @@
       <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="characterRealm" (keyup.enter)="searchByCharacter()" />
       <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="characterRegion" (keyup.enter)="searchByCharacter()" />
       <div class="text-right">
-        <a routerLink="/character/{{character.trim()}}/{{characterRealm.trim()}}/{{characterRegion.trim()}}">
+        <a routerLink="/character/{{clean(character)}}/{{clean(characterRealm)}}/{{clean(characterRegion)}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
         </a>
       </div>
@@ -29,7 +29,7 @@
       <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="guildRealm" (keyup.enter)="searchByGuild()" />
       <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="guildRegion" (keyup.enter)="searchByGuild()" />
       <div class="text-right">
-        <a routerLink="/guild/{{guild.trim()}}/{{guildRealm.trim()}}/{{guildRegion.trim()}}">
+        <a routerLink="/guild/{{clean(guild)}}/{{clean(guildRealm)}}/{{clean(guildRegion)}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
         </a>
       </div>
@@ -45,7 +45,7 @@
       </p>
       <input class="form-control mb-2" type="text" placeholder="Report" [(ngModel)]="reportId" (keyup.enter)="searchByReport()" />
       <div class="text-right">
-        <a routerLink="/report/{{reportId.trim()}}">
+        <a routerLink="/report/{{clean(reportId)}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
         </a>
       </div>
