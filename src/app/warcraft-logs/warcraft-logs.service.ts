@@ -1,6 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Headers } from "@angular/http";
-import 'rxjs/add/operator/toPromise';
+import { Http, Headers, Response } from "@angular/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { CombatEvent } from "./combat-event";
 import { Parse } from "./parse";

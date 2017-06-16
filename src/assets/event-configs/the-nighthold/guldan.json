@@ -1,0 +1,152 @@
+﻿[
+  {
+    "name": "Bonds of Fel",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 206222
+      }
+    }
+  },
+  {
+    "name": "Hand of Gul'dan",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 212258
+      }
+    }
+  },
+  {
+    "name": "Eye of Gul'dan",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 209270
+      }
+    }
+  },
+  {
+    "name": "Liquid Hellfire",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 206219
+      }
+    }
+  },
+  {
+    "name": "Empowered Bonds of Fel",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 206221
+      }
+    }
+  },
+  {
+    "name": "Empowered Liquid Hellfire",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 206220
+      }
+    }
+  },
+  {
+    "name": "Flames of Sargeras",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 221783
+      }
+    }
+  },
+  {
+    "name": "Empowered Eye of Gul'dan",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 211152
+      }
+    }
+  },
+  {
+    "name": "Well of Souls",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 206939
+      }
+    }
+  },
+  {
+    "name": "Black Harvest",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 206744
+      }
+    }
+  },
+  {
+    "name": "Storm of the Destroyer",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 167819
+      }
+    }
+  },
+  {
+    "name": "Visions of the Dark Titan",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 226975
+      }
+    }
+  },
+  {
+    "name": "Purified Essence",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 221486
+      }
+    }
+  },
+  {
+    "name": "Violent Winds",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 218124
+      }
+    }
+  },
+  {
+    "name": "Soulsever",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 220957
+      }
+    }
+  }
+]

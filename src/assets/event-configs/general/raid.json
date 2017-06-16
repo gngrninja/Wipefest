@@ -1,0 +1,102 @@
+﻿[
+  {
+    "name": "Aura Mastery",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 31821
+      }
+    }
+  },
+  {
+    "name": "Power Word: Barrier",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 62618
+      }
+    }
+  },
+  {
+    "name": "Spirit Link Totem",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 98008
+      }
+    }
+  },
+  {
+    "name": "Commanding Shout",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 97462
+      }
+    }
+  },
+  {
+    "name": "Divine Hymn",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 64843
+      }
+    }
+  },
+  {
+    "name": "Healing Tide Totem",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 108280
+      }
+    }
+  },
+  {
+    "name": "Tranquility",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 740
+      }
+    }
+  },
+  {
+    "name": "Revival",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 115310
+      }
+    }
+  },
+  {
+    "name": "Vampiric Embrace",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 15286
+      }
+    }
+  },
+  {
+    "name": "Darkness",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 196718
+      }
+    }
+  }
+]

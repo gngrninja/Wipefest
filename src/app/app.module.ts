@@ -22,6 +22,7 @@ import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found.component';
 import { GuildSearchResultsComponent } from './guild-search-results/guild-search-results.component';
 import { ToggleableSearchComponent } from './search/toggleable-search.component';
+import { QueryService } from './event-config/query.service';
 
 @NgModule({
     declarations: [
@@ -77,7 +78,7 @@ import { ToggleableSearchComponent } from './search/toggleable-search.component'
         ], { useHash: true }),
         NgbModule.forRoot()
     ],
-    providers: [WarcraftLogsService, WipefestService],
+    providers: [WarcraftLogsService, WipefestService, QueryService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

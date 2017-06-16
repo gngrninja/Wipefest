@@ -12,6 +12,7 @@ import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
 import { ErrorHandler } from "app/errorHandler";
+import { QueryService } from "app/event-config/query.service";
 
 @Component({
     selector: 'fight-summary',
@@ -29,6 +30,7 @@ export class FightSummaryComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private wipefestService: WipefestService,
+        private queryService: QueryService,
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
@@ -51,7 +53,7 @@ export class FightSummaryComponent implements OnInit {
         if (this.report) {
             this.report.fights = this.report.fights
                 .filter(x => x.size >= 10 && [3, 4, 5].indexOf(x.difficulty) != -1)
-                .sort(function (a, b) { return b.id - a.id; });
+                .sort(function(a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
         }
     }
@@ -118,22 +120,26 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private populateAbilityEvents() {
-        this.warcraftLogsService
-            .getCombatEvents(
-            this.report.id,
-            this.fight.start_time,
-            this.fight.end_time,
-            this.getAbilityEventsFilter())
-            .subscribe(combatEvents =>
-                this.events = this.sortEvents(this.events.concat(
-                    combatEvents.map(
-                        x => new AbilityEvent(
-                            x.timestamp - this.fight.start_time,
-                            x.sourceIsFriendly,
-                            this.getCombatEventSource(x).name,
-                            new Ability(x.ability),
-                            combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))),
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+        this.queryService.getQuery(["general/raid", "the-nighthold/guldan"]).subscribe(query => {
+            console.log(query);
+
+            this.warcraftLogsService
+                .getCombatEvents(
+                this.report.id,
+                this.fight.start_time,
+                this.fight.end_time,
+                query)
+                .subscribe(combatEvents =>
+                    this.events = this.sortEvents(this.events.concat(
+                        combatEvents.map(
+                            x => new AbilityEvent(
+                                x.timestamp - this.fight.start_time,
+                                x.sourceIsFriendly,
+                                this.getCombatEventSource(x).name,
+                                new Ability(x.ability),
+                                combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))),
+                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+        });
     }
 
     private populateDebuffEvents() {
@@ -243,7 +249,7 @@ export class FightSummaryComponent implements OnInit {
         }
     }
 
-    private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718, 206222];
+    private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718];
     private bossAbilityIds =
     [
         204316, 204372, 204448, 204471, // Skorpyron
