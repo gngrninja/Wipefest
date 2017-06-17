@@ -2,6 +2,7 @@
 
     name: string;
     eventType: string;
+    timestamp: number;
     filter: EventConfigFilter;
 
 }

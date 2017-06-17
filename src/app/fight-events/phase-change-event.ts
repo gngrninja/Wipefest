@@ -4,13 +4,13 @@ export class PhaseChangeEvent extends FightEvent {
 
     constructor(
         public timestamp: number,
-        public phase: number) {
+        public phase: string) {
 
         super(timestamp, null);
     }
     
     get title(): string {
-        return "Phase " + this.phase + " (" + this.minutesAndSeconds + ")";
+        return this.phase + " (" + this.minutesAndSeconds + ")";
     }
 
 }

@@ -2,6 +2,7 @@
 import { EventConfigFilter, EventConfig, EventConfigFilterAbility, EventConfigCombinedFilter } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
+import { CombatEvent } from "app/warcraft-logs/combat-event";
 
 @Injectable()
 export class QueryService {
@@ -10,17 +11,15 @@ export class QueryService {
 
     constructor(private http: Http) { }
 
-    getQuery(eventConfigIds: string[]): Observable<string> {
-        return this.getEventConfigs(eventConfigIds).map(eventConfigs => {
-            let queries = this.combineFilters(eventConfigs.map(x => x.filter))
-                              .map(x => x.parse());
-            let query = this.joinQueries(queries);
+    getQuery(eventConfigs: EventConfig[]): string {
+        let queries = this.combineFilters(eventConfigs.map(x => x.filter))
+            .map(x => x.parse());
+        let query = this.joinQueries(queries);
 
-            return query;
-        }).catch(this.handleError);
+        return query;
     }
 
-    private getEventConfigs(ids: string[]): Observable<EventConfig[]> {
+    getEventConfigs(ids: string[]): Observable<EventConfig[]> {
         let batch: Observable<EventConfig[]>[] = [];
 
         ids.forEach(id => {
@@ -35,10 +34,16 @@ export class QueryService {
             .map(x => [].concat.apply([], x)); // Flatten arrays into one array
     }
 
+    getFilterExpression(eventConfig: EventConfig): (combatEvent: CombatEvent) => boolean {
+        return (combatEvent: CombatEvent) =>
+            combatEvent.type == eventConfig.filter.type &&
+            combatEvent.ability.guid == eventConfig.filter.ability.id;
+    }
+
     private combineFilters(eventConfigFilters: EventConfigFilter[]): EventConfigCombinedFilter[] {
         let combinedFilters = [];
 
-        eventConfigFilters.forEach(filter => {
+        eventConfigFilters.filter(x => x != undefined).forEach(filter => {
             let index = combinedFilters.findIndex(x => x.type == filter.type);
             if (index != -1) {
                 combinedFilters[index].abilities.push(filter.ability);
