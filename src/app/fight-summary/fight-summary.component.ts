@@ -88,7 +88,6 @@ export class FightSummaryComponent implements OnInit {
         this.events = [];
         if (this.report && this.fight) {
             this.populateCombatEvents();
-            this.populateHeroismEvents();
             this.populateDeathEvents();
             this.populateSpawnEvents();
         }
@@ -119,23 +118,6 @@ export class FightSummaryComponent implements OnInit {
                 error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router)
             );
         });
-    }
-
-    private populateHeroismEvents() {
-        this.warcraftLogsService
-            .getCombatEvents(
-            this.report.id,
-            this.fight.start_time,
-            this.fight.end_time,
-            "type = 'applybuff' and ability.id in (32182, 80353, 2825, 90355, 160452)")
-            .subscribe(combatEvents =>
-                this.events = this.sortEvents(this.events.concat(
-                    combatEvents.map(x => Math.ceil(x.timestamp / 1000))
-                        .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
-                        .map(x => new HeroismEvent(
-                            x * 1000 - this.fight.start_time,
-                            new Ability(combatEvents.filter(y => y.timestamp - x * 1000 < 1000)[0].ability))))),
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private populateDeathEvents() {

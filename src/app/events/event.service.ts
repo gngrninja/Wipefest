@@ -6,12 +6,15 @@ import { AbilityEvent, Ability } from "app/fight-events/ability-event";
 import { Fight, Report } from "app/warcraft-logs/report";
 import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
+import { HeroismEvent } from "app/fight-events/heroism-event";
 
 @Injectable()
 export class EventService {
 
     getEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): FightEvent[] {
         switch (config.eventType) {
+            case "heroism":
+                return this.getHeroismEvents(fight, config, combatEvents);
             case "ability":
                 return this.getAbilityEvents(report, fight, config, combatEvents);
             case "phase":
@@ -22,6 +25,16 @@ export class EventService {
                 throw new Error(`'${config.eventType}' is an unsupported event type`);
             }
         }
+    }
+
+    private getHeroismEvents(fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): HeroismEvent[] {
+        let events = combatEvents.map(x => Math.ceil(x.timestamp / 1000))
+            .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
+            .map(x => new HeroismEvent(
+                x * 1000 - fight.start_time,
+                new Ability(combatEvents.find(y => y.timestamp - x * 1000 < 1000).ability)));
+
+        return events;
     }
     
     private getAbilityEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): AbilityEvent[] {

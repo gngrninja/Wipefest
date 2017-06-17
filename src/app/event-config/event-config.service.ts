@@ -36,6 +36,12 @@ export class EventConfigService {
     }
 
     private getFilterExpression(eventConfig: EventConfig): (combatEvent: CombatEvent) => boolean {
+        if (eventConfig.filter.ability.ids) {
+            return (combatEvent: CombatEvent) =>
+                combatEvent.type == eventConfig.filter.type &&
+                eventConfig.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1;
+        }
+
         return (combatEvent: CombatEvent) =>
             combatEvent.type == eventConfig.filter.type &&
             combatEvent.ability.guid == eventConfig.filter.ability.id;

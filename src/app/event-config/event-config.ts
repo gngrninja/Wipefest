@@ -13,10 +13,6 @@ export class EventConfigFilter {
     type: string;
     ability: EventConfigFilterAbility;
 
-    parse(): string {
-        return `type = '${this.type}' and ability.id = ${this.ability.id}`;
-    }
-
 }
 
 export class EventConfigCombinedFilter {
@@ -30,7 +26,7 @@ export class EventConfigCombinedFilter {
     }
 
     parse(): string {
-        return `type = '${this.type}' and ability.id in (${this.abilities.map(x => x.id).join(", ")})`;
+        return `type = '${this.type}' and ability.id in (${this.abilities.map(x => [].concat.apply([], x.ids ? x.ids : [x.id])).join(", ")})`;
     }
 
 }
@@ -38,5 +34,6 @@ export class EventConfigCombinedFilter {
 export class EventConfigFilterAbility {
     
     id: number;
+    ids: number[];
 
 }

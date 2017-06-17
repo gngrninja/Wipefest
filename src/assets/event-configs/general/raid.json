@@ -1,5 +1,15 @@
 ﻿[
   {
+    "name": "Heroism",
+    "eventType": "heroism",
+    "filter": {
+      "type": "applybuff",
+      "ability": {
+        "ids": [ 32182, 80353, 2825, 90355, 160452 ]
+      }
+    }
+  },
+  {
     "name": "Aura Mastery",
     "eventType": "ability",
     "filter": {
