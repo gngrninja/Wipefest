@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Rx";
-import { EventConfig } from "app/event-config/event-config";
+import { EventConfig, EventConfigIndex } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { Report } from "app/warcraft-logs/report";
@@ -12,11 +12,11 @@ export class EventConfigService {
 
     constructor(private http: Http) { }
 
-    getEventConfigs(ids: string[]): Observable<EventConfig[]> {
+    getEventConfigs(includes: string[]): Observable<EventConfig[]> {
         let batch: Observable<EventConfig[]>[] = [];
 
-        ids.forEach(id => {
-            let observable = this.http.get(this.url + id + ".json")
+        includes.forEach(include => {
+            let observable = this.http.get(this.url + include + ".json")
                 .map(response => response.json())
                 .catch(this.handleError);
 
@@ -25,6 +25,16 @@ export class EventConfigService {
 
         return Observable.forkJoin(batch)
             .map(x => [].concat.apply([], x)); // Flatten arrays into one array
+    }
+
+    getIncludes(bossId: number): Observable<string[]> {
+        return this.getEventConfigIndex().map(x => x.find(boss => boss.id == bossId).includes);
+    }
+
+    private getEventConfigIndex(): Observable<EventConfigIndex[]> {
+        return this.http.get(this.url + "index.json")
+            .map(response => response.json())
+            .catch(this.handleError);
     }
 
     filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], report: Report): CombatEvent[] {

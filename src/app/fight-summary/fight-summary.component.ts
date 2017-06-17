@@ -58,7 +58,7 @@ export class FightSummaryComponent implements OnInit {
         if (this.report) {
             this.report.fights = this.report.fights
                 .filter(x => x.size >= 10 && [3, 4, 5].indexOf(x.difficulty) != -1)
-                .sort(function(a, b) { return b.id - a.id; });
+                .sort(function (a, b) { return b.id - a.id; });
             this.wipefestService.selectReport(this.report);
         }
     }
@@ -93,31 +93,28 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private populateCombatEvents() {
-        this.eventConfigService.getEventConfigs([
-            "general/raid",
-            "the-nighthold/guldan/abilities",
-            "the-nighthold/guldan/phases",
-            "the-nighthold/guldan/debuffs",
-            "the-nighthold/guldan/spawns"
-        ]).subscribe(configs => {
-            this.warcraftLogsService
-                .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
-                .subscribe(combatEvents => {
-                    configs.forEach(config => {
-                        let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
+        this.eventConfigService.getIncludes(this.fight.boss).subscribe(includes => {
+            this.eventConfigService.getEventConfigs(["general/raid"].concat(includes)).subscribe(configs => {
+                this.warcraftLogsService
+                    .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
+                    .subscribe(combatEvents => {
+                        configs.forEach(config => {
+                            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
 
-                        try {
-                            this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
-                        } catch (error) {
-                            ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
-                        }
-                    });
+                            try {
+                                this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
+                            } catch (error) {
+                                ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
+                            }
+                        });
 
-                    this.events = this.sortEvents(this.events);
-                },
-                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router)
-            );
+                        this.events = this.sortEvents(this.events);
+                    },
+                    error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router)
+                    );
+            });
         });
+
     }
 
     private populateDeathEvents() {
@@ -137,7 +134,7 @@ export class FightSummaryComponent implements OnInit {
                             death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))),
             error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
-    
+
     private bossAbilityIds =
     [
         204316, 204372, 204448, 204471, // Skorpyron

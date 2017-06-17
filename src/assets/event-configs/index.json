@@ -1,0 +1,13 @@
+﻿[
+  {
+    "zone": "The Nighthold",
+    "name": "Gul'dan",
+    "id": 1866,
+    "includes": [
+      "the-nighthold/guldan/abilities",
+      "the-nighthold/guldan/debuffs",
+      "the-nighthold/guldan/phases",
+      "the-nighthold/guldan/spawns"
+    ]
+  }
+]

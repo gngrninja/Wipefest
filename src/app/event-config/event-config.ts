@@ -1,4 +1,13 @@
-﻿export class EventConfig {
+﻿export class EventConfigIndex {
+
+    zone: string;
+    name: string;
+    id: number;
+    includes: string[];
+
+}
+
+export class EventConfig {
 
     name: string;
     eventType: string;
