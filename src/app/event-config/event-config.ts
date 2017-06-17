@@ -3,6 +3,7 @@
     name: string;
     eventType: string;
     timestamp: number;
+    friendly: boolean;
     filter: EventConfigFilter;
 
 }

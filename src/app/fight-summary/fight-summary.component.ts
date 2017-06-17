@@ -87,9 +87,7 @@ export class FightSummaryComponent implements OnInit {
     private populateEvents() {
         this.events = [];
         if (this.report && this.fight) {
-            //this.populatePhaseChangeEvents();
             this.populateCombatEvents();
-            this.populateDebuffEvents();
             this.populateHeroismEvents();
             this.populateDeathEvents();
             this.populateSpawnEvents();
@@ -100,14 +98,20 @@ export class FightSummaryComponent implements OnInit {
         this.eventConfigService.getEventConfigs([
             "general/raid",
             "the-nighthold/guldan/abilities",
-            "the-nighthold/guldan/phases"
+            "the-nighthold/guldan/phases",
+            "the-nighthold/guldan/debuffs"
         ]).subscribe(configs => {
             this.warcraftLogsService
                 .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
                 .subscribe(combatEvents => {
                     configs.forEach(config => {
-                        let matchingCombatEvents = this.filterToMatchingCombatEvents(config, combatEvents);
-                        this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
+                        let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents);
+
+                        try {
+                            this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
+                        } catch (error) {
+                            ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
+                        }
                     });
 
                     this.events = this.sortEvents(this.events);
@@ -115,51 +119,6 @@ export class FightSummaryComponent implements OnInit {
                 error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router)
             );
         });
-    }
-
-    private filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[]): CombatEvent[] {
-        let matchingCombatEvents: CombatEvent[] = [];
-        if (config.filter) {
-            matchingCombatEvents = combatEvents.filter(this.eventConfigService.getFilterExpression(config));
-        }
-
-        return matchingCombatEvents;
-    }
-
-    private populateDebuffEvents() {
-        this.warcraftLogsService
-            .getCombatEvents(
-            this.report.id,
-            this.fight.start_time,
-            this.fight.end_time,
-            this.getCombatEventFilter("applydebuff", [206847]))
-            .subscribe(combatEvents =>
-                this.events = this.sortEvents(this.events.concat(
-                    combatEvents.map(
-                        x => new DebuffEvent(
-                            x.timestamp - this.fight.start_time,
-                            false,
-                            this.getCombatEventSource(x).name,
-                            new Ability(x.ability),
-                            combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
-
-        this.warcraftLogsService
-            .getCombatEvents(
-            this.report.id,
-            this.fight.start_time,
-            this.fight.end_time,
-            this.getCombatEventFilter("applydebuff", [227040]))
-            .subscribe(combatEvents =>
-                this.events = this.sortEvents(this.events.concat(
-                    combatEvents.map(
-                        x => new DebuffEvent(
-                            x.timestamp - this.fight.start_time,
-                            true,
-                            this.getCombatEventSource(x).name,
-                            new Ability(x.ability),
-                            combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1)))),
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
     private populateHeroismEvents() {
@@ -193,7 +152,7 @@ export class FightSummaryComponent implements OnInit {
                             true,
                             death.name,
                             death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                            death.events && death.events[0] && this.getCombatEventSource(death.events[0]) ? this.getCombatEventSource(death.events[0]).name : null)))),
+                            death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))),
             error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 
@@ -252,22 +211,6 @@ export class FightSummaryComponent implements OnInit {
         const filter = `type = '${type}' and ability.id in (${abilityIds.join(", ")})`;
 
         return filter;
-    }
-
-    private getAbilityEventsFilter(): string {
-        return this.getCombatEventFilter("cast", this.raidCooldownIds.concat(this.bossAbilityIds));
-    }
-
-    private getCombatEventSource(event: CombatEvent) {
-        if (event.sourceIsFriendly) {
-            return this.report.friendlies.filter(x => x.id === event.sourceID)[0];
-        } else {
-            if (event.type == "applydebuff" && event.targetIsFriendly) {
-                return this.report.friendlies.filter(x => x.id === event.targetID)[0];
-            } else {
-                return this.report.enemies.filter(x => x.id === event.sourceID)[0];
-            }
-        }
     }
 
     private sortEvents(events: FightEvent[]): FightEvent[] {

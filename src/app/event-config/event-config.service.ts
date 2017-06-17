@@ -26,7 +26,16 @@ export class EventConfigService {
             .map(x => [].concat.apply([], x)); // Flatten arrays into one array
     }
 
-    getFilterExpression(eventConfig: EventConfig): (combatEvent: CombatEvent) => boolean {
+    filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[]): CombatEvent[] {
+        let matchingCombatEvents: CombatEvent[] = [];
+        if (config.filter) {
+            matchingCombatEvents = combatEvents.filter(this.getFilterExpression(config));
+        }
+
+        return matchingCombatEvents;
+    }
+
+    private getFilterExpression(eventConfig: EventConfig): (combatEvent: CombatEvent) => boolean {
         return (combatEvent: CombatEvent) =>
             combatEvent.type == eventConfig.filter.type &&
             combatEvent.ability.guid == eventConfig.filter.ability.id;
