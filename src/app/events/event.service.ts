@@ -7,6 +7,7 @@ import { Fight, Report } from "app/warcraft-logs/report";
 import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
+import { SpawnEvent } from "app/fight-events/spawn-event";
 
 @Injectable()
 export class EventService {
@@ -21,6 +22,8 @@ export class EventService {
                 return this.getPhaseChangeEvents(fight, config, combatEvents);
             case "debuff":
                 return this.getDebuffEvents(report, fight, config, combatEvents);
+            case "spawn":
+                return this.getSpawnEvents(report, fight, config, combatEvents);
             default: {
                 throw new Error(`'${config.eventType}' is an unsupported event type`);
             }
@@ -65,6 +68,17 @@ export class EventService {
                 this.getCombatEventTarget(x, report).name,
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
+
+        return events;
+    }
+
+    private getSpawnEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): SpawnEvent[] {
+        let events = combatEvents.map(
+            (x, index) => new SpawnEvent(
+                x.timestamp - fight.start_time,
+                config.friendly,
+                config.filter.actor.name,
+                index + 1));
 
         return events;
     }

@@ -21,9 +21,9 @@ export class QueryService {
         eventConfigFilters.filter(x => x != undefined).forEach(filter => {
             let index = combinedFilters.findIndex(x => x.type == filter.type);
             if (index != -1) {
-                combinedFilters[index].abilities.push(filter.ability);
+                combinedFilters[index].filters.push(filter);
             } else {
-                combinedFilters.push(new EventConfigCombinedFilter(filter.type, [filter.ability]));
+                combinedFilters.push(new EventConfigCombinedFilter(filter.type, [filter]));
             }
         });
 

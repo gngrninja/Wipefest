@@ -89,7 +89,6 @@ export class FightSummaryComponent implements OnInit {
         if (this.report && this.fight) {
             this.populateCombatEvents();
             this.populateDeathEvents();
-            this.populateSpawnEvents();
         }
     }
 
@@ -98,13 +97,14 @@ export class FightSummaryComponent implements OnInit {
             "general/raid",
             "the-nighthold/guldan/abilities",
             "the-nighthold/guldan/phases",
-            "the-nighthold/guldan/debuffs"
+            "the-nighthold/guldan/debuffs",
+            "the-nighthold/guldan/spawns"
         ]).subscribe(configs => {
             this.warcraftLogsService
                 .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
                 .subscribe(combatEvents => {
                     configs.forEach(config => {
-                        let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents);
+                        let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
 
                         try {
                             this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
@@ -137,44 +137,7 @@ export class FightSummaryComponent implements OnInit {
                             death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))),
             error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
-
-    private populateSpawnEvents() {
-        if (this.fight.boss == 1866 && this.fight.difficulty == 5) { // Mythic Gul'dan
-            this.warcraftLogsService
-                .getCombatEvents(
-                this.report.id,
-                this.fight.start_time,
-                this.fight.end_time,
-                "source.name = 'Soul Fragment of Azzinoth' and type = 'applybuff' and ability.name = 'Fervor'")
-                .subscribe(combatEvents =>
-                    this.events = this.sortEvents(this.events.concat(
-                        combatEvents.map(
-                            combatEvent => new SpawnEvent(
-                                combatEvent.timestamp - this.fight.start_time,
-                                false,
-                                "Soul Fragment of Azzinoth",
-                                combatEvent.sourceInstance)))),
-                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
-
-            this.warcraftLogsService
-                .getCombatEvents(
-                this.report.id,
-                this.fight.start_time,
-                this.fight.end_time,
-                "source.name = 'Nightorb' and type = 'applybuff' and ability.name = 'Distortion Aura'")
-                .subscribe(combatEvents =>
-                    this.events = this.sortEvents(this.events.concat(
-                        combatEvents.map(
-                            combatEvent => new SpawnEvent(
-                                combatEvent.timestamp - this.fight.start_time,
-                                false,
-                                "Nightorb",
-                                combatEvent.sourceInstance)))),
-                error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
-        }
-    }
-
-    private raidCooldownIds = [31821, 62618, 98008, 97462, 64843, 108280, 740, 115310, 15286, 196718];
+    
     private bossAbilityIds =
     [
         204316, 204372, 204448, 204471, // Skorpyron
@@ -188,12 +151,6 @@ export class FightSummaryComponent implements OnInit {
         209165, 209166, 228877, 209168, 210022, 209973, 214278, 208944, 208865, 209598, // Grand Magistrix Elisande
         206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124, 220957, // Gul'dan
     ];
-
-    private getCombatEventFilter(type: string, abilityIds: number[]): string {
-        const filter = `type = '${type}' and ability.id in (${abilityIds.join(", ")})`;
-
-        return filter;
-    }
 
     private sortEvents(events: FightEvent[]): FightEvent[] {
         return events.sort((a: any, b: any) => {
