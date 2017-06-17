@@ -16,6 +16,7 @@ import { QueryService } from 'app/warcraft-logs/query.service';
 import { EventConfig } from "app/event-config/event-config";
 import { EventConfigService } from "app/event-config/event-config.service";
 import { EventService } from "app/events/event.service";
+import { Observable } from "rxjs/Rx";
 
 @Component({
     selector: 'fight-summary',
@@ -87,52 +88,45 @@ export class FightSummaryComponent implements OnInit {
     private populateEvents() {
         this.events = [];
         if (this.report && this.fight) {
-            this.populateCombatEvents();
-            this.populateDeathEvents();
+            let batch: Observable<FightEvent[]>[] = [
+                this.populateCombatEvents(),
+                this.populateDeathEvents()
+            ];
+
+            Observable.forkJoin(batch)
+                .map(x => [].concat.apply([], x))
+                .subscribe(events => this.events = this.sortEvents(events));
         }
     }
 
-    private populateCombatEvents() {
-        this.eventConfigService.getIncludes(this.fight.boss).subscribe(includes => {
-            this.eventConfigService.getEventConfigs(["general/raid"].concat(includes)).subscribe(configs => {
-                this.warcraftLogsService
-                    .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
-                    .subscribe(combatEvents => {
-                        configs.forEach(config => {
-                            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
+    private populateCombatEvents(): Observable<FightEvent[]> {
+        return this.eventConfigService
+            .getIncludes(this.fight.boss)
+            .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes)))
+            .flatMap(configs => this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
+                .map(combatEvents =>
+                    [].concat.apply([], configs.map(config => {
+                        let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
 
-                            try {
-                                this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
-                            } catch (error) {
-                                ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
-                            }
-                        });
-
-                        this.events = this.sortEvents(this.events);
-                    },
-                    error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router)
-                    );
-            });
-        });
-
+                        try {
+                            return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents);
+                        } catch (error) {
+                            ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
+                        }
+                    }))));
     }
 
-    private populateDeathEvents() {
-        this.warcraftLogsService
-            .getDeaths(
-            this.report.id,
-            this.fight.start_time,
-            this.fight.end_time)
-            .subscribe(deaths =>
-                this.events = this.sortEvents(this.events.concat(
-                    deaths.map(
-                        death => new DeathEvent(
-                            death.timestamp - this.fight.start_time,
-                            true,
-                            death.name,
-                            death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                            death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))),
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+    private populateDeathEvents(): Observable<FightEvent[]> {
+        return this.warcraftLogsService
+            .getDeaths(this.report.id, this.fight.start_time, this.fight.end_time)
+            .map(deaths =>
+                deaths.map(death =>
+                    new DeathEvent(
+                        death.timestamp - this.fight.start_time,
+                        true,
+                        death.name,
+                        death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
+                        death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)));
     }
 
     private bossAbilityIds =
