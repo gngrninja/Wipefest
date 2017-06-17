@@ -11,20 +11,27 @@ export class QueryService {
         let queries = this.combineFilters(eventConfigs.map(x => x.filter))
             .map(x => x.parse());
         let query = this.joinQueries(queries);
+        console.log(query);
 
         return query;
     }
 
     private combineFilters(eventConfigFilters: EventConfigFilter[]): EventConfigCombinedFilter[] {
-        let combinedFilters = [];
+        let combinedFilters: EventConfigCombinedFilter[] = [];
 
         eventConfigFilters.filter(x => x != undefined).forEach(filter => {
-            let index = combinedFilters.findIndex(x => x.type == filter.type);
-            if (index != -1) {
-                combinedFilters[index].filters.push(filter);
-            } else {
-                combinedFilters.push(new EventConfigCombinedFilter(filter.type, [filter]));
+            if (!filter.types) {
+                filter.types = [filter.type];
             }
+
+            filter.types.forEach(type => {
+                let index = combinedFilters.findIndex(x => x.type == type);
+                if (index != -1) {
+                    combinedFilters[index].filters.push(filter);
+                } else {
+                    combinedFilters.push(new EventConfigCombinedFilter(type, [filter]));
+                }
+            });
         });
 
         return combinedFilters;

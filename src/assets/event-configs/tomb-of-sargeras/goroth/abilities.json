@@ -1,0 +1,23 @@
+﻿[
+  {
+    "name": "Infernal Burning",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 233062
+      }
+    }
+  },
+  {
+    "name": "Rain of Brimstone",
+    "eventType": "ability",
+    "filter": {
+      "types": [ "damage", "miss" ],
+      "range": 3000,
+      "ability": {
+        "id": 238588
+      }
+    }
+  }
+]

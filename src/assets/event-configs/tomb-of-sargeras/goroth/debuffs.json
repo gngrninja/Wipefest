@@ -1,0 +1,13 @@
+﻿[
+  {
+    "name": "Shattering Star",
+    "eventType": "debuff",
+    "friendly": false,
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 233272
+      }
+    }
+  }
+]

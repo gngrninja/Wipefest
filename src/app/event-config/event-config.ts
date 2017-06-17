@@ -20,6 +20,8 @@ export class EventConfig {
 export class EventConfigFilter {
 
     type: string;
+    types: string[];
+    range: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;
 
@@ -28,10 +30,7 @@ export class EventConfigFilter {
 export class EventConfigCombinedFilter {
 
 
-    constructor(public type: string, public filters: EventConfigFilter[]) {
-        this.type = type;
-        this.filters = filters;
-    }
+    constructor(public type: string, public filters: EventConfigFilter[]) { }
 
     parse(): string {
         if (this.type == "firstseen") {

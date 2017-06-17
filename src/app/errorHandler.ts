@@ -11,6 +11,8 @@ export module ErrorHandler {
 
         if (environment.production) {
             router.navigate(["/error"]);
+        } else {
+            throw error;
         }
 
     }
