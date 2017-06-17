@@ -12,7 +12,10 @@ import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
 import { ErrorHandler } from "app/errorHandler";
-import { QueryService } from "app/event-config/query.service";
+import { QueryService } from 'app/warcraft-logs/query.service';
+import { EventConfig } from "app/event-config/event-config";
+import { EventConfigService } from "app/event-config/event-config.service";
+import { EventService } from "app/events/event.service";
 
 @Component({
     selector: 'fight-summary',
@@ -30,7 +33,9 @@ export class FightSummaryComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private wipefestService: WipefestService,
+        private eventConfigService: EventConfigService,
         private queryService: QueryService,
+        private eventService: EventService,
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
@@ -92,44 +97,17 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private populateCombatEvents() {
-        this.queryService.getEventConfigs([
+        this.eventConfigService.getEventConfigs([
             "general/raid",
             "the-nighthold/guldan/abilities",
             "the-nighthold/guldan/phases"
         ]).subscribe(configs => {
-            let query = this.queryService.getQuery(configs);
-
             this.warcraftLogsService
-                .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, query)
+                .getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
                 .subscribe(combatEvents => {
                     configs.forEach(config => {
-                        let matchingCombatEvents: CombatEvent[] = [];
-                        if (config.filter) {
-                            matchingCombatEvents = combatEvents.filter(this.queryService.getFilterExpression(config));
-                        }
-
-                        switch (config.eventType) {
-                            case "ability": {
-                                let events = matchingCombatEvents.map(
-                                    x => new AbilityEvent(
-                                        x.timestamp - this.fight.start_time,
-                                        x.sourceIsFriendly,
-                                        this.getCombatEventSource(x).name,
-                                        new Ability(x.ability),
-                                        combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1));
-                                this.events = this.events.concat(events);
-                            } break;
-                            case "phase": {
-                                if (config.filter) {
-                                    this.events.push(new PhaseChangeEvent(matchingCombatEvents[0].timestamp - this.fight.start_time, config.name));
-                                } else {
-                                    this.events.push(new PhaseChangeEvent(config.timestamp, config.name));
-                                }
-                            } break;
-                            default: {
-                                throw new Error(`'${config.eventType}' is an unsupported event type`);
-                            }
-                        }
+                        let matchingCombatEvents = this.filterToMatchingCombatEvents(config, combatEvents);
+                        this.events = this.events.concat(this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents));
                     });
 
                     this.events = this.sortEvents(this.events);
@@ -137,57 +115,16 @@ export class FightSummaryComponent implements OnInit {
                 error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router)
             );
         });
-
-
-        //this.queryService.getQuery(["general/raid", "the-nighthold/guldan/abilities", "the-nighthold/guldan/phases"]).subscribe(query => {
-        //    console.log(query);
-
-        //    this.warcraftLogsService
-        //        .getCombatEvents(
-        //        this.report.id,
-        //        this.fight.start_time,
-        //        this.fight.end_time,
-        //        query)
-        //        .subscribe(combatEvents =>
-        //            this.events = this.sortEvents(this.events.concat(
-        //                combatEvents.map(
-        //                    x => new AbilityEvent(
-        //                        x.timestamp - this.fight.start_time,
-        //                        x.sourceIsFriendly,
-        //                        this.getCombatEventSource(x).name,
-        //                        new Ability(x.ability),
-        //                        combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1)))),
-        //        error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
-        //});
     }
 
-    //private populatePhaseChangeEvents() {
-    //    if (this.fight.boss == 1866 && this.fight.difficulty == 5) { // Mythic Gul'dan
-    //        let phaseChangeEvents = [];
-    //        phaseChangeEvents.push(new PhaseChangeEvent(0, 1));
+    private filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[]): CombatEvent[] {
+        let matchingCombatEvents: CombatEvent[] = [];
+        if (config.filter) {
+            matchingCombatEvents = combatEvents.filter(this.eventConfigService.getFilterExpression(config));
+        }
 
-    //        this.warcraftLogsService
-    //            .getCombatEvents(
-    //            this.report.id,
-    //            this.fight.start_time,
-    //            this.fight.end_time,
-    //            this.getCombatEventFilter("cast", [227427, 211439]))
-    //            .subscribe(combatEvents => {
-    //                let phaseTwoCombatEvents = combatEvents.filter(x => x.ability.guid == 227427);
-    //                if (phaseTwoCombatEvents.length > 0) {
-    //                    phaseChangeEvents.push(new PhaseChangeEvent(phaseTwoCombatEvents[0].timestamp - this.fight.start_time, 2));
-    //                }
-
-    //                let phaseThreeCombatEvents = combatEvents.filter(x => x.ability.guid == 211439);
-    //                if (phaseThreeCombatEvents.length > 0) {
-    //                    phaseChangeEvents.push(new PhaseChangeEvent(phaseThreeCombatEvents[0].timestamp - this.fight.start_time, 3));
-    //                }
-
-    //                this.events = this.sortEvents(this.events.concat(phaseChangeEvents));
-    //            },
-    //            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
-    //    }
-    //}
+        return matchingCombatEvents;
+    }
 
     private populateDebuffEvents() {
         this.warcraftLogsService

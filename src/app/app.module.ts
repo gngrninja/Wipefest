@@ -22,7 +22,9 @@ import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found.component';
 import { GuildSearchResultsComponent } from './guild-search-results/guild-search-results.component';
 import { ToggleableSearchComponent } from './search/toggleable-search.component';
-import { QueryService } from './event-config/query.service';
+import { QueryService } from './warcraft-logs/query.service';
+import { EventConfigService } from "app/event-config/event-config.service";
+import { EventService } from "app/events/event.service";
 
 @NgModule({
     declarations: [
@@ -78,7 +80,12 @@ import { QueryService } from './event-config/query.service';
         ], { useHash: true }),
         NgbModule.forRoot()
     ],
-    providers: [WarcraftLogsService, WipefestService, QueryService],
+    providers: [
+        WarcraftLogsService,
+        WipefestService,
+        EventConfigService,
+        QueryService,
+        EventService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
