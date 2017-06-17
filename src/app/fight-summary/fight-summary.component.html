@@ -11,7 +11,7 @@
       </a>
     </div>
 
-    <spinner *ngIf="!events"></spinner>
+    <spinner *ngIf="events.length == 0"></spinner>
     <fight-events *ngIf="events" [events]="events"></fight-events>
   </div>
 </div>

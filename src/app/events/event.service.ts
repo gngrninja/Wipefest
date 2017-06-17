@@ -53,6 +53,8 @@ export class EventService {
     }
 
     private getPhaseChangeEvents(fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): PhaseChangeEvent[] {
+        if (combatEvents.length == 0) return [];
+
         if (config.filter) {
             return [new PhaseChangeEvent(combatEvents[0].timestamp - fight.start_time, config.name)];
         } else {
