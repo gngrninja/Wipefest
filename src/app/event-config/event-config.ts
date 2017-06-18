@@ -13,6 +13,7 @@ export class EventConfig {
     eventType: string;
     timestamp: number;
     friendly: boolean;
+    source: string;
     filter: EventConfigFilter;
 
 }
