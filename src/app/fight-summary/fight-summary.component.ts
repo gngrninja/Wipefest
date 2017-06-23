@@ -151,6 +151,10 @@ export class FightSummaryComponent implements OnInit {
                 sort = sort || a.sequence - b.sequence;
             }
 
+            if (a["instance"] && b["instance"]) {
+                sort = sort || a.instance - b.instance;
+            }
+
             return sort;
         });
     }

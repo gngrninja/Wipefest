@@ -1,0 +1,24 @@
+﻿[
+  {
+    "name": "Unbearable Torment",
+    "eventType": "debuff",
+    "friendly": true,
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 233430
+      }
+    }
+  },
+  {
+    "name": "Soul Corruption",
+    "eventType": "debuff",
+    "friendly": true,
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 248713
+      }
+    }
+  }
+]

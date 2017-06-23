@@ -1,0 +1,27 @@
+﻿[
+  {
+    "name": "Phase 1",
+    "eventType": "phase",
+    "timestamp": 0
+  },
+  {
+    "name": "Phase 1",
+    "eventType": "phase",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 232174
+      }
+    }
+  },
+  {
+    "name": "Phase 2",
+    "eventType": "phase",
+    "filter": {
+      "type": "applybuff",
+      "ability": {
+        "id": 232061
+      }
+    }
+  }
+]

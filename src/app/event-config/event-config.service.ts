@@ -41,24 +41,30 @@ export class EventConfigService {
         let matchingCombatEvents: CombatEvent[] = [];
         if (config.filter) {
             matchingCombatEvents = combatEvents.filter(this.getFilterExpression(config, report));
-        }
 
-        if (config.filter.range && matchingCombatEvents.length > 0) {
-            matchingCombatEvents = matchingCombatEvents.sort((a, b) => a.timestamp - b.timestamp);
-            let start = matchingCombatEvents[0].timestamp;
-            let end = matchingCombatEvents[matchingCombatEvents.length - 1].timestamp;
-
-            let matchingCombatEventsOnePerRange: CombatEvent[] = [];
-            while (start < end) {
-                matchingCombatEventsOnePerRange.push(matchingCombatEvents.find(x => x.timestamp >= start));
-
-                start = matchingCombatEventsOnePerRange[matchingCombatEventsOnePerRange.length - 1].timestamp;
-                start += config.filter.range;
+            if (config.filter.range && matchingCombatEvents.length > 0) {
+                matchingCombatEvents = this.filterToRange(matchingCombatEvents, config.filter.range);
             }
-            matchingCombatEvents = matchingCombatEventsOnePerRange;
         }
 
         return matchingCombatEvents;
+    }
+
+    private filterToRange(combatEvents: CombatEvent[], range: number): CombatEvent[] {
+        combatEvents = combatEvents.sort((a, b) => a.timestamp - b.timestamp);
+        let start = combatEvents[0].timestamp;
+        let end = combatEvents[combatEvents.length - 1].timestamp;
+
+        let matchingCombatEventsOnePerRange: CombatEvent[] = [];
+        while (start < end) {
+            matchingCombatEventsOnePerRange.push(combatEvents.find(x => x.timestamp >= start));
+
+            start = matchingCombatEventsOnePerRange[matchingCombatEventsOnePerRange.length - 1].timestamp;
+            start += range;
+        }
+        combatEvents = matchingCombatEventsOnePerRange;
+
+        return combatEvents;
     }
 
     private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent) => boolean {

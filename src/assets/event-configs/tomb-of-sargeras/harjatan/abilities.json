@@ -1,0 +1,42 @@
+﻿[
+  {
+    "name": "Unchecked Rage",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 231854
+      }
+    }
+  },
+  {
+    "name": "Frosty Discharge",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 232174
+      }
+    }
+  },
+  {
+    "name": "Commanding Roar",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 232192
+      }
+    }
+  },
+  {
+    "name": "Draw In",
+    "eventType": "ability",
+    "filter": {
+      "type": "applybuff",
+      "ability": {
+        "id": 232061
+      }
+    }
+  }
+]

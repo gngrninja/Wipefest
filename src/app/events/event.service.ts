@@ -55,12 +55,14 @@ export class EventService {
     }
 
     private getPhaseChangeEvents(fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): PhaseChangeEvent[] {
+        if (!config.filter) {
+            return [new PhaseChangeEvent(config.timestamp, config.name)];
+        }
+
         if (combatEvents.length == 0) return [];
 
         if (config.filter) {
-            return [new PhaseChangeEvent(combatEvents[0].timestamp - fight.start_time, config.name)];
-        } else {
-            return [new PhaseChangeEvent(config.timestamp, config.name)];
+            return combatEvents.map(x => new PhaseChangeEvent(x.timestamp - fight.start_time - 1, config.name));
         }
     }
 
