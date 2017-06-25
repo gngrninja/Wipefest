@@ -1,0 +1,29 @@
+﻿[
+  {
+    "name": "Phase 1",
+    "eventType": "phase",
+    "timestamp": 0
+  },
+  {
+    "name": "Phase 2",
+    "eventType": "phase",
+    "filter": {
+      "type": "percent",
+      "actor": {
+        "name": "Mistress Sassz'ine",
+        "percent": 70
+      }
+    }
+  },
+  {
+    "name": "Phase 3",
+    "eventType": "phase",
+    "filter": {
+      "type": "percent",
+      "actor": {
+        "name": "Mistress Sassz'ine",
+        "percent": 30
+      }
+    }
+  }
+]

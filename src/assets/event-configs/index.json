@@ -41,7 +41,12 @@
   {
     "zone": "Tomb of Sargeras",
     "id": 2037,
-    "name": "Mistress Sassz'ine"
+    "name": "Mistress Sassz'ine",
+    "includes": [
+      "tomb-of-sargeras/mistress-sasszine/abilities",
+      "tomb-of-sargeras/mistress-sasszine/debuffs",
+      "tomb-of-sargeras/mistress-sasszine/phases"
+    ]
   },
   {
     "zone": "Tomb of Sargeras",

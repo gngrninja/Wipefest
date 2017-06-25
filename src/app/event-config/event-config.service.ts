@@ -75,6 +75,13 @@ export class EventConfigService {
                 combatEvent.targetID == actor.id;
         }
 
+        if (config.filter.type == "percent") {
+            let actor = report.enemies.find(x => x.name == config.filter.actor.name);
+            return (combatEvent: CombatEvent) =>
+                (combatEvent.type == "cast" || combatEvent.type == "applybuff" || combatEvent.type == "applydebuff") &&
+                combatEvent.sourceID == actor.id;
+        }
+
         if (!config.filter.types) {
             config.filter.types = [config.filter.type];
         }

@@ -1,0 +1,1 @@
+﻿# Wipefest Event Configs

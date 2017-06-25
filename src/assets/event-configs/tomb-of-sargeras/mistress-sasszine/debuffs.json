@@ -1,0 +1,24 @@
+﻿[
+  {
+    "name": "Slicing Tornado",
+    "eventType": "debuff",
+    "friendly": true,
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 232732
+      }
+    }
+  },
+  {
+    "name": "Hydra Shot",
+    "eventType": "debuff",
+    "friendly": false,
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 230139
+      }
+    }
+  }
+]
