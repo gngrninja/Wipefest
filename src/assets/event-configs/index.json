@@ -51,26 +51,35 @@
   {
     "zone": "Tomb of Sargeras",
     "id": 2050,
-    "name": "Sisters of the Moon"
+    "name": "Sisters of the Moon",
+    "includes": [
+      "tomb-of-sargeras/sisters-of-the-moon/abilities",
+      "tomb-of-sargeras/sisters-of-the-moon/debuffs",
+      "tomb-of-sargeras/sisters-of-the-moon/spawns"
+    ]
   },
   {
     "zone": "Tomb of Sargeras",
     "id": 2054,
-    "name": "The Desolate Host"
+    "name": "The Desolate Host",
+    "includes": []
   },
   {
     "zone": "Tomb of Sargeras",
     "id": 2052,
-    "name": "Maiden of Vigilance"
+    "name": "Maiden of Vigilance",
+    "includes": []
   },
   {
     "zone": "Tomb of Sargeras",
     "id": 2038,
-    "name": "Fallen Avatar"
+    "name": "Fallen Avatar",
+    "includes": []
   },
   {
     "zone": "Tomb of Sargeras",
     "id": 2051,
-    "name": "Kil'jaeden"
+    "name": "Kil'jaeden",
+    "includes": []
   }
 ]

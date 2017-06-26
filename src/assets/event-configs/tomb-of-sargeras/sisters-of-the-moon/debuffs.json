@@ -1,0 +1,32 @@
+﻿[
+  {
+    "name": "Moon Burn",
+    "eventType": "debuff",
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 236519
+      }
+    }
+  },
+  {
+    "name": "Incorporeal Shot",
+    "eventType": "debuff",
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 236305
+      }
+    }
+  },
+  {
+    "name": "Lunar Beacon",
+    "eventType": "debuff",
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 236712
+      }
+    }
+  }
+]

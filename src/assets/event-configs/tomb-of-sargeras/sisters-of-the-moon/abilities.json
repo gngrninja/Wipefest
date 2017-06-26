@@ -1,0 +1,12 @@
+﻿[
+  {
+    "name": "Embrace of the Eclipse",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 233263
+      }
+    }
+  }
+]

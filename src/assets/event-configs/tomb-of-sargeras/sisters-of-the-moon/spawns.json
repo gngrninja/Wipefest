@@ -1,0 +1,13 @@
+﻿[
+  {
+    "name": "Moontalon",
+    "eventType": "spawn",
+    "friendly":  false,
+    "filter": {
+      "type": "firstseen",
+      "actor": {
+        "name": "Moontalon"
+      }
+    }
+  }
+]
