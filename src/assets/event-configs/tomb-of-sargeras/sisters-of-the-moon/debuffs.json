@@ -28,5 +28,25 @@
         "id": 236712
       }
     }
+  },
+  {
+    "name": "Discorporate",
+    "eventType": "debuff",
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 236550
+      }
+    }
+  },
+  {
+    "name": "Rapid Shot",
+    "eventType": "debuff",
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 236596
+      }
+    }
   }
 ]

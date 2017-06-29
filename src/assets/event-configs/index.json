@@ -55,7 +55,7 @@
     "includes": [
       "tomb-of-sargeras/sisters-of-the-moon/abilities",
       "tomb-of-sargeras/sisters-of-the-moon/debuffs",
-      "tomb-of-sargeras/sisters-of-the-moon/spawns"
+      "tomb-of-sargeras/sisters-of-the-moon/phases"
     ]
   },
   {

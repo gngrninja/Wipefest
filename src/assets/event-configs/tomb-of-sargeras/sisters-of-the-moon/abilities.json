@@ -8,5 +8,35 @@
         "id": 233263
       }
     }
+  },
+  {
+    "name": "Incorporeal Teleport",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 236224
+      }
+    }
+  },
+  {
+    "name": "Call Moontalon",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 236694
+      }
+    }
+  },
+  {
+    "name": "Deathly Screech",
+    "eventType": "ability",
+    "filter": {
+      "type": "cast",
+      "ability": {
+        "id": 236697
+      }
+    }
   }
 ]
