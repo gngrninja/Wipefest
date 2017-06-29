@@ -25,6 +25,7 @@ import { ToggleableSearchComponent } from './search/toggleable-search.component'
 import { QueryService } from './warcraft-logs/query.service';
 import { EventConfigService } from "app/event-config/event-config.service";
 import { EventService } from "app/events/event.service";
+import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { EventService } from "app/events/event.service";
         ErrorComponent,
         NotFoundComponent,
         GuildSearchResultsComponent,
-        ToggleableSearchComponent
+        ToggleableSearchComponent,
+        FightSummaryFiltersComponent
     ],
     imports: [
         BrowserModule,

@@ -11,6 +11,8 @@
       </a>
     </div>
 
+    <fight-summary-filters *ngIf="configs" [configs]="configs"></fight-summary-filters>
+
     <spinner *ngIf="events.length == 0"></spinner>
     <fight-events *ngIf="events" [events]="events"></fight-events>
   </div>

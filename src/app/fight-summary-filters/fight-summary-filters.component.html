@@ -1,0 +1,13 @@
+﻿<div class="card-columns">
+  <div class="card" *ngFor="let type of getEventTypes()">
+    <div class="card-block">
+      <h5 class="card-title">{{type}}</h5>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let config of getEventConfigsForEventType(type)">
+        {{config.name}}
+      </li>
+    </ul>
+  </div>
+</div>
