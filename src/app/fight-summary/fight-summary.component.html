@@ -1,19 +1,40 @@
-﻿<div class="row">
-  <div class="col-sm-12" *ngIf="!fight">
-    <spinner></spinner>
-  </div>
-
-  <div class="col-sm-12" *ngIf="fight">
-    <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
-    <div class="text-center mb-3">
-      <a routerLink="/report/{{report.id}}">
-        Back to report
-      </a>
+﻿<md-sidenav-container class="sidenav-container">
+  <md-sidenav #sidenav mode="side" opened="true" class="sidenav bg-info">
+    <div class="row mt-1">
+      <div class="col">
+        <h5>Filters</h5>
+      </div>
+      <div class="col text-right">
+        <button type="button" class="btn btn-sm" (click)="sidenav.close()">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
     </div>
-
     <fight-summary-filters *ngIf="configs" [configs]="configs"></fight-summary-filters>
+  </md-sidenav>
 
-    <spinner *ngIf="events.length == 0"></spinner>
-    <fight-events *ngIf="events" [events]="events"></fight-events>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12" *ngIf="!fight">
+        <spinner></spinner>
+      </div>
+
+      <div class="col-sm-12" *ngIf="fight">
+        <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
+        <div class="text-center mb-1">
+          <a routerLink="/report/{{report.id}}">
+            Back to report
+          </a>
+        </div>
+        <div class="text-center mb-3">
+          <button type="button" class="btn btn-info btn-sm" (click)="sidenav.open()">
+            Filters
+          </button>
+        </div>
+
+        <spinner *ngIf="events.length == 0"></spinner>
+        <fight-events *ngIf="events" [events]="events"></fight-events>
+      </div>
+    </div>
   </div>
-</div>
+</md-sidenav-container>

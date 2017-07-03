@@ -1,6 +1,7 @@
 ﻿[
   {
     "name": "Suffocating Dark",
+    "tags": ["boss", "ability"],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -12,6 +13,7 @@
   },
   {
     "name": "Tormenting Burst",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -22,6 +24,7 @@
   },
   {
     "name": "Echoing Anguish",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
     "filter": {
       "type": "applydebuff",
@@ -33,6 +36,7 @@
   },
   {
     "name": "Fel Squall",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -42,18 +46,8 @@
     }
   },
   {
-    "name": "Calcified Quills",
-    "eventType": "ability",
-    "filter": {
-      "type": "cast",
-      "range": 3000,
-      "ability": {
-        "id": 233431
-      }
-    }
-  },
-  {
     "name": "Scythe Sweep",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -64,11 +58,12 @@
   },
   {
     "name": "Bone Saw",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
       "ability": {
-        "id": 233431
+        "id": 233441
       }
     }
   }

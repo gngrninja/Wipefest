@@ -1,6 +1,7 @@
 ﻿[
   {
     "name": "Heroism",
+    "tags": [ "raid", "utility" ],
     "eventType": "heroism",
     "filter": {
       "type": "applybuff",
@@ -11,6 +12,7 @@
   },
   {
     "name": "Aura Mastery",
+    "tags": [ "raid", "healing" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -21,6 +23,7 @@
   },
   {
     "name": "Power Word: Barrier",
+    "tags": [ "raid", "damage reduction" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -31,6 +34,7 @@
   },
   {
     "name": "Spirit Link Totem",
+    "tags": [ "raid", "damage reduction" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -41,6 +45,7 @@
   },
   {
     "name": "Commanding Shout",
+    "tags": [ "raid", "damage reduction" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -51,6 +56,7 @@
   },
   {
     "name": "Divine Hymn",
+    "tags": [ "raid", "healing" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -61,6 +67,7 @@
   },
   {
     "name": "Healing Tide Totem",
+    "tags": [ "raid", "healing" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -71,6 +78,7 @@
   },
   {
     "name": "Tranquility",
+    "tags": [ "raid", "healing" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -81,6 +89,7 @@
   },
   {
     "name": "Revival",
+    "tags": [ "raid", "healing" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -91,6 +100,7 @@
   },
   {
     "name": "Vampiric Embrace",
+    "tags": [ "raid", "healing" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -101,6 +111,7 @@
   },
   {
     "name": "Darkness",
+    "tags": [ "raid", "damage reduction" ],
     "eventType": "ability",
     "filter": {
       "type": "cast",

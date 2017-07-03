@@ -1,8 +1,10 @@
 ﻿import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -48,6 +50,7 @@ import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summ
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         HttpModule,
         RouterModule.forRoot([
@@ -80,6 +83,8 @@ import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summ
                 component: NotFoundComponent
             }
         ], { useHash: true }),
+        MaterialModule,
+        MdNativeDateModule,
         NgbModule.forRoot()
     ],
     providers: [

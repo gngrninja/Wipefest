@@ -10,12 +10,20 @@ export class FightSummaryFiltersComponent {
 
     @Input() configs: EventConfig[];
 
-    getEventTypes(): string[] {
-        return this.configs.map(config => config.eventType).filter((config, index, array) => array.indexOf(config) == index).sort();
+    getTags(): string[][] {
+        return this.configs
+            .map(config => config.tags)
+            .filter((tags, index, array) => {
+                let arrayOfJoinedTags = array.map(x => x.join(" "));
+                return arrayOfJoinedTags.indexOf(tags.join(" ")) == index;
+            })
+            .sort();
     }
 
-    getEventConfigsForEventType(eventType: string): EventConfig[] {
-        return this.configs.filter(config => config.eventType == eventType).sort((a, b) => a.name.localeCompare(b.name));
+    getEventConfigsForTags(tags: string[]): EventConfig[] {
+        return this.configs
+            .filter(config => config.tags.every(tag => tags.indexOf(tag) != -1))
+            .sort((a, b) => a.name.localeCompare(b.name));
     }
 
 }

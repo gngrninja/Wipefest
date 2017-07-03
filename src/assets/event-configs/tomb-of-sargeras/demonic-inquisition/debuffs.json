@@ -1,6 +1,7 @@
 ﻿[
   {
     "name": "Unbearable Torment",
+    "tags": [ "player", "debuff" ],
     "eventType": "debuff",
     "friendly": true,
     "filter": {
@@ -12,12 +13,24 @@
   },
   {
     "name": "Soul Corruption",
+    "tags": [ "player", "action" ],
     "eventType": "debuff",
     "friendly": true,
     "filter": {
       "type": "applydebuff",
       "ability": {
         "id": 248713
+      }
+    }
+  },
+  {
+    "name": "Calcified Quills",
+    "tags": [ "boss", "ability" ],
+    "eventType": "debuff",
+    "filter": {
+      "type": "applydebuff",
+      "ability": {
+        "id": 233431
       }
     }
   }
