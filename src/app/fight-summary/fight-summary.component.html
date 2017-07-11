@@ -1,40 +1,32 @@
-﻿<md-sidenav-container class="sidenav-container">
-  <md-sidenav #sidenav mode="side" opened="true" class="sidenav">
-    <div class="row mt-1">
-      <div class="col">
-        <h5>Filters</h5>
-      </div>
-      <div class="col text-right">
-        <button type="button" class="btn btn-sm" (click)="sidenav.close()">
-          <i class="fa fa-close"></i>
-        </button>
-      </div>
-    </div>
+﻿<div class="app-body">
+  <div class="sidebar">
     <fight-summary-filters *ngIf="configs" [configs]="configs"></fight-summary-filters>
-  </md-sidenav>
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12" *ngIf="!fight">
-        <spinner></spinner>
-      </div>
-
-      <div class="col-sm-12" *ngIf="fight">
-        <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
-        <div class="text-center mb-1">
-          <a routerLink="/report/{{report.id}}">
-            Back to report
-          </a>
-        </div>
-        <div class="text-center mb-3">
-          <button type="button" class="btn btn-info btn-sm" (click)="sidenav.open()">
-            Filters
-          </button>
-        </div>
-
-        <spinner *ngIf="events.length == 0"></spinner>
-        <fight-events *ngIf="events" [events]="events"></fight-events>
-      </div>
+  </div>
+  <div class="sidebar-tag">
+    <div appSidebarToggler appMobileSidebarToggler>
+      <i class="fa fa-cog fa-2x" aria-hidden="true"></i>
     </div>
   </div>
-</md-sidenav-container>
+
+  <main class="main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12" *ngIf="!fight">
+          <spinner></spinner>
+        </div>
+
+        <div class="col-sm-12" *ngIf="fight">
+          <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
+          <div class="text-center mb-1">
+            <a routerLink="/report/{{report.id}}">
+              Back to report
+            </a>
+          </div>
+          
+          <spinner *ngIf="events.length == 0"></spinner>
+          <fight-events *ngIf="events" [events]="events"></fight-events>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

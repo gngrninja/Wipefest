@@ -1,9 +1,15 @@
-﻿<div *ngFor="let tags of getTags()">
-  <h5 class="card-title">{{tags.join(" ")}}</h5>
-
-  <ul>
-    <li *ngFor="let config of getEventConfigsForTags(tags)">
-      {{config.name}}
+﻿<ul class="nav">
+  <li class="nav-item">
+    Filters
+  </li>
+  <div *ngFor="let tags of getTags()">
+    <li class="nav-title">
+      {{tags.join(" ")}} <span class="badge badge-info">{{getEventConfigsForTags(tags).length}}</span>
     </li>
-  </ul>
-</div>
+    <li class="nav-item">
+      <button *ngFor="let config of getEventConfigsForTags(tags)" class="btn btn-sm btn-success mb-1 mr-1">
+        {{config.name}}
+      </button>
+    </li>
+  </div>
+</ul>

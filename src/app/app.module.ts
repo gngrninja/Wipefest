@@ -29,6 +29,12 @@ import { EventConfigService } from "app/event-config/event-config.service";
 import { EventService } from "app/events/event.service";
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
 
+// Core UI
+import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
+import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
+import { AsideToggleDirective } from './core-ui/aside.directive';
+import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -46,7 +52,12 @@ import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summ
         NotFoundComponent,
         GuildSearchResultsComponent,
         ToggleableSearchComponent,
-        FightSummaryFiltersComponent
+        FightSummaryFiltersComponent,
+        // Core UI
+        NAV_DROPDOWN_DIRECTIVES,
+        BreadcrumbsComponent,
+        SIDEBAR_TOGGLE_DIRECTIVES,
+        AsideToggleDirective
     ],
     imports: [
         BrowserModule,
