@@ -2,7 +2,7 @@
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { GuildReport } from "app/warcraft-logs/guild-report";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { WipefestService } from "app/wipefest.service";
+import { WipefestService, Page } from "app/wipefest.service";
 import { ErrorHandler } from "app/errorHandler";
 import { Timestamp } from "app/helpers/timestamp-helper";
 
@@ -29,6 +29,7 @@ export class GuildSearchResultsComponent implements OnInit {
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
+        this.wipefestService.selectPage(Page.GuildSearchResults);
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 

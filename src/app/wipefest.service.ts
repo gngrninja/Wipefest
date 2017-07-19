@@ -6,6 +6,9 @@ import { Report, Fight } from "app/warcraft-logs/report";
 @Injectable()
 export class WipefestService {
 
+    private selectedPage$ = new BehaviorSubject<Page>(Page.None);
+    selectedPage: Observable<Page>;
+
     private selectedReport$ = new BehaviorSubject<Report>(null);
     selectedReport: Observable<Report>;
 
@@ -15,8 +18,13 @@ export class WipefestService {
     private errors: Response[] = [];
 
     constructor() {
+        this.selectedPage = this.selectedPage$.asObservable();
         this.selectedReport = this.selectedReport$.asObservable();
         this.selectedFight = this.selectedFight$.asObservable();
+    }
+
+    selectPage(page: Page) {
+        this.selectedPage$.next(page);
     }
 
     selectReport(report: Report) {
@@ -38,5 +46,11 @@ export class WipefestService {
 
         return this.errors[this.errors.length - 1];
     }
+
+}
+
+export enum Page {
+
+    None, Welcome, CharacterSearchResults, GuildSearchResults, ReportSummary, FightSummary
 
 }

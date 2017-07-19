@@ -3,7 +3,7 @@ import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { WipefestService } from "app/wipefest.service";
+import { WipefestService, Page } from "app/wipefest.service";
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent, Ability } from "app/fight-events/ability-event";
 import { DeathEvent } from "app/fight-events/death-event";
@@ -41,6 +41,7 @@ export class FightSummaryComponent implements OnInit {
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
+        this.wipefestService.selectPage(Page.FightSummary);
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 

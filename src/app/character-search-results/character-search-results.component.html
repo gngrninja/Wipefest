@@ -1,24 +1,26 @@
-﻿<div class="container">
+﻿<div class="app-body">
   <div class="container">
-    <h2 class="mb-2 mt-3"><span class="hidden-xs-down">Parses for </span>{{character}}</h2>
-    <toggleable-search [text]="'Search again'"></toggleable-search>
-  </div>
+    <div class="container">
+      <h2 class="mb-2 mt-3"><span class="hidden-xs-down">Parses for </span>{{character}}</h2>
+      <toggleable-search [text]="'Search again'"></toggleable-search>
+    </div>
 
-  <spinner *ngIf="encounters.length == 0"></spinner>
+    <spinner *ngIf="encounters.length == 0"></spinner>
 
-  <div *ngFor="let encounter of encounters" class="card mb-3">
-    <h4 class="card-header">{{encounter[0].name}}</h4>
-    <div class="card-block">
-      <div class="card-deck">
-        <div *ngFor="let parse of encounter" class="card">
-          <h5 class="card-header">{{Difficulty.ToString(parse.difficulty)}}</h5>
-          <div class="card-block">
-            <div *ngFor="let spec of parse.specs" class="mb-2">
-              <div *ngFor="let fight of spec.data">
-                <spec-icon [class]="spec.class" [spec]="spec.spec" [alt]="spec.spec + ' ' + spec.class"></spec-icon>
-                <a routerLink="/report/{{fight.report_code}}/fight/{{fight.report_fight}}">
-                  {{fightTitle(fight)}}
-                </a>
+    <div *ngFor="let encounter of encounters" class="card mb-3">
+      <h4 class="card-header">{{encounter[0].name}}</h4>
+      <div class="card-block">
+        <div class="card-deck">
+          <div *ngFor="let parse of encounter" class="card">
+            <h5 class="card-header">{{Difficulty.ToString(parse.difficulty)}}</h5>
+            <div class="card-block">
+              <div *ngFor="let spec of parse.specs" class="mb-2">
+                <div *ngFor="let fight of spec.data">
+                  <spec-icon [class]="spec.class" [spec]="spec.spec" [alt]="spec.spec + ' ' + spec.class"></spec-icon>
+                  <a routerLink="/report/{{fight.report_code}}/fight/{{fight.report_fight}}">
+                    {{fightTitle(fight)}}
+                  </a>
+                </div>
               </div>
             </div>
           </div>

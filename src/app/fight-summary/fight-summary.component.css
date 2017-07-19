@@ -2,19 +2,3 @@
   z-index: 2;
   padding: 20px;
 }
-
-.sidebar-tag {
-  position: relative;
-}
-
-  .sidebar-tag div {
-    cursor: pointer;
-    z-index: 1;
-    position: absolute;
-    top: 20px;
-    left: -1px;
-    border: 1px solid grey;
-    border-radius: 0 10px 10px 0;
-    padding: 8px;
-    color: #2a2a2a;
-  }

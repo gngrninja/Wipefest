@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -94,8 +93,6 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
                 component: NotFoundComponent
             }
         ], { useHash: true }),
-        MaterialModule,
-        MdNativeDateModule,
         NgbModule.forRoot()
     ],
     providers: [
