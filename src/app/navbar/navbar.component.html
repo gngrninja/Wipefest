@@ -1,10 +1,10 @@
 ﻿<header class="app-header navbar">
   <button *ngIf="page == Page.FightSummary" class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
-  <span class="navbar-brand hidden-sm-up"></span>
+  <span class="navbar-brand hidden-sm-up" routerLink="/"></span>
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item">
       <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appSidebarToggler>&#9776;</a>
     </li>
-    <li class="navbar-brand"></li>
+    <li class="navbar-brand" routerLink="/"></li>
   </ul>
 </header>
