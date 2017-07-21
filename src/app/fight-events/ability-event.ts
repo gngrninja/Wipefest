@@ -1,9 +1,11 @@
 ﻿import { FightEvent } from "app/fight-events/fight-event";
 import { CombatAbility } from "app/warcraft-logs/combat-event";
+import { EventConfig } from "app/event-config/event-config";
 
 export class AbilityEvent extends FightEvent {
 
     constructor(
+        public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
         private source: string,
@@ -11,7 +13,7 @@ export class AbilityEvent extends FightEvent {
         private sequence: number,
         private target: string = null) {
 
-        super(timestamp, isFriendly);
+        super(config, timestamp, isFriendly);
     }
 
     get title(): string {

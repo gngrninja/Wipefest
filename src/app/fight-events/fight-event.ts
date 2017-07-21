@@ -1,8 +1,10 @@
 ﻿import { Timestamp } from "app/helpers/timestamp-helper";
+import { EventConfig } from "app/event-config/event-config";
 
 export abstract class FightEvent {
 
     constructor(
+        public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean) { }
 

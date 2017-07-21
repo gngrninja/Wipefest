@@ -11,6 +11,7 @@ export class EventConfig {
 
     name: string;
     tags: string[];
+    show: boolean;
     eventType: string;
     timestamp: number;
     friendly: boolean;

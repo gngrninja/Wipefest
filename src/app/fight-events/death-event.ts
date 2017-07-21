@@ -1,17 +1,19 @@
 ﻿import { FightEvent } from "app/fight-events/fight-event";
 import { CombatAbility } from "app/warcraft-logs/combat-event";
 import { Ability } from "app/fight-events/ability-event";
+import { EventConfig } from "app/event-config/event-config";
 
 export class DeathEvent extends FightEvent {
 
     constructor(
+        public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
         private source: string,
         private killingBlow: Ability,
         private from: string) {
 
-        super(timestamp, isFriendly);
+        super(config, timestamp, isFriendly);
     }
 
     rowClass = "death";

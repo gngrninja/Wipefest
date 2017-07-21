@@ -1,6 +1,6 @@
 ﻿<div class="app-body">
   <div class="sidebar">
-    <fight-summary-filters *ngIf="configs" [configs]="configs"></fight-summary-filters>
+    <fight-summary-filters *ngIf="configs && events" [configs]="configs" [events]="events"></fight-summary-filters>
   </div>
 
   <main class="main">

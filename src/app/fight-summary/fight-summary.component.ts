@@ -128,6 +128,7 @@ export class FightSummaryComponent implements OnInit {
             .map(deaths =>
                 deaths.map(death =>
                     new DeathEvent(
+                        null,
                         death.timestamp - this.fight.start_time,
                         true,
                         death.name,
