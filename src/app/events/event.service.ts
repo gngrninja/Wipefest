@@ -34,6 +34,7 @@ export class EventService {
         let events = combatEvents.map(x => Math.ceil(x.timestamp / 1000))
             .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
             .map(x => new HeroismEvent(
+                config,
                 x * 1000 - fight.start_time,
                 new Ability(combatEvents.find(y => y.timestamp - x * 1000 < 1000).ability)));
 
@@ -45,6 +46,7 @@ export class EventService {
         console.log(combatEvents);
         let events = combatEvents.map(
             x => new AbilityEvent(
+                config,
                 x.timestamp - fight.start_time,
                 x.sourceIsFriendly,
                 config.source ? config.source : this.getCombatEventSource(x, report).name,
@@ -56,7 +58,7 @@ export class EventService {
 
     private getPhaseChangeEvents(fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): PhaseChangeEvent[] {
         if (!config.filter) {
-            return [new PhaseChangeEvent(config.timestamp, config.name)];
+            return [new PhaseChangeEvent(config, config.timestamp, config.name)];
         }
 
         if (combatEvents.length == 0) return [];
@@ -68,16 +70,17 @@ export class EventService {
                         .sort((a, b) => a.timestamp - b.timestamp)
                         .find(x => (x.hitPoints * 100 / x.maxHitPoints) <= config.filter.actor.percent + 1);
 
-                return [new PhaseChangeEvent(combatEvent.timestamp - fight.start_time - 1, config.name)];
+                return [new PhaseChangeEvent(config, combatEvent.timestamp - fight.start_time - 1, config.name)];
             }
 
-            return combatEvents.map(x => new PhaseChangeEvent(x.timestamp - fight.start_time - 1, config.name));
+            return combatEvents.map(x => new PhaseChangeEvent(config, x.timestamp - fight.start_time - 1, config.name));
         }
     }
 
     private getDebuffEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): DebuffEvent[] {
         let events = combatEvents.map(
             x => new DebuffEvent(
+                config,
                 x.timestamp - fight.start_time,
                 config.friendly,
                 this.getCombatEventTarget(x, report).name,
@@ -90,6 +93,7 @@ export class EventService {
     private getSpawnEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): SpawnEvent[] {
         let events = combatEvents.map(
             (x, index) => new SpawnEvent(
+                config,
                 x.timestamp - fight.start_time,
                 config.friendly,
                 config.filter.actor.name,

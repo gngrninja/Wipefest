@@ -1,5 +1,5 @@
 ﻿<table class="table-hover">
-  <tr *ngFor="let event of events" class="{{event.rowClass}}">
+  <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
     <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3" class="phase-change">
       <h5>{{event.title}}</h5>
     </td>

@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Parse, ParseSpecData } from "app/warcraft-logs/parse";
 import { ErrorHandler } from "app/errorHandler";
-import { WipefestService } from "app/wipefest.service";
+import { WipefestService, Page } from "app/wipefest.service";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { Difficulty } from "app/helpers/difficulty-helper";
 
@@ -28,6 +28,7 @@ export class CharacterSearchResultsComponent implements OnInit {
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
+        this.wipefestService.selectPage(Page.CharacterSearchResults);
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 

@@ -1,17 +1,27 @@
-﻿<div class="row">
-  <div class="col-sm-12" *ngIf="!fight">
-    <spinner></spinner>
+﻿<div class="app-body">
+  <div class="sidebar">
+    <fight-summary-filters *ngIf="configs && events" [configs]="configs" [events]="events"></fight-summary-filters>
   </div>
 
-  <div class="col-sm-12" *ngIf="fight">
-    <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
-    <div class="text-center mb-3">
-      <a routerLink="/report/{{report.id}}">
-        Back to report
-      </a>
+  <main class="main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12" *ngIf="!fight">
+          <spinner></spinner>
+        </div>
+
+        <div class="col-sm-12" *ngIf="fight">
+          <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
+          <div class="text-center mb-1">
+            <a routerLink="/report/{{report.id}}">
+              Back to report
+            </a>
+          </div>
+          
+          <spinner *ngIf="events.length == 0"></spinner>
+          <fight-events *ngIf="events" [events]="events"></fight-events>
+        </div>
+      </div>
     </div>
-
-    <spinner *ngIf="events.length == 0"></spinner>
-    <fight-events *ngIf="events" [events]="events"></fight-events>
-  </div>
+  </main>
 </div>

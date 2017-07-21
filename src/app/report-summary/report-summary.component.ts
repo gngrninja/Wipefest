@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { WipefestService } from "app/wipefest.service";
+import { WipefestService, Page } from "app/wipefest.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Report, Fight } from "app/warcraft-logs/report";
 import { ErrorHandler } from "app/errorHandler";
@@ -34,6 +34,7 @@ export class ReportSummaryComponent implements OnInit {
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
+        this.wipefestService.selectPage(Page.ReportSummary);
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 

@@ -3,7 +3,7 @@ import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { WipefestService } from "app/wipefest.service";
+import { WipefestService, Page } from "app/wipefest.service";
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent, Ability } from "app/fight-events/ability-event";
 import { DeathEvent } from "app/fight-events/death-event";
@@ -28,6 +28,7 @@ export class FightSummaryComponent implements OnInit {
     report: Report;
     fight: Fight;
 
+    private configs: EventConfig[] = [];
     private events: FightEvent[] = [];
 
     constructor(
@@ -40,6 +41,7 @@ export class FightSummaryComponent implements OnInit {
         private warcraftLogsService: WarcraftLogsService) { }
 
     ngOnInit() {
+        this.wipefestService.selectPage(Page.FightSummary);
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 
@@ -103,17 +105,21 @@ export class FightSummaryComponent implements OnInit {
         return this.eventConfigService
             .getIncludes(this.fight.boss)
             .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes)))
-            .flatMap(configs => this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
-                .map(combatEvents =>
-                    [].concat.apply([], configs.map(config => {
-                        let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
+            .flatMap(configs => {
+                this.configs = configs;
 
-                        try {
-                            return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents);
-                        } catch (error) {
-                            ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
-                        }
-                    }))));
+                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
+                    .map(combatEvents =>
+                        [].concat.apply([], configs.map(config => {
+                            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
+
+                            try {
+                                return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents);
+                            } catch (error) {
+                                ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
+                            }
+                        })));
+            });
     }
 
     private populateDeathEvents(): Observable<FightEvent[]> {
@@ -122,26 +128,13 @@ export class FightSummaryComponent implements OnInit {
             .map(deaths =>
                 deaths.map(death =>
                     new DeathEvent(
+                        null,
                         death.timestamp - this.fight.start_time,
                         true,
                         death.name,
                         death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
                         death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)));
     }
-
-    private bossAbilityIds =
-    [
-        204316, 204372, 204448, 204471, // Skorpyron
-        211927, 206610, // Chronomatic Anomaly
-        207630, 208924, 206820, 208506, 207502, 206559, 206560, 206557, 207513, 206788, // Trilliax
-        213564, 213853, 213567, 212492, 212735, 213275, 213852, 212530, 213182, // Spellblade Aluriel
-        212997, 213531, 208230, 206365, 213238, // Tichondrius
-        206585, 222761, 206517, 206949, 205408, 205984, 214335, 214167, 221875, 207439, 207720, 216909, // Star Auger Etraeus
-        205420, 205368, 205344, 205361, 205862,  // Krosus
-        218424, 218304, 218807, 218809, 218438, 218148, 218774, // High Botanist Tel'arn
-        209165, 209166, 228877, 209168, 210022, 209973, 214278, 208944, 208865, 209598, // Grand Magistrix Elisande
-        206222, 212258, 209270, 206219, 206221, 206220, 221783, 211152, 206939, 206744, 167819, 226975, 221486, 218124, 220957, // Gul'dan
-    ];
 
     private sortEvents(events: FightEvent[]): FightEvent[] {
         return events.sort((a: any, b: any) => {

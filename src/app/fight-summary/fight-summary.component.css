@@ -1,1 +1,4 @@
-﻿
+﻿.sidebar {
+  z-index: 2;
+  padding: 20px;
+}
