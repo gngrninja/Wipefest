@@ -28,8 +28,8 @@ export class FightSummaryComponent implements OnInit {
     report: Report;
     fight: Fight;
 
-    private configs: EventConfig[] = [];
-    private events: FightEvent[] = [];
+    configs: EventConfig[] = [];
+    events: FightEvent[] = [];
 
     constructor(
         private route: ActivatedRoute,
