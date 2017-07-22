@@ -1,5 +1,9 @@
-﻿table {
+﻿@import "../../scss/bootstrap-variables";
+
+table {
   width: 100%;
+  background-color: $gray-dark;
+  border: 1px solid $gray-light;
 }
 
 td.event {
@@ -15,11 +19,11 @@ div.friendly {
 }
 
 tr.heroism {
-  background-color: rgb(233, 236, 255);
+  background-color: rgb(40, 45, 73);
 }
 
 tr.death {
-  background-color: rgb(255, 236, 201);
+  background-color: rgb(87, 69, 35);
 }
 
 td.phase-change {

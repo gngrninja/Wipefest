@@ -11,7 +11,7 @@ import { EventConfig } from "app/event-config/event-config";
 @Component({
     selector: 'fight-events',
     templateUrl: './fight-events.component.html',
-    styleUrls: ['./fight-events.component.css']
+    styleUrls: ['./fight-events.component.scss']
 })
 export class FightEventsComponent {
     

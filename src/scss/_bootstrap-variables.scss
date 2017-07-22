@@ -4,7 +4,7 @@
 //
 // Grayscale and brand colors for use across Bootstrap.
 
-$gray-dark:                 #263238;
+/*$gray-dark:                 #263238;
 $gray:                      #607d8b;
 $gray-light:                #b0bec5;
 $gray-lighter:              #cfd8dc;
@@ -14,7 +14,20 @@ $brand-primary:             #20a8d8;
 $brand-success:             #4dbd74;
 $brand-info:                #63c2de;
 $brand-warning:             #f8cb00;
-$brand-danger:              #f86c6b;
+$brand-danger:              #f86c6b;*/
+
+$gray-base: #000 !default;
+$gray-dark: lighten($gray-base, 13.5%) !default; // #222
+$gray: #303030 !default; // #333
+$gray-light: #464545 !default;
+$gray-lighter: #999 !default; // #999
+$gray-lightest: #EBEBEB !default; // #eee
+
+$brand-primary: #375a7f !default;
+$brand-success: #00bc8c !default;
+$brand-info: #3498DB !default;
+$brand-warning: #F39C12 !default;
+$brand-danger: #E74C3C !default;
 
 // Options
 //
@@ -27,7 +40,15 @@ $enable-rounded:            false;
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   #e4e5e6;
+/*$body-bg:                   #000721;*/
+$body-bg: $gray !default;
+$body-color: #CCC !default;
+//** Global textual link color.
+$link-color: desaturate(lighten($brand-primary, 20%),10%) !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color: $link-color !default;
+//** Link hover decoration.
+$link-hover-decoration: underline !default;
 
 // Typography
 //
@@ -41,8 +62,9 @@ $breadcrumb-bg:             #fff;
 
 // Cards
 
-$card-border-color:         $gray-lighter;
-$card-cap-bg:               $gray-lightest;
+$card-border-color:         lighten($gray, 15%);
+$card-cap-bg:               $gray;
+$card-bg: $gray-light !default;
 
 // Dropdowns
 
@@ -60,5 +82,16 @@ $progress-bg:               $gray-lightest;
 
 // Tables
 
-$table-bg-accent:           $gray-lightest;
-$table-bg-hover:            $gray-lightest;
+$table-bg-accent:           $gray-light;
+$table-bg-hover:            $gray-light;
+
+// Jumbotron
+
+$jumbotron-bg: $gray-light !default;
+
+// Modals
+
+$modal-content-bg: $gray !default;
+$modal-content-border-color: rgba($gray-base,.2) !default;
+$modal-lg: 970px !default;
+$modal-md: 500px !default;
