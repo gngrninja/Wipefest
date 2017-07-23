@@ -24,7 +24,7 @@ export class WarcraftLogsService {
             + "/" + region
             + "?api_key=" + this.apiKey
             + "&zone=" + zone
-            + "&partition=2", { headers: new Headers() })
+            + "&partition=1", { headers: new Headers() })
             .map(response => response.json())
             .catch(this.handleError);
     }

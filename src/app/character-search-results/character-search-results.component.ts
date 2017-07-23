@@ -38,7 +38,7 @@ export class CharacterSearchResultsComponent implements OnInit {
         this.region = params["region"];
         this.encounters = [];
 
-        this.warcraftLogsService.getParses(this.character, this.realm, this.region, 11)
+        this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13)
             .subscribe(parses => {
                 parses.forEach(parse => {
                     if (this.encounters.filter(e => e.some(p => p.name == parse.name)).length == 0) {
@@ -58,7 +58,7 @@ export class CharacterSearchResultsComponent implements OnInit {
 
                     return encounter;
                 });
-                this.encounters = this.encounters.reverse();
+                //this.encounters = this.encounters.reverse();
             },
             error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }

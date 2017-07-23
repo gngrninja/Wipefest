@@ -41,7 +41,7 @@ export class GuildSearchResultsComponent implements OnInit {
 
         this.warcraftLogsService.getGuildReports(this.guild, this.realm, this.region, 0, new Date().getTime())
             .subscribe(reports => {
-                reports = reports.filter(x => x.zone == 11).sort((a, b) => b.start - a.start);
+                reports = reports.filter(x => x.zone == 13).sort((a, b) => b.start - a.start);
                 this.reports = reports;
             },
             error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
