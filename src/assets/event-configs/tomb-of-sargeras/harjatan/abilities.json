@@ -1,7 +1,9 @@
 ﻿[
   {
     "name": "Unchecked Rage",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
+    "show": true,
     "filter": {
       "type": "cast",
       "ability": {
@@ -11,7 +13,9 @@
   },
   {
     "name": "Frosty Discharge",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
+    "show": true,
     "filter": {
       "type": "cast",
       "ability": {
@@ -21,7 +25,9 @@
   },
   {
     "name": "Commanding Roar",
+    "tags": [ "spawn" ],
     "eventType": "ability",
+    "show": true,
     "filter": {
       "type": "cast",
       "ability": {
@@ -31,7 +37,9 @@
   },
   {
     "name": "Draw In",
+    "tags": [ "boss", "ability" ],
     "eventType": "ability",
+    "show": true,
     "filter": {
       "type": "applybuff",
       "ability": {

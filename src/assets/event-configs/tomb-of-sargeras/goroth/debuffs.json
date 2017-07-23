@@ -2,6 +2,7 @@
   {
     "name": "Shattering Star",
     "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "debuff",
     "friendly": false,
     "filter": {
@@ -13,7 +14,8 @@
   },
   {
     "name": "Infernal Burning",
-    "tags": [ "boss", "ability" ],
+    "tags": [ "boss", "debuff" ],
+    "show": true,
     "eventType": "debuff",
     "friendly": true,
     "filter": {
@@ -25,7 +27,8 @@
   },
   {
     "name": "Burning Armor",
-    "tags": [ "boss", "ability" ],
+    "tags": [ "boss", "debuff" ],
+    "show": false,
     "eventType": "debuff",
     "friendly": false,
     "filter": {

@@ -12,6 +12,15 @@ export class FightSummaryFiltersComponent implements OnChanges {
     @Input() configs: EventConfig[];
     @Input() events: FightEvent[];
 
+    get uniqueConfigs(): EventConfig[] {
+        return this.configs.filter(
+            (config, index, array) =>
+                array.findIndex(
+                    x =>
+                        x.name == config.name &&
+                        x.tags.join(" ") == config.tags.join(" ")) == index);
+    }
+
     private defaultVisibilities: EventConfigDefaultVisbility[];
 
     ngOnChanges() {
@@ -35,6 +44,13 @@ export class FightSummaryFiltersComponent implements OnChanges {
         });
     }
 
+    toggleConfig(config: EventConfig) {
+        this.configs
+            .filter(x => x.name == config.name &&
+                x.tags.join(" ") == config.tags.join(" "))
+            .forEach(x => x.show = !x.show);
+    }
+
     getTags(): string[][] {
         return this.configs
             .map(config => config.tags)
@@ -46,8 +62,8 @@ export class FightSummaryFiltersComponent implements OnChanges {
     }
 
     getEventConfigsForTags(tags: string[]): EventConfig[] {
-        return this.configs
-            .filter(config => config.tags.every(tag => tags.indexOf(tag) != -1))
+        return this.uniqueConfigs
+            .filter(config => config.tags.join(" ") == tags.join(" "))
             .sort((a, b) => a.name.localeCompare(b.name));
     }
 

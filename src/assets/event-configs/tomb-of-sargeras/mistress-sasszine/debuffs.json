@@ -1,6 +1,8 @@
 ﻿[
   {
     "name": "Slicing Tornado",
+    "tags": [ "boss", "debuff" ],
+    "show": true,
     "eventType": "debuff",
     "friendly": true,
     "filter": {
@@ -12,6 +14,8 @@
   },
   {
     "name": "Hydra Shot",
+    "tags": [ "boss", "debuff" ],
+    "show": false,
     "eventType": "debuff",
     "friendly": false,
     "filter": {

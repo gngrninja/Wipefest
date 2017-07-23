@@ -1,7 +1,8 @@
 ﻿[
   {
     "name": "Infernal Burning",
-    "tags": ["boss", "ability"],
+    "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -13,6 +14,7 @@
   {
     "name": "Rain of Brimstone",
     "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "ability",
     "filter": {
       "types": [ "damage", "miss" ],

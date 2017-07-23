@@ -1,8 +1,10 @@
 ﻿[
   {
     "name": "Razorjaw Gladiator",
+    "tags": [ "spawn" ],
     "eventType": "spawn",
-    "friendly":  false,
+    "show": false,
+    "friendly": false,
     "filter": {
       "type": "firstseen",
       "actor": {
@@ -12,8 +14,10 @@
   },
   {
     "name": "Razorjaw Wavemender",
+    "tags": [ "spawn" ],
     "eventType": "spawn",
-    "friendly":  false,
+    "show": false,
+    "friendly": false,
     "filter": {
       "type": "firstseen",
       "actor": {

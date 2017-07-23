@@ -1,6 +1,8 @@
 ﻿[
   {
     "name": "Burden of Pain",
+    "tags": [ "boss", "ability" ],
+    "show": false,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -11,6 +13,8 @@
   },
   {
     "name": "Slicing Tornado",
+    "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -20,7 +24,22 @@
     }
   },
   {
+    "name": "Hydra Shot",
+    "tags": [ "boss", "ability" ],
+    "show": true,
+    "eventType": "ability",
+    "filter": {
+      "type": "applydebuff",
+      "range": 3000,
+      "ability": {
+        "id": 230139
+      }
+    }
+  },
+  {
     "name": "Consuming Hunger",
+    "tags": [ "boss", "ability" ],
+    "show": false,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -31,6 +50,8 @@
   },
   {
     "name": "Thundering Shock",
+    "tags": [ "boss", "ability" ],
+    "show": false,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -41,6 +62,8 @@
   },
   {
     "name": "Summon Ossunet",
+    "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -51,6 +74,8 @@
   },
   {
     "name": "Call Vellius",
+    "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "ability",
     "filter": {
       "type": "cast",
@@ -61,6 +86,8 @@
   },
   {
     "name": "Beckon Sarukel",
+    "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "ability",
     "filter": {
       "type": "cast",

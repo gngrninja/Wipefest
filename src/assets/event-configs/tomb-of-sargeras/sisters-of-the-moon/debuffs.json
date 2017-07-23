@@ -1,6 +1,8 @@
 ﻿[
   {
     "name": "Moon Burn",
+    "tags": [ "boss", "debuff" ],
+    "show": false,
     "eventType": "debuff",
     "filter": {
       "type": "applydebuff",
@@ -11,6 +13,8 @@
   },
   {
     "name": "Incorporeal Shot",
+    "tags": [ "boss", "ability" ],
+    "show": true,
     "eventType": "debuff",
     "filter": {
       "type": "applydebuff",
@@ -21,6 +25,8 @@
   },
   {
     "name": "Lunar Beacon",
+    "tags": [ "boss", "debuff" ],
+    "show": true,
     "eventType": "debuff",
     "filter": {
       "type": "applydebuff",
@@ -31,6 +37,8 @@
   },
   {
     "name": "Discorporate",
+    "tags": [ "boss", "debuff" ],
+    "show": false,
     "eventType": "debuff",
     "filter": {
       "type": "applydebuff",
@@ -41,6 +49,8 @@
   },
   {
     "name": "Rapid Shot",
+    "tags": [ "boss", "debuff" ],
+    "show": false,
     "eventType": "debuff",
     "filter": {
       "type": "applydebuff",

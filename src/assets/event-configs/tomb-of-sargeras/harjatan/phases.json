@@ -1,12 +1,16 @@
 ﻿[
   {
     "name": "Phase 1",
+    "tags": [ "phase" ],
     "eventType": "phase",
+    "show": true,
     "timestamp": 0
   },
   {
     "name": "Phase 1",
+    "tags": [ "phase" ],
     "eventType": "phase",
+    "show": true,
     "filter": {
       "type": "cast",
       "ability": {
@@ -16,7 +20,9 @@
   },
   {
     "name": "Phase 2",
+    "tags": [ "phase" ],
     "eventType": "phase",
+    "show": true,
     "filter": {
       "type": "applybuff",
       "ability": {

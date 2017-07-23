@@ -1,11 +1,15 @@
 ﻿[
   {
     "name": "Phase 1",
+    "tags": [ "phase" ],
+    "show": true,
     "eventType": "phase",
     "timestamp": 0
   },
   {
     "name": "Phase 2",
+    "tags": [ "phase" ],
+    "show": true,
     "eventType": "phase",
     "filter": {
       "type": "percent",
@@ -17,6 +21,8 @@
   },
   {
     "name": "Phase 3",
+    "tags": [ "phase" ],
+    "show": true,
     "eventType": "phase",
     "filter": {
       "type": "percent",

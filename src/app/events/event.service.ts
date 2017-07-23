@@ -42,8 +42,6 @@ export class EventService {
     }
     
     private getAbilityEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): AbilityEvent[] {
-        console.log(config);
-        console.log(combatEvents);
         let events = combatEvents.map(
             x => new AbilityEvent(
                 config,
