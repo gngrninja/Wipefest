@@ -6,16 +6,25 @@
   <main class="main">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12" *ngIf="!fight">
+
+        <div *ngIf="!fight" class="col">
           <spinner></spinner>
         </div>
 
-        <div class="col-sm-12" *ngIf="fight">
-          <h2 class="mb-2 mt-3 text-center">{{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}<span class="hidden-xs-down"> - {{report.title}} ({{fight.id}})</span></h2>
-          <div class="text-center mb-1">
+        <div *ngIf="fight" class="col mt-4">
+          <div class="title p-2 pl-3">
+            <h3>
+              {{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}
+            </h3>
+          </div>
+          <div class="subtitle p-1 pl-3">
             <a routerLink="/report/{{report.id}}">
-              Back to report
+              Back
             </a>
+            |
+            Report: {{report.title}}
+            |
+            Fight: {{fight.id}}
           </div>
           
           <spinner *ngIf="events.length == 0"></spinner>
