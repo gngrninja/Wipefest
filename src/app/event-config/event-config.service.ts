@@ -9,7 +9,7 @@ import { Report } from "app/warcraft-logs/report";
 export class EventConfigService {
 
     private branch = "develop";
-    private url = `https://raw.githubusercontent.com/JoshYaxley/Wipefest.EventConfigs/${develop}/`;
+    private url = `https://raw.githubusercontent.com/JoshYaxley/Wipefest.EventConfigs/${branch}/`;
 
     constructor(private http: Http) { }
 
