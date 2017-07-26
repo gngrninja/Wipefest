@@ -8,7 +8,8 @@ import { Report } from "app/warcraft-logs/report";
 @Injectable()
 export class EventConfigService {
 
-    private url = "https://raw.githubusercontent.com/JoshYaxley/Wipefest.EventConfigs/master/";
+    private branch = "develop";
+    private url = `https://raw.githubusercontent.com/JoshYaxley/Wipefest.EventConfigs/${develop}/`;
 
     constructor(private http: Http) { }
 
