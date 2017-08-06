@@ -1,0 +1,22 @@
+﻿@import "../../scss/bootstrap-variables";
+
+.sidebar {
+  z-index: 2;
+  padding: 20px;
+}
+
+.aside-menu {
+  padding: 20px;
+}
+
+.title {
+  border: 1px solid $gray-light;
+  background-color: $gray-dark;
+}
+
+.subtitle {
+  border: 1px solid $gray-light;
+  border-top: 0;
+  border-bottom: 0;
+  background-color: $gray-dark;
+}

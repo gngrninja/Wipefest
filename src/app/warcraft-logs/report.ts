@@ -13,6 +13,7 @@
 
 export class Friendly {
 
+    fights: FightId[];
     id: number;
     guid: number;
     name: string;
@@ -22,10 +23,17 @@ export class Friendly {
 
 export class Enemy {
 
+    fights: FightId[];
     id: number;
     guid: number;
     name: string;
     type: string;
+
+}
+
+export class FightId {
+
+    id: number;
 
 }
 

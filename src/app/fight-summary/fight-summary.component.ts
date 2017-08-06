@@ -21,7 +21,7 @@ import { Observable } from "rxjs/Rx";
 @Component({
     selector: 'fight-summary',
     templateUrl: './fight-summary.component.html',
-    styleUrls: ['./fight-summary.component.css']
+    styleUrls: ['./fight-summary.component.scss']
 })
 export class FightSummaryComponent implements OnInit {
 
@@ -150,6 +150,16 @@ export class FightSummaryComponent implements OnInit {
 
             return sort;
         });
+    }
+
+    private getFriendliesForFight(fightId: number) {
+        return this.report.friendlies
+            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1)
+            .sort((a, b) => {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;
+                return 0;
+            });
     }
 
 }

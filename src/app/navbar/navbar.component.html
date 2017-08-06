@@ -7,4 +7,9 @@
     </li>
     <li class="navbar-brand" routerLink="/"></li>
   </ul>
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item d-md-down-none pull-right">
+      <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appAsideMenuToggler>&#9776;</a>
+    </li>
+  </ul>
 </header>

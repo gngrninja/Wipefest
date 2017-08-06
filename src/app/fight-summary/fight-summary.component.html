@@ -33,4 +33,13 @@
       </div>
     </div>
   </main>
+
+  <aside class="aside-menu">
+    <h5>Raid</h5>
+    <ul *ngIf="fight">
+      <li *ngFor="let friendly of getFriendliesForFight(fight.id)">
+        {{friendly.name}} ({{friendly.type}})
+      </li>
+    </ul>
+  </aside>
 </div>
