@@ -68,7 +68,11 @@ export class EventService {
                         .sort((a, b) => a.timestamp - b.timestamp)
                         .find(x => (x.hitPoints * 100 / x.maxHitPoints) <= config.filter.actor.percent + 1);
 
-                return [new PhaseChangeEvent(config, combatEvent.timestamp - fight.start_time - 1, config.name)];
+                if (combatEvent) {
+                    return [new PhaseChangeEvent(config, combatEvent.timestamp - fight.start_time - 1, config.name)];
+                } else {
+                    return [];
+                }
             }
 
             return combatEvents.map(x => new PhaseChangeEvent(config, x.timestamp - fight.start_time - 1, config.name));
