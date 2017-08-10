@@ -10,6 +10,7 @@ export class QueryService {
     getQuery(eventConfigs: EventConfig[]): string {
         let queries = this.combineFilters(eventConfigs.map(x => x.filter))
             .map(x => x.parse());
+        queries.push("type = 'combatantinfo'");
         let query = this.joinQueries(queries);
         console.log(query);
 

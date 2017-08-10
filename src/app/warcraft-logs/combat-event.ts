@@ -4,6 +4,7 @@
     timestamp: number;
     attackPower: number;
     classResources: ClassResource[];
+    gear: PlayerGear[];
     hitPoints: number;
     itemLevel: number;
     maxHitPoints: number;
@@ -13,6 +14,7 @@
     sourceID: number;
     sourceIsFriendly: boolean;
     sourceInstance: number;
+    specID: number;
     spellPower: number;
     targetID: number;
     target: Target;
@@ -38,6 +40,16 @@ export class ClassResource {
     cost: number;
     max: number;
     type: number;
+
+}
+
+export class PlayerGear {
+
+    bonusIDs: number[];
+    icon: string;
+    id: number;
+    itemLevel: number;
+    quality: number;
 
 }
 

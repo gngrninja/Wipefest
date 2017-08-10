@@ -1,26 +1,25 @@
-﻿<ul class="nav">
-  <li class="nav-item">
-    Filters
-  </li>
-  <li class="nav-item">
-    <button (click)="showAll()" class="btn btn-sm btn-primary mt-1 mb-1 mr-1">
-      Show All
-    </button>
-    <button (click)="hideAll()" class="btn btn-sm btn-secondary mt-1 mb-1 mr-1">
-      Hide All
-    </button>
-    <button (click)="reset()" class="btn btn-sm btn-warning mt-1 mb-1 mr-1">
-      Reset
-    </button>
-  </li>
-  <div *ngFor="let tags of getTags()">
-    <li class="nav-title">
-      {{tags.join(" ")}} <span class="badge badge-info">{{getEventConfigsForTags(tags).length}}</span>
-    </li>
+﻿<div class="sidebar-nav">
+  <ul class="nav">
     <li class="nav-item">
-      <button *ngFor="let config of getEventConfigsForTags(tags)" (click)="toggleConfig(config)" [class]="getButtonClass(config)">
-        {{config.name}}
+      <button (click)="showAll()" class="btn btn-sm btn-primary mt-1 mb-1 mr-1">
+        Show All
+      </button>
+      <button (click)="hideAll()" class="btn btn-sm btn-secondary mt-1 mb-1 mr-1">
+        Hide All
+      </button>
+      <button (click)="reset()" class="btn btn-sm btn-warning mt-1 mb-1 mr-1">
+        Reset
       </button>
     </li>
-  </div>
-</ul>
+    <div *ngFor="let tags of getTags()">
+      <li class="nav-title">
+        {{tags.join(" ")}}
+      </li>
+      <li class="nav-item">
+        <button *ngFor="let config of getEventConfigsForTags(tags)" (click)="toggleConfig(config)" [class]="getButtonClass(config)">
+          {{config.name}} <span *ngIf="getEventsForEventConfig(config).length > 0" class="badge badge-default">{{getEventsForEventConfig(config).length}}</span>
+        </button>
+      </li>
+    </div>
+  </ul>
+</div>

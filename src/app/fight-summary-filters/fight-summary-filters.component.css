@@ -1,5 +1,9 @@
-﻿.nav {
-  max-width: 240px;
+﻿.sidebar-nav {
+  padding: 20px;
+}
+
+.nav {
+  max-width: 280px;
 }
 
 .nav-item button {

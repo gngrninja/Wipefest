@@ -30,6 +30,7 @@ export class FightSummaryComponent implements OnInit {
 
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
+    combatantInfo: CombatEvent[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -109,8 +110,10 @@ export class FightSummaryComponent implements OnInit {
                 this.configs = configs;
 
                 return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
-                    .map(combatEvents =>
-                        [].concat.apply([], configs.map(config => {
+                    .map(combatEvents => {
+                        this.combatantInfo = combatEvents.filter(x => x.type == "combatantinfo");
+
+                        return [].concat.apply([], configs.map(config => {
                             let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
 
                             try {
@@ -118,7 +121,8 @@ export class FightSummaryComponent implements OnInit {
                             } catch (error) {
                                 ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
                             }
-                        })));
+                        }));
+                    });
             });
     }
 
@@ -162,4 +166,7 @@ export class FightSummaryComponent implements OnInit {
             });
     }
 
+    private getTitleBadgeClass() {
+        return `badge badge-${this.fight.kill ? "success" : "danger"} align-top ml-1`;
+    }
 }

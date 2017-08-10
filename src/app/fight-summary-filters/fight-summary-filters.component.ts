@@ -10,7 +10,7 @@ import { FightEvent } from "app/fight-events/fight-event";
 export class FightSummaryFiltersComponent implements OnChanges {
 
     @Input() configs: EventConfig[];
-    @Input() events: FightEvent[];
+    @Input() events: FightEvent[] = [];
 
     get uniqueConfigs(): EventConfig[] {
         return this.configs.filter(
@@ -70,6 +70,10 @@ export class FightSummaryFiltersComponent implements OnChanges {
     getButtonClass(config: EventConfig) {
         var classes = "btn btn-sm mb-1 mr-1 ";
         return config.show ? classes + "btn-primary" : classes + "btn-secondary";
+    }
+
+    getEventsForEventConfig(config: EventConfig) {
+        return this.events.filter(x => x.config != null && x.config.name == config.name && x.config.tags.join(" ") == config.tags.join(" "));
     }
 
 }

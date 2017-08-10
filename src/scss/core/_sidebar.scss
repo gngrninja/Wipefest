@@ -1,4 +1,4 @@
-// scss-lint:disable NestingDepth, SelectorDepth
+﻿// scss-lint:disable NestingDepth, SelectorDepth
 .sidebar {
   padding: $sidebar-padding;
   overflow: hidden;
@@ -69,8 +69,8 @@
 
     .nav-title {
       padding: $sidebar-nav-title-padding-y $sidebar-nav-title-padding-x;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 400;
       color: $sidebar-nav-title-color;
       text-transform: uppercase;
     }
@@ -142,11 +142,11 @@
           text-align: center;
         }
 
-        .badge {
+        /*.badge {
           float: right;
           margin-top: 2px;
           // margin-left: 10px;
-        }
+        }*/
 
         &.nav-dropdown-toggle {
 
@@ -265,11 +265,11 @@
               font-size: 24px;
             }
 
-            .badge {
+            /*.badge {
               position: absolute;
               top: 18px;
               right: 10px;
-            }
+            }*/
 
             &.nav-dropdown-toggle {
 
@@ -338,19 +338,19 @@
               font-size: 18px;
             }
 
-            .badge {
+            /*.badge {
               position: absolute;
               // top: 14px;
               right: 15px;
               display: none;
-            }
+            }*/
 
             &:hover {
               width: $sidebar-width;
 
-              .badge {
+              /*.badge {
                 display: inline;
-              }
+              }*/
             }
           }
 

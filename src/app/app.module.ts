@@ -27,6 +27,8 @@ import { QueryService } from './warcraft-logs/query.service';
 import { EventConfigService } from "app/event-config/event-config.service";
 import { EventService } from "app/events/event.service";
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
+import { ClassesService } from "app/warcraft-logs/classes.service";
+import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary-raid.component";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -52,6 +54,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         GuildSearchResultsComponent,
         ToggleableSearchComponent,
         FightSummaryFiltersComponent,
+        FightSummaryRaidComponent,
         // Core UI
         NAV_DROPDOWN_DIRECTIVES,
         BreadcrumbsComponent,
@@ -100,7 +103,8 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         WipefestService,
         EventConfigService,
         QueryService,
-        EventService],
+        EventService,
+        ClassesService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -65,7 +65,7 @@ $navbar-disabled-color:             rgba(255,255,255,.15);
 
 // Sidebar
 
-$sidebar-width:                     280px;
+$sidebar-width:                     320px;
 $sidebar-padding:                   0;
 $sidebar-minimized-width:           50px;
 $sidebar-minimized-height:          $sidebar-minimized-width;
@@ -83,7 +83,7 @@ $mobile-sidebar-width:              280px;
 $sidebar-nav-color:                 #fff;
 $sidebar-nav-title-padding-y:       .75rem;
 $sidebar-nav-title-padding-x:       1rem;
-$sidebar-nav-title-color:           $gray-lighter;
+$sidebar-nav-title-color:           $gray-lightest;
 $sidebar-nav-link-padding-y:        .75rem;
 $sidebar-nav-link-padding-x:        1rem;
 $sidebar-nav-link-color:            #fff;
@@ -143,7 +143,7 @@ $breadcrumb-borders: (
 
 // Aside
 
-$aside-menu-width:                  320px;
+$aside-menu-width:                  260px;
 $aside-menu-color:                  $body-color;
 $aside-menu-bg:                     $gray-dark;
 $aside-menu-borders: (

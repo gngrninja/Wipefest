@@ -14,7 +14,10 @@
         <div *ngIf="fight" class="col mt-4">
           <div class="title p-2 pl-3">
             <h3>
-              {{fight.name}} {{fight.kill ? "Kill" : "Wipe"}}
+              {{fight.name}}
+              <span [class]="getTitleBadgeClass()">
+                {{fight.kill ? "Kill" : "Wipe"}}
+              </span>
             </h3>
           </div>
           <div class="subtitle p-1 pl-3">
@@ -35,11 +38,6 @@
   </main>
 
   <aside class="aside-menu">
-    <h5>Raid</h5>
-    <ul *ngIf="fight">
-      <li *ngFor="let friendly of getFriendliesForFight(fight.id)">
-        {{friendly.name}} ({{friendly.type}})
-      </li>
-    </ul>
+    <fight-summary-raid *ngIf="combatantInfo.length > 0 && fight" [combatantInfo]="combatantInfo" [friendlies]="getFriendliesForFight(fight.id)"></fight-summary-raid>
   </aside>
 </div>
