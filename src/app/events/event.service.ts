@@ -93,12 +93,17 @@ export class EventService {
     }
 
     private getSpawnEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): SpawnEvent[] {
+        let name = config.name;
+        if (config.filter.actor) {
+            name = config.filter.actor.name;
+        }
+
         let events = combatEvents.map(
             (x, index) => new SpawnEvent(
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly,
-                config.filter.actor.name,
+                name,
                 index + 1));
 
         return events;

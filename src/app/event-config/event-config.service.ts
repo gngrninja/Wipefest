@@ -44,6 +44,13 @@ export class EventConfigService {
         let matchingCombatEvents: CombatEvent[] = [];
         if (config.filter) {
             matchingCombatEvents = combatEvents.filter(this.getFilterExpression(config, report));
+            
+            if (config.filter.first && matchingCombatEvents.length > 0) {
+                matchingCombatEvents = [matchingCombatEvents[0]];
+            }
+            if (config.filter.firstPerInstance) {
+                matchingCombatEvents = matchingCombatEvents.filter((x, index, array) => array.findIndex(y => y.sourceInstance == x.sourceInstance) == index);
+            }
 
             if (config.filter.range && matchingCombatEvents.length > 0) {
                 matchingCombatEvents = this.filterToRange(matchingCombatEvents, config.filter.range);
@@ -70,7 +77,7 @@ export class EventConfigService {
         return combatEvents;
     }
 
-    private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent) => boolean {
+    private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
         if (config.filter.type == "firstseen") {
             let actor = report.enemies.find(x => x.name == config.filter.actor.name);
             return (combatEvent: CombatEvent) =>

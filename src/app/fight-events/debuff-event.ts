@@ -11,8 +11,7 @@ export class DebuffEvent extends FightEvent {
         public isFriendly: boolean,
         private source: string,
         private ability: Ability,
-        public sequence: number,
-        private target: string = null) {
+        public sequence: number) {
 
         super(config, timestamp, isFriendly);
     }

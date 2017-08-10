@@ -24,7 +24,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
     private defaultVisibilities: EventConfigDefaultVisbility[];
 
     ngOnChanges() {
-        this.defaultVisibilities = this.configs.map(x => new EventConfigDefaultVisbility(x.name, x.show));
+        this.defaultVisibilities = this.configs.map(x => new EventConfigDefaultVisbility(x.name, x.tags, x.show));
     }
 
     showAll() {
@@ -37,7 +37,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
 
     reset() {
         this.configs.forEach(x => {
-            let match = this.defaultVisibilities.find(y => y.name == x.name);
+            let match = this.defaultVisibilities.find(y => y.name == x.name && y.tags.join(" ") == x.tags.join(" "));
             if (match) {
                 x.show = match.show;
             }
@@ -76,6 +76,6 @@ export class FightSummaryFiltersComponent implements OnChanges {
 
 export class EventConfigDefaultVisbility {
 
-    constructor(public name: string, public show: boolean) { }
+    constructor(public name: string, public tags: string[], public show: boolean) { }
 
 }

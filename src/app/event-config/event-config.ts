@@ -24,6 +24,8 @@ export class EventConfigFilter {
 
     type: string;
     types: string[];
+    first: boolean;
+    firstPerInstance: boolean;
     range: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;
