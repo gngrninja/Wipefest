@@ -17,16 +17,16 @@ export class FightSummaryRaidComponent implements OnChanges {
         return this.raid.map(x => x.itemLevel).reduce((x, y) => x + y) / this.raid.length;
     }
     get tanks() {
-        return this.raid.filter(x => x.specialization.role == "Tank");
+        return this.raid.filter(x => x.specialization.role == "Tank").sort(this.byClassThenSpecializationThenName);
     }
     get healers() {
-        return this.raid.filter(x => x.specialization.role == "Healer");
+        return this.raid.filter(x => x.specialization.role == "Healer").sort(this.byClassThenSpecializationThenName);
     }
     get ranged() {
-        return this.raid.filter(x => x.specialization.role == "Ranged");
+        return this.raid.filter(x => x.specialization.role == "Ranged").sort(this.byClassThenSpecializationThenName);
     }
     get melee() {
-        return this.raid.filter(x => x.specialization.role == "Melee");
+        return this.raid.filter(x => x.specialization.role == "Melee").sort(this.byClassThenSpecializationThenName);
     }
     get roles(): RoleWithPlayers[] {
         return [
@@ -52,6 +52,22 @@ export class FightSummaryRaidComponent implements OnChanges {
             return new Player(x.name, this.classesService.getSpecialization(combatantInfo.specID), itemLevel);
         });
     }
+
+    private byClassThenSpecializationThenName = (a: Player, b: Player) => {
+        if (a.specialization.className == b.specialization.className) {
+            if (a.specialization.name == b.specialization.name) {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (a.name.toLowerCase() == b.name.toLowerCase()) return 0;
+            }
+            if (a.specialization.name.toLowerCase() < b.specialization.name.toLowerCase()) return -1;
+            if (a.specialization.name.toLowerCase() > b.specialization.name.toLowerCase()) return 1;
+            if (a.specialization.name.toLowerCase() == b.specialization.name.toLowerCase()) return 0;
+        }
+        if (a.specialization.className.toLowerCase() < b.specialization.className.toLowerCase()) return -1;
+        if (a.specialization.className.toLowerCase() > b.specialization.className.toLowerCase()) return 1;
+        if (a.specialization.className.toLowerCase() == b.specialization.className.toLowerCase()) return 0;
+    };
 }
 
 export class Player {
