@@ -21,25 +21,25 @@ export class DebuffEvent extends FightEvent {
             if (this.config.filter.stack) {
                 return `${this.source} gains ${this.config.filter.stack} ${this.ability.name}`;
             }
-            return `${this.source} gains ${this.ability.name} (${this.sequence})`;
+            return `${this.source} gains ${this.ability.name}${this.frequencyString(this.sequence)}`;
         } else {
             if (this.config.filter.stack) {
                 return `${this.config.filter.stack} ${this.ability.name} applied to ${this.source}`;
             }
-            return `${this.ability.name} (${this.sequence}) applied to ${this.source}`;
+            return `${this.ability.name}${this.frequencyString(this.sequence)} applied to ${this.source}`;
         }
     }
     get mediumTitle(): string {
         if (this.config.filter.stack) {
             return `${this.config.filter.stack} ${this.ability.name}`;
         }
-        return this.ability.name + " (" + this.sequence + ")";
+        return this.ability.name + this.frequencyString(this.sequence);
     }
     get shortTitle(): string {
         if (this.config.filter.stack) {
             return `${this.config.filter.stack} ${this.initials(this.ability.name)}`;
         }
-        return this.initials(this.ability.name) + " (" + this.sequence + ")";
+        return this.initials(this.ability.name) + this.frequencyString(this.sequence);
     }
 
 }

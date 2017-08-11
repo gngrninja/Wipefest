@@ -22,6 +22,13 @@ export abstract class FightEvent {
         return input.split(" ").map(w => w[0]).join("");
     }
 
+    protected frequencyString(input: number): string {
+        if (input <= 1) {
+            return "";
+        }
+        return ` (${input})`;
+    }
+
     isInstanceOf(classType: any): boolean {
         return this instanceof classType;
     }

@@ -14,13 +14,13 @@ export class SpawnEvent extends FightEvent {
     }
 
     get title(): string {
-        return this.name + " (" + this.instance + ") " + "spawned";
+        return `${this.name}${this.frequencyString(this.instance)} spawned`;
     }
     get mediumTitle(): string {
         return this.title;
     }
     get shortTitle(): string {
-        return this.initials(this.name) + " (" + this.instance + ")";
+        return this.initials(this.name) + this.frequencyString(this.instance);
     }
 
 }
