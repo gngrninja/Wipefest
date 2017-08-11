@@ -26,6 +26,7 @@ export class EventConfigFilter {
     types: string[];
     first: boolean;
     firstPerInstance: boolean;
+    stack: number;
     range: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;
@@ -34,8 +35,7 @@ export class EventConfigFilter {
 
 export class EventConfigCombinedFilter {
 
-
-    constructor(public type: string, public filters: EventConfigFilter[]) { }
+    constructor(public type: string, public stack: number, public filters: EventConfigFilter[]) { }
 
     parse(): string {
         if (this.type == "firstseen") {
@@ -49,7 +49,13 @@ export class EventConfigCombinedFilter {
             return `type in ('cast', 'applybuff', 'applydebuff') and (${filters.join(") or (")})`;
         }
 
-        return `type = '${this.type}' and ability.id in (${this.filters.map(x => x.ability).map(x => [].concat.apply([], x.ids ? x.ids : [x.id])).join(", ")})`;
+        let query = `type = '${this.type}' and ability.id in (${this.filters.map(x => x.ability).map(x => [].concat.apply([], x.ids ? x.ids : [x.id])).join(", ")})`;
+
+        if (this.stack > 0) {
+            query += ` and stack = ${this.stack}`;
+        }
+
+        return query;
     }
 
 }

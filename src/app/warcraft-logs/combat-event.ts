@@ -16,6 +16,7 @@
     sourceInstance: number;
     specID: number;
     spellPower: number;
+    stack: number;
     targetID: number;
     target: Target;
     targetIsFriendly: boolean;

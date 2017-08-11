@@ -24,13 +24,17 @@ export class QueryService {
             if (!filter.types) {
                 filter.types = [filter.type];
             }
+            if (!filter.stack) {
+                filter.stack = 0;
+            }
 
             filter.types.forEach(type => {
-                let index = combinedFilters.findIndex(x => x.type == type);
+                let index = combinedFilters.findIndex(x => x.type == type && x.stack == filter.stack);
+
                 if (index != -1) {
                     combinedFilters[index].filters.push(filter);
                 } else {
-                    combinedFilters.push(new EventConfigCombinedFilter(type, [filter]));
+                    combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter]));
                 }
             });
         });

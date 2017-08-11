@@ -18,15 +18,27 @@ export class DebuffEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly) {
-            return this.source + " gains " + this.ability.name + " (" + this.sequence + ")";
+            if (this.config.filter.stack) {
+                return `${this.source} gains ${this.config.filter.stack} ${this.ability.name}`;
+            }
+            return `${this.source} gains ${this.ability.name} (${this.sequence})`;
         } else {
-            return this.ability.name + " (" + this.sequence + ")" + " applied to " + this.source;
+            if (this.config.filter.stack) {
+                return `${this.config.filter.stack} ${this.ability.name} applied to ${this.source}`;
+            }
+            return `${this.ability.name} (${this.sequence}) applied to ${this.source}`;
         }
     }
     get mediumTitle(): string {
+        if (this.config.filter.stack) {
+            return `${this.config.filter.stack} ${this.ability.name}`;
+        }
         return this.ability.name + " (" + this.sequence + ")";
     }
     get shortTitle(): string {
+        if (this.config.filter.stack) {
+            return `${this.config.filter.stack} ${this.initials(this.ability.name)}`;
+        }
         return this.initials(this.ability.name) + " (" + this.sequence + ")";
     }
 

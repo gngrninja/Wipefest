@@ -8,9 +8,7 @@ import { environment } from "environments/environment";
 
 @Injectable()
 export class EventConfigService {
-
-    //private branch = "develop";
-    //private url = `https://raw.githubusercontent.com/JoshYaxley/Wipefest.EventConfigs/${this.branch}/`;
+    
     private url = environment.eventConfigsUrl;
 
     constructor(private http: Http) { }
@@ -50,6 +48,9 @@ export class EventConfigService {
             }
             if (config.filter.firstPerInstance) {
                 matchingCombatEvents = matchingCombatEvents.filter((x, index, array) => array.findIndex(y => y.sourceInstance == x.sourceInstance) == index);
+            }
+            if (config.filter.stack) {
+                matchingCombatEvents = matchingCombatEvents.filter(x => x.stack == config.filter.stack);
             }
 
             if (config.filter.range && matchingCombatEvents.length > 0) {
