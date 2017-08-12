@@ -55,13 +55,31 @@ export class WarcraftLogsService {
     }
 
     getCombatEvents(reportId: string, start: number, end: number, filter: string): Observable<CombatEvent[]> {
+        return this.getPageOfCombatEvents(reportId, start, end, filter)
+            .expand(page => {
+                if (!page.nextPageTimestamp) {
+                    return Observable.empty();
+                }
+
+                return this.getPageOfCombatEvents(reportId, page.nextPageTimestamp, end, filter, page);
+            })
+            .map(x => x.events);
+    }
+
+    getPageOfCombatEvents(reportId: string, start: number, end: number, filter: string, previousPage: CombatEventPage = null): Observable<CombatEventPage> {
         return this.http.get(this.url
             + "report/events/" + reportId
             + "?api_key=" + this.apiKey
             + "&start=" + start
             + "&end=" + end
             + "&filter=" + filter, { headers: new Headers() })
-            .map(response => response.json().events)
+            .map(response => {
+                let page = response.json();
+                if (!previousPage) {
+                    return page;
+                }
+                return new CombatEventPage(previousPage.events.concat(page.events), page.nextPageTimestamp);
+            })
             .catch(this.handleError);
     }
 
@@ -81,4 +99,10 @@ export class WarcraftLogsService {
         return Observable.throw(error);
     }
 
+}
+
+export class CombatEventPage {
+    constructor(
+        public events: CombatEvent[],
+        public nextPageTimestamp: number) { }
 }
