@@ -244,7 +244,7 @@ app-root {
 .sidebar,
 .main,
 .aside-menu {
-  transition: margin-left $layout-transition-speed, margin-right $layout-transition-speed, width $layout-transition-speed, flex $layout-transition-speed;
+  transition: margin-left $layout-transition-speed, margin-right $layout-transition-speed, width $layout-transition-speed, flex $layout-transition-speed steps(1, start);
 }
 
 //
@@ -317,7 +317,9 @@ app-root {
   }
 
   .aside-menu {
-    //margin-right: - $aside-menu-width;
+    position: fixed;
+    right: 0;
+    margin-right: - $aside-menu-width;
   }
 
   .sidebar-mobile-show {
@@ -334,6 +336,12 @@ app-root {
     .main {
       margin-right: - $mobile-sidebar-width !important;
       margin-left: $mobile-sidebar-width !important;
+    }
+  }
+
+  .aside-menu-mobile-show {
+    .aside-menu {
+      margin-right: 0;
     }
   }
 }

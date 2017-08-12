@@ -33,7 +33,7 @@ import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
-import { AsideToggleDirective } from './core-ui/aside.directive';
+import { AsideToggleDirective, MobileAsideMenuToggleDirective } from './core-ui/aside.directive';
 import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
 
 @NgModule({
@@ -59,7 +59,8 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         NAV_DROPDOWN_DIRECTIVES,
         BreadcrumbsComponent,
         SIDEBAR_TOGGLE_DIRECTIVES,
-        AsideToggleDirective
+        AsideToggleDirective,
+        MobileAsideMenuToggleDirective
     ],
     imports: [
         BrowserModule,
