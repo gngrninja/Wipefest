@@ -1,15 +1,17 @@
-.nav-tabs {
+﻿.nav-tabs {
   .nav-link {
-    color: $gray;
+    color: $gray-lighter;
+
     &.active {
-      color: $gray-dark;
-      background: #fff;
+      color: $gray-lightest;
+      background: $gray;
       border-color: $border-color;
-      border-bottom-color: #fff;
+      border-bottom-color: $gray;
+
       &:focus {
-        background: #fff;
+        background: $gray;
         border-color: $border-color;
-        border-bottom-color: #fff;
+        border-bottom-color: $gray;
       }
     }
   }
@@ -17,8 +19,11 @@
 
 .tab-content {
   margin-top: -1px;
-  background: #fff;
+  background: $gray;
   border: 1px solid $border-color;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
   .tab-pane {
     padding: $spacer;
   }

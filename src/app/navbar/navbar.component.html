@@ -1,4 +1,4 @@
-﻿<header class="app-header navbar">
+﻿<header class="app-header navbar" *ngIf="page != Page.Welcome">
   <!-- Mobile -->
   <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
   <span class="navbar-brand hidden-lg-up"></span>
