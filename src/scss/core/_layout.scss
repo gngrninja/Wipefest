@@ -343,5 +343,10 @@ app-root {
     .aside-menu {
       margin-right: 0;
     }
+
+    .main {
+      margin-right: $aside-menu-width !important;
+      margin-left: - $aside-menu-width !important;
+    }
   }
 }

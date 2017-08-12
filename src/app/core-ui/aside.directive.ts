@@ -26,5 +26,6 @@ export class MobileAsideMenuToggleDirective {
     toggleOpen($event: any) {
         $event.preventDefault();
         document.querySelector('body').classList.toggle('aside-menu-mobile-show');
+        document.querySelector('body').classList.remove('sidebar-mobile-show');
     }
 }
