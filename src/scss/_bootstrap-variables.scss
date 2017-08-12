@@ -61,10 +61,9 @@ $font-size-base:            0.875rem;
 $breadcrumb-bg:             #fff;
 
 // Cards
-
 $card-border-color:         lighten($gray, 15%);
-$card-cap-bg:               $gray;
-$card-bg: $gray-light !default;
+$card-cap-bg:               $gray-dark;
+$card-bg: $gray-dark !default;
 
 // Dropdowns
 

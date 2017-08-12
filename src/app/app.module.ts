@@ -29,6 +29,7 @@ import { EventService } from "app/events/event.service";
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
 import { ClassesService } from "app/warcraft-logs/classes.service";
 import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary-raid.component";
+import { FooterComponent } from "app/footer.component";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -40,6 +41,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
     declarations: [
         AppComponent,
         NavbarComponent,
+        FooterComponent,
         SpinnerComponent,
         FightSummaryComponent,
         WelcomeComponent,
