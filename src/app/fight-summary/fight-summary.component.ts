@@ -163,7 +163,7 @@ export class FightSummaryComponent implements OnInit {
 
     private getFriendliesForFight(fightId: number) {
         return this.report.friendlies
-            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1)
+            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1 && x.type != "Pet")
             .sort((a, b) => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;

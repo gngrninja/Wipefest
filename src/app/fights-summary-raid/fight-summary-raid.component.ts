@@ -42,6 +42,12 @@ export class FightSummaryRaidComponent implements OnChanges {
     ngOnChanges() {
         this.raid = this.friendlies.map(x => {
             let combatantInfo = this.combatantInfo.find(y => x.id == y.sourceID);
+            if (!combatantInfo) {
+                // This was happening for Pets that for some reason were listed under friendlies instead of friendlyPets
+                // Leaving this here in case there are any other peculiarities
+                console.log(`No combatant info could be found for ${x.name} of type ${x.type} with source ID ${x.id}`);
+                return null;
+            }
             let gear = combatantInfo.gear
                 .filter((x, index, array) => x.id != 0 && index != 3 && index != 17); // Remove shirt, tabard, and "invisible off-hand" when using two-hand
             let itemLevel = gear
@@ -50,7 +56,7 @@ export class FightSummaryRaidComponent implements OnChanges {
                 / gear.length;
 
             return new Player(x.name, this.classesService.getSpecialization(combatantInfo.specID), itemLevel);
-        });
+        }).filter(x => x != null);
     }
 
     private byClassThenSpecializationThenName = (a: Player, b: Player) => {
