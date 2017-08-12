@@ -3,7 +3,10 @@
     <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3" class="phase-change">
       <h5>{{event.title}}</h5>
     </td>
-    <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="event">
+    <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
+      <h5>{{event.title}}</h5>
+    </td>
+    <td *ngIf="!(event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent))" class="event">
       <div *ngIf="event.isFriendly" class="friendly">
         
         <span class="hidden-md-down">{{event.title}}</span>
@@ -26,10 +29,10 @@
         <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
       </div>
     </td>
-    <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="timestamp">
+    <td *ngIf="!(event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent))" class="timestamp">
       {{event.minutesAndSeconds}}
     </td>
-    <td *ngIf="!event.isInstanceOf(PhaseChangeEvent)" class="event">
+    <td *ngIf="!(event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent))" class="event">
       <div *ngIf="!event.isFriendly" class="unfriendly">
         <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent)"
                       [abilityId]="event.ability.guid"

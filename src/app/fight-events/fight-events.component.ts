@@ -6,6 +6,7 @@ import { DeathEvent } from "app/fight-events/death-event";
 import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
+import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
 import { EventConfig } from "app/event-config/event-config";
 
 @Component({
@@ -27,5 +28,6 @@ export class FightEventsComponent {
     PhaseChangeEvent = PhaseChangeEvent;
     SpawnEvent = SpawnEvent;
     HeroismEvent = HeroismEvent;
+    EndOfFightEvent = EndOfFightEvent;
 
 }

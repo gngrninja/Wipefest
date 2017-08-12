@@ -17,6 +17,7 @@ import { EventConfig } from "app/event-config/event-config";
 import { EventConfigService } from "app/event-config/event-config.service";
 import { EventService } from "app/events/event.service";
 import { Observable } from "rxjs/Rx";
+import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
 
 @Component({
     selector: 'fight-summary',
@@ -98,7 +99,11 @@ export class FightSummaryComponent implements OnInit {
 
             Observable.forkJoin(batch)
                 .map(x => [].concat.apply([], x))
-                .subscribe(events => this.events = this.sortEvents(events));
+                .subscribe(events => {
+                    this.events.push(new EndOfFightEvent(this.fight.end_time - this.fight.start_time, this.fight.kill));
+                    this.events.push(...events);
+                    this.events = this.sortEvents(this.events);
+                });
         }
     }
 
