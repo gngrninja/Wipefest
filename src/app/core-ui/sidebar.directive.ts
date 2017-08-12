@@ -1,4 +1,4 @@
-import { Directive, HostListener } from '@angular/core';
+﻿import { Directive, HostListener } from '@angular/core';
 
 /**
 * Allows the sidebar to be toggled via click.
@@ -35,15 +35,11 @@ export class SidebarMinimizeDirective {
 export class MobileSidebarToggleDirective {
   constructor() { }
 
-  // Check if element has class
-  private hasClass(target: any, elementClassName: string) {
-    return new RegExp('(\\s|^)' + elementClassName + '(\\s|$)').test(target.className);
-  }
-
   @HostListener('click', ['$event'])
   toggleOpen($event: any) {
     $event.preventDefault();
     document.querySelector('body').classList.toggle('sidebar-mobile-show');
+    document.querySelector('body').classList.remove('aside-menu-mobile-show');
   }
 }
 

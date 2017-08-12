@@ -1,12 +1,16 @@
-﻿<h4><span class="badge badge-default">{{raidItemLevel | number : '1.0-1'}}</span></h4>
-<div *ngFor="let role of roles" class="mt-2">
-  <h6>
-    {{role.name}}
-    <span class="badge badge-info">{{role.players.length}}</span>
-  </h6>
-  <div *ngFor="let player of role.players" class="ml-3">
-    <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
-    {{player.name}}
-    <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
+﻿<div class="aside-menu-scrollable rtl">
+  <div class="ltr">
+    <h4><span class="badge badge-default">{{raidItemLevel | number : '1.0-1'}}</span></h4>
+    <div *ngFor="let role of roles" class="mt-2">
+      <h6>
+        {{role.name}}
+        <span class="badge badge-info">{{role.players.length}}</span>
+      </h6>
+      <div *ngFor="let player of role.players" class="ml-3">
+        <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
+        {{player.name}}
+        <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
+      </div>
+    </div>
   </div>
 </div>

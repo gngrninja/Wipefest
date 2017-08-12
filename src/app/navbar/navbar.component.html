@@ -1,6 +1,10 @@
 ﻿<header class="app-header navbar">
-  <button *ngIf="page == Page.FightSummary" class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
-  <span class="navbar-brand hidden-md-up"></span>
+  <!-- Mobile -->
+  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
+  <span class="navbar-brand hidden-lg-up"></span>
+  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-right d-lg-none" type="button" appMobileAsideMenuToggler>&#9776;</button>
+
+  <!-- Desktop -->
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item">
       <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appSidebarToggler>&#9776;</a>

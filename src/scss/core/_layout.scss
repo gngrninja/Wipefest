@@ -1,4 +1,4 @@
-// IE10&11 Flexbox fix
+﻿// IE10&11 Flexbox fix
 @media all and (-ms-high-contrast:none) {
   html {
     display: flex;
@@ -244,7 +244,7 @@ app-root {
 .sidebar,
 .main,
 .aside-menu {
-  transition: margin-left $layout-transition-speed, margin-right $layout-transition-speed, width $layout-transition-speed, flex $layout-transition-speed;
+  transition: margin-left $layout-transition-speed, margin-right $layout-transition-speed, width $layout-transition-speed, flex $layout-transition-speed steps(1, start);
 }
 
 //
@@ -258,7 +258,7 @@ app-root {
     z-index: $zindex-sticky;
     width: 100%;
 
-    .navbar-toggler {
+    .navbar-toggler-left {
       position: absolute;
       top: 0;
       left: 0;
@@ -266,10 +266,19 @@ app-root {
       height: inherit;
     }
 
+    .navbar-toggler-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 70px;
+      height: inherit;
+    }
+
     .navbar-toggler {
       @if (lightness( $navbar-brand-bg ) > 40) {
         color: $navbar-color;
-      } @else {
+      }
+      @else {
         color: #fff;
       }
     }
@@ -308,6 +317,9 @@ app-root {
   }
 
   .aside-menu {
+    position: fixed;
+    height: 100%;
+    right: 0;
     margin-right: - $aside-menu-width;
   }
 
@@ -325,6 +337,17 @@ app-root {
     .main {
       margin-right: - $mobile-sidebar-width !important;
       margin-left: $mobile-sidebar-width !important;
+    }
+  }
+
+  .aside-menu-mobile-show {
+    .aside-menu {
+      margin-right: 0;
+    }
+
+    .main {
+      margin-right: $aside-menu-width !important;
+      margin-left: - $aside-menu-width !important;
     }
   }
 }
