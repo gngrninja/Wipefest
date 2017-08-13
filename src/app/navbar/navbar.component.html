@@ -1,7 +1,7 @@
 ﻿<header class="app-header navbar" *ngIf="page != Page.Welcome">
   <!-- Mobile -->
   <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
-  <span class="navbar-brand hidden-lg-up"></span>
+  <a class="navbar-brand hidden-lg-up" routerLink="/"></a>
   <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-right d-lg-none" type="button" appMobileAsideMenuToggler>&#9776;</button>
 
   <!-- Desktop -->
@@ -9,7 +9,9 @@
     <li class="nav-item">
       <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appSidebarToggler>&#9776;</a>
     </li>
-    <li class="navbar-brand" routerLink="/"></li>
+    <li>
+      <a class="navbar-brand" routerLink="/"></a>
+    </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none pull-right">

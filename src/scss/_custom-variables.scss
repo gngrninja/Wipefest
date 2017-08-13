@@ -46,10 +46,10 @@ $navbar-border: (
     color:                      $border-color
   )
 );
-$navbar-brand-width:                155px;
+$navbar-brand-width:                55px;
 $navbar-brand-bg:                   lighten($gray-base, 10%);
-$navbar-brand-logo:                 url('../img/logo.png');
-$navbar-brand-logo-size:            140px auto;
+$navbar-brand-logo:                 url('../img/logo-circle.png');
+$navbar-brand-logo-size:            55px auto;
 $navbar-brand-border: (
   bottom: (
     size:                       1px,
