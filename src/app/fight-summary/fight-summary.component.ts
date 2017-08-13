@@ -28,6 +28,9 @@ export class FightSummaryComponent implements OnInit {
 
     report: Report;
     fight: Fight;
+    get warcraftLogsLink(): string {
+        return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
+    }
 
     configs: EventConfig[] = [];
     events: FightEvent[] = [];

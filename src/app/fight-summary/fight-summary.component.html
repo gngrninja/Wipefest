@@ -29,6 +29,8 @@
             Report: {{report.title}}
             |
             Fight: {{fight.id}}
+            |
+            <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">WarcraftLogs</a>
           </div>
           
           <spinner *ngIf="events.length == 0"></spinner>
