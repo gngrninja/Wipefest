@@ -1,4 +1,4 @@
-﻿<div class="app-body navbar-fixed fixed-nav">
+﻿<div class="app-body">
 
   <div class="sidebar">
     <fight-summary-filters *ngIf="configs && events" [configs]="configs" [events]="events"></fight-summary-filters>
@@ -22,17 +22,11 @@
             </h3>
           </div>
           <div class="subtitle p-1 pl-3">
-            <a routerLink="/report/{{report.id}}">
-              Report
-            </a>
-            |
-            Report: {{report.title}}
-            |
-            Fight: {{fight.id}}
-            |
+            <strong>Report</strong>: <a routerLink="/report/{{report.id}}">{{report.title}}</a>,
+            <strong>Fight</strong>: {{fight.id}},
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
           </div>
-          
+
           <spinner *ngIf="events.length == 0"></spinner>
           <fight-events *ngIf="events" [events]="events"></fight-events>
         </div>

@@ -6,23 +6,25 @@ import { Report, Fight } from "app/warcraft-logs/report";
 import { ErrorHandler } from "app/errorHandler";
 import { Difficulty } from "app/helpers/difficulty-helper";
 import { Timestamp } from "app/helpers/timestamp-helper";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-report-summary',
     templateUrl: './report-summary.component.html',
-    styleUrls: ['./report-summary.component.css']
+    styleUrls: ['./report-summary.component.scss']
 })
 export class ReportSummaryComponent implements OnInit {
 
     Difficulty = Difficulty;
     Timestamp = Timestamp;
+    Math = Math;
 
     report: Report;
-
+    
     get encountersByDifficulty(): Fight[][][] {
         return [this.mythicEncounters, this.heroicEncounters, this.normalEncounters];
     }
-
+    
     mythicEncounters: Fight[][];
     heroicEncounters: Fight[][];
     normalEncounters: Fight[][];
@@ -31,7 +33,8 @@ export class ReportSummaryComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private wipefestService: WipefestService,
-        private warcraftLogsService: WarcraftLogsService) { }
+        private warcraftLogsService: WarcraftLogsService,
+        private domSanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.wipefestService.selectPage(Page.ReportSummary);
@@ -90,5 +93,9 @@ export class ReportSummaryComponent implements OnInit {
 
             }
         });
+    }
+
+    encounterImage(encounter: Fight) {
+        return this.domSanitizer.bypassSecurityTrustStyle(`url('http://warcraftlogs.com/img/bosses/${encounter.boss}-execution.png')`);
     }
 }

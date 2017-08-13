@@ -5,3 +5,34 @@
 .ltr {
   direction: ltr;
 }
+
+.title {
+  border: 1px solid $gray-light;
+  background-color: $gray-dark;
+}
+
+.subtitle {
+  border: 1px solid $gray-light;
+  border-top: 0;
+  border-bottom: 0;
+  background-color: $gray-dark;
+}
+
+.block-top {
+  border: 1px solid $gray-light;
+  border-bottom: 0;
+  background-color: $gray-dark;
+}
+
+.block {
+  border: 1px solid $gray-light;
+  border-top: 0;
+  background-color: $gray-dark;
+}
+
+.block-no-bottom {
+  border: 1px solid $gray-light;
+  border-top: 0;
+  border-bottom: 0;
+  background-color: $gray-dark;
+}

@@ -1,0 +1,41 @@
+﻿@import "../../scss/bootstrap-variables";
+@import "../../scss/bootstrap/variables";
+@import "../../scss/bootstrap/mixins/breakpoints";
+
+.encounter-image {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 82px;
+  overflow-y: hidden !important;
+  left: 30px;
+  margin-top: 8px;
+  background-repeat: no-repeat;
+  background-position-x: left;
+}
+
+.encounter-name, .encounter-fights {
+  @include media-breakpoint-up(md) {
+    padding-left: 140px !important;
+  }
+}
+
+.fight-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.fight {
+  display: inline-block;
+  border: 1px solid $gray;
+  background-color: $gray;
+  padding: 4px 8px 4px 8px;
+}
+
+.kill {
+  border-color: $brand-success;
+}
+
+.wipe {
+  border-color: $brand-danger;
+}

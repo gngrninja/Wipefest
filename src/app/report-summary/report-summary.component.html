@@ -1,36 +1,47 @@
 ﻿<div class="app-body">
-  <div class="container">
-    <spinner *ngIf="!report"></spinner>
 
-    <div *ngIf="report" class="container">
-      <h2 class="mb-2 mt-3">{{report.title}} ({{Timestamp.ToHoursOrMinutes(report.end - report.start)}}) - {{report.owner}}</h2>
-      <toggleable-search [text]="'Search again'"></toggleable-search>
-    </div>
+  <main class="main mt-4">
+    <div class="container mb-3">
+      <spinner *ngIf="!report"></spinner>
 
-    <div *ngIf="report">
-      <div *ngFor="let encounters of encountersByDifficulty">
-        <div *ngIf="encounters.length > 0" class="card mb-3">
-          <h3 class="card-header">{{Difficulty.ToString(encounters[0][0].difficulty)}}</h3>
-          <div class="card-block">
-            <div *ngFor="let encounter of encounters" class="card mb-3">
-              <h4 class="card-header">{{encounter[0].name}}</h4>
-              <div class="card-block">
-                <p class="card-text">
-                  <a *ngFor="let fight of encounter"
-                     routerLink="/report/{{report.id}}/fight/{{fight.id}}"
-                     [ngClass]="{'btn-success': fight.kill, 'btn-danger': !fight.kill}"
-                     class="btn mb-1 mr-1">
-                    {{fight.kill ? "Kill" : "Wipe"}} ({{fight.id}})
-                  </a>
-                </p>
-              </div>
-            </div>
+      <div *ngIf="report" class="container">
+        <div class="title p-2 pl-3">
+          <h3 class="mb-0">{{report.title}}</h3>
+        </div>
+
+        <div class="block p-1 pl-3">
+          <div class="row">
+            <div class="col-md-4"><strong>Owner</strong>: {{report.owner}}</div>
+            <div class="col-md-4"><strong> Started</strong>: {{Timestamp.ToDateTimeString(report.start)}}</div>
+            <div class="col-md-4"><strong> Duration</strong>: {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}</div>
           </div>
         </div>
-      </div>
 
+        <ng-container *ngFor="let encounters of encountersByDifficulty">
+          <ng-container *ngIf="encounters.length > 0">
+            <ng-container *ngFor="let encounter of encounters">
+              <div class="encounter-image hidden-sm-down" [style.background-image]="encounterImage(encounter[0])"></div>
+              <div class="block-no-bottom encounter-name p-1 pl-3">
+                <h5 class="mb-0">{{Difficulty.ToString(encounter[0].difficulty)}} {{encounter[0].name}}</h5>
+              </div>
+              <div class="block encounter-fights p-2 pl-3">
+                <a *ngFor="let fight of encounter; let i = index"
+                   routerLink="/report/{{report.id}}/fight/{{fight.id}}"
+                   class="fight-link">
+                  <div class="fight mr-1 mb-1"
+                       [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
+                    <span *ngIf="!fight.kill">{{i + 1}}.</span>
+                    <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
+                    <span>{{fight.kill ? "" : Math.ceil(fight.fightPercentage / 100) + "%"}}</span>
+                  </div>
+                </a>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </div>
+  </main>
 </div>
 
 <wf-footer></wf-footer>
