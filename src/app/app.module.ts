@@ -30,6 +30,7 @@ import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summ
 import { ClassesService } from "app/warcraft-logs/classes.service";
 import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary-raid.component";
 import { FooterComponent } from "app/footer.component";
+import { LocalStorage } from "app/shared/local-storage";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -107,7 +108,9 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         EventConfigService,
         QueryService,
         EventService,
-        ClassesService],
+        ClassesService,
+        LocalStorage
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

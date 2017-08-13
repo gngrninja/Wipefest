@@ -5,12 +5,16 @@
       <p>
         Find parses for a character.
       </p>
-      <label class="hidden-xs-up">Character</label>
-      <input class="form-control mb-2" type="text" placeholder="Character" [(ngModel)]="character" (keyup.enter)="searchByCharacter()" />
-      <label class="hidden-xs-up">Realm</label>
-      <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="characterRealm" (keyup.enter)="searchByCharacter()" />
-      <label class="hidden-xs-up">Region</label>
-      <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="characterRegion" (keyup.enter)="searchByCharacter()" />
+      <input class="form-control mb-2" type="text" aria-label="Character" placeholder="Character" [(ngModel)]="character" (keyup.enter)="searchByCharacter()" />
+      <input class="form-control mb-2" type="text" aria-label="Realm" placeholder="Realm" [(ngModel)]="characterRealm" (keyup.enter)="searchByCharacter()" />
+      <input class="form-control mb-2" type="text" aria-label="Region" placeholder="Region" [(ngModel)]="characterRegion" (keyup.enter)="searchByCharacter()" />
+
+      <div class="set-favourite ml-2" (click)="toggleFavouriteCharacter()">
+        <i *ngIf="favouriteCharacterIsSet" class="fa fa-star" aria-hidden="true"></i>
+        <i *ngIf="!favouriteCharacterIsSet" class="fa fa-star-o" aria-hidden="true"></i>
+        <span class="ml-1">{{favouriteCharacterIsSet ? "Clear favourite" : "Set as favourite"}}</span>
+      </div>
+
       <div class="text-right">
         <a routerLink="/character/{{clean(character)}}/{{clean(characterRealm)}}/{{clean(characterRegion)}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
@@ -24,12 +28,16 @@
       <p>
         Find reports for a guild.
       </p>
-      <label class="hidden-xs-up">Guild</label>
-      <input class="form-control mb-2" type="text" placeholder="Guild" [(ngModel)]="guild" (keyup.enter)="searchByGuild()" />
-      <label class="hidden-xs-up">Realm</label>
-      <input class="form-control mb-2" type="text" placeholder="Realm" [(ngModel)]="guildRealm" (keyup.enter)="searchByGuild()" />
-      <label class="hidden-xs-up">Region</label>
-      <input class="form-control mb-2" type="text" placeholder="Region" [(ngModel)]="guildRegion" (keyup.enter)="searchByGuild()" />
+      <input class="form-control mb-2" type="text" aria-label="Guild" placeholder="Guild" [(ngModel)]="guild" (keyup.enter)="searchByGuild()" />
+      <input class="form-control mb-2" type="text" aria-label="Realm" placeholder="Realm" [(ngModel)]="guildRealm" (keyup.enter)="searchByGuild()" />
+      <input class="form-control mb-2" type="text" aria-label="Region" placeholder="Region" [(ngModel)]="guildRegion" (keyup.enter)="searchByGuild()" />
+
+      <div class="set-favourite ml-2" (click)="toggleFavouriteGuild()">
+        <i *ngIf="favouriteGuildIsSet" class="fa fa-star" aria-hidden="true"></i>
+        <i *ngIf="!favouriteGuildIsSet" class="fa fa-star-o" aria-hidden="true"></i>
+        <span class="ml-1">{{favouriteGuildIsSet ? "Clear favourite" : "Set as favourite"}}</span>
+      </div>
+
       <div class="text-right">
         <a routerLink="/guild/{{clean(guild)}}/{{clean(guildRealm)}}/{{clean(guildRegion)}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
@@ -43,8 +51,7 @@
       <p>
         Find a report using its unique identifier.
       </p>
-      <label class="hidden-xs-up">Report</label>
-      <input class="form-control mb-2" type="text" placeholder="Report" [(ngModel)]="reportId" (keyup.enter)="searchByReport()" />
+      <input class="form-control mb-2" type="text" aria-label="Report" placeholder="Report" [(ngModel)]="reportId" (keyup.enter)="searchByReport()" />
       <div class="text-right">
         <a routerLink="/report/{{clean(reportId)}}">
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
