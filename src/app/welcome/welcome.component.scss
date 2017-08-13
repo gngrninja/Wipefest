@@ -17,14 +17,14 @@
   }
 }
 
-.container {
+.container-fluid {
   @include media-breakpoint-up(md) {
     position: fixed;
     width: 720px;
     z-index: 15;
     top: 50%;
     left: 50%;
-    margin: -160px 0 0 -360px;
+    margin: -200px 0 0 -360px;
   }
 }
 
