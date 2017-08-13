@@ -46,17 +46,33 @@
     </ng-template>
   </ngb-tab>
   <ngb-tab>
-    <ng-template ngbTabTitle>Report</ng-template>
+    <ng-template ngbTabTitle>Link</ng-template>
     <ng-template ngbTabContent>
       <p>
-        Find a report using its unique identifier.
+        Find a report or fight using a link from <a href="https://www.warcraftlogs.com" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>.
       </p>
-      <input class="form-control mb-2" type="text" aria-label="Report" placeholder="Report" [(ngModel)]="reportId" (keyup.enter)="searchByReport()" />
-      <div class="text-right">
-        <a routerLink="/report/{{clean(reportId)}}">
-          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-        </a>
-      </div>
+      <p class="mb-0">
+        For example:
+      </p>
+      <ul class="mt-0">
+        <li>
+          https://www.warcraftlogs.com/reports/ZbFJQPhLgMvB764w
+        </li>
+        <li>
+          https://www.warcraftlogs.com/reports/Aa3p9T1tJH8DhkKZ#fight=26&type=summary
+        </li>
+      </ul>
+      <form (submit)="searchByLink()">
+        <input class="form-control mb-2" type="text" aria-label="Link" placeholder="https://warcraftlogs.com/reports/..." name="link"
+               [(ngModel)]="warcraftLogsLink" (keyup.enter)="searchByLink()" (change)="validateLink()" (input)="validateLink()" />
+        <div *ngIf="warcraftLogsLinkError" class="ml-2">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          <span class="ml-1">{{warcraftLogsLinkError}}</span>
+        </div>
+        <div class="text-right">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit" [disabled]="warcraftLogsLinkError || warcraftLogsLink == ''">Search</button>
+        </div>
+      </form>
     </ng-template>
   </ngb-tab>
 </ngb-tabset>
