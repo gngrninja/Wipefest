@@ -29,6 +29,10 @@ export class ReportSummaryComponent implements OnInit {
     heroicEncounters: Fight[][];
     normalEncounters: Fight[][];
 
+    get warcraftLogsLink(): string {
+        return `https://www.warcraftlogs.com/reports/${this.report.id}`;
+    }
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,

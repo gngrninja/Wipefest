@@ -26,6 +26,13 @@
         return words.join(" ");
     }
 
+    export function ToTime(timestamp: number): string {
+        let dateString = ToDateTimeString(timestamp);
+        let words = dateString.split(" ");
+
+        return words[words.length - 1];
+    }
+
     export function ToHoursOrMinutes(timestamp: number): string {
         let hours = Math.floor(timestamp / 3600000);
 

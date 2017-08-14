@@ -4,16 +4,17 @@
     <div class="container mb-3">
       <spinner *ngIf="!report"></spinner>
 
-      <div *ngIf="report" class="container">
+      <div *ngIf="report">
         <div class="title p-2 pl-3">
           <h3 class="mb-0">{{report.title}}</h3>
         </div>
 
         <div class="block p-1 pl-3">
           <div class="row">
-            <div class="col-md-4"><strong>Owner</strong>: {{report.owner}}</div>
-            <div class="col-md-4"><strong> Started</strong>: {{Timestamp.ToDateTimeString(report.start)}}</div>
-            <div class="col-md-4"><strong> Duration</strong>: {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}</div>
+            <div class="col-md-3"><strong>Owner</strong>: {{report.owner}}</div>
+            <div class="col-md-3"><strong> Started</strong>: {{Timestamp.ToDateTimeString(report.start)}}</div>
+            <div class="col-md-3"><strong> Duration</strong>: {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}</div>
+            <div class="col-md-3"><a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a></div>
           </div>
         </div>
 
@@ -30,9 +31,14 @@
                    class="fight-link">
                   <div class="fight mr-1 mb-1"
                        [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
-                    <span *ngIf="!fight.kill">{{i + 1}}.</span>
-                    <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
-                    <span>{{fight.kill ? "" : Math.ceil(fight.fightPercentage / 100) + "%"}}</span>
+                    <div class="fight-details">
+                      <span *ngIf="!fight.kill">{{i + 1}}.</span>
+                      <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
+                      <span class="time">{{Timestamp.ToTime(fight.start_time + report.start)}}</span>
+                    </div>
+                    <div class="fight-progress-bg" *ngIf="!fight.kill">
+                      <div class="fight-progress-fg" [style.width]="100 - Math.ceil(fight.fightPercentage / 100) + '%'"></div>
+                    </div>
                   </div>
                 </a>
               </div>
