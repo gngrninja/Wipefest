@@ -93,6 +93,20 @@ export class WarcraftLogsService {
             .catch(this.handleError);
     }
 
+    getEncounters(): Encounter[] {
+        return [
+            new Encounter(2032, "Goroth"),
+            new Encounter(2048, "Demonic Inquisition"),
+            new Encounter(2036, "Harjatan"),
+            new Encounter(2037, "Mistress Sassz'ine"),
+            new Encounter(2050, "Sisters of the Moon"),
+            new Encounter(2054, "The Desolate Host"),
+            new Encounter(2052, "Maiden of Vigilance"),
+            new Encounter(2038, "Fallen Avatar"),
+            new Encounter(2051, "Kil'jaeden"),
+        ];
+    }
+
     private handleError(error: Response | any): Observable<Response> {
         console.error(error);
 
@@ -105,4 +119,10 @@ export class CombatEventPage {
     constructor(
         public events: CombatEvent[],
         public nextPageTimestamp: number) { }
+}
+
+export class Encounter {
+
+    constructor(public id: number, public name: string) { }
+
 }

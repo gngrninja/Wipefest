@@ -11,11 +11,6 @@ export class SearchComponent implements OnInit {
 
     constructor(private router: Router, private localStorage: LocalStorage) { }
 
-    character: string;
-    characterRealm: string;
-    characterRegion: string;
-    favouriteCharacterIsSet: boolean;
-
     guild: string;
     guildRealm: string;
     guildRegion: string;
@@ -25,31 +20,10 @@ export class SearchComponent implements OnInit {
     warcraftLogsLinkError = "";
 
     ngOnInit() {
-        this.character = this.localStorage.get("character") || "";
-        this.characterRealm = this.localStorage.get("characterRealm") || "";
-        this.characterRegion = this.localStorage.get("characterRegion") || "";
-        this.favouriteCharacterIsSet = this.character ? true : false;
-
         this.guild = this.localStorage.get("guild") || "";
         this.guildRealm = this.localStorage.get("guildRealm") || "";
         this.guildRegion = this.localStorage.get("guildRegion") || "";
         this.favouriteGuildIsSet = this.guild ? true : false;
-    }
-
-    toggleFavouriteCharacter() {
-        if (this.favouriteCharacterIsSet) {
-            this.localStorage.remove("character");
-            this.localStorage.remove("characterRealm");
-            this.localStorage.remove("characterRegion");
-
-            this.favouriteCharacterIsSet = false;
-        } else {
-            this.localStorage.set("character", this.character);
-            this.localStorage.set("characterRealm", this.characterRealm);
-            this.localStorage.set("characterRegion", this.characterRegion);
-
-            this.favouriteCharacterIsSet = true;
-        }
     }
 
     toggleFavouriteGuild() {
@@ -65,12 +39,6 @@ export class SearchComponent implements OnInit {
             this.localStorage.set("guildRegion", this.guildRegion);
 
             this.favouriteGuildIsSet = true;
-        }
-    }
-
-    searchByCharacter() {
-        if (this.clean(this.character) && this.clean(this.characterRealm) && this.clean(this.characterRegion)) {
-            this.router.navigate([`/character/${this.clean(this.character)}/${this.clean(this.characterRealm)}/${this.clean(this.characterRegion)}`]);
         }
     }
 

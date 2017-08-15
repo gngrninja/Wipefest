@@ -31,6 +31,7 @@ import { ClassesService } from "app/warcraft-logs/classes.service";
 import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary-raid.component";
 import { FooterComponent } from "app/footer.component";
 import { LocalStorage } from "app/shared/local-storage";
+import { CharacterSearchComponent } from "app/search/character-search.component";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -50,6 +51,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         FightEventsComponent,
         AbilityIconComponent,
         SearchComponent,
+        CharacterSearchComponent,
         CharacterSearchResultsComponent,
         SpecIconComponent,
         ErrorComponent,
