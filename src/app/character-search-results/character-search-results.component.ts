@@ -72,7 +72,7 @@ export class CharacterSearchResultsComponent implements OnInit {
                                 fight.start_time,
                                 spec.class,
                                 spec.spec,
-                                fight.percent,
+                                fight.historical_percent,
                                 fight.ilvl,
                                 fight.report_code,
                                 fight.report_fight)))

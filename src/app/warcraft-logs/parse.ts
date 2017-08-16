@@ -22,6 +22,7 @@ export class ParseSpecData {
     start_time: number;
     duration: number;
     percent: number;
+    historical_percent: number;
     ilvl: number;
     report_code: string;
     report_fight: number;
