@@ -7,6 +7,7 @@ import { WipefestService, Page } from "app/wipefest.service";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { Difficulty } from "app/helpers/difficulty-helper";
 import { DomSanitizer } from "@angular/platform-browser";
+import { LocalStorage } from "app/shared/local-storage";
 
 @Component({
     selector: 'character-search-results',
@@ -32,7 +33,8 @@ export class CharacterSearchResultsComponent implements OnInit {
         private router: Router,
         private wipefestService: WipefestService,
         private warcraftLogsService: WarcraftLogsService,
-        private domSanitizer: DomSanitizer) { }
+        private domSanitizer: DomSanitizer,
+        private localStorage: LocalStorage) { }
 
     ngOnInit() {
         this.wipefestService.selectPage(Page.CharacterSearchResults);
@@ -42,9 +44,9 @@ export class CharacterSearchResultsComponent implements OnInit {
     private handleRoute(params: Params) {
         this.loading = true;
 
-        this.character = params["character"];
-        this.realm = params["realm"];
-        this.region = params["region"];
+        this.character = params["character"] || this.localStorage.get("character");
+        this.realm = params["realm"] || this.localStorage.get("characterRealm");
+        this.region = params["region"] || this.localStorage.get("characterRegion");
         this.encounters = [];
 
         this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13)

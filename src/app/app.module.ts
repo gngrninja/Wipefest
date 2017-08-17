@@ -82,7 +82,15 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
                 component: CharacterSearchResultsComponent
             },
             {
+                path: "character",
+                component: CharacterSearchResultsComponent
+            },
+            {
                 path: "guild/:guild/:realm/:region",
+                component: GuildSearchResultsComponent
+            },
+            {
+                path: "guild",
                 component: GuildSearchResultsComponent
             },
             {
@@ -91,6 +99,10 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
             },
             {
                 path: "report/:reportId",
+                component: ReportSummaryComponent
+            },
+            {
+                path: "link",
                 component: ReportSummaryComponent
             },
             {
