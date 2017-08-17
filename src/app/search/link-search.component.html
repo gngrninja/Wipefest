@@ -1,0 +1,11 @@
+﻿<form (submit)="searchByLink()">
+  <input class="form-control mb-2" type="text" aria-label="Link" placeholder="https://warcraftlogs.com/reports/..." name="link"
+         [(ngModel)]="warcraftLogsLink" (keyup.enter)="searchByLink()" (change)="validateLink()" (input)="validateLink()" />
+  <div *ngIf="warcraftLogsLinkError" class="ml-2">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    <span class="ml-1">{{warcraftLogsLinkError}}</span>
+  </div>
+  <div class="text-right">
+    <button class="btn btn-outline-info my-2 my-sm-0" type="submit" [disabled]="warcraftLogsLinkError || warcraftLogsLink == ''">Search</button>
+  </div>
+</form>

@@ -2,9 +2,18 @@
 
   <main class="main mt-4">
     <div class="container mb-3">
-      <spinner *ngIf="!report"></spinner>
+      <div class="title p-2 pl-3">
+        <h5 class="mb-0">Search by link</h5>
+      </div>
+      <div class="block p-2 pl-5 pr-5 mb-2">
+        <link-search></link-search>
+      </div>
 
-      <div *ngIf="report">
+      <div *ngIf="loading" class="block p-1 pl-3">
+        <spinner></spinner>
+      </div>
+
+      <div *ngIf="report && !loading">
         <div class="title p-2 pl-3">
           <h3 class="mb-0">{{report.title}}</h3>
         </div>

@@ -19,6 +19,7 @@ export class ReportSummaryComponent implements OnInit {
     Timestamp = Timestamp;
     Math = Math;
 
+    loading = true;
     report: Report;
     
     get encountersByDifficulty(): Fight[][][] {
@@ -48,9 +49,11 @@ export class ReportSummaryComponent implements OnInit {
     private handleRoute(params: Params) {
         let reportId = params["reportId"];
 
+        this.loading = true;
         this.warcraftLogsService.getReport(reportId)
             .subscribe(report => {
                 this.selectReport(report);
+                this.loading = false;
             }, error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
     }
 

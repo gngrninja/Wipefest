@@ -32,6 +32,7 @@ import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary
 import { FooterComponent } from "app/footer.component";
 import { LocalStorage } from "app/shared/local-storage";
 import { CharacterSearchComponent } from "app/search/character-search.component";
+import { LinkSearchComponent } from "app/search/link-search.component";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -52,6 +53,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         AbilityIconComponent,
         SearchComponent,
         CharacterSearchComponent,
+        LinkSearchComponent,
         CharacterSearchResultsComponent,
         SpecIconComponent,
         ErrorComponent,
