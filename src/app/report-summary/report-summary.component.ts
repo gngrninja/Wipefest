@@ -54,7 +54,7 @@ export class ReportSummaryComponent implements OnInit {
             .subscribe(report => {
                 this.selectReport(report);
                 this.loading = false;
-            }, error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+            }, error => { this.loading = false; this.report = null;});
     }
 
     private selectReport(report: Report) {

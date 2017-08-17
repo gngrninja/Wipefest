@@ -1,53 +1,66 @@
 ﻿<div class="app-body">
-  <div class="container">
-    <div class="container">
-      <h2 class="mb-2 mt-3"><span class="hidden-xs-down">Reports for </span>{{guild}}</h2>
-      <toggleable-search [text]="'Search again'"></toggleable-search>
+
+  <main class="main mt-4">
+    <div class="container mb-3">
+      <div class="title p-2 pl-3">
+        <h5 class="mb-0">Search by guild</h5>
+      </div>
+      <div class="block p-2 pl-5 pr-5 mb-2">
+        <guild-search [guild]="guild" [realm]="realm" [region]="region"></guild-search>
+      </div>
+
+      <div class="title p-2 pl-3">
+        <h3 class="mb-0">Reports for {{guild}}</h3>
+      </div>
+
+      <div *ngIf="loading" class="block p-1 pl-3">
+        <spinner></spinner>
+      </div>
+
+      <div *ngIf="!loading && reports.length == 0" class="block p-3 text-center">
+        No reports could be found.
+      </div>
+
+      <div *ngIf="reports != null && reports.length > 0" class="block p-3 pb-0">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>
+                Title
+              </th>
+              <th class="hidden-xs-down">
+                Owner
+              </th>
+              <th>
+                Uploaded
+              </th>
+              <th>
+                Duration
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of reports">
+              <td>
+                <a routerLink="/report/{{report.id}}">
+                  {{report.title}}
+                </a>
+              </td>
+              <td class="hidden-xs-down">
+                {{report.owner}}
+              </td>
+              <td>
+                {{Timestamp.ToDateTimeString(report.start)}}
+              </td>
+              <td>
+                {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    <spinner *ngIf="reports == null"></spinner>
-
-    <table *ngIf="reports != null && reports.length > 0" class="table table-hover">
-      <thead>
-        <tr>
-          <th>
-            Title
-          </th>
-          <th class="hidden-xs-down">
-            Owner
-          </th>
-          <th>
-            Uploaded
-          </th>
-          <th>
-            Duration
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let report of reports">
-          <td>
-            <a routerLink="/report/{{report.id}}">
-              {{report.title}}
-            </a>
-          </td>
-          <td class="hidden-xs-down">
-            {{report.owner}}
-          </td>
-          <td>
-            {{Timestamp.ToDateTimeString(report.start)}}
-          </td>
-          <td>
-            {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p *ngIf="reports != null && reports.length == 0">
-      No reports could be found for this guild.
-    </p>
-  </div>
+  </main>
 </div>
 
 <wf-footer></wf-footer>

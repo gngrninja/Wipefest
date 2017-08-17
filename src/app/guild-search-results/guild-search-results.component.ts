@@ -9,10 +9,11 @@ import { Timestamp } from "app/helpers/timestamp-helper";
 @Component({
     selector: 'app-guild-search-results',
     templateUrl: './guild-search-results.component.html',
-    styleUrls: ['./guild-search-results.component.css']
+    styleUrls: ['./guild-search-results.component.scss']
 })
 export class GuildSearchResultsComponent implements OnInit {
 
+    loading = true;
     guild: string;
     realm: string;
     region: string;
@@ -39,12 +40,14 @@ export class GuildSearchResultsComponent implements OnInit {
         this.region = params["region"];
         this.reports = null;
 
+        this.loading = true;
         this.warcraftLogsService.getGuildReports(this.guild, this.realm, this.region, 0, new Date().getTime())
             .subscribe(reports => {
                 reports = reports.filter(x => x.zone == 13).sort((a, b) => b.start - a.start);
                 this.reports = reports;
+                this.loading = false;
             },
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+            error => { this.loading = false; this.reports = []; });
     }
 
 }

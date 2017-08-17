@@ -49,7 +49,6 @@ export class CharacterSearchResultsComponent implements OnInit {
 
         this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13)
             .subscribe(parses => {
-
                 this.loading = false;
                 parses.forEach(parse => {
                     if (![3, 4, 5].some(x => x == parse.difficulty)) { // Normal, Heroic, Mythic
@@ -81,7 +80,7 @@ export class CharacterSearchResultsComponent implements OnInit {
                     });
                 });
             },
-            error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+            error => { this.loading = false; this.encounters = []; });
     }
 
     encounterImage(encounterName: string) {

@@ -13,6 +13,10 @@
         <spinner></spinner>
       </div>
 
+      <div *ngIf="!loading && !report" class="block p-3 text-center">
+        No report could be found.
+      </div>
+
       <div *ngIf="report && !loading">
         <div class="title p-2 pl-3">
           <h3 class="mb-0">{{report.title}}</h3>
