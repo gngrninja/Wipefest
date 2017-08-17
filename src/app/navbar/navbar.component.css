@@ -1,3 +1,14 @@
 ﻿.navbar-brand {
   vertical-align: bottom;
 }
+
+.navbar-toggler-left-2 {
+  left: 70px;
+}
+
+#mobile-nav-links {
+  position: fixed;
+  z-index: 3;
+  margin-top: 55px;
+  background-color: black;
+}

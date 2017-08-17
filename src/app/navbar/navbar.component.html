@@ -1,6 +1,10 @@
 ﻿<header class="app-header navbar" *ngIf="page != Page.Welcome">
   <!-- Mobile -->
-  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
+  <button type="button" class="navbar-toggler navbar-toggler-left d-lg-none" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="mobile-nav-links">
+    &#9964;
+  </button>
+  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left navbar-toggler-left-2 d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
   <a class="navbar-brand hidden-lg-up" routerLink="/"></a>
   <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-right d-lg-none" type="button" appMobileAsideMenuToggler>&#9776;</button>
 
@@ -28,3 +32,16 @@
     </li>
   </ul>
 </header>
+<div id="mobile-nav-links" [ngbCollapse]="isCollapsed">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item px-3" [ngClass]="page == Page.CharacterSearchResults ? 'active' : ''">
+      <a class="nav-link" routerLink="/character" (click)="onMobileLinkClick()">Character</a>
+    </li>
+    <li class="nav-item px-3" [ngClass]="page == Page.GuildSearchResults ? 'active' : ''">
+      <a class="nav-link" routerLink="/guild" (click)="onMobileLinkClick()">Guild</a>
+    </li>
+    <li class="nav-item px-3" [ngClass]="page == Page.ReportSummary ? 'active' : ''">
+      <a class="nav-link" routerLink="/link" (click)="onMobileLinkClick()">Link</a>
+    </li>
+  </ul>
+</div>

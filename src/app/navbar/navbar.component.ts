@@ -11,10 +11,18 @@ export class NavbarComponent implements OnInit {
     page: Page;
     Page = Page;
 
+    isCollapsed = true;
+
     constructor(private wipefestService: WipefestService) { }
 
     ngOnInit() {
         this.wipefestService.selectedPage.subscribe(page => this.page = page);
+    }
+
+    onMobileLinkClick() {
+        this.isCollapsed = true;
+        document.querySelector('body').classList.remove('sidebar-mobile-show');
+        document.querySelector('body').classList.remove('aside-menu-mobile-show');
     }
 
 }
