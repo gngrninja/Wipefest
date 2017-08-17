@@ -18,30 +18,30 @@ export class GuildSearchComponent implements OnInit {
 
     ngOnInit() {
         this.guild = this.guild || this.localStorage.get("guild") || "";
-        this.realm = this.realm || this.localStorage.get("realm") || "";
-        this.region = this.region || this.localStorage.get("region") || "";
+        this.realm = this.realm || this.localStorage.get("guildRealm") || "";
+        this.region = this.region || this.localStorage.get("guildRegion") || "";
         this.update();
     }
 
     update() {
         this.favouriteGuildIsSet =
             this.guild == this.localStorage.get("guild") &&
-            this.realm == this.localStorage.get("realm") &&
-            this.region == this.localStorage.get("region") &&
+            this.realm == this.localStorage.get("guildRealm") &&
+            this.region == this.localStorage.get("guildRegion") &&
             !!this.guild && !!this.realm && !!this.region;
     }
 
     toggleFavouriteGuild() {
         if (this.favouriteGuildIsSet) {
             this.localStorage.remove("guild");
-            this.localStorage.remove("realm");
-            this.localStorage.remove("region");
+            this.localStorage.remove("guildRealm");
+            this.localStorage.remove("guildRegion");
 
             this.favouriteGuildIsSet = false;
         } else {
             this.localStorage.set("guild", this.guild);
-            this.localStorage.set("realm", this.realm);
-            this.localStorage.set("region", this.region);
+            this.localStorage.set("guildRealm", this.realm);
+            this.localStorage.set("guildRegion", this.region);
 
             this.favouriteGuildIsSet = true;
         }

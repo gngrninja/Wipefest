@@ -18,30 +18,30 @@ export class CharacterSearchComponent implements OnInit {
 
     ngOnInit() {
         this.character = this.character || this.localStorage.get("character") || "";
-        this.realm = this.realm || this.localStorage.get("realm") || "";
-        this.region = this.region || this.localStorage.get("region") || "";
+        this.realm = this.realm || this.localStorage.get("characterRealm") || "";
+        this.region = this.region || this.localStorage.get("characterRegion") || "";
         this.update();
     }
 
     update() {
         this.favouriteCharacterIsSet =
             this.character == this.localStorage.get("character") &&
-            this.realm == this.localStorage.get("realm") &&
-            this.region == this.localStorage.get("region") &&
+            this.realm == this.localStorage.get("characterRealm") &&
+            this.region == this.localStorage.get("characterRegion") &&
             !!this.character && !!this.realm && !!this.region;
     }
 
     toggleFavouriteCharacter() {
         if (this.favouriteCharacterIsSet) {
             this.localStorage.remove("character");
-            this.localStorage.remove("realm");
-            this.localStorage.remove("region");
+            this.localStorage.remove("characterRealm");
+            this.localStorage.remove("characterRegion");
 
             this.favouriteCharacterIsSet = false;
         } else {
             this.localStorage.set("character", this.character);
-            this.localStorage.set("realm", this.realm);
-            this.localStorage.set("region", this.region);
+            this.localStorage.set("characterRealm", this.realm);
+            this.localStorage.set("characterRegion", this.region);
 
             this.favouriteCharacterIsSet = true;
         }
