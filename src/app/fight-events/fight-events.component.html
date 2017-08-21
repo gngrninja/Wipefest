@@ -1,7 +1,11 @@
-﻿<table class="table-hover">
+<table class="table-hover">
   <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
-    <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3" class="phase-change">
-      <h5>{{event.title}}</h5>
+    <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
+        unselectable="on"
+        class="phase-change"
+        (click)="togglePhaseCollapse(event)">
+      <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+      <h5 class="d-inline-block">{{event.title}}</h5>
     </td>
     <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
       <h5>{{event.title}}</h5>

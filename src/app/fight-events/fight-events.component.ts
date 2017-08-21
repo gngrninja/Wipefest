@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent } from "app/fight-events/ability-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
@@ -18,10 +18,6 @@ export class FightEventsComponent {
     
     @Input() events: FightEvent[];
 
-    get shownEvents(): FightEvent[] {
-        return this.events.filter(x => !x.config || x.config.show);
-    }
-
     AbilityEvent = AbilityEvent;
     DebuffEvent = DebuffEvent;
     DeathEvent = DeathEvent;
@@ -30,4 +26,43 @@ export class FightEventsComponent {
     HeroismEvent = HeroismEvent;
     EndOfFightEvent = EndOfFightEvent;
 
+    get hiddenIntervals(): Interval[] {
+        return this.events
+            .filter(x => x.isInstanceOf(PhaseChangeEvent) || x.isInstanceOf(EndOfFightEvent))
+            .map((x, index, array) => {
+                if (x.isInstanceOf(PhaseChangeEvent)) {
+                    let phase = <PhaseChangeEvent>x;
+                    if (!phase.show) {
+                        return new Interval(x.timestamp, array[index + 1].timestamp);
+                    }
+                }
+                return null;
+            })
+            .filter(x => x != null);
+    }
+
+    get shownEvents(): FightEvent[] {
+        return this.events
+            .filter(x => !this.eventIsFiltered(x) && !this.eventIsHidden(x));
+    }
+
+    private eventIsFiltered(event: FightEvent): boolean {
+        return event.config && !event.config.show;
+    }
+
+    private eventIsHidden(event: FightEvent): boolean {
+        return !event.isInstanceOf(PhaseChangeEvent) &&
+            !event.isInstanceOf(EndOfFightEvent) &&
+            this.hiddenIntervals.some(i => i.start <= event.timestamp && i.end >= event.timestamp);
+    }
+
+    togglePhaseCollapse(event: PhaseChangeEvent) {
+        event.show = !event.show;
+    }
+}
+
+export class Interval {
+    constructor(
+        public start: number,
+        public end: number) { }
 }
