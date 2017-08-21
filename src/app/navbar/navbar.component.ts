@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WipefestService, Page } from "app/wipefest.service";
 
 @Component({
@@ -21,8 +21,6 @@ export class NavbarComponent implements OnInit {
 
     onMobileLinkClick() {
         this.isCollapsed = true;
-        document.querySelector('body').classList.remove('sidebar-mobile-show');
-        document.querySelector('body').classList.remove('aside-menu-mobile-show');
     }
 
 }

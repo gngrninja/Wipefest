@@ -1,4 +1,4 @@
-﻿@import "../../scss/bootstrap/variables";
+@import "../../scss/bootstrap/variables";
 @import "../../scss/bootstrap/mixins/breakpoints";
 
 .background {
@@ -31,5 +31,6 @@
 .app-body {
   @include media-breakpoint-down(sm) {
     min-height: 100vh;
+    margin-top: 16px;
   }
 }

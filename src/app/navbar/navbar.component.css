@@ -1,4 +1,4 @@
-﻿.navbar-brand {
+.navbar-brand {
   vertical-align: bottom;
 }
 
@@ -7,6 +7,7 @@
 }
 
 #mobile-nav-links {
+  width: 100%;
   position: fixed;
   z-index: 3;
   margin-top: 55px;

@@ -1,17 +1,23 @@
-﻿<header class="app-header navbar" *ngIf="page != Page.Welcome">
+<header class="app-header navbar" *ngIf="page != Page.Welcome">
   <!-- Mobile -->
+  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left navbar-toggler-left-2 d-lg-none" type="button" appMobileSidebarToggler>
+    <i class="fa fa-filter" aria-hidden="true"></i>
+  </button>
   <button type="button" class="navbar-toggler navbar-toggler-left d-lg-none" (click)="isCollapsed = !isCollapsed"
           [attr.aria-expanded]="!isCollapsed" aria-controls="mobile-nav-links">
-    &#9964;
+    <i class="fa fa-navicon" aria-hidden="true"></i>
   </button>
-  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left navbar-toggler-left-2 d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
   <a class="navbar-brand hidden-lg-up" routerLink="/"></a>
-  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-right d-lg-none" type="button" appMobileAsideMenuToggler>&#9776;</button>
+  <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-right d-lg-none" type="button" appMobileAsideMenuToggler>
+    <i class="fa fa-users" aria-hidden="true"></i>
+  </button>
 
   <!-- Desktop -->
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item">
-      <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appSidebarToggler>&#9776;</a>
+      <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appSidebarToggler>
+        <i class="fa fa-filter" aria-hidden="true"></i>
+      </a>
     </li>
     <li>
       <a class="navbar-brand px-3" routerLink="/"></a>
@@ -28,12 +34,17 @@
   </ul>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none pull-right">
-      <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appAsideMenuToggler>&#9776;</a>
+      <a *ngIf="page == Page.FightSummary" class="nav-link navbar-toggler" href="#" appAsideMenuToggler>
+        <i class="fa fa-users" aria-hidden="true"></i>
+      </a>
     </li>
   </ul>
 </header>
 <div id="mobile-nav-links" [ngbCollapse]="isCollapsed">
   <ul class="navbar-nav mr-auto">
+    <li class="nav-item px-3" [ngClass]="page == Page.Welcome ? 'active' : ''">
+      <a class="nav-link" routerLink="/" (click)="onMobileLinkClick()">Home</a>
+    </li>
     <li class="nav-item px-3" [ngClass]="page == Page.CharacterSearchResults ? 'active' : ''">
       <a class="nav-link" routerLink="/character" (click)="onMobileLinkClick()">Character</a>
     </li>
