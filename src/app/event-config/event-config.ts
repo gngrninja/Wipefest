@@ -1,4 +1,4 @@
-﻿export class EventConfigIndex {
+export class EventConfigIndex {
 
     zone: string;
     name: string;
@@ -10,6 +10,7 @@
 export class EventConfig {
 
     name: string;
+    target: string;
     tags: string[];
     show: boolean;
     eventType: string;
@@ -28,6 +29,7 @@ export class EventConfigFilter {
     firstPerInstance: boolean;
     stack: number;
     range: number;
+    minimum: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;
 

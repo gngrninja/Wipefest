@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EventConfig } from "app/event-config/event-config";
 import { FightEvent } from "app/fight-events/fight-event";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
@@ -46,7 +46,7 @@ export class EventService {
             x => new AbilityEvent(
                 config,
                 x.timestamp - fight.start_time,
-                x.sourceIsFriendly,
+                config.friendly || x.sourceIsFriendly,
                 config.source ? config.source : this.getCombatEventSource(x, report).name,
                 new Ability(x.ability),
                 combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1));
@@ -85,7 +85,7 @@ export class EventService {
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly,
-                this.getCombatEventTarget(x, report).name,
+                config.target ? config.target : this.getCombatEventTarget(x, report).name,
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
 

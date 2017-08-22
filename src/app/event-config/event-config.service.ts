@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Rx";
 import { EventConfig, EventConfigIndex } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
@@ -54,20 +54,25 @@ export class EventConfigService {
             }
 
             if (config.filter.range && matchingCombatEvents.length > 0) {
-                matchingCombatEvents = this.filterToRange(matchingCombatEvents, config.filter.range);
+                matchingCombatEvents = this.filterToRange(matchingCombatEvents, config.filter.range, config.filter.minimum);
             }
         }
 
         return matchingCombatEvents;
     }
 
-    private filterToRange(combatEvents: CombatEvent[], range: number): CombatEvent[] {
+    private filterToRange(combatEvents: CombatEvent[], range: number, minimum: number): CombatEvent[] {
         combatEvents = combatEvents.sort((a, b) => a.timestamp - b.timestamp);
         let start = combatEvents[0].timestamp;
         let end = combatEvents[combatEvents.length - 1].timestamp;
 
         let matchingCombatEventsOnePerRange: CombatEvent[] = [];
-        while (start < end) {
+        while (start <= end) {
+            if (minimum && combatEvents.filter(x => x.timestamp >= start && x.timestamp <= (start + range)).length < minimum) {
+                start += 500;
+                continue;
+            }
+
             matchingCombatEventsOnePerRange.push(combatEvents.find(x => x.timestamp >= start));
 
             start = matchingCombatEventsOnePerRange[matchingCombatEventsOnePerRange.length - 1].timestamp;
