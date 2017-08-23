@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
+
 import { AppComponent } from './app.component';
 import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -118,6 +120,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
                 component: NotFoundComponent
             }
         ], { useHash: true }),
+        Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
         NgbModule.forRoot()
     ],
     providers: [
