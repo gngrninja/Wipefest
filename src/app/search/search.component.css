@@ -2,3 +2,8 @@
   cursor: pointer;
   font-size: 115%;
 }
+
+.faded {
+  opacity: 0.2;
+  cursor: default;
+}

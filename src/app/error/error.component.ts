@@ -1,23 +1,19 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Input } from '@angular/core';
 import { WipefestService } from "app/wipefest.service";
 import { Response } from "@angular/http";
 
 @Component({
-    selector: 'app-error',
-    templateUrl: './error.component.html',
-    styleUrls: ['./error.component.css']
+    selector: 'error',
+    template: `{{message}}`
 })
 export class ErrorComponent implements OnInit {
-    error: Response;
+
+    @Input() error: Response;
 
     title = "Error :(";
     message = "An error has occurred.";
-
-    constructor(private wipefestService: WipefestService) { }
-
+    
     ngOnInit() {
-        this.error = this.wipefestService.getLastError();
-
         if (this.error) {
             this.title = this.error.statusText;
             if (!this.title) {

@@ -1,9 +1,10 @@
-@import "../../scss/bootstrap-variables";
+﻿@import "../../scss/bootstrap-variables";
 
 table {
   width: 100%;
   background-color: $gray-dark;
   border: 1px solid $gray-light;
+  border-top: 0;
 }
 
 td.event {

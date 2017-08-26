@@ -1,13 +1,16 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
-  selector: 'not-found',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+    templateUrl: './not-found.component.html',
+    styleUrls: ['./not-found.component.scss']
 })
-export class NotFoundComponent {
+export class NotFoundComponent implements OnInit {
 
-    title = "Not Found :(";
-    message = "Whatever you were looking for couldn't be found.";
+    constructor(private logger: LoggerService) { }
+
+    ngOnInit() {
+        this.logger.logNotFound();
+    }
 
 }

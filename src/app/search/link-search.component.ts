@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from "@angular/router";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'link-search',
@@ -7,13 +8,18 @@ import { Router } from "@angular/router";
 })
 export class LinkSearchComponent {
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private logger: LoggerService) { }
 
     warcraftLogsLink = "";
     warcraftLogsLinkError = "";
 
     searchByLink() {
-        this.router.navigate([`${this.parseLink()}`]);
+        let wipefestLink = this.parseLink();
+        if (wipefestLink) {
+            this.router
+                .navigate([wipefestLink])
+                .then(success => { if (success) this.logger.logLinkSearch(this.warcraftLogsLink, wipefestLink); });
+        }
     }
 
     parseLink() {

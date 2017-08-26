@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent } from "app/fight-events/ability-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
@@ -8,6 +8,10 @@ import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
 import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
 import { EventConfig } from "app/event-config/event-config";
+import { LoggerService } from "app/shared/logger.service";
+import { Fight } from "app/warcraft-logs/report";
+import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
+import { Difficulty } from "app/helpers/difficulty-helper";
 
 @Component({
     selector: 'fight-events',
@@ -15,7 +19,8 @@ import { EventConfig } from "app/event-config/event-config";
     styleUrls: ['./fight-events.component.scss']
 })
 export class FightEventsComponent {
-    
+
+    @Input() fight: Fight;
     @Input() events: FightEvent[];
 
     AbilityEvent = AbilityEvent;
@@ -25,6 +30,8 @@ export class FightEventsComponent {
     SpawnEvent = SpawnEvent;
     HeroismEvent = HeroismEvent;
     EndOfFightEvent = EndOfFightEvent;
+
+    constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
 
     get hiddenIntervals(): Interval[] {
         return this.events
@@ -58,6 +65,7 @@ export class FightEventsComponent {
 
     togglePhaseCollapse(event: PhaseChangeEvent) {
         event.show = !event.show;
+        this.logger.logTogglePhase(Difficulty.ToString(this.fight.difficulty), this.warcraftLogsService.getEncounter(this.fight.boss).name, event.title, event.show);
     }
 }
 

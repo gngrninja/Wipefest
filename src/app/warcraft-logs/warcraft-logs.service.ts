@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
 import { Death } from "app/warcraft-logs/death";
 import { WipefestService } from "app/wipefest.service";
 import { GuildReport } from "app/warcraft-logs/guild-report";
+import { environment } from "environments/environment";
+import { LoggerService } from "app/shared/logger.service";
 
 @Injectable()
 export class WarcraftLogsService {
@@ -15,43 +17,48 @@ export class WarcraftLogsService {
     private url = "https://www.warcraftlogs.com/v1/";
     private apiKey = "4755ffa6214768b13beab7deb1bfc85f";
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private logger: LoggerService) { }
+
+    private get(url: string): Observable<Response> {
+        this.logger.logGetRequest(url);
+        return this.http.get(url, { headers: new Headers() });
+    }
 
     getParses(character: string, realm: string, region: string, zone: number): Observable<Parse[]> {
-        return this.http.get(this.url
+        return this.get(this.url
             + "parses/character/" + character
             + "/" + realm
             + "/" + region
             + "?api_key=" + this.apiKey
             + "&zone=" + zone
-            + "&partition=1", { headers: new Headers() })
+            + "&partition=1")
             .map(response => response.json())
-            .catch(this.handleError);
+            .catch(error => this.handleError(error));
     }
 
     getGuildReports(guild: string, realm: string, region: string, start: number, end: number): Observable<GuildReport[]> {
-        return this.http.get(this.url
+        return this.get(this.url
             + "reports/guild/" + guild
             + "/" + realm
             + "/" + region
             + "?api_key=" + this.apiKey
             + "&start=" + start
-            + "&end=" + end, { headers: new Headers() })
+            + "&end=" + end)
             .map(response => response.json())
-            .catch(this.handleError);
+            .catch(error => this.handleError(error));
     }
 
     getReport(reportId: string): Observable<Report> {
-        return this.http.get(this.url
+        return this.get(this.url
             + "report/fights/" + reportId
-            + "?api_key=" + this.apiKey, { headers: new Headers() })
+            + "?api_key=" + this.apiKey)
             .map(response => {
                 let report = response.json();
                 report.id = reportId;
 
                 return report;
             })
-            .catch(this.handleError);
+            .catch(error => this.handleError(error));
     }
 
     getCombatEvents(reportId: string, start: number, end: number, filter: string): Observable<CombatEvent[]> {
@@ -66,13 +73,13 @@ export class WarcraftLogsService {
             .map(x => x.events);
     }
 
-    getPageOfCombatEvents(reportId: string, start: number, end: number, filter: string, previousPage: CombatEventPage = null): Observable<CombatEventPage> {
-        return this.http.get(this.url
+    private getPageOfCombatEvents(reportId: string, start: number, end: number, filter: string, previousPage: CombatEventPage = null): Observable<CombatEventPage> {
+        return this.get(this.url
             + "report/events/" + reportId
             + "?api_key=" + this.apiKey
             + "&start=" + start
             + "&end=" + end
-            + "&filter=" + filter, { headers: new Headers() })
+            + "&filter=" + filter)
             .map(response => {
                 let page = response.json();
                 if (!previousPage) {
@@ -80,17 +87,17 @@ export class WarcraftLogsService {
                 }
                 return new CombatEventPage(previousPage.events.concat(page.events), page.nextPageTimestamp);
             })
-            .catch(this.handleError);
+            .catch(error => this.handleError(error));
     }
 
     getDeaths(reportId: string, start: number, end: number): Observable<Death[]> {
-        return this.http.get(this.url
+        return this.get(this.url
             + "report/tables/deaths/" + reportId
             + "?api_key=" + this.apiKey
             + "&start=" + start
-            + "&end=" + end, { headers: new Headers() })
+            + "&end=" + end)
             .map(response => response.json().entries)
-            .catch(this.handleError);
+            .catch(error => this.handleError(error));
     }
 
     getEncounters(): Encounter[] {
@@ -107,8 +114,16 @@ export class WarcraftLogsService {
         ];
     }
 
+    getEncounter(id: number): Encounter {
+        return this.getEncounters().find(x => x.id == id);
+    }
+
     private handleError(error: Response | any): Observable<Response> {
-        console.error(error);
+        this.logger.logErrorResponse(error);
+
+        if (!environment.production) {
+            console.error(error);
+        }
 
         return Observable.throw(error);
     }

@@ -1,18 +1,18 @@
 ﻿<div class="row mb-2 pl-2 pr-2">
   <div class="p-1 pt-0 col-md-5">
-    <input class="form-control" type="text" aria-label="Character" placeholder="Character" [(ngModel)]="character" (keyup.enter)="searchByCharacter()" (input)="update()" (change)="update()" />
+    <input class="form-control" type="text" aria-label="Character" placeholder="Character" [(ngModel)]="character" (keyup.enter)="trySearch()" (input)="update()" (change)="update()" />
   </div>
   <div class="p-1 pt-0 col-md-5">
-    <input class="form-control" type="text" aria-label="Realm" placeholder="Realm" [(ngModel)]="realm" (keyup.enter)="searchByCharacter()" (input)="update()" (change)="update()" />
+    <input class="form-control" type="text" aria-label="Realm" placeholder="Realm" [(ngModel)]="realm" (keyup.enter)="trySearch()" (input)="update()" (change)="update()" />
   </div>
   <div class="p-1 pt-0 col-md-2">
-    <input class="form-control" type="text" aria-label="Region" placeholder="Region" [(ngModel)]="region" (keyup.enter)="searchByCharacter()" (input)="update()" (change)="update()" />
+    <input class="form-control" type="text" aria-label="Region" placeholder="Region" [(ngModel)]="region" (keyup.enter)="trySearch()" (input)="update()" (change)="update()" />
   </div>
 </div>
 
 <div class="row">
   <div class="col-sm-6">
-    <div class="set-favourite ml-2" (click)="toggleFavouriteCharacter()">
+    <div class="set-favourite ml-2" [ngClass]="canSearch ? '' : 'faded'" (click)="toggleFavouriteCharacter()">
       <i *ngIf="favouriteCharacterIsSet" class="fa fa-star" aria-hidden="true"></i>
       <i *ngIf="!favouriteCharacterIsSet" class="fa fa-star-o" aria-hidden="true"></i>
       <span class="ml-1">{{favouriteCharacterIsSet ? "Clear favourite" : "Set as favourite"}}</span>
@@ -20,9 +20,10 @@
   </div>
   <div class="col-sm-6">
     <div class="text-right">
-      <a routerLink="/character/{{clean(character)}}/{{clean(realm)}}/{{clean(region)}}">
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-      </a>
+      <button class="btn btn-outline-info my-2 my-sm-0"
+              type="submit"
+              [disabled]="!canSearch"
+              (click)="searchByCharacter(character, realm, region)">Search</button>
     </div>
   </div>
 </div>

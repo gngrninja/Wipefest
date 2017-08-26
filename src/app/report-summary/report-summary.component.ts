@@ -3,7 +3,6 @@ import { ActivatedRoute, Router, Params } from "@angular/router";
 import { WipefestService, Page } from "app/wipefest.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Report, Fight } from "app/warcraft-logs/report";
-import { ErrorHandler } from "app/errorHandler";
 import { Difficulty } from "app/helpers/difficulty-helper";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -21,6 +20,7 @@ export class ReportSummaryComponent implements OnInit {
 
     loading = true;
     report: Report;
+    error: any;
     
     get encountersByDifficulty(): Fight[][][] {
         return [this.mythicEncounters, this.heroicEncounters, this.normalEncounters];
@@ -52,9 +52,14 @@ export class ReportSummaryComponent implements OnInit {
         this.loading = true;
         this.warcraftLogsService.getReport(reportId)
             .subscribe(report => {
+                this.error = null;
                 this.selectReport(report);
                 this.loading = false;
-            }, error => { this.loading = false; this.report = null;});
+            }, error => {
+                this.error = error;
+                this.loading = false;
+                this.report = null;
+            });
     }
 
     private selectReport(report: Report) {

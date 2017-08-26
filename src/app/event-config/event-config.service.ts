@@ -1,25 +1,31 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Rx";
 import { EventConfig, EventConfigIndex } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { Report } from "app/warcraft-logs/report";
 import { environment } from "environments/environment";
+import { LoggerService } from "app/shared/logger.service";
 
 @Injectable()
 export class EventConfigService {
     
     private url = environment.eventConfigsUrl;
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private logger: LoggerService) { }
+
+    private get(url: string): Observable<Response> {
+        this.logger.logGetRequest(url);
+        return this.http.get(url);
+    }
 
     getEventConfigs(includes: string[]): Observable<EventConfig[]> {
         let batch: Observable<EventConfig[]>[] = [];
 
         includes.forEach(include => {
-            let observable = this.http.get(this.url + include + ".json")
+            let observable = this.get(this.url + include + ".json")
                 .map(response => response.json())
-                .catch(this.handleError);
+                .catch(error => this.handleError(error));
 
             batch.push(observable);
         });
@@ -33,9 +39,9 @@ export class EventConfigService {
     }
 
     private getEventConfigIndex(): Observable<EventConfigIndex[]> {
-        return this.http.get(this.url + "index.json")
+        return this.get(this.url + "index.json")
             .map(response => response.json())
-            .catch(this.handleError);
+            .catch(error => this.handleError(error));
     }
 
     filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], report: Report): CombatEvent[] {
@@ -114,7 +120,11 @@ export class EventConfigService {
     }
 
     private handleError(error: Response | any): Observable<Response> {
-        console.error(error);
+        this.logger.logErrorResponse(error);
+
+        if (!environment.production) {
+            console.error(error);
+        }
 
         return Observable.throw(error);
     }

@@ -11,13 +11,14 @@ import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
 import { SpawnEvent } from "app/fight-events/spawn-event";
 import { HeroismEvent } from "app/fight-events/heroism-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
-import { ErrorHandler } from "app/errorHandler";
 import { QueryService } from 'app/warcraft-logs/query.service';
 import { EventConfig } from "app/event-config/event-config";
 import { EventConfigService } from "app/event-config/event-config.service";
 import { EventService } from "app/events/event.service";
 import { Observable } from "rxjs/Rx";
 import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
+import { Difficulty } from "../helpers/difficulty-helper";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'fight-summary',
@@ -36,6 +37,10 @@ export class FightSummaryComponent implements OnInit {
     events: FightEvent[] = [];
     combatantInfo: CombatEvent[] = [];
 
+    error: any;
+
+    Difficulty = Difficulty;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -43,7 +48,8 @@ export class FightSummaryComponent implements OnInit {
         private eventConfigService: EventConfigService,
         private queryService: QueryService,
         private eventService: EventService,
-        private warcraftLogsService: WarcraftLogsService) { }
+        private warcraftLogsService: WarcraftLogsService,
+        private logger: LoggerService) { }
 
     ngOnInit() {
         this.wipefestService.selectPage(Page.FightSummary);
@@ -56,9 +62,10 @@ export class FightSummaryComponent implements OnInit {
 
         this.warcraftLogsService.getReport(reportId)
             .subscribe(report => {
+                this.error = null;
                 this.selectReport(report);
                 this.tryToSelectFightById(fightId);
-            }, error => ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router));
+            }, error => this.error = error);
     }
 
     private selectReport(report: Report) {
@@ -123,14 +130,13 @@ export class FightSummaryComponent implements OnInit {
 
                         return [].concat.apply([], configs.map(config => {
                             let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
-
-                            try {
-                                return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents);
-                            } catch (error) {
-                                ErrorHandler.GoToErrorPage(error, this.wipefestService, this.router);
-                            }
+                            
+                            return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents);
                         }));
                     });
+            }).catch(error => {
+                this.error = error;
+                return Observable.empty();
             });
     }
 
@@ -145,7 +151,11 @@ export class FightSummaryComponent implements OnInit {
                         true,
                         death.name,
                         death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                        death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)));
+                        death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))
+            .catch(error => {
+                this.error = error;
+                return Observable.empty();
+            });
     }
 
     private sortEvents(events: FightEvent[]): FightEvent[] {
@@ -172,9 +182,5 @@ export class FightSummaryComponent implements OnInit {
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;
                 return 0;
             });
-    }
-
-    private getTitleBadgeClass() {
-        return `badge badge-${this.fight.kill ? "success" : "danger"} align-top ml-1`;
     }
 }

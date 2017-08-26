@@ -1,9 +1,9 @@
-<header class="app-header navbar" *ngIf="page != Page.Welcome">
+﻿<header class="app-header navbar" *ngIf="page != Page.Welcome">
   <!-- Mobile -->
   <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left navbar-toggler-left-2 d-lg-none" type="button" appMobileSidebarToggler>
     <i class="fa fa-filter" aria-hidden="true"></i>
   </button>
-  <button type="button" class="navbar-toggler navbar-toggler-left d-lg-none" (click)="isCollapsed = !isCollapsed"
+  <button type="button" class="navbar-toggler navbar-toggler-left d-lg-none" (click)="toggleMobileNavigation()"
           [attr.aria-expanded]="!isCollapsed" aria-controls="mobile-nav-links">
     <i class="fa fa-navicon" aria-hidden="true"></i>
   </button>

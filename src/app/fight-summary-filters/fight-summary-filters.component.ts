@@ -1,6 +1,7 @@
 ﻿import { Component, Input, OnChanges } from '@angular/core';
 import { EventConfig } from "app/event-config/event-config";
 import { FightEvent } from "app/fight-events/fight-event";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'fight-summary-filters',
@@ -23,16 +24,20 @@ export class FightSummaryFiltersComponent implements OnChanges {
 
     private defaultVisibilities: EventConfigDefaultVisbility[];
 
+    constructor(private logger: LoggerService) { }
+
     ngOnChanges() {
         this.defaultVisibilities = this.configs.map(x => new EventConfigDefaultVisbility(x.name, x.tags, x.show));
     }
 
     showAll() {
         this.configs.forEach(x => x.show = true);
+        this.logger.logShowAllFilters();
     }
 
     hideAll() {
         this.configs.forEach(x => x.show = false);
+        this.logger.logHideAllFilters();
     }
 
     reset() {
@@ -42,6 +47,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
                 x.show = match.show;
             }
         });
+        this.logger.logResetFilters();
     }
 
     toggleConfig(config: EventConfig) {
@@ -49,6 +55,8 @@ export class FightSummaryFiltersComponent implements OnChanges {
             .filter(x => x.name == config.name &&
                 x.tags.join(" ") == config.tags.join(" "))
             .forEach(x => x.show = !x.show);
+
+        this.logger.logToggleFilter(`${config.name} (${config.tags.join(" ")})`, config.show);
     }
 
     getTags(): string[][] {

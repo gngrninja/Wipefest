@@ -13,22 +13,24 @@
         </div>
 
         <div *ngIf="fight" class="col mt-4">
-          <div class="title p-2 pl-3">
+          <div class="title p-2 pl-3" [ngClass]="fight.kill ? 'kill' : 'wipe'">
             <h3 class="mb-0">
-              {{fight.name}}
-              <span [class]="getTitleBadgeClass()">
-                {{fight.kill ? "Kill" : "Wipe"}}
-              </span>
+              {{Difficulty.ToString(fight.difficulty)}} {{fight.name}}
             </h3>
           </div>
-          <div class="subtitle p-1 pl-3">
+          <div class="block p-1 pl-3">
             <strong>Report</strong>: <a routerLink="/report/{{report.id}}">{{report.title}}</a>,
             <strong>Fight</strong>: {{fight.id}},
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
           </div>
 
-          <spinner *ngIf="events.length == 0"></spinner>
-          <fight-events *ngIf="events" [events]="events"></fight-events>
+          <spinner *ngIf="events.length == 0 && !error"></spinner>
+
+          <div *ngIf="error" class="block p-3 text-center">
+            <error [error]="error"></error>
+          </div>
+
+          <fight-events *ngIf="events && !error" [fight]="fight" [events]="events"></fight-events>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
 import { Router } from "@angular/router";
 import { LocalStorage } from "app/shared/local-storage";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'character-search',
@@ -9,48 +10,73 @@ import { LocalStorage } from "app/shared/local-storage";
 })
 export class CharacterSearchComponent implements OnInit {
 
-    constructor(private router: Router, private localStorage: LocalStorage) { }
+    constructor(private router: Router, private localStorage: LocalStorage, private logger: LoggerService) { }
 
     @Input() character: string;
     @Input() realm: string;
     @Input() region: string;
+
+    private characterKey = "character";
+    get favouriteCharacter(): string { return this.localStorage.get(this.characterKey); }
+    set favouriteCharacter(value: string) { this.localStorage.setOrRemove(this.characterKey, value); }
+
+    private realmKey = "characterRealm";
+    get favouriteRealm(): string { return this.localStorage.get(this.realmKey); }
+    set favouriteRealm(value: string) { this.localStorage.setOrRemove(this.realmKey, value); }
+
+    private regionKey = "characterRegion";
+    get favouriteRegion(): string { return this.localStorage.get(this.regionKey); }
+    set favouriteRegion(value: string) { this.localStorage.setOrRemove(this.regionKey, value); }
+
     favouriteCharacterIsSet: boolean;
 
     ngOnInit() {
-        this.character = this.character || this.localStorage.get("character") || "";
-        this.realm = this.realm || this.localStorage.get("characterRealm") || "";
-        this.region = this.region || this.localStorage.get("characterRegion") || "";
+        this.character = this.character || this.favouriteCharacter || "";
+        this.realm = this.realm || this.favouriteRealm || "";
+        this.region = this.region || this.favouriteRegion || "";
         this.update();
     }
 
     update() {
         this.favouriteCharacterIsSet =
-            this.character == this.localStorage.get("character") &&
-            this.realm == this.localStorage.get("characterRealm") &&
-            this.region == this.localStorage.get("characterRegion") &&
+            this.character == this.favouriteCharacter &&
+            this.realm == this.favouriteRealm &&
+            this.region == this.favouriteRegion &&
             !!this.character && !!this.realm && !!this.region;
     }
 
     toggleFavouriteCharacter() {
         if (this.favouriteCharacterIsSet) {
-            this.localStorage.remove("character");
-            this.localStorage.remove("characterRealm");
-            this.localStorage.remove("characterRegion");
-
             this.favouriteCharacterIsSet = false;
-        } else {
-            this.localStorage.set("character", this.character);
-            this.localStorage.set("characterRealm", this.realm);
-            this.localStorage.set("characterRegion", this.region);
 
+            this.logger.logCharacterFavourite(this.favouriteCharacterIsSet, this.favouriteCharacter, this.favouriteRealm, this.favouriteRegion);
+
+            this.favouriteCharacter = "";
+            this.favouriteRealm = "";
+            this.favouriteRegion = "";
+        } else if (this.canSearch) {
             this.favouriteCharacterIsSet = true;
+
+            this.logger.logCharacterFavourite(this.favouriteCharacterIsSet, this.character, this.realm, this.region);
+
+            this.favouriteCharacter = this.character;
+            this.favouriteRealm = this.realm;
+            this.favouriteRegion = this.region;
         }
     }
 
+    get canSearch(): boolean {
+        return !!this.clean(this.character) && !!this.clean(this.realm) && !!this.clean(this.region);
+    }
+
+    trySearch() {
+        if (this.canSearch) this.searchByCharacter();
+    }
+
     searchByCharacter() {
-        if (this.clean(this.character) && this.clean(this.realm) && this.clean(this.region)) {
-            this.router.navigate([`/character/${this.clean(this.character)}/${this.clean(this.realm)}/${this.clean(this.region)}`]);
-        }
+        this.router
+            .navigate([`/character/${this.clean(this.character)}/${this.clean(this.realm)}/${this.clean(this.region)}`])
+            .then(success => { if (success) this.logger.logCharacterSearch(this.character, this.realm, this.region); });
     }
 
     clean(input: string): string {

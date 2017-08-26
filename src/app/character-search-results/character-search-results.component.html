@@ -17,7 +17,11 @@
         <spinner></spinner>
       </div>
 
-      <div *ngIf="!loading && encounters.length == 0" class="block p-3 text-center">
+      <div *ngIf="!loading && error" class="block p-3 text-center">
+        <error [error]="error"></error>
+      </div>
+
+      <div *ngIf="!loading && !error && encounters.length == 0" class="block p-3 text-center">
         No parses could be found.
       </div>
 

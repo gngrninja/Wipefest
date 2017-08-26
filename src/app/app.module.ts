@@ -1,5 +1,5 @@
 ﻿import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -36,6 +36,8 @@ import { LocalStorage } from "app/shared/local-storage";
 import { CharacterSearchComponent } from "app/search/character-search.component";
 import { LinkSearchComponent } from "app/search/link-search.component";
 import { GuildSearchComponent } from "app/search/guild-search.component";
+import { LoggerService } from "app/shared/logger.service";
+import { GlobalErrorHandler } from "app/shared/global-error-handler";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -124,6 +126,8 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         NgbModule.forRoot()
     ],
     providers: [
+        LoggerService,
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
         WarcraftLogsService,
         WipefestService,
         EventConfigService,

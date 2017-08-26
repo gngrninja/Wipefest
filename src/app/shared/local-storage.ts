@@ -11,6 +11,11 @@ export class LocalStorage {
         localStorage.setItem(key, value);
     }
 
+    setOrRemove(key: string, value: string) {
+        if (value) this.set(key, value);
+        else this.remove(key);
+    }
+
     clear() {
         localStorage.clear();
     }

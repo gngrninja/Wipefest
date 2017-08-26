@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { WipefestService, Page } from "app/wipefest.service";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
 
     isCollapsed = true;
 
-    constructor(private wipefestService: WipefestService) { }
+    constructor(private wipefestService: WipefestService, private logger: LoggerService) { }
 
     ngOnInit() {
         this.wipefestService.selectedPage.subscribe(page => this.page = page);
@@ -21,6 +22,11 @@ export class NavbarComponent implements OnInit {
 
     onMobileLinkClick() {
         this.isCollapsed = true;
+    }
+
+    toggleMobileNavigation() {
+        this.isCollapsed = !this.isCollapsed;
+        this.logger.logToggleMobileNavigation(!this.isCollapsed);
     }
 
 }

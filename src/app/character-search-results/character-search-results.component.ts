@@ -2,12 +2,12 @@
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Parse, ParseSpecData } from "app/warcraft-logs/parse";
-import { ErrorHandler } from "app/errorHandler";
 import { WipefestService, Page } from "app/wipefest.service";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { Difficulty } from "app/helpers/difficulty-helper";
 import { DomSanitizer } from "@angular/platform-browser";
 import { LocalStorage } from "app/shared/local-storage";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'character-search-results',
@@ -24,6 +24,8 @@ export class CharacterSearchResultsComponent implements OnInit {
 
     encounters: CharacterSearchResultEncounter[] = [];
 
+    error: any;
+
     Difficulty = Difficulty;
     Timestamp = Timestamp;
     Math = Math;
@@ -34,7 +36,8 @@ export class CharacterSearchResultsComponent implements OnInit {
         private wipefestService: WipefestService,
         private warcraftLogsService: WarcraftLogsService,
         private domSanitizer: DomSanitizer,
-        private localStorage: LocalStorage) { }
+        private localStorage: LocalStorage,
+        private logger: LoggerService) { }
 
     ngOnInit() {
         this.wipefestService.selectPage(Page.CharacterSearchResults);
@@ -49,9 +52,15 @@ export class CharacterSearchResultsComponent implements OnInit {
         this.region = params["region"] || this.localStorage.get("characterRegion");
         this.encounters = [];
 
+        if (!this.character || !this.realm || !this.region) {
+            this.loading = false;
+            return;
+        }
+
         this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13)
             .subscribe(parses => {
                 this.loading = false;
+                this.error = null;
                 parses.forEach(parse => {
                     if (![3, 4, 5].some(x => x == parse.difficulty)) { // Normal, Heroic, Mythic
                         return;
@@ -82,7 +91,11 @@ export class CharacterSearchResultsComponent implements OnInit {
                     });
                 });
             },
-            error => { this.loading = false; this.encounters = []; });
+            error => {
+                this.error = error;
+                this.loading = false;
+                this.encounters = [];
+            });
     }
 
     encounterImage(encounterName: string) {
@@ -92,11 +105,11 @@ export class CharacterSearchResultsComponent implements OnInit {
 
     rankingQuality(percent: number) {
         return percent == 100 ? 'artifact' :
-               percent >= 95 ?  'legendary' :
-               percent >= 75 ?  'epic' :
-               percent >= 50 ?  'rare' :
-               percent >= 25 ?  'uncommon' :
-                                'common';
+            percent >= 95 ? 'legendary' :
+                percent >= 75 ? 'epic' :
+                    percent >= 50 ? 'rare' :
+                        percent >= 25 ? 'uncommon' :
+                            'common';
     }
 
 }
