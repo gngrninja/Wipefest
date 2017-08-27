@@ -87,14 +87,14 @@
 
           <table class="table-hover">
             <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
-              <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="2"
+              <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
                   unselectable="on"
                   class="phase-change"
                   (click)="togglePhaseCollapse(event)">
                 <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
                 <h5 class="d-inline-block">{{event.title}}</h5>
               </td>
-              <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="2" class="end-of-fight">
+              <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
                 <h5>{{event.title}}</h5>
               </td>
 
@@ -102,8 +102,8 @@
                 {{event.minutesAndSeconds}}
               </td>
 
-              <td *ngIf="!isTitle(event)" class="table-event">
-                <div>
+              <td *ngIf="!isTitle(event)" class="table-event-icons">
+                <div class="mr-1">
                   <i class="fa" aria-hidden="true" [ngClass]="event.isFriendly ? 'fa-chevron-right friendly' : 'fa-chevron-left unfriendly'"></i>
 
                   <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
@@ -117,11 +117,14 @@
                                 [abilityIcon]="event.killingBlow.abilityIcon"
                                 [alt]="event.killingBlow.name"
                                 [linkToWowhead]="true"></ability-icon>
-
+                </div>
+              </td>
+              <td *ngIf="!isTitle(event)" class="table-event">
+                <div>
                   <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                   <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
 
-                  <span class="ml-1">{{event.friendlyTitle}}</span>
+                  <span class="">{{event.friendlyTitle}}</span>
                 </div>
               </td>
             </tr>

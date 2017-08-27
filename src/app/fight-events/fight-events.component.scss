@@ -20,8 +20,14 @@ div.friendly {
 
 // Table View
 td.table-timestamp {
-  width: 60px;
+  width: 40px;
   text-align: center;
+  vertical-align: text-top;
+}
+td.table-event-icons {
+  width: 40px;
+  text-align: center;
+  vertical-align: text-top;
 }
 .fa.friendly {
   color: $brand-success;
