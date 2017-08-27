@@ -19,6 +19,7 @@
     stack: number;
     targetID: number;
     target: Target;
+    targetInstance: number;
     targetIsFriendly: boolean;
     type: string;
     x: number;

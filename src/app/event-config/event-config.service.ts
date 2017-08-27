@@ -52,7 +52,7 @@ export class EventConfigService {
             if (config.filter.first && matchingCombatEvents.length > 0) {
                 matchingCombatEvents = [matchingCombatEvents[0]];
             }
-            if (config.filter.firstPerInstance) {
+            if (config.filter.firstPerInstance || config.filter.type == "firstseen") {
                 matchingCombatEvents = matchingCombatEvents.filter((x, index, array) => array.findIndex(y => y.sourceInstance == x.sourceInstance) == index);
             }
             if (config.filter.stack) {
