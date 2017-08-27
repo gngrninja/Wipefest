@@ -4,7 +4,7 @@ import { Ability } from "app/fight-events/ability-event";
 @Component({
     selector: 'ability-icon',
     template: `
-    <a *ngIf="linkToWowhead" href="http://wowhead.com/spell={{abilityId}}" target="_blank">
+    <a *ngIf="linkToWowhead" href="http://wowhead.com/spell={{abilityId}}" target="_blank" rel="noopener noreferrer">
       <img src="https://www.warcraftlogs.com/img/icons/abilities/{{abilityIcon}}" alt="{{alt}}" />
     </a>
     <img *ngIf="!linkToWowhead" src="https://www.warcraftlogs.com/img/icons/abilities/{{abilityIcon}}" alt="{{alt}}" />
