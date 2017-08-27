@@ -1,14 +1,19 @@
 {
-  "name": "Wipefest",
-  "version": "0.0.0",
+  "name": "wipefest",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --prod"
+  },
+  "engines": {
+    "node": "6.11.0",
+    "npm": "3.10.10"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +31,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.25",
     "angulartics2": "^2.3.0",
     "core-js": "^2.4.1",
+    "express": "^4.15.4",
     "rxjs": "^5.1.0",
     "stacktrace-js": "^2.0.0",
     "zone.js": "^0.8.4"

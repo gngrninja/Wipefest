@@ -1,4 +1,5 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
+﻿import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -126,6 +127,8 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         NgbModule.forRoot()
     ],
     providers: [
+        Location,
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
         LoggerService,
         { provide: ErrorHandler, useClass: GlobalErrorHandler },
         WarcraftLogsService,
