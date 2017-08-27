@@ -3,7 +3,7 @@
 @Injectable()
 export class ClassesService {
 
-    getSpecialization(specializationId: number) {
+    getSpecialization(specializationId: number): Specialization {
         let specialization = this.specializations.find(x => x.id == specializationId);
 
         if (specialization == undefined) {
@@ -11,6 +11,10 @@ export class ClassesService {
         }
 
         return specialization;
+    }
+
+    getSpecializationByName(className: string, specialization: string): Specialization {
+        return this.specializations.find(x => x.className.replace(" ", "") == className.replace(" ", "") && x.name.replace(" ", "") == specialization.replace(" ", ""));
     }
 
     private specializations: Specialization[] = [

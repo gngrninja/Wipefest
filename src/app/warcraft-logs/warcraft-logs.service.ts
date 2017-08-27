@@ -10,6 +10,7 @@ import { WipefestService } from "app/wipefest.service";
 import { GuildReport } from "app/warcraft-logs/guild-report";
 import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";
+import { ClassesService } from "app/warcraft-logs/classes.service";
 
 @Injectable()
 export class WarcraftLogsService {
@@ -17,7 +18,10 @@ export class WarcraftLogsService {
     private url = "https://www.warcraftlogs.com/v1/";
     private apiKey = "4755ffa6214768b13beab7deb1bfc85f";
 
-    constructor(private http: Http, private logger: LoggerService) { }
+    constructor(
+        private http: Http,
+        private classesService: ClassesService,
+        private logger: LoggerService) { }
 
     private get(url: string): Observable<Response> {
         this.logger.logGetRequest(url);
@@ -25,15 +29,37 @@ export class WarcraftLogsService {
     }
 
     getParses(character: string, realm: string, region: string, zone: number): Observable<Parse[]> {
+        let damageParses = this.getParsesForMetric(character, realm, region, zone, Metric.Damage);
+        let healingParses = this.getParsesForMetric(character, realm, region, zone, Metric.Healing);
+
+        let batch = [damageParses, healingParses];
+
+        return Observable.forkJoin(batch)
+            .map(x => [].concat.apply([], x)); // Flatten arrays into one array
+    }
+
+    private getParsesForMetric(character: string, realm: string, region: string, zone: number, metric: Metric): Observable<Parse[]> {
         return this.get(this.url
             + "parses/character/" + character
             + "/" + realm
             + "/" + region
             + "?api_key=" + this.apiKey
             + "&zone=" + zone
+            + "&metric=" + (metric == Metric.Damage ? "dps" : "hps")
             + "&partition=1")
-            .map(response => response.json())
-            .catch(error => this.handleError(error));
+            .catch(error => this.handleError(error))
+            .map(response => (<Parse[]>response.json()).map(x => {
+                let difficulty = x;
+                difficulty.specs = difficulty.specs.filter(y => {
+                    let spec = this.classesService.getSpecializationByName(y.class, y.spec);
+                    if (!spec) return false;
+
+                    if (metric == Metric.Damage && spec.role != "Healer") return true;
+                    if (metric == Metric.Healing && spec.role == "Healer") return true;
+                    return false;
+                });
+                return difficulty;
+            }));
     }
 
     getGuildReports(guild: string, realm: string, region: string, start: number, end: number): Observable<GuildReport[]> {
@@ -140,4 +166,8 @@ export class Encounter {
 
     constructor(public id: number, public name: string) { }
 
+}
+
+export enum Metric {
+    Damage, Healing
 }
