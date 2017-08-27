@@ -144,17 +144,17 @@ export class FightSummaryComponent implements OnInit {
         return this.warcraftLogsService
             .getDeaths(this.report.id, this.fight.start_time, this.fight.end_time)
             .map(deaths =>
-                deaths.map(death =>
-                    new DeathEvent(
-                        null,
-                        death.timestamp - this.fight.start_time,
-                        true,
-                        death.name,
-                        death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                        death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))
-            .catch(error => {
+            deaths.map(death =>
+                new DeathEvent(
+                    null,
+                    death.timestamp - this.fight.start_time,
+                    true,
+                    death.name,
+                    death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
+                    death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))
+            .catch((error, caught) => {
                 this.error = error;
-                return Observable.empty();
+                return caught;
             });
     }
 
