@@ -1,56 +1,133 @@
-<table class="table-hover">
-  <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
-    <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
-        unselectable="on"
-        class="phase-change"
-        (click)="togglePhaseCollapse(event)">
-      <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
-      <h5 class="d-inline-block">{{event.title}}</h5>
-    </td>
-    <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
-      <h5>{{event.title}}</h5>
-    </td>
-    <td *ngIf="!(event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent))" class="event">
-      <div *ngIf="event.isFriendly" class="friendly">
-        
-        <span class="hidden-md-down">{{event.title}}</span>
-        <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
-        <span class="hidden-sm-up">{{event.shortTitle}}</span>
+﻿<div [hidden]="!(shownEvents && shownEvents.length > 0)" class="fight-summary-tabs">
+  <ngb-tabset #tabs="ngbTabset">
+    <ngb-tab>
+      <ng-template ngbTabTitle><i id="timeline-icon" class="fa fa-align-center" aria-hidden="true"></i> Timeline</ng-template>
+      <ng-template ngbTabContent>
+        <div class="timeline-view">
+          <div class="block p-1 pl-3">
+            <em>
+              This is the timeline view.
+              Events on the left represent events that the raid had some control over.
+              Events on the right represent events that could not be prevented.
+              It is recommended that users with smaller screens try the table view.
+            </em>
+          </div>
 
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
-                      [abilityId]="event.ability.guid"
-                      [abilityIcon]="event.ability.abilityIcon"
-                      [alt]="event.ability.name"
-                      [linkToWowhead]="true"></ability-icon>
+          <table class="table-hover">
+            <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
+              <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
+                  unselectable="on"
+                  class="phase-change"
+                  (click)="togglePhaseCollapse(event)">
+                <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                <h5 class="d-inline-block">{{event.title}}</h5>
+              </td>
+              <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
+                <h5>{{event.title}}</h5>
+              </td>
 
-        <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
-                      [abilityId]="event.killingBlow.guid"
-                      [abilityIcon]="event.killingBlow.abilityIcon"
-                      [alt]="event.killingBlow.name"
-                      [linkToWowhead]="true"></ability-icon>
+              <td *ngIf="!isTitle(event)" class="event">
+                <div *ngIf="event.isFriendly" class="friendly">
+                  <span class="hidden-md-down">{{event.title}}</span>
+                  <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
+                  <span class="hidden-sm-up">{{event.shortTitle}}</span>
 
-        <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-        <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
-      </div>
-    </td>
-    <td *ngIf="!(event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent))" class="timestamp">
-      {{event.minutesAndSeconds}}
-    </td>
-    <td *ngIf="!(event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent))" class="event">
-      <div *ngIf="!event.isFriendly" class="unfriendly">
-        <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent)"
-                      [abilityId]="event.ability.guid"
-                      [abilityIcon]="event.ability.abilityIcon"
-                      [alt]="event.ability.name"
-                      [linkToWowhead]="true"></ability-icon>
+                  <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
+                                [abilityId]="event.ability.guid"
+                                [abilityIcon]="event.ability.abilityIcon"
+                                [alt]="event.ability.name"
+                                [linkToWowhead]="true"></ability-icon>
 
-        <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-        <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+                  <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
+                                [abilityId]="event.killingBlow.guid"
+                                [abilityIcon]="event.killingBlow.abilityIcon"
+                                [alt]="event.killingBlow.name"
+                                [linkToWowhead]="true"></ability-icon>
 
-        <span class="hidden-md-down">{{event.title}}</span>
-        <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
-        <span class="hidden-sm-up">{{event.shortTitle}}</span>
-      </div>
-    </td>
-  </tr>
-</table>
+                  <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+                </div>
+              </td>
+              <td *ngIf="!isTitle(event)" class="timestamp">
+                {{event.minutesAndSeconds}}
+              </td>
+              <td *ngIf="!isTitle(event)" class="event">
+                <div *ngIf="!event.isFriendly" class="unfriendly">
+                  <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent)"
+                                [abilityId]="event.ability.guid"
+                                [abilityIcon]="event.ability.abilityIcon"
+                                [alt]="event.ability.name"
+                                [linkToWowhead]="true"></ability-icon>
+
+                  <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+
+                  <span class="hidden-md-down">{{event.title}}</span>
+                  <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
+                  <span class="hidden-sm-up">{{event.shortTitle}}</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab id="table-tab">
+      <ng-template ngbTabTitle><i id="table-icon" class="fa fa-list-ul" aria-hidden="true"></i> Table</ng-template>
+      <ng-template ngbTabContent>
+        <div class="table-view">
+          <div class="block p-1 pl-3">
+            <em>
+              This is the table view.
+              Events marked with a green arrow represent events that the raid had some control over.
+              Events marked with a red arrow represent events that could not be prevented.
+            </em>
+          </div>
+
+          <table class="table-hover">
+            <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
+              <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="2"
+                  unselectable="on"
+                  class="phase-change"
+                  (click)="togglePhaseCollapse(event)">
+                <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                <h5 class="d-inline-block">{{event.title}}</h5>
+              </td>
+              <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="2" class="end-of-fight">
+                <h5>{{event.title}}</h5>
+              </td>
+
+              <td *ngIf="!isTitle(event)" class="table-timestamp">
+                {{event.minutesAndSeconds}}
+              </td>
+
+              <td *ngIf="!isTitle(event)" class="table-event">
+                <div>
+                  <i class="fa" aria-hidden="true" [ngClass]="event.isFriendly ? 'fa-chevron-right friendly' : 'fa-chevron-left unfriendly'"></i>
+
+                  <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
+                                [abilityId]="event.ability.guid"
+                                [abilityIcon]="event.ability.abilityIcon"
+                                [alt]="event.ability.name"
+                                [linkToWowhead]="true"></ability-icon>
+
+                  <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
+                                [abilityId]="event.killingBlow.guid"
+                                [abilityIcon]="event.killingBlow.abilityIcon"
+                                [alt]="event.killingBlow.name"
+                                [linkToWowhead]="true"></ability-icon>
+
+                  <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+
+                  <span class="ml-1">{{event.friendlyTitle}}</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

@@ -3,6 +3,7 @@ import { EventConfigFilter, EventConfig, EventConfigFilterAbility, EventConfigCo
 import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
+import { environment } from "environments/environment";
 
 @Injectable()
 export class QueryService {
@@ -12,7 +13,10 @@ export class QueryService {
             .map(x => x.parse());
         queries.push("type = 'combatantinfo'");
         let query = this.joinQueries(queries);
-        console.log(query);
+
+        if (!environment.production) {
+            console.log(query);
+        }
 
         return query;
     }

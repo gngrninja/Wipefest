@@ -36,3 +36,29 @@
   border-bottom: 0;
   background-color: $gray-dark;
 }
+
+.fight-summary-tabs {
+  .nav-tabs {
+    background-color: $gray-dark;
+    border: 1px solid $gray-light;
+    border-top: 0;
+
+    .nav-item {
+      border-bottom: 1px solid $gray-light;
+    }
+
+    .nav-link {
+      border-radius: 0;
+
+      #table-icon {
+        vertical-align: unset;
+      }
+    }
+  }
+
+  .tab-content, .tab-pane {
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+}

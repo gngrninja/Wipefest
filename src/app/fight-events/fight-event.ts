@@ -14,6 +14,15 @@ export abstract class FightEvent {
     get mediumTitle(): string { return this.title; };
     get shortTitle(): string { return this.title; };
 
+    get friendlyTitle(): string {
+        let isFriendly = this.isFriendly;
+        this.isFriendly = true;
+        let friendlyTitle = this.title;
+        this.isFriendly = isFriendly;
+
+        return friendlyTitle;
+    }
+
     get minutesAndSeconds(): string {
         return Timestamp.ToMinutesAndSeconds(this.timestamp);
     }

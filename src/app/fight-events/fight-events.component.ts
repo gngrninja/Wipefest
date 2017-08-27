@@ -1,4 +1,4 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FightEvent } from "app/fight-events/fight-event";
 import { AbilityEvent } from "app/fight-events/ability-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
@@ -18,10 +18,13 @@ import { Difficulty } from "app/helpers/difficulty-helper";
     templateUrl: './fight-events.component.html',
     styleUrls: ['./fight-events.component.scss']
 })
-export class FightEventsComponent {
+export class FightEventsComponent implements AfterViewInit {
 
     @Input() fight: Fight;
     @Input() events: FightEvent[];
+    @ViewChild('tabs') tabs;
+
+    view = FightEventsView.Table;
 
     AbilityEvent = AbilityEvent;
     DebuffEvent = DebuffEvent;
@@ -30,8 +33,13 @@ export class FightEventsComponent {
     SpawnEvent = SpawnEvent;
     HeroismEvent = HeroismEvent;
     EndOfFightEvent = EndOfFightEvent;
+    FightEventsView = FightEventsView;
 
     constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
+
+    ngAfterViewInit() {
+        setTimeout(() => this.selectDefaultTab(), 1);
+    }
 
     get hiddenIntervals(): Interval[] {
         return this.events
@@ -53,6 +61,12 @@ export class FightEventsComponent {
             .filter(x => !this.eventIsFiltered(x) && !this.eventIsHidden(x));
     }
 
+    selectDefaultTab() {
+        if (window.innerWidth < 1300) {
+            this.tabs.select("table-tab");
+        }
+    }
+
     private eventIsFiltered(event: FightEvent): boolean {
         return event.config && !event.config.show;
     }
@@ -67,10 +81,18 @@ export class FightEventsComponent {
         event.show = !event.show;
         this.logger.logTogglePhase(Difficulty.ToString(this.fight.difficulty), this.warcraftLogsService.getEncounter(this.fight.boss).name, event.title, event.show);
     }
+
+    isTitle(event: FightEvent): boolean {
+        return event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent);
+    }
 }
 
 export class Interval {
     constructor(
         public start: number,
         public end: number) { }
+}
+
+export enum FightEventsView {
+    Timeline, Table
 }

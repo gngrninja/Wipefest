@@ -7,16 +7,33 @@ table {
   border-top: 0;
 }
 
+// Timeline View
 td.event {
   width: 47%;
 }
-
 td.timestamp {
   text-align: center;
 }
-
 div.friendly {
   text-align: right;
+}
+
+// Table View
+td.table-timestamp {
+  width: 60px;
+  text-align: center;
+}
+.fa.friendly {
+  color: $brand-success;
+}
+.fa.unfriendly {
+  color: $brand-danger;
+}
+
+
+
+.fa {
+  vertical-align: middle;
 }
 
 tr.heroism {
@@ -42,10 +59,16 @@ td.phase-change {
 }
 
 .phase-collapse {
+  vertical-align: text-top;
   color: $brand-primary;
 }
 
 td.end-of-fight {
   padding-top: 7px;
   text-align: center;
+}
+
+.table-view .phase-change, .table-view .end-of-fight {
+  text-align: left;
+  padding-left: 32px;
 }
