@@ -1,0 +1,122 @@
+﻿<div class="app-body">
+  <main class="main mt-4">
+    <div class="container mb-3">
+      <div class="title p-2 pl-3 two-third text-center">
+        <h5 class="mb-0">Get Involved!</h5>
+      </div>
+      <div class="block p-3 two-third">
+        <p>
+          Wipefest has been a personal project of mine for several months,
+          and I would love to hear what you do and don't like about it.
+          If you want to chat, hit me up on Discord.
+          My username is <strong>Yax#7614</strong>.
+        </p>
+        <hr />
+
+        <div class="row hidden-sm-down">
+          <div class="col-sm-4">
+            <div class="cute-tree">
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="speech-bubble p-4">
+              <p class="mb-0">
+                Right now, the most helpful thing anyone can do is to give me honest feedback about
+                the current state of the tool, and what direction they think it should go in.
+                There are a few specific questions that I would be interested in answers to,
+                and I've prepared
+                <a href="https://goo.gl/forms/ZnyJxoYhmGnA2f8o1" target="_blank" rel="noopener noreferrer">
+                  a short survey
+                </a>
+                for anyone willing to help me out!
+              </p>
+            </div>
+            <div class="text-center mt-3">
+              <a href="https://goo.gl/forms/ZnyJxoYhmGnA2f8o1" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-hand-o-right mr-1" aria-hidden="true"></i>
+                Super helpful survey!
+                <i class="fa fa-hand-o-left ml-1" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hidden-md-up">
+          <p class="mb-0">
+            Right now, the most helpful thing anyone can do is to give me honest feedback about
+            the current state of the tool, and what direction they think it should go in.
+            There are a few specific questions that I would be interested in answers to,
+            and I've prepared
+            <a href="https://goo.gl/forms/ZnyJxoYhmGnA2f8o1" target="_blank" rel="noopener noreferrer">
+              a short survey
+            </a>
+            for anyone willing to help me out!
+          </p>
+          <div class="text-center mt-3">
+            <a href="https://goo.gl/forms/ZnyJxoYhmGnA2f8o1" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <i class="fa fa-hand-o-right mr-1" aria-hidden="true"></i>
+              Super helpful survey!
+              <i class="fa fa-hand-o-left ml-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <hr />
+        <p>
+          Some of the features that I would like to bring to Wipefest include:
+        </p>
+        <ul>
+          <li>
+            View a fight summary from the perspective of a single player, and see when they used their major cooldowns and defensives.
+          </li>
+          <li>
+            Compare two fights side by side.
+          </li>
+          <li>
+            Boss guides that dissect top guild's progress kills using Wipefest.
+          </li>
+          <li>
+            Support for more event types, such as "Interrupt", "Combat Resurrection", "Buff/debuff removed".
+          </li>
+          <li>
+            A summary for each fight with bullet points, such as:
+            <ul>
+              <li>
+                (Kil'jaeden) "You gained Illidan's Sightless Gaze 5 seconds into Transition 2"
+              </li>
+              <li>
+                (Maiden) "60% of your raid gained 10 stacks of Creator's Grace"
+              </li>
+              <li>
+                (Harjatan) "You killed the boss after 2 Frosty Discharges"
+              </li>
+            </ul>
+            If I implement a backend, then this could be extended to also compare your summary to other guild's kills with similar item level:
+            <ul>
+              <li>
+                (Maiden) "Similar guilds to you had 55% of their raid gain 10 stacks of Creator's Grace".
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <hr />
+        <p>
+          The configuration for what events to show in each fight is driven by JSON files from
+          <a href="https://github.com/JoshYaxley/Wipefest.EventConfigs/tree/develop" target="_blank" rel="noopener noreferrer">
+            this public GitHub repository.
+          </a>
+          These control what abilities, debuffs, spawns, and phases are shown in each fight,
+          as well as how they are found within the combat log of the fight.
+          I would really like to write some documentation for these files,
+          so that anyone who wants to help can contribute
+          by tweaking or adding new encounters.
+          If we introduce player-specific views of fight summaries,
+          it would be really helpful to have people who play each specialization
+          write configuration files for the important abilities and buffs that should be shown in these views.
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<wf-footer></wf-footer>

@@ -51,6 +51,6 @@ export class WipefestService {
 
 export enum Page {
 
-    None, Welcome, CharacterSearchResults, GuildSearchResults, ReportSummary, FightSummary
+    None, Welcome, CharacterSearchResults, GuildSearchResults, ReportSummary, FightSummary, GetInvolved
 
 }

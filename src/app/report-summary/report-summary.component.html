@@ -17,7 +17,7 @@
         <error [error]="error"></error>
       </div>
 
-      <div *ngIf="!loading && !error && !report" class="block p-3 text-center">
+      <div *ngIf="!loading && !error && !report && reportId" class="title p-3 text-center">
         No report could be found.
       </div>
 

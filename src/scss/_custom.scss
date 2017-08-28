@@ -2,6 +2,7 @@
 .rtl {
   direction: rtl;
 }
+
 .ltr {
   direction: ltr;
 }
@@ -37,6 +38,20 @@
   background-color: $gray-dark;
 }
 
+.half {
+  @include media-breakpoint-up(lg) {
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+
+.two-third {
+  @include media-breakpoint-up(lg) {
+    width: 66%;
+    margin: 0 auto;
+  }
+}
+
 .fight-summary-tabs {
   .nav-tabs {
     background-color: $gray-dark;
@@ -61,4 +76,30 @@
     margin: 0;
     border: 0;
   }
+}
+
+// from http://leaverou.github.io/bubbly/
+.speech-bubble {
+  position: relative;
+  background: $gray;
+  border-radius: .4em;
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 30px solid transparent;
+  border-right-color: $gray;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -15px;
+  margin-left: -30px;
+}
+
+.alert-gray {
+  @include alert-variant($gray, $gray-light, $gray-lighter);
 }

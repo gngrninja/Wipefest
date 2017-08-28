@@ -39,6 +39,7 @@ import { LinkSearchComponent } from "app/search/link-search.component";
 import { GuildSearchComponent } from "app/search/guild-search.component";
 import { LoggerService } from "app/shared/logger.service";
 import { GlobalErrorHandler } from "app/shared/global-error-handler";
+import { GetInvolvedComponent } from './get-involved/get-involved.component';
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -74,7 +75,8 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         BreadcrumbsComponent,
         SIDEBAR_TOGGLE_DIRECTIVES,
         AsideToggleDirective,
-        MobileAsideMenuToggleDirective
+        MobileAsideMenuToggleDirective,
+        GetInvolvedComponent
     ],
     imports: [
         BrowserModule,
@@ -109,6 +111,10 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
             {
                 path: "link",
                 component: ReportSummaryComponent
+            },
+            {
+                path: "get-involved",
+                component: GetInvolvedComponent
             },
             {
                 path: "error",

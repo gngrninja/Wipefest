@@ -31,6 +31,9 @@
     <li class="nav-item px-3">
       <a class="nav-link" routerLink="/link">Link</a>
     </li>
+    <li class="nav-item px-3">
+      <a class="nav-link" routerLink="/get-involved">Get Involved!</a>
+    </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none pull-right">
@@ -53,6 +56,9 @@
     </li>
     <li class="nav-item px-3" [ngClass]="page == Page.ReportSummary ? 'active' : ''">
       <a class="nav-link" routerLink="/link" (click)="onMobileLinkClick()">Link</a>
+    </li>
+    <li class="nav-item px-3" [ngClass]="page == Page.GetInvolved ? 'active' : ''">
+      <a class="nav-link" routerLink="/get-involved" (click)="onMobileLinkClick()">Get Involved!</a>
     </li>
   </ul>
 </div>

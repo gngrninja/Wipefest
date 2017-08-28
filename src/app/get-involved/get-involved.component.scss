@@ -1,0 +1,17 @@
+﻿@import "../../scss/bootstrap-variables";
+
+hr {
+  border: 0;
+  border-top: 1px solid $gray;
+}
+
+.cute-tree {
+  width: 235px;
+  height: 235px;
+  border-radius: 128px;
+  background-image: url(../../img/cutetree.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
