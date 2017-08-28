@@ -20,7 +20,7 @@
             <a *ngIf="fightIndex > 0" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex - 1].id}}" class="icon-link">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
-            {{fightIndex}}
+            {{fightIndex + 1}}
             <a *ngIf="fightIndex < report.fights.length - 1" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex + 1].id}}" class="icon-link">
               <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </a>,
