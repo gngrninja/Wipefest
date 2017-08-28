@@ -22,7 +22,7 @@
                 <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
                 <h5 class="d-inline-block">{{event.title}}</h5>
               </td>
-              <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
+              <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
                 <h5>{{event.title}}</h5>
               </td>
 
@@ -94,7 +94,7 @@
                 <i class="fa mr-1 phase-collapse" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
                 <h5 class="d-inline-block">{{event.title}}</h5>
               </td>
-              <td *ngIf="event.isInstanceOf(EndOfFightEvent)" colspan="3" class="end-of-fight">
+              <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
                 <h5>{{event.title}}</h5>
               </td>
 

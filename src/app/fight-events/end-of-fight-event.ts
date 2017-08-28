@@ -1,17 +1,13 @@
-﻿import { FightEvent } from "app/fight-events/fight-event";
+﻿import { TitleEvent } from "app/fight-events/title-event";
 import { EventConfig } from "app/event-config/event-config";
 
-export class EndOfFightEvent extends FightEvent {
+export class EndOfFightEvent extends TitleEvent {
 
     constructor(
         public timestamp: number,
         public kill: boolean) {
 
-        super(null, timestamp, null);
-    }
-    
-    get title(): string {
-        return `${this.kill ? "Kill" : "Wipe"} (${this.minutesAndSeconds})`;
+        super(timestamp, kill ? "Kill" : "Wipe");
     }
 
 }

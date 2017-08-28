@@ -1,5 +1,6 @@
 ﻿import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FightEvent } from "app/fight-events/fight-event";
+import { TitleEvent } from "app/fight-events/title-event";
 import { AbilityEvent } from "app/fight-events/ability-event";
 import { DebuffEvent } from "app/fight-events/debuff-event";
 import { DeathEvent } from "app/fight-events/death-event";
@@ -26,6 +27,7 @@ export class FightEventsComponent implements AfterViewInit {
 
     view = FightEventsView.Table;
 
+    TitleEvent = TitleEvent;
     AbilityEvent = AbilityEvent;
     DebuffEvent = DebuffEvent;
     DeathEvent = DeathEvent;
@@ -83,7 +85,7 @@ export class FightEventsComponent implements AfterViewInit {
     }
 
     isTitle(event: FightEvent): boolean {
-        return event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(EndOfFightEvent);
+        return event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(TitleEvent);
     }
 }
 
