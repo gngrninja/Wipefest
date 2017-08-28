@@ -18,7 +18,7 @@ export class GuildSearchResultsComponent implements OnInit {
     guild: string;
     realm: string;
     region: string;
-    reports: GuildReport[] = null;
+    reports: GuildReport[] = [];
 
     Timestamp = Timestamp;
 
@@ -45,7 +45,7 @@ export class GuildSearchResultsComponent implements OnInit {
         this.guild = params["guild"] || this.localStorage.get("guild");
         this.realm = params["realm"] || this.localStorage.get("guildRealm");
         this.region = params["region"] || this.localStorage.get("guildRegion");
-        this.reports = null;
+        this.reports = [];
 
         if (!this.guild || !this.realm || !this.region) {
             this.loading = false;

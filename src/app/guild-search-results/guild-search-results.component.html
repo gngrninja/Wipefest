@@ -10,7 +10,7 @@
       </div>
 
       <div class="title p-2 pl-3">
-        <h3 class="mb-0">Reports for {{guild}}</h3>
+        <h3 class="mb-0">Reports for {{guild || '...'}}</h3>
       </div>
 
       <div *ngIf="loading" class="block p-1 pl-3">
@@ -21,7 +21,7 @@
         <error [error]="error"></error>
       </div>
 
-      <div *ngIf="!loading && !error && reports && reports.length == 0" class="block p-3 text-center">
+      <div *ngIf="!loading && !error && reports.length == 0" class="block p-3 text-center">
         No reports could be found.
       </div>
 
