@@ -20,6 +20,7 @@ import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
 import { Difficulty } from "../helpers/difficulty-helper";
 import { LoggerService } from "app/shared/logger.service";
 import { TitleEvent } from "app/fight-events/title-event";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'fight-summary',
@@ -43,6 +44,9 @@ export class FightSummaryComponent implements OnInit {
 
     error: any;
 
+    private reportSubscription: Subscription;
+    private eventSubscription: Subscription;
+
     Difficulty = Difficulty;
 
     constructor(
@@ -61,6 +65,13 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private handleRoute(params: Params) {
+        if (this.reportSubscription) {
+            this.reportSubscription.unsubscribe();
+        }
+        if (this.eventSubscription) {
+            this.eventSubscription.unsubscribe();
+        }
+
         let reportId = params["reportId"];
         let fightId = params["fightId"];
         
@@ -76,7 +87,7 @@ export class FightSummaryComponent implements OnInit {
 
         this.report = null;
 
-        this.warcraftLogsService.getReport(reportId)
+        this.reportSubscription = this.warcraftLogsService.getReport(reportId)
             .subscribe(report => {
                 this.error = null;
                 this.selectReport(report);
@@ -123,7 +134,7 @@ export class FightSummaryComponent implements OnInit {
                 this.populateDeathEvents()
             ];
 
-            Observable.forkJoin(batch)
+            this.eventSubscription = Observable.forkJoin(batch)
                 .map(x => [].concat.apply([], x))
                 .subscribe(events => {
                     if (!events.some(x => x.isInstanceOf(PhaseChangeEvent))) {
