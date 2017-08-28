@@ -117,13 +117,13 @@
                                 [abilityIcon]="event.killingBlow.abilityIcon"
                                 [alt]="event.killingBlow.name"
                                 [linkToWowhead]="true"></ability-icon>
+
+                  <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
                 </div>
               </td>
               <td *ngIf="!isTitle(event)" class="table-event">
                 <div>
                   <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                  <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
-
                   <span class="">{{event.friendlyTitle}}</span>
                 </div>
               </td>

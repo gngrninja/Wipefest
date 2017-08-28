@@ -1,0 +1,17 @@
+﻿@import "../../scss/bootstrap-variables";
+
+.sidebar-nav {
+  padding: 20px;
+}
+
+.nav {
+  max-width: 280px;
+}
+
+.enabled {
+  cursor: pointer;
+}
+
+.disabled {
+  background-color: $gray;
+}

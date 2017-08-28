@@ -11,17 +11,19 @@
         Reset
       </button>
     </li>
-    <div *ngFor="let tags of getTags()">
-      <li class="nav-title">
-        {{tags.join(" ")}}
-      </li>
-      <li class="nav-item">
-        <ng-container *ngFor="let config of getEventConfigsForTags(tags)">
-          <button (click)="toggleConfig(config)" [class]="getButtonClass(config)">
-            {{config.name}} <span class="badge badge-default">{{getEventsForEventConfig(config).length}}</span>
-          </button>
-        </ng-container>
-      </li>
-    </div>
+    <ng-container *ngFor="let tags of getTags()">
+      <div *ngIf="tags[0] != 'phase'">
+        <li class="nav-title">
+          {{tags.join(" ")}}
+        </li>
+        <li class="nav-item">
+          <ng-container *ngFor="let config of getEventConfigsForTags(tags)">
+            <button (click)="toggleConfig(config)" [class]="getButtonClass(config)" [disabled]="getEventsForEventConfig(config).length == 0">
+              {{config.name}} <span class="badge badge-default">{{getEventsForEventConfig(config).length}}</span>
+            </button>
+          </ng-container>
+        </li>
+      </div>
+    </ng-container>
   </ul>
 </div>

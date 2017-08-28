@@ -6,7 +6,7 @@ import { LoggerService } from "app/shared/logger.service";
 @Component({
     selector: 'fight-summary-filters',
     templateUrl: './fight-summary-filters.component.html',
-    styleUrls: ['./fight-summary-filters.component.css']
+    styleUrls: ['./fight-summary-filters.component.scss']
 })
 export class FightSummaryFiltersComponent implements OnChanges {
 
@@ -36,7 +36,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
     }
 
     hideAll() {
-        this.configs.forEach(x => x.show = false);
+        this.configs.filter(x => x.eventType != "phase").forEach(x => x.show = false);
         this.logger.logHideAllFilters();
     }
 
@@ -77,7 +77,13 @@ export class FightSummaryFiltersComponent implements OnChanges {
 
     getButtonClass(config: EventConfig) {
         var classes = "btn btn-sm mb-1 mr-1 ";
-        return config.show ? classes + "btn-primary" : classes + "btn-secondary";
+        if (this.getEventsForEventConfig(config).length > 0) {
+            classes += config.show ? "enabled btn-primary" : "enabled";
+        } else {
+            classes += "disabled";
+        }
+
+        return classes;
     }
 
     getEventsForEventConfig(config: EventConfig) {
