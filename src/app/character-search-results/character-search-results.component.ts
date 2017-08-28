@@ -100,10 +100,6 @@ export class CharacterSearchResultsComponent implements OnInit {
 
     encounterImage(encounterName: string) {
         let id = this.warcraftLogsService.getEncounters().find(x => x.name == encounterName).id;
-
-        if (window.location.href.indexOf("https://") > -1)
-            return this.domSanitizer.bypassSecurityTrustStyle(`url('https://warcraftlogs.com/img/bosses/${id}-execution.png')`);
-
         return this.domSanitizer.bypassSecurityTrustStyle(`url('http://warcraftlogs.com/img/bosses/${id}-execution.png')`);
     }
 
