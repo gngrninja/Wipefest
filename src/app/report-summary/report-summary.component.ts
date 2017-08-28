@@ -108,6 +108,9 @@ export class ReportSummaryComponent implements OnInit {
     }
 
     encounterImage(encounter: Fight) {
+        if (window.location.href.indexOf("https://") > -1)
+            return this.domSanitizer.bypassSecurityTrustStyle(`url('https://warcraftlogs.com/img/bosses/${encounter.boss}-execution.png')`);
+
         return this.domSanitizer.bypassSecurityTrustStyle(`url('http://warcraftlogs.com/img/bosses/${encounter.boss}-execution.png')`);
     }
 }
