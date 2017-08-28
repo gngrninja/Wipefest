@@ -112,6 +112,10 @@ export class LoggerService {
         this.log(new Log("Fight Summary", shown ? "Show phase" : "Hide phase", `Difficulty: ${difficulty}, Encounter: ${encounter}, Phase: ${phase}`));
     }
 
+    logSurveyClick() {
+        this.log(new Log("Survey", "Click"));
+    }
+
 }
 
 export class Log {
