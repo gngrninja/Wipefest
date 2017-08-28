@@ -30,6 +30,9 @@ export class FightSummaryComponent implements OnInit {
 
     report: Report;
     fight: Fight;
+    get fightIndex(): number {
+        return this.report.fights.indexOf(this.fight);
+    }
     get warcraftLogsLink(): string {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
     }
@@ -60,6 +63,18 @@ export class FightSummaryComponent implements OnInit {
     private handleRoute(params: Params) {
         let reportId = params["reportId"];
         let fightId = params["fightId"];
+        
+        this.fight = null;
+        this.events = [];
+        this.combatantInfo = [];
+        this.configs = [];
+
+        if (this.report && this.report.id == reportId) {
+            this.tryToSelectFightById(fightId);
+            return;
+        }
+
+        this.report = null;
 
         this.warcraftLogsService.getReport(reportId)
             .subscribe(report => {

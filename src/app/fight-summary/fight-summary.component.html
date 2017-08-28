@@ -1,17 +1,13 @@
 ﻿<div class="app-body">
-
   <div class="sidebar">
     <fight-summary-filters *ngIf="configs && events" [configs]="configs" [events]="events"></fight-summary-filters>
   </div>
-
   <main class="main">
     <div class="container-fluid">
       <div class="row">
-
         <div *ngIf="!fight" class="col">
           <spinner></spinner>
         </div>
-
         <div *ngIf="fight" class="col mt-4">
           <div class="title p-2 pl-3" [ngClass]="fight.kill ? 'kill' : 'wipe'">
             <h3 class="mb-0">
@@ -20,26 +16,28 @@
           </div>
           <div class="block p-1 pl-3">
             <strong>Report</strong>: <a routerLink="/report/{{report.id}}">{{report.title}}</a>,
-            <strong>Fight</strong>: {{fight.id}},
+            <strong>Fight</strong>:
+            <a *ngIf="fightIndex > 0" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex - 1].id}}" class="icon-link">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            {{fightIndex}}
+            <a *ngIf="fightIndex < report.fights.length - 1" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex + 1].id}}" class="icon-link">
+              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>,
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
           </div>
-
           <div *ngIf="events.length == 0 && !error" class="block p-1 pl-3">
             <spinner></spinner>
           </div>
-
           <div *ngIf="error" class="block p-3 text-center">
             <error [error]="error"></error>
           </div>
-
           <fight-events *ngIf="events && !error" [fight]="fight" [events]="events"></fight-events>
         </div>
       </div>
     </div>
-
     <wf-footer></wf-footer>
   </main>
-
   <aside class="aside-menu">
     <fight-summary-raid *ngIf="combatantInfo.length > 0 && fight" [combatantInfo]="combatantInfo" [friendlies]="getFriendliesForFight(fight.id)"></fight-summary-raid>
   </aside>

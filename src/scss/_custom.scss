@@ -103,3 +103,7 @@
 .alert-gray {
   @include alert-variant($gray, $gray-light, $gray-lighter);
 }
+
+.icon-link {
+  text-decoration: none !important;
+}
