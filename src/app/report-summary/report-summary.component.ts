@@ -19,7 +19,7 @@ export class ReportSummaryComponent implements OnInit {
     Math = Math;
 
     loading = false;
-    reportId: string;
+    reportId = "";
     report: Report;
     error: any;
     
@@ -48,10 +48,11 @@ export class ReportSummaryComponent implements OnInit {
     }
 
     private handleRoute(params: Params) {
-        this.reportId = params["reportId"];
+        let reportId = params["reportId"];
 
-        if (!this.reportId) return;
+        if (!reportId) return;
 
+        this.reportId = reportId;
         this.loading = true;
         this.warcraftLogsService.getReport(this.reportId)
             .subscribe(report => {
