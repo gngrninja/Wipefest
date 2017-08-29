@@ -9,6 +9,9 @@ export abstract class FightEvent {
         public isFriendly: boolean) { }
 
     rowClass = "";
+    get rowClasses(): string {
+        return this.rowClass + ((this.config && this.config.style) ? ` ${this.config.style}` : '');
+    }
 
     abstract get title(): string;
     get mediumTitle(): string { return this.title; };

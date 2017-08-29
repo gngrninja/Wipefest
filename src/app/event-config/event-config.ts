@@ -1,4 +1,4 @@
-export class EventConfigIndex {
+﻿export class EventConfigIndex {
 
     zone: string;
     name: string;
@@ -10,7 +10,10 @@ export class EventConfigIndex {
 export class EventConfig {
 
     name: string;
+    icon: string;
+    style: string;
     target: string;
+    showTarget: boolean;
     tags: string[];
     show: boolean;
     eventType: string;

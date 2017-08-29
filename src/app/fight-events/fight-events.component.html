@@ -14,7 +14,7 @@
           </div>
 
           <table class="table-hover">
-            <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
+            <tr *ngFor="let event of shownEvents" class="{{event.rowClasses}}">
               <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
                   unselectable="on"
                   class="phase-change"
@@ -46,6 +46,7 @@
 
                   <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                   <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+                  <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
                 </div>
               </td>
               <td *ngIf="!isTitle(event)" class="timestamp">
@@ -59,6 +60,7 @@
                                 [alt]="event.ability.name"
                                 [linkToWowhead]="true"></ability-icon>
 
+                  <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
                   <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                   <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
 
@@ -86,7 +88,7 @@
           </div>
 
           <table class="table-hover">
-            <tr *ngFor="let event of shownEvents" class="{{event.rowClass}}">
+            <tr *ngFor="let event of shownEvents" class="{{event.rowClasses}}">
               <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
                   unselectable="on"
                   class="phase-change"
@@ -124,6 +126,7 @@
               <td *ngIf="!isTitle(event)" class="table-event">
                 <div>
                   <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
                   <span class="">{{event.friendlyTitle}}</span>
                 </div>
               </td>

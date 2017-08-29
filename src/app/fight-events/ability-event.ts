@@ -11,14 +11,15 @@ export class AbilityEvent extends FightEvent {
         private source: string,
         private ability: Ability,
         private sequence: number,
-        private target: string = null) {
+        private target: string = null,
+        private showTarget: boolean = false,) {
 
         super(config, timestamp, isFriendly);
     }
 
     get title(): string {
         if (this.isFriendly) {
-            return `${this.source} casts ${this.ability.name}${this.frequencyString(this.sequence)}`;
+            return `${this.source} casts ${this.ability.name}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${this.target}` : ''}`;
         } else {
             return `${this.ability.name}${this.frequencyString(this.sequence)} cast by ${this.source}`;
         }
