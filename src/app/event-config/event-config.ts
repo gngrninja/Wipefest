@@ -50,7 +50,7 @@ export class EventConfigCombinedFilter {
         }
 
         if (this.type == "percent") {
-            let filters = this.filters.map(x => `source.guid = ${x.actor.id} and resources.hpPercent <= ${x.actor.percent + 1} and resources.hpPercent >= ${x.actor.percent - 5}`);
+            let filters = this.filters.map(x => `source.id = ${x.actor.id} and resources.hpPercent <= ${x.actor.percent + 1} and resources.hpPercent >= ${x.actor.percent - 5}`);
             return `type in ('cast', 'applybuff', 'applydebuff') and (${filters.join(") or (")})`;
         }
 
