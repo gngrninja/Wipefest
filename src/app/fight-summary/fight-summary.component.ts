@@ -166,6 +166,7 @@ export class FightSummaryComponent implements OnInit {
                     });
             }).catch(error => {
                 this.error = error;
+                this.logger.logError(error);
                 return Observable.empty();
             });
     }

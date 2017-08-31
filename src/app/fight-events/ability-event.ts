@@ -19,9 +19,9 @@ export class AbilityEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly) {
-            return `${this.source} casts ${this.ability.name}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${this.target}` : ''}`;
+            return `${this.source ? `${this.source} casts ` : ''}${this.ability.name}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${this.target}` : ''}`;
         } else {
-            return `${this.ability.name}${this.frequencyString(this.sequence)} cast by ${this.source}`;
+            return `${this.ability.name}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${this.source}` : ''}`;
         }
     }
     get mediumTitle(): string {

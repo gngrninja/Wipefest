@@ -16,7 +16,5 @@ export class GlobalErrorHandler extends ErrorHandler {
         if (!environment.production) {
             console.log(error);
         }
-
-        super.handleError(error);
     }
 }

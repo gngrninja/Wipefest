@@ -47,7 +47,7 @@ export class EventService {
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly || x.sourceIsFriendly,
-                config.source ? config.source : this.getCombatEventSource(x, report).name,
+                config.source ? config.source : this.getCombatEventSource(x, report) ? this.getCombatEventSource(x, report).name : null,
                 new Ability(x.ability),
                 combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1,
                 config.target ? config.target : this.getCombatEventTarget(x, report) ? this.getCombatEventTarget(x, report).name : null,
