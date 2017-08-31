@@ -57,7 +57,7 @@ export class CharacterSearchResultsComponent implements OnInit {
             return;
         }
 
-        this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13)
+        this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13, [1, 2])
             .subscribe(parses => {
                 this.loading = false;
                 this.error = null;

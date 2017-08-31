@@ -28,9 +28,16 @@ export class WarcraftLogsService {
         return this.http.get(url, { headers: new Headers() });
     }
 
-    getParses(character: string, realm: string, region: string, zone: number): Observable<Parse[]> {
-        let damageParses = this.getParsesForMetric(character, realm, region, zone, Metric.Damage);
-        let healingParses = this.getParsesForMetric(character, realm, region, zone, Metric.Healing);
+    getParses(character: string, realm: string, region: string, zone: number, partitions: number[]): Observable<Parse[]> {
+        let batch = partitions.map(x => this.getParsesForPartition(character, realm, region, zone, Metric.Damage, x));
+
+        return Observable.forkJoin(batch)
+            .map(x => [].concat.apply([], x)); // Flatten arrays into one array
+    }
+
+    private getParsesForPartition(character: string, realm: string, region: string, zone: number, metric: Metric, partition: number): Observable<Parse[]> {
+        let damageParses = this.getParsesForMetric(character, realm, region, zone, Metric.Damage, partition);
+        let healingParses = this.getParsesForMetric(character, realm, region, zone, Metric.Healing, partition);
 
         let batch = [damageParses, healingParses];
 
@@ -38,7 +45,7 @@ export class WarcraftLogsService {
             .map(x => [].concat.apply([], x)); // Flatten arrays into one array
     }
 
-    private getParsesForMetric(character: string, realm: string, region: string, zone: number, metric: Metric): Observable<Parse[]> {
+    private getParsesForMetric(character: string, realm: string, region: string, zone: number, metric: Metric, partition: number): Observable<Parse[]> {
         return this.get(this.url
             + "parses/character/" + character
             + "/" + realm
@@ -46,7 +53,7 @@ export class WarcraftLogsService {
             + "?api_key=" + this.apiKey
             + "&zone=" + zone
             + "&metric=" + (metric == Metric.Damage ? "dps" : "hps")
-            + "&partition=1")
+            + "&partition=" + partition)
             .catch(error => this.handleError(error))
             .map(response => (<Parse[]>response.json()).map(x => {
                 let difficulty = x;
