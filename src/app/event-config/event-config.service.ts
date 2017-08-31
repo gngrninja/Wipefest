@@ -91,14 +91,14 @@ export class EventConfigService {
 
     private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
         if (config.filter.type == "firstseen") {
-            let actor = report.enemies.find(x => x.name == config.filter.actor.name);
+            let actor = report.enemies.find(x => x.guid == config.filter.actor.id);
             return (combatEvent: CombatEvent) =>
                 combatEvent.sourceID == actor.id ||
                 combatEvent.targetID == actor.id;
         }
 
         if (config.filter.type == "percent") {
-            let actor = report.enemies.find(x => x.name == config.filter.actor.name);
+            let actor = report.enemies.find(x => x.guid == config.filter.actor.id);
             return (combatEvent: CombatEvent) =>
                 (combatEvent.type == "cast" || combatEvent.type == "applybuff" || combatEvent.type == "applydebuff") &&
                 combatEvent.sourceID == actor.id;

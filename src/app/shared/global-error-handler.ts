@@ -14,7 +14,7 @@ export class GlobalErrorHandler extends ErrorHandler {
         logger.logError(error);
 
         if (!environment.production) {
-            console.log(error);
+            console.error(error);
         }
     }
 }

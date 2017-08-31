@@ -44,13 +44,13 @@ export class EventConfigCombinedFilter {
 
     parse(): string {
         if (this.type == "firstseen") {
-            let actorNames = this.filters.map(x => x.actor.name);
-            return `(source.firstSeen = timestamp and source.name in ("${actorNames.join('", "')}")) or` +
-                `(target.firstSeen = timestamp and target.name in ("${actorNames.join('", "')}"))`;
+            let actorGuids = this.filters.map(x => x.actor.id);
+            return `(source.firstSeen = timestamp and source.id in (${actorGuids.join(', ')})) or ` +
+                `(target.firstSeen = timestamp and target.id in (${actorGuids.join(', ')}))`;
         }
 
         if (this.type == "percent") {
-            let filters = this.filters.map(x => `source.name = "${x.actor.name}" and resources.hpPercent <= ${x.actor.percent + 1} and resources.hpPercent >= ${x.actor.percent - 5}`);
+            let filters = this.filters.map(x => `source.guid = ${x.actor.id} and resources.hpPercent <= ${x.actor.percent + 1} and resources.hpPercent >= ${x.actor.percent - 5}`);
             return `type in ('cast', 'applybuff', 'applydebuff') and (${filters.join(") or (")})`;
         }
 
@@ -74,6 +74,7 @@ export class EventConfigFilterAbility {
 
 export class EventConfigFilterActor {
 
+    id: number;
     name: string;
     percent: number;
 
