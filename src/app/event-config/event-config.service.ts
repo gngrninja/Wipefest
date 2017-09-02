@@ -13,17 +13,12 @@ export class EventConfigService {
     private url = environment.eventConfigsUrl;
 
     constructor(private http: Http, private logger: LoggerService) { }
-
-    private get(url: string): Observable<Response> {
-        this.logger.logGetRequest(url);
-        return this.http.get(url);
-    }
-
+    
     getEventConfigs(includes: string[]): Observable<EventConfig[]> {
         let batch: Observable<EventConfig[]>[] = [];
 
         includes.forEach(include => {
-            let observable = this.get(this.url + include + ".json")
+            let observable = this.http.get(this.url + include + ".json")
                 .map(response => response.json())
                 .catch(error => this.handleError(error));
 
@@ -39,7 +34,7 @@ export class EventConfigService {
     }
 
     private getEventConfigIndex(): Observable<EventConfigIndex[]> {
-        return this.get(this.url + "index.json")
+        return this.http.get(this.url + "index.json")
             .map(response => response.json())
             .catch(error => this.handleError(error));
     }
