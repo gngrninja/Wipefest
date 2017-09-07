@@ -1,4 +1,4 @@
-﻿<div class="app-body">
+<div class="app-body">
 
   <main class="main mt-4">
     <div class="container mb-3">
@@ -13,7 +13,7 @@
         <spinner></spinner>
       </div>
 
-      <div *ngIf="!loading && error" class="title p-3 text-center">
+      <div *ngIf="!loading && !report && error" class="title p-3 text-center">
         <error [error]="error"></error>
       </div>
 
@@ -33,6 +33,10 @@
             <div class="col-md-3"><strong> Duration</strong>: {{Timestamp.ToHoursOrMinutes(report.end - report.start)}}</div>
             <div class="col-md-3"><a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a></div>
           </div>
+        </div>
+
+        <div *ngIf="!loading && report && error" class="block p-3 text-center">
+          <error [error]="error"></error>
         </div>
 
         <ng-container *ngFor="let encounters of encountersByDifficulty">

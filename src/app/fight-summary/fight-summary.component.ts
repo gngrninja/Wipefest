@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
@@ -112,7 +112,7 @@ export class FightSummaryComponent implements OnInit {
             if (matchingFights.length > 0) {
                 this.selectFight(matchingFights[0]);
             } else {
-                this.selectFight(this.report.fights[0]);
+                this.error = "Sorry, this fight is not currently supported."
             }
         } else {
             this.selectFight(this.report.fights[0]);

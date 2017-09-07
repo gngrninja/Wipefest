@@ -1,17 +1,34 @@
-﻿import { Component } from '@angular/core';
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'link-search',
     templateUrl: './link-search.component.html'
 })
-export class LinkSearchComponent {
+export class LinkSearchComponent implements OnInit {
 
-    constructor(private router: Router, private logger: LoggerService) { }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private logger: LoggerService) { }
 
     warcraftLogsLink = "";
     warcraftLogsLinkError = "";
+
+    ngOnInit() {
+        this.route.queryParams.subscribe((params) => this.handleRoute(params));
+    }
+
+    private handleRoute(params: Params) {
+        let link = params["link"];
+
+        if (!link) return;
+
+        this.warcraftLogsLink = `https://www.warcraftlogs.com/${link}`;
+        this.validateLink();
+        this.searchByLink();
+    }
 
     searchByLink() {
         let wipefestLink = this.parseLink();

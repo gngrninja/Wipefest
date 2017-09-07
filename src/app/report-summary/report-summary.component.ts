@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { WipefestService, Page } from "app/wipefest.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
@@ -76,6 +76,10 @@ export class ReportSummaryComponent implements OnInit {
             this.wipefestService.selectFight(this.report.fights[0]);
 
             this.populateEncounters();
+
+            if (this.report.fights.length == 0) {
+                this.error = "Sorry, this report contains no supported fights.";
+            }
         }
     }
 

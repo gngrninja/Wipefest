@@ -1,4 +1,4 @@
-﻿import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -106,6 +106,10 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
             },
             {
                 path: "report/:reportId",
+                component: ReportSummaryComponent
+            },
+            {
+                path: "link?link=:link",
                 component: ReportSummaryComponent
             },
             {
