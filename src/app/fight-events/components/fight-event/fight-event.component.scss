@@ -1,42 +1,19 @@
-﻿@import "../../scss/bootstrap-variables";
+@import "../../../../scss/bootstrap-variables";
 
-table {
-  width: 100%;
-  background-color: $gray-dark;
-  border: 1px solid $gray-light;
-  border-top: 0;
-}
+td#child-events {
+  margin-top: -1px;
+  padding-top: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 4px;
 
-// Timeline View
-td.event {
-  width: 47%;
+  table {
+    width: 100%;
+    background-color: $gray-dark;
+    border: 2px solid $gray-light;
+    border-top: 0;
+  }
 }
-td.timestamp {
-  text-align: center;
-}
-div.friendly {
-  text-align: right;
-}
-
-// Table View
-td.table-timestamp {
-  width: 40px;
-  text-align: center;
-  vertical-align: text-top;
-}
-td.table-event-icons {
-  width: 40px;
-  text-align: left;
-  vertical-align: text-top;
-}
-.fa.friendly {
-  color: $brand-success;
-}
-.fa.unfriendly {
-  color: $brand-danger;
-}
-
-
 
 .fa {
   vertical-align: middle;
@@ -45,11 +22,17 @@ td.table-event-icons {
 tr.heroism {
   background-color: rgb(40, 45, 73);
 }
+
 tr.death {
   background-color: rgb(87, 69, 35);
 }
+
 tr.combat-resurrection {
   background-color: rgb(64, 79, 63);
+}
+
+td.no-hover {
+  background-color: $gray-dark;
 }
 
 td.phase-change {
@@ -57,7 +40,6 @@ td.phase-change {
   text-align: center;
   border-bottom: 1px solid $gray-lighter;
   cursor: pointer;
-
   -webkit-user-select: none; /* Chrome/Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+ */
@@ -66,9 +48,15 @@ td.phase-change {
   user-select: none;
 }
 
-.phase-collapse {
+i.phase-collapse-icon {
   vertical-align: text-top;
   color: $brand-primary;
+}
+
+i.collapse-icon {
+  vertical-align: middle;
+  margin-top: -3px;
+  color: $brand-info;
 }
 
 td.end-of-fight {
@@ -79,4 +67,12 @@ td.end-of-fight {
 .table-view .phase-change, .table-view .end-of-fight {
   text-align: left;
   padding-left: 32px;
+}
+
+tr.collapsable {
+  cursor: pointer;
+}
+
+tr#child {
+  overflow: hidden;
 }

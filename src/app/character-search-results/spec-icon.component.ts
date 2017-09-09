@@ -1,5 +1,5 @@
-﻿import { Component, Input } from '@angular/core';
-import { Ability } from "app/fight-events/ability-event";
+import { Component, Input } from '@angular/core';
+import { Ability } from "app/fight-events/models/ability-event";
 
 @Component({
     selector: 'spec-icon',

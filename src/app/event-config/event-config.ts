@@ -1,4 +1,4 @@
-﻿export class EventConfigIndex {
+export class EventConfigIndex {
 
     zone: string;
     name: string;
@@ -21,6 +21,10 @@ export class EventConfig {
     friendly: boolean;
     source: string;
     filter: EventConfigFilter;
+
+    public constructor(init?: Partial<EventConfig>) {
+        Object.assign(this, init);
+    }
 
 }
 

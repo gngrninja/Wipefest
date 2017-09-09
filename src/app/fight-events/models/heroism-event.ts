@@ -1,5 +1,5 @@
-﻿import { FightEvent } from "app/fight-events/fight-event";
-import { Ability } from "app/fight-events/ability-event";
+import { FightEvent } from "./fight-event";
+import { Ability } from "./ability-event";
 import { EventConfig } from "app/event-config/event-config";
 
 export class HeroismEvent extends FightEvent {

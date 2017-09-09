@@ -1,4 +1,4 @@
-import { FightEvent } from "app/fight-events/fight-event";
+import { FightEvent } from "./fight-event";
 import { EventConfig } from "app/event-config/event-config";
 
 export class PhaseChangeEvent extends FightEvent {

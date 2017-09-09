@@ -1,6 +1,6 @@
-﻿import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { EventConfig } from "app/event-config/event-config";
-import { FightEvent } from "app/fight-events/fight-event";
+import { FightEvent } from "app/fight-events/models/fight-event";
 import { LoggerService } from "app/shared/logger.service";
 
 @Component({

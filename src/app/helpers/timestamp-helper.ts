@@ -1,10 +1,16 @@
-﻿export module Timestamp {
+export module Timestamp {
 
     export function ToMinutesAndSeconds(duration: number): string {
+        let text = "";
+        if (duration < 0) {
+            text += "-";
+            duration *= -1;
+        }
+
         let minutes = Math.floor(duration / 60000);
         let seconds = Math.floor(duration / 1000) - 60 * minutes;
 
-        return minutes + ":" + ("00" + seconds).substring(seconds.toString().length);
+        return text + minutes + ":" + ("00" + seconds).substring(seconds.toString().length);
     }
 
     export function ToDayAndMonth(timestamp: number): string {

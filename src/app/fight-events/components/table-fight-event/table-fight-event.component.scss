@@ -1,0 +1,25 @@
+@import "../../../../scss/bootstrap-variables";
+
+td.table-timestamp {
+  width: 40px;
+  text-align: center;
+  vertical-align: text-top;
+}
+
+td.table-event-icons {
+  width: 40px;
+  text-align: left;
+  vertical-align: text-top;
+}
+
+.fa.friendly {
+  color: $brand-success;
+}
+
+.fa.unfriendly {
+  color: $brand-danger;
+}
+
+.fa {
+  margin-top: -2px;
+}

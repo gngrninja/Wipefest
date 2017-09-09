@@ -1,4 +1,4 @@
-﻿import { Timestamp } from "app/helpers/timestamp-helper";
+import { Timestamp } from "app/helpers/timestamp-helper";
 import { EventConfig } from "app/event-config/event-config";
 
 export abstract class FightEvent {
@@ -6,7 +6,13 @@ export abstract class FightEvent {
     constructor(
         public config: EventConfig,
         public timestamp: number,
-        public isFriendly: boolean) { }
+        public isFriendly: boolean,
+        public childEvents: FightEvent[] = []) { }
+    
+    collapsed = true;
+    get canCollapse(): boolean {
+        return this.childEvents.length > 0 || this.details != null;
+    }
 
     rowClass = "";
     get rowClasses(): string {
@@ -28,6 +34,10 @@ export abstract class FightEvent {
 
     get minutesAndSeconds(): string {
         return Timestamp.ToMinutesAndSeconds(this.timestamp);
+    }
+
+    get details(): string {
+        return null;
     }
 
     protected initials(input: string): string {

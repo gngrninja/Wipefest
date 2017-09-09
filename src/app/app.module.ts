@@ -17,8 +17,11 @@ import { FightSummaryComponent } from './fight-summary/fight-summary.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WipefestService } from "app/wipefest.service";
 import { ReportSummaryComponent } from './report-summary/report-summary.component';
-import { FightEventsComponent } from './fight-events/fight-events.component';
-import { AbilityIconComponent } from './fight-events/ability-icon.component';
+import { FightEventsComponent } from './fight-events/components/fight-events/fight-events.component';
+import { FightEventComponent } from './fight-events/components/fight-event/fight-event.component';
+import { TimelineFightEventComponent } from './fight-events/components/timeline-fight-event/timeline-fight-event.component';
+import { TableFightEventComponent } from './fight-events/components/table-fight-event/table-fight-event.component';
+import { AbilityIconComponent } from './shared/ability-icon.component';
 import { SearchComponent } from './search/search.component';
 import { CharacterSearchResultsComponent } from './character-search-results/character-search-results.component';
 import { SpecIconComponent } from './character-search-results/spec-icon.component';
@@ -28,7 +31,7 @@ import { GuildSearchResultsComponent } from './guild-search-results/guild-search
 import { ToggleableSearchComponent } from './search/toggleable-search.component';
 import { QueryService } from './warcraft-logs/query.service';
 import { EventConfigService } from "app/event-config/event-config.service";
-import { EventService } from "app/events/event.service";
+import { FightEventService } from "./fight-events/services/fight-event.service";
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
 import { ClassesService } from "app/warcraft-logs/classes.service";
 import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary-raid.component";
@@ -57,6 +60,9 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         WelcomeComponent,
         ReportSummaryComponent,
         FightEventsComponent,
+        FightEventComponent,
+        TimelineFightEventComponent,
+        TableFightEventComponent,
         AbilityIconComponent,
         SearchComponent,
         CharacterSearchComponent,
@@ -145,7 +151,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         WipefestService,
         EventConfigService,
         QueryService,
-        EventService,
+        FightEventService,
         ClassesService,
         LocalStorage
     ],

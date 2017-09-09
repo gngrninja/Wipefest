@@ -1,29 +1,36 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EventConfig } from "app/event-config/event-config";
-import { FightEvent } from "app/fight-events/fight-event";
+import { FightEvent } from "../models/fight-event";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
-import { AbilityEvent, Ability } from "app/fight-events/ability-event";
+import { AbilityEvent, Ability } from "../models/ability-event";
 import { Fight, Report } from "app/warcraft-logs/report";
-import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
-import { DebuffEvent } from "app/fight-events/debuff-event";
-import { HeroismEvent } from "app/fight-events/heroism-event";
-import { SpawnEvent } from "app/fight-events/spawn-event";
+import { PhaseChangeEvent } from "../models/phase-change-event";
+import { DebuffEvent } from "../models/debuff-event";
+import { HeroismEvent } from "../models/heroism-event";
+import { SpawnEvent } from "../models/spawn-event";
+import { DamageEvent } from "../models/damage-event";
+import { Death } from "app/warcraft-logs/death";
+import { DeathEvent } from "../models/death-event";
 
 @Injectable()
-export class EventService {
+export class FightEventService {
 
-    getEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): FightEvent[] {
+    getEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], deaths: Death[], timestampOffset: number = 0): FightEvent[] {
         switch (config.eventType) {
             case "heroism":
                 return this.getHeroismEvents(fight, config, combatEvents);
             case "ability":
                 return this.getAbilityEvents(report, fight, config, combatEvents);
+            case "damage":
+                return this.getDamageEvents(report, fight, config, combatEvents, timestampOffset);
             case "phase":
                 return this.getPhaseChangeEvents(fight, config, combatEvents);
             case "debuff":
                 return this.getDebuffEvents(report, fight, config, combatEvents);
             case "spawn":
                 return this.getSpawnEvents(report, fight, config, combatEvents);
+            case "death":
+                return this.getDeathEvents(report, fight, config, deaths);
             default: {
                 throw new Error(`'${config.eventType}' is an unsupported event type`);
             }
@@ -52,6 +59,20 @@ export class EventService {
                 combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1,
                 config.target ? config.target : this.getCombatEventTarget(x, report) ? this.getCombatEventTarget(x, report).name : null,
                 config.showTarget || false));
+
+        return events;
+    }
+
+    private getDamageEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], timestampOffset): DamageEvent[] {
+        let events = combatEvents.map(
+            x => new DamageEvent(
+                config,
+                x.timestamp - fight.start_time + timestampOffset,
+                config.friendly || x.sourceIsFriendly,
+                new Ability(x.ability),
+                x.amount,
+                x.absorbed,
+                x.overkill));
 
         return events;
     }
@@ -102,6 +123,23 @@ export class EventService {
                 config.friendly,
                 config.name,
                 index + 1));
+
+        return events;
+    }
+
+    private getDeathEvents(report: Report, fight: Fight, config: EventConfig, deaths: Death[]): DeathEvent[] {
+        let events = deaths.map(death =>
+            new DeathEvent(
+                config,
+                death.timestamp - fight.start_time,
+                true,
+                death.name,
+                death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
+                death.events && death.events[0] && this.getCombatEventSource(death.events[0], report) ? this.getCombatEventSource(death.events[0], report).name : null,
+                death.deathWindow,
+                death.damage.total,
+                death.healing.total,
+                this.getEvents(report, fight, new EventConfig({ eventType: "damage" }), death.events, deaths, fight.start_time - death.timestamp)));
 
         return events;
     }

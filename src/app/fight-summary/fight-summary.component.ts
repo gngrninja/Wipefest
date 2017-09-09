@@ -4,23 +4,19 @@ import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WipefestService, Page } from "app/wipefest.service";
-import { FightEvent } from "app/fight-events/fight-event";
-import { AbilityEvent, Ability } from "app/fight-events/ability-event";
-import { DeathEvent } from "app/fight-events/death-event";
-import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
-import { SpawnEvent } from "app/fight-events/spawn-event";
-import { HeroismEvent } from "app/fight-events/heroism-event";
-import { DebuffEvent } from "app/fight-events/debuff-event";
+import { FightEvent } from "app/fight-events/models/fight-event";
 import { QueryService } from 'app/warcraft-logs/query.service';
 import { EventConfig } from "app/event-config/event-config";
 import { EventConfigService } from "app/event-config/event-config.service";
-import { EventService } from "app/events/event.service";
+import { FightEventService } from "app/fight-events/services/fight-event.service";
 import { Observable } from "rxjs/Rx";
-import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
+import { EndOfFightEvent } from "app/fight-events/models/end-of-fight-event";
 import { Difficulty } from "../helpers/difficulty-helper";
 import { LoggerService } from "app/shared/logger.service";
-import { TitleEvent } from "app/fight-events/title-event";
+import { TitleEvent } from "app/fight-events/models/title-event";
 import { Subscription } from "rxjs/Subscription";
+import { Death } from "app/warcraft-logs/death";
+import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 
 @Component({
     selector: 'fight-summary',
@@ -45,7 +41,8 @@ export class FightSummaryComponent implements OnInit {
     error: any;
 
     private reportSubscription: Subscription;
-    private eventSubscription: Subscription;
+    private combatEventSubscription: Subscription;
+    private deathsSubscription: Subscription;
 
     Difficulty = Difficulty;
 
@@ -55,7 +52,7 @@ export class FightSummaryComponent implements OnInit {
         private wipefestService: WipefestService,
         private eventConfigService: EventConfigService,
         private queryService: QueryService,
-        private eventService: EventService,
+        private eventService: FightEventService,
         private warcraftLogsService: WarcraftLogsService,
         private logger: LoggerService) { }
 
@@ -68,13 +65,16 @@ export class FightSummaryComponent implements OnInit {
         if (this.reportSubscription) {
             this.reportSubscription.unsubscribe();
         }
-        if (this.eventSubscription) {
-            this.eventSubscription.unsubscribe();
+        if (this.combatEventSubscription) {
+            this.combatEventSubscription.unsubscribe();
+        }
+        if (this.deathsSubscription) {
+            this.deathsSubscription.unsubscribe();
         }
 
         let reportId = params["reportId"];
         let fightId = params["fightId"];
-        
+
         this.fight = null;
         this.events = [];
         this.combatantInfo = [];
@@ -123,47 +123,57 @@ export class FightSummaryComponent implements OnInit {
         this.fight = fight;
         this.wipefestService.selectFight(this.fight);
 
-        this.populateEvents();
+        this.loadData();
     }
 
-    private populateEvents() {
+    private loadData() {
         this.events = [];
         if (this.report && this.fight) {
-            let batch: Observable<FightEvent[]>[] = [
-                this.populateCombatEvents(),
-                this.populateDeathEvents()
-            ];
+            let combatEvents = [];
+            let loadingCombatEvents = true;
+            this.combatEventSubscription = this.loadCombatEvents().subscribe(x => {
+                combatEvents = x;
+                loadingCombatEvents = false;
 
-            this.eventSubscription = Observable.forkJoin(batch)
-                .map(x => [].concat.apply([], x))
-                .subscribe(events => {
-                    if (!events.some(x => x.isInstanceOf(PhaseChangeEvent))) {
-                        this.events.unshift(new TitleEvent(0, "Pull"));
-                    }
-                    this.events.push(new EndOfFightEvent(this.fight.end_time - this.fight.start_time, this.fight.kill));
-                    this.events.push(...events);
-                    this.events = this.sortEvents(this.events);
-                });
+                if (!loadingDeaths) this.populateEvents(combatEvents, deaths);
+            });
+
+            let deaths = [];
+            let loadingDeaths = true;
+            this.deathsSubscription = this.loadDeaths().subscribe(x => {
+                deaths = x;
+                loadingDeaths = false;
+
+                if (!loadingCombatEvents) this.populateEvents(combatEvents, deaths);
+            });
         }
     }
 
-    private populateCombatEvents(): Observable<FightEvent[]> {
+    private populateEvents(combatEvents: CombatEvent[], deaths: Death[]) {
+        this.combatantInfo = combatEvents.filter(x => x.type == "combatantinfo");
+
+        let events: FightEvent[] = [].concat.apply([], this.configs.map(config => {
+            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
+
+            return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents, deaths);
+        }));
+
+        if (!events.some(x => x.isInstanceOf(PhaseChangeEvent))) {
+            this.events.unshift(new TitleEvent(0, "Pull"));
+        }
+        this.events.push(new EndOfFightEvent(this.fight.end_time - this.fight.start_time, this.fight.kill));
+        this.events.push(...events);
+        this.events = this.sortEvents(this.events);
+    }
+
+    private loadCombatEvents(): Observable<CombatEvent[]> {
         return this.eventConfigService
             .getIncludes(this.fight.boss)
             .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes)))
             .flatMap(configs => {
                 this.configs = configs;
 
-                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs))
-                    .map(combatEvents => {
-                        this.combatantInfo = combatEvents.filter(x => x.type == "combatantinfo");
-
-                        return [].concat.apply([], configs.map(config => {
-                            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
-                            
-                            return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents);
-                        }));
-                    });
+                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs));
             }).catch(error => {
                 this.error = error;
                 this.logger.logError(error);
@@ -171,18 +181,9 @@ export class FightSummaryComponent implements OnInit {
             });
     }
 
-    private populateDeathEvents(): Observable<FightEvent[]> {
+    private loadDeaths(): Observable<Death[]> {
         return this.warcraftLogsService
             .getDeaths(this.report.id, this.fight.start_time, this.fight.end_time)
-            .map(deaths =>
-            deaths.map(death =>
-                new DeathEvent(
-                    null,
-                    death.timestamp - this.fight.start_time,
-                    true,
-                    death.name,
-                    death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                    death.events && death.events[0] && this.eventService.getCombatEventSource(death.events[0], this.report) ? this.eventService.getCombatEventSource(death.events[0], this.report).name : null)))
             .catch((error, caught) => {
                 this.error = error;
                 return caught;

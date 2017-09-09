@@ -1,4 +1,4 @@
-﻿import { TitleEvent } from "app/fight-events/title-event";
+import { TitleEvent } from "./title-event";
 import { EventConfig } from "app/event-config/event-config";
 
 export class EndOfFightEvent extends TitleEvent {

@@ -1,18 +1,12 @@
-﻿import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { FightEvent } from "app/fight-events/fight-event";
-import { TitleEvent } from "app/fight-events/title-event";
-import { AbilityEvent } from "app/fight-events/ability-event";
-import { DebuffEvent } from "app/fight-events/debuff-event";
-import { DeathEvent } from "app/fight-events/death-event";
-import { PhaseChangeEvent } from "app/fight-events/phase-change-event";
-import { SpawnEvent } from "app/fight-events/spawn-event";
-import { HeroismEvent } from "app/fight-events/heroism-event";
-import { EndOfFightEvent } from "app/fight-events/end-of-fight-event";
+import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { EventConfig } from "app/event-config/event-config";
 import { LoggerService } from "app/shared/logger.service";
 import { Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Difficulty } from "app/helpers/difficulty-helper";
+import { FightEvent } from "../../models/fight-event";
+import { PhaseChangeEvent } from "../../models/phase-change-event";
+import { EndOfFightEvent } from "../../models/end-of-fight-event";
 
 @Component({
     selector: 'fight-events',
@@ -26,15 +20,7 @@ export class FightEventsComponent implements AfterViewInit {
     @ViewChild('tabs') tabs;
 
     view = FightEventsView.Table;
-
-    TitleEvent = TitleEvent;
-    AbilityEvent = AbilityEvent;
-    DebuffEvent = DebuffEvent;
-    DeathEvent = DeathEvent;
-    PhaseChangeEvent = PhaseChangeEvent;
-    SpawnEvent = SpawnEvent;
-    HeroismEvent = HeroismEvent;
-    EndOfFightEvent = EndOfFightEvent;
+    
     FightEventsView = FightEventsView;
 
     constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
@@ -77,15 +63,6 @@ export class FightEventsComponent implements AfterViewInit {
         return !event.isInstanceOf(PhaseChangeEvent) &&
             !event.isInstanceOf(EndOfFightEvent) &&
             this.hiddenIntervals.some(i => i.start <= event.timestamp && i.end >= event.timestamp);
-    }
-
-    togglePhaseCollapse(event: PhaseChangeEvent) {
-        event.show = !event.show;
-        this.logger.logTogglePhase(Difficulty.ToString(this.fight.difficulty), this.warcraftLogsService.getEncounter(this.fight.boss).name, event.title, event.show);
-    }
-
-    isTitle(event: FightEvent): boolean {
-        return event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(TitleEvent);
     }
 }
 

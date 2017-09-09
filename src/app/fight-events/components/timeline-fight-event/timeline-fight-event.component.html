@@ -1,0 +1,77 @@
+<tr class="{{event.rowClasses}}" [ngClass]="event.canCollapse ? 'collapsable' : ''" (click)="event.collapsed = !event.collapsed">
+  <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
+      unselectable="on"
+      class="phase-change"
+      (click)="togglePhaseCollapse(event)">
+    <i class="fa mr-1 phase-collapse-icon" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+    <h5 class="d-inline-block">{{event.title}}</h5>
+  </td>
+  <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
+    <h5>{{event.title}}</h5>
+  </td>
+
+  <td *ngIf="!isTitle(event)" class="event">
+    <div *ngIf="event.isFriendly" class="friendly">
+      <i *ngIf="event.canCollapse" class="fa mr-1 collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-chevron-right' : 'fa-chevron-down'"></i>
+
+      <span class="hidden-md-down">{{event.title}}</span>
+      <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
+      <span class="hidden-sm-up">{{event.shortTitle}}</span>
+
+      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
+                    [abilityId]="event.ability.guid"
+                    [abilityIcon]="event.ability.abilityIcon"
+                    [alt]="event.ability.name"
+                    [linkToWowhead]="true"></ability-icon>
+
+      <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
+                    [abilityId]="event.killingBlow.guid"
+                    [abilityIcon]="event.killingBlow.abilityIcon"
+                    [alt]="event.killingBlow.name"
+                    [linkToWowhead]="true"></ability-icon>
+
+      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+      <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
+    </div>
+  </td>
+  <td *ngIf="!isTitle(event)" class="timestamp">
+    {{event.minutesAndSeconds}}
+  </td>
+  <td *ngIf="!isTitle(event)" class="event">
+    <div *ngIf="!event.isFriendly" class="unfriendly">
+      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent)"
+                    [abilityId]="event.ability.guid"
+                    [abilityIcon]="event.ability.abilityIcon"
+                    [alt]="event.ability.name"
+                    [linkToWowhead]="true"></ability-icon>
+
+      <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+
+      <span class="hidden-md-down">{{event.title}}</span>
+      <span class="hidden-lg-up hidden-xs-down">{{event.mediumTitle}}</span>
+      <span class="hidden-sm-up">{{event.shortTitle}}</span>
+
+      <i *ngIf="event.canCollapse" class="fa ml-1 collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-chevron-right' : 'fa-chevron-down'"></i>
+    </div>
+  </td>
+</tr>
+
+<tr id="child" *ngIf="event.canCollapse && !event.collapsed">
+  <td class="no-hover" id="child-events" colspan="3">
+    <table class="table-hover">
+      <tbody>
+        <tr *ngIf="event.details">
+          <td class="text-center no-hover" colspan="3">
+            <em>{{event.details}}</em>
+          </td>
+        </tr>
+      </tbody>
+      <ng-container *ngIf="event.childEvents.length > 0">
+        <tbody *ngFor="let childEvent of event.childEvents" timeline-fight-event [event]="childEvent" [fight]="fight"></tbody>
+      </ng-container>
+    </table>
+  </td>
+</tr>

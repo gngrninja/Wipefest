@@ -1,6 +1,8 @@
-﻿export class CombatEvent {
+export class CombatEvent {
 
     ability: CombatAbility;
+    absorbed: number;
+    amount: number;
     timestamp: number;
     attackPower: number;
     classResources: ClassResource[];
@@ -8,6 +10,7 @@
     hitPoints: number;
     itemLevel: number;
     maxHitPoints: number;
+    overkill: number;
     pin: string;
     resolve: number;
     resourceActor: number;
