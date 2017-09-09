@@ -174,10 +174,10 @@ export class FightSummaryComponent implements OnInit {
                 this.configs = configs;
 
                 return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs));
-            }).catch(error => {
+            }).catch((error, caught) => {
                 this.error = error;
                 this.logger.logError(error);
-                return Observable.empty();
+                return caught;
             });
     }
 
@@ -186,6 +186,7 @@ export class FightSummaryComponent implements OnInit {
             .getDeaths(this.report.id, this.fight.start_time, this.fight.end_time)
             .catch((error, caught) => {
                 this.error = error;
+                this.logger.logError(error);
                 return caught;
             });
     }
