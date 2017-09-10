@@ -109,7 +109,7 @@ export class FightEventService {
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly,
-                config.target ? config.target : this.getCombatEventTarget(x, report).name,
+                config.target ? config.target : this.getCombatEventTarget(x, report) ? this.getCombatEventTarget(x, report).name : null,
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
 
