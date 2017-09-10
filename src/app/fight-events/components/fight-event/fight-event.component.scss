@@ -1,5 +1,9 @@
 @import "../../../../scss/bootstrap-variables";
 
+tr#details td {
+  background-color: darken($gray-dark, 5%);
+}
+
 td#child-events {
   margin-top: -1px;
   padding-top: 0;
@@ -9,7 +13,7 @@ td#child-events {
 
   table {
     width: 100%;
-    background-color: $gray-dark;
+    background-color: darken($gray-dark, 5%);
     border: 2px solid $gray-light;
     border-top: 0;
   }
@@ -66,8 +70,4 @@ td.end-of-fight {
 
 tr.collapsable {
   cursor: pointer;
-}
-
-tr#child {
-  overflow: hidden;
 }

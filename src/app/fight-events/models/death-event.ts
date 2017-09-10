@@ -57,9 +57,9 @@ export class DeathEvent extends FightEvent {
 
         if (this.deathWindow == 0) {
             details = `Took {[style="danger"] ${this.damageTakenInMillions}m} damage.`
+        } else {
+            details = `Died over {[style="warning"] ${this.deathWindowInSeconds}} seconds. Took {[style="danger"] ${this.damageTakenInMillions}m} damage, and received {[style="success"] ${this.healingReceivedInMillions}m} healing.`;
         }
-
-        details = `Died over {[style="warning"] ${this.deathWindowInSeconds}} seconds. Took {[style="danger"] ${this.damageTakenInMillions}m} damage, and received {[style="success"] ${this.healingReceivedInMillions}m} healing.`;
 
         details += ` {[url="https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}&type=deaths&death=${this.index + 1}"] Warcraft Logs}.`;
 

@@ -4,7 +4,6 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location, PopStateEvent } from "@angular/common";
-import { MarkupParser } from "app/helpers/markup-parser";
 
 @Component({
     selector: 'app-root',
@@ -35,8 +34,6 @@ export class AppComponent {
             document.querySelector('body').classList.remove('sidebar-mobile-show');
             document.querySelector('body').classList.remove('aside-menu-mobile-show');
         });
-
-        console.log(MarkupParser.Parse(`{[style="priest success"] Vanyali} casts {[style="success"] Divine Hymn} {[style='link' url="https://www.warcraftlogs.com/asd/asd?death=2#type=1"] Warcraft Logs}`));
     }
 
 }

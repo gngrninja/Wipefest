@@ -43,11 +43,11 @@
   </td>
 </tr>
 
-<tr id="child" *ngIf="event.canCollapse && !event.collapsed">
+<tr *ngIf="event.canCollapse && !event.collapsed">
   <td class="no-hover" id="child-events" colspan="3">
     <table class="table-hover">
       <tbody>
-        <tr *ngIf="event.details">
+        <tr *ngIf="event.details" id="details">
           <td class="pl-3 no-hover" colspan="3">
             <em [innerHtml]="parse(event.details)"></em>
           </td>
