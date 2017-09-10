@@ -20,7 +20,6 @@ export class FightEventsComponent implements AfterViewInit {
     @ViewChild('tabs') tabs;
 
     view = FightEventsView.Table;
-    
     FightEventsView = FightEventsView;
 
     constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }

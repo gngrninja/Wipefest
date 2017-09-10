@@ -17,11 +17,11 @@ export class DamageEvent extends FightEvent {
     }
 
     get damageText(): string {
-        let text = "" + this.damage;
+        let text = `{[style="danger"] ${this.damage}}`;
         if (this.absorbed > 0)
-            text += ", A: " + this.absorbed;
+            text += `, A: {[style="info"] ${this.absorbed}}`;
         if (this.overkill > 0)
-            text += ", O: " + this.overkill;
+            text += `, O: {[style="warning"] ${this.overkill}}`;
 
         return text;
     }

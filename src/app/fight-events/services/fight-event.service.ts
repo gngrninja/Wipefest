@@ -18,13 +18,13 @@ export class FightEventService {
     getEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], deaths: Death[], timestampOffset: number = 0): FightEvent[] {
         switch (config.eventType) {
             case "heroism":
-                return this.getHeroismEvents(fight, config, combatEvents);
+                return this.getHeroismEvents(report, fight, config, combatEvents);
             case "ability":
                 return this.getAbilityEvents(report, fight, config, combatEvents);
             case "damage":
                 return this.getDamageEvents(report, fight, config, combatEvents, timestampOffset);
             case "phase":
-                return this.getPhaseChangeEvents(fight, config, combatEvents);
+                return this.getPhaseChangeEvents(report, fight, config, combatEvents);
             case "debuff":
                 return this.getDebuffEvents(report, fight, config, combatEvents);
             case "spawn":
@@ -37,7 +37,7 @@ export class FightEventService {
         }
     }
 
-    private getHeroismEvents(fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): HeroismEvent[] {
+    private getHeroismEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): HeroismEvent[] {
         let events = combatEvents.map(x => Math.ceil(x.timestamp / 1000))
             .filter((x, index, array) => array.indexOf(x) == index && array.filter(y => y == x).length >= 10) // Only show if 10 or more people affected
             .map(x => new HeroismEvent(
@@ -77,7 +77,7 @@ export class FightEventService {
         return events;
     }
 
-    private getPhaseChangeEvents(fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): PhaseChangeEvent[] {
+    private getPhaseChangeEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): PhaseChangeEvent[] {
         if (!config.filter) {
             return [new PhaseChangeEvent(config, config.timestamp, config.name)];
         }
@@ -128,9 +128,12 @@ export class FightEventService {
     }
 
     private getDeathEvents(report: Report, fight: Fight, config: EventConfig, deaths: Death[]): DeathEvent[] {
-        let events = deaths.map(death =>
+        let events = deaths.map((death, index) =>
             new DeathEvent(
                 config,
+                index,
+                report,
+                fight,
                 death.timestamp - fight.start_time,
                 true,
                 death.name,

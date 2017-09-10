@@ -13,6 +13,7 @@ import { LoggerService } from "app/shared/logger.service";
 import { Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Difficulty } from "app/helpers/difficulty-helper";
+import { MarkupParser } from "app/helpers/markup-parser";
 
 @Component({
     template: `Warning: Instead of using FightEventComponent, use one of its children`
@@ -41,5 +42,9 @@ export class FightEventComponent {
 
     isTitle(event: FightEvent): boolean {
         return event.isInstanceOf(PhaseChangeEvent) || event.isInstanceOf(TitleEvent);
+    }
+
+    parse(input: string): string {
+        return MarkupParser.Parse(input);
     }
 }

@@ -2,11 +2,15 @@ import { FightEvent } from "./fight-event";
 import { CombatAbility } from "app/warcraft-logs/combat-event";
 import { Ability } from "./ability-event";
 import { EventConfig } from "app/event-config/event-config";
+import { Report, Fight } from "app/warcraft-logs/report";
 
 export class DeathEvent extends FightEvent {
 
     constructor(
         public config: EventConfig,
+        private index: number,
+        private report: Report,
+        private fight: Fight,
         public timestamp: number,
         public isFriendly: boolean,
         private source: string,
@@ -49,11 +53,17 @@ export class DeathEvent extends FightEvent {
     }
 
     get details(): string {
+        let details = "";
+
         if (this.deathWindow == 0) {
-            return `Took ${this.damageTakenInMillions}m damage.`
+            details = `Took {[style="danger"] ${this.damageTakenInMillions}m} damage.`
         }
 
-        return `Died over ${this.deathWindowInSeconds} seconds. Took ${this.damageTakenInMillions}m damage, and received ${this.healingReceivedInMillions}m healing.`;
+        details = `Died over {[style="warning"] ${this.deathWindowInSeconds}} seconds. Took {[style="danger"] ${this.damageTakenInMillions}m} damage, and received {[style="success"] ${this.healingReceivedInMillions}m} healing.`;
+
+        details += ` {[url="https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}&type=deaths&death=${this.index + 1}"] Warcraft Logs}.`;
+
+        return details;
     }
 
     get showKillingBlowIcon(): boolean {

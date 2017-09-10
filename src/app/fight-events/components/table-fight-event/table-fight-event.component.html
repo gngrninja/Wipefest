@@ -35,10 +35,10 @@
   </td>
   <td *ngIf="!isTitle(event)" class="table-event">
     <div>
-      <i *ngIf="event.canCollapse" class="fa collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-chevron-right' : 'fa-chevron-down'"></i>
+      <i *ngIf="event.canCollapse" class="fa collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-plus' : 'fa-chevron-down'"></i>
       <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
       <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
-      <span class="">{{event.friendlyTitle}}</span>
+      <span [innerHtml]="parse(event.friendlyTitle)"></span>
     </div>
   </td>
 </tr>
@@ -49,7 +49,7 @@
       <tbody>
         <tr *ngIf="event.details">
           <td class="pl-3 no-hover" colspan="3">
-            <em>{{event.details}}</em>
+            <em [innerHtml]="parse(event.details)"></em>
           </td>
         </tr>
       </tbody>
