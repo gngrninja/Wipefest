@@ -8,6 +8,7 @@ export class DamageEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
+        private source: string,
         private ability: Ability,
         private damage: number,
         private absorbed: number,
@@ -26,16 +27,20 @@ export class DamageEvent extends FightEvent {
         return text;
     }
 
+    get tableTitle(): string {
+        return `(${this.damageText}) ${this.ability.name}${this.source && this.isFriendly ? ` from ${this.source}` : ""}`
+    }
+
     get title(): string {
         if (this.isFriendly) {
-            return `(${this.damageText}) ${this.ability.name}`;
+            return `(${this.damageText}) ${this.ability.name}${this.source ? ` from ${this.source}` : ""}`;
         } else {
             return `${this.ability.name} (${this.damageText})`;
         }
     }
     get mediumTitle(): string {
         if (this.isFriendly) {
-            return `(${this.damage}) ${this.ability.name}`;
+            return `(${this.damage}) ${this.ability.name} from ${this.source}`;
         } else {
             return `${this.ability.name} (${this.damage})`;
         }

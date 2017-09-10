@@ -23,7 +23,7 @@ export abstract class FightEvent {
     get mediumTitle(): string { return this.title; };
     get shortTitle(): string { return this.title; };
 
-    get friendlyTitle(): string {
+    get tableTitle(): string {
         let isFriendly = this.isFriendly;
         this.isFriendly = true;
         let friendlyTitle = this.title;
