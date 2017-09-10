@@ -1,0 +1,49 @@
+<div class="app-body">
+  <main class="main mt-4">
+    <div class="container mb-3">
+      <div class="title p-2 pl-3 two-third text-center">
+        <h5 class="mb-0">Discord</h5>
+      </div>
+      <div class="block p-3 two-third">
+        <p>
+          If you want to chat about Wipefest (or anything, really), then drop by our
+          <a href="https://discord.gg/QhE4hfS" target="_blank" rel="noopener noreferrer"
+             (click)="logDiscordClick()">
+            Discord server</a>:
+        </p>
+
+        <div class="text-center">
+          <a href="https://discord.gg/QhE4hfS" class="btn discord" role="button" target="_blank" rel="noopener noreferrer"
+             (click)="logDiscordClick()">
+            <img src="https://wowanalyzer.com/static/media/Discord-Logo+Wordmark-White.192cb945.svg" />
+          </a>
+        </div>
+
+        <hr />
+
+        <p>
+          I've also written
+          <a href="https://discordapp.com/api/oauth2/authorize?client_id=354726853459836938&scope=bot&permissions=1"
+             target="_blank" rel="noopener noreferrer"
+             (click)="logDiscordBotClick()">
+            a Discord bot</a>
+          that you can invite to your server.
+          It will detect when Warcraft Logs links to reports or fights are posted,
+          and reply with the link to the relevant Wipefest report or fight.
+          Helpful? Annoying? Let me know!
+        </p>
+
+        <div class="text-center mt-3">
+          <a href="https://discordapp.com/api/oauth2/authorize?client_id=354726853459836938&scope=bot&permissions=1"
+             class="btn btn-info" target="_blank" rel="noopener noreferrer"
+             (click)="logDiscordBotClick()">
+            Beep boop!
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<wf-footer></wf-footer>

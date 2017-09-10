@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WipefestService, Page } from "app/wipefest.service";
 import { LoggerService } from "app/shared/logger.service";
 
@@ -27,6 +27,10 @@ export class NavbarComponent implements OnInit {
     toggleMobileNavigation() {
         this.isCollapsed = !this.isCollapsed;
         this.logger.logToggleMobileNavigation(!this.isCollapsed);
+    }
+
+    logPatreonClick() {
+        this.logger.logPatreonClick();
     }
 
 }

@@ -43,6 +43,7 @@ import { GuildSearchComponent } from "app/search/guild-search.component";
 import { LoggerService } from "app/shared/logger.service";
 import { GlobalErrorHandler } from "app/shared/global-error-handler";
 import { GetInvolvedComponent } from './get-involved/get-involved.component';
+import { DiscordComponent } from "app/discord/discord.component";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -76,13 +77,14 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         ToggleableSearchComponent,
         FightSummaryFiltersComponent,
         FightSummaryRaidComponent,
+        GetInvolvedComponent,
+        DiscordComponent,
         // Core UI
         NAV_DROPDOWN_DIRECTIVES,
         BreadcrumbsComponent,
         SIDEBAR_TOGGLE_DIRECTIVES,
         AsideToggleDirective,
-        MobileAsideMenuToggleDirective,
-        GetInvolvedComponent
+        MobileAsideMenuToggleDirective
     ],
     imports: [
         BrowserModule,
@@ -123,8 +125,8 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
                 component: ReportSummaryComponent
             },
             {
-                path: "get-involved",
-                component: GetInvolvedComponent
+                path: "discord",
+                component: DiscordComponent
             },
             {
                 path: "error",

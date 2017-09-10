@@ -1,6 +1,7 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { WipefestService, Page } from "app/wipefest.service";
 import { Report } from "app/warcraft-logs/report";
+import { LoggerService } from "app/shared/logger.service";
 
 @Component({
     selector: 'app-welcome',
@@ -9,12 +10,16 @@ import { Report } from "app/warcraft-logs/report";
 })
 export class WelcomeComponent {
 
-    constructor(private wipefestService: WipefestService) { }
+    constructor(private wipefestService: WipefestService, private loggerService: LoggerService) { }
 
     ngOnInit() {
         this.wipefestService.selectPage(Page.Welcome);
         this.wipefestService.selectReport(null);
         this.wipefestService.selectFight(null);
+    }
+
+    logPatreonClick() {
+        this.loggerService.logPatreonClick();
     }
 
 }

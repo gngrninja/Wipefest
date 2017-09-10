@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Angulartics2 } from "angulartics2/dist";
 import { Response } from "@angular/http";
 import * as StackTrace from 'stacktrace-js';
@@ -114,6 +114,18 @@ export class LoggerService {
 
     logSurveyClick() {
         this.log(new Log("Survey", "Click"));
+    }
+
+    logDiscordClick() {
+        this.log(new Log("Discord", "Click"));
+    }
+
+    logDiscordBotClick() {
+        this.log(new Log("Discord Bot", "Click"));
+    }
+
+    logPatreonClick() {
+        this.log(new Log("Patreon", "Click"));
     }
 
 }

@@ -1,0 +1,21 @@
+@import "../../scss/bootstrap-variables";
+
+hr {
+  border: 0;
+  border-top: 1px solid $gray;
+}
+
+.btn.discord {
+  padding-top: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 4px;
+  height: 38px;
+  border: 0;
+  background: #7289da;
+
+  img {
+    height: 38px;
+    margin-top: -2px;
+  }
+}
