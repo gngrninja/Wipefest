@@ -65,12 +65,6 @@ export class FightSummaryComponent implements OnInit {
         if (this.reportSubscription) {
             this.reportSubscription.unsubscribe();
         }
-        if (this.combatEventSubscription) {
-            this.combatEventSubscription.unsubscribe();
-        }
-        if (this.deathsSubscription) {
-            this.deathsSubscription.unsubscribe();
-        }
 
         let reportId = params["reportId"];
         let fightId = params["fightId"];
@@ -130,8 +124,11 @@ export class FightSummaryComponent implements OnInit {
         this.events = [];
         if (this.report && this.fight) {
             let combatEvents = [];
+            if (this.combatEventSubscription) {
+                this.combatEventSubscription.unsubscribe();
+            }
             let loadingCombatEvents = true;
-            this.combatEventSubscription = this.loadCombatEvents().subscribe(x => {
+            this.combatEventSubscription = this.loadCombatEvents().take(1).subscribe(x => {
                 combatEvents = x;
                 loadingCombatEvents = false;
 
@@ -139,8 +136,11 @@ export class FightSummaryComponent implements OnInit {
             });
 
             let deaths = [];
+            if (this.deathsSubscription) {
+                this.deathsSubscription.unsubscribe();
+            }
             let loadingDeaths = true;
-            this.deathsSubscription = this.loadDeaths().subscribe(x => {
+            this.deathsSubscription = this.loadDeaths().take(1).subscribe(x => {
                 deaths = x;
                 loadingDeaths = false;
 
