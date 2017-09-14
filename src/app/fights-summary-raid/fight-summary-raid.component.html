@@ -8,7 +8,7 @@
       </h6>
       <div *ngFor="let player of role.players" class="ml-3">
         <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
-        {{player.name}}
+        <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.specialization.className, player.name))"></span>
         <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
       </div>
     </div>

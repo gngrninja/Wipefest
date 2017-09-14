@@ -2,6 +2,8 @@ import { FightEvent } from "./fight-event";
 import { CombatAbility } from "app/warcraft-logs/combat-event";
 import { Ability } from "./ability-event";
 import { EventConfig } from "app/event-config/event-config";
+import { Actor } from "app/warcraft-logs/report";
+import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class DebuffEvent extends FightEvent {
 
@@ -9,7 +11,7 @@ export class DebuffEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: string,
+        private source: Actor,
         private ability: Ability,
         public sequence: number) {
 
@@ -19,14 +21,14 @@ export class DebuffEvent extends FightEvent {
     get title(): string {
         if (this.isFriendly) {
             if (this.config.filter.stack) {
-                return `${this.source} gains ${this.config.filter.stack} ${this.ability.name}`;
+                return `${MarkupHelper.Actor(this.source)} gains ${this.config.filter.stack} ${this.ability.name}`;
             }
-            return `${this.source} gains ${this.ability.name}${this.frequencyString(this.sequence)}`;
+            return `${MarkupHelper.Actor(this.source)} gains ${this.ability.name}${this.frequencyString(this.sequence)}`;
         } else {
             if (this.config.filter.stack) {
-                return `${this.config.filter.stack} ${this.ability.name} applied to ${this.source}`;
+                return `${this.config.filter.stack} ${this.ability.name} applied to ${MarkupHelper.Actor(this.source)}`;
             }
-            return `${this.ability.name}${this.frequencyString(this.sequence)} applied to ${this.source}`;
+            return `${this.ability.name}${this.frequencyString(this.sequence)} applied to ${MarkupHelper.Actor(this.source)}`;
         }
     }
     get mediumTitle(): string {

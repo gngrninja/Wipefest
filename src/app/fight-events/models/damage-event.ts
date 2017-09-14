@@ -1,6 +1,8 @@
 import { FightEvent } from "./fight-event";
 import { EventConfig } from "app/event-config/event-config";
 import { Ability } from "./ability-event";
+import { Actor } from "app/warcraft-logs/report";
+import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class DamageEvent extends FightEvent {
 
@@ -8,7 +10,7 @@ export class DamageEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: string,
+        private source: Actor,
         private ability: Ability,
         private damage: number,
         private absorbed: number,
@@ -28,19 +30,19 @@ export class DamageEvent extends FightEvent {
     }
 
     get tableTitle(): string {
-        return `${this.ability.name} (${this.damageText})${this.source && this.isFriendly ? ` from ${this.source}` : ""}`
+        return `${this.ability.name} (${this.damageText})${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`
     }
 
     get title(): string {
         if (this.isFriendly) {
-            return `${this.ability.name} (${this.damageText})${this.source ? ` from ${this.source}` : ""}`;
+            return `${this.ability.name} (${this.damageText})${this.source ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
         } else {
             return `${this.ability.name} (${this.damageText})`;
         }
     }
     get mediumTitle(): string {
         if (this.isFriendly) {
-            return `${this.ability.name} (${this.damage}) from ${this.source}`;
+            return `${this.ability.name} (${this.damage}) from ${MarkupHelper.Actor(this.source)}`;
         } else {
             return `${this.ability.name} (${this.damage})`;
         }

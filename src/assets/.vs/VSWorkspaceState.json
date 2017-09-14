@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\event-configs",
-    "\\event-configs\\general"
+    "\\event-configs\\general",
+    "\\event-configs\\tomb-of-sargeras",
+    "\\event-configs\\tomb-of-sargeras\\maiden-of-vigilance"
   ],
-  "SelectedNode": "\\event-configs\\general\\raid.json",
+  "SelectedNode": "\\event-configs\\tomb-of-sargeras\\maiden-of-vigilance\\debuffs.json",
   "PreviewInSolutionExplorer": false
 }

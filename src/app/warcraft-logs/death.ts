@@ -5,6 +5,7 @@ export class Death {
     deathWindow: number;
     damage: DeathDamage;
     healing: DeathHealing;
+    id: number;
     name: string;
     timestamp: number;
     events: CombatEvent[];

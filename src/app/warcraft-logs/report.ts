@@ -1,8 +1,8 @@
-﻿export class Report {
+export class Report {
 
     id: string;
-    friendlies: Friendly[];
-    enemies: Enemy[];
+    friendlies: Actor[];
+    enemies: Actor[];
     fights: Fight[];
     title: string;
     owner: string;
@@ -11,23 +11,13 @@
 
 }
 
-export class Friendly {
+export class Actor {
 
     fights: FightId[];
     id: number;
     guid: number;
-    name: string;
-    type: string;
 
-}
-
-export class Enemy {
-
-    fights: FightId[];
-    id: number;
-    guid: number;
-    name: string;
-    type: string;
+    constructor(public name: string, public type: string = "NPC") { }
 
 }
 

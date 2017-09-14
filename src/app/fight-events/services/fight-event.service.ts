@@ -3,7 +3,7 @@ import { EventConfig } from "app/event-config/event-config";
 import { FightEvent } from "../models/fight-event";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { AbilityEvent, Ability } from "../models/ability-event";
-import { Fight, Report } from "app/warcraft-logs/report";
+import { Fight, Report, Actor } from "app/warcraft-logs/report";
 import { PhaseChangeEvent } from "../models/phase-change-event";
 import { DebuffEvent } from "../models/debuff-event";
 import { HeroismEvent } from "../models/heroism-event";
@@ -54,10 +54,10 @@ export class FightEventService {
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly || x.sourceIsFriendly,
-                config.source ? config.source : this.getCombatEventSource(x, report) ? this.getCombatEventSource(x, report).name : null,
+                config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
                 new Ability(x.ability),
                 combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1,
-                config.target ? config.target : this.getCombatEventTarget(x, report) ? this.getCombatEventTarget(x, report).name : null,
+                config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
                 config.showTarget || false));
 
         return events;
@@ -69,7 +69,7 @@ export class FightEventService {
                 config,
                 x.timestamp - fight.start_time + timestampOffset,
                 config.friendly || x.sourceIsFriendly,
-                config.source ? config.source : this.getCombatEventSource(x, report) ? this.getCombatEventSource(x, report).name : null,
+                config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
                 new Ability(x.ability),
                 x.amount,
                 x.absorbed,
@@ -109,7 +109,7 @@ export class FightEventService {
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly,
-                config.target ? config.target : this.getCombatEventTarget(x, report) ? this.getCombatEventTarget(x, report).name : null,
+                config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
 
@@ -122,7 +122,7 @@ export class FightEventService {
                 config,
                 x.timestamp - fight.start_time,
                 config.friendly,
-                config.name,
+                new Actor(config.name),
                 index + 1));
 
         return events;
@@ -137,9 +137,9 @@ export class FightEventService {
                 fight,
                 death.timestamp - fight.start_time,
                 true,
-                death.name,
+                this.getFriendly(death.id, report),
                 death.events && death.events[0] && death.events[0].ability ? new Ability(death.events[0].ability) : null,
-                death.events && death.events[0] && this.getCombatEventSource(death.events[0], report) ? this.getCombatEventSource(death.events[0], report).name : null,
+                death.events && death.events[0] && this.getCombatEventSource(death.events[0], report) ? this.getCombatEventSource(death.events[0], report) : null,
                 death.deathWindow,
                 death.damage.total,
                 death.healing.total,
@@ -162,6 +162,10 @@ export class FightEventService {
         } else {
             return report.enemies.find(x => x.id === event.targetID);
         }
+    }
+
+    getFriendly(id: number, report: Report): Actor {
+        return report.friendlies.find(x => x.id === id);
     }
 
 }

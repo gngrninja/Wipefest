@@ -3,6 +3,8 @@ import { CombatAbility } from "app/warcraft-logs/combat-event";
 import { Ability } from "./ability-event";
 import { EventConfig } from "app/event-config/event-config";
 import { Report, Fight } from "app/warcraft-logs/report";
+import { Actor } from "app/warcraft-logs/report";
+import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class DeathEvent extends FightEvent {
 
@@ -13,9 +15,9 @@ export class DeathEvent extends FightEvent {
         private fight: Fight,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: string,
+        private source: Actor,
         private killingBlow: Ability,
-        private from: string,
+        private from: Actor,
         private deathWindow: number,
         private damageTaken: number,
         private healingReceived: number,
@@ -28,18 +30,18 @@ export class DeathEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly && this.killingBlow) {
-            return this.source +
+            return MarkupHelper.Actor(this.source) +
                 (this.deathWindow == 0 ? " one-shot by " : " died to ") +
-                (this.killingBlow.name == "Melee" ? "melee from " + this.from : this.killingBlow.name);
+                (this.killingBlow.name == "Melee" ? "melee from " + MarkupHelper.Actor(this.from) : this.killingBlow.name);
         } else {
-            return this.source + " died";
+            return MarkupHelper.Actor(this.source) + " died";
         }
     }
     get mediumTitle(): string {
-        return this.source + " died";
+        return MarkupHelper.Actor(this.source) + " died";
     }
     get shortTitle(): string {
-        return this.source;
+        return MarkupHelper.Actor(this.source);
     }
 
     private get deathWindowInSeconds() {

@@ -1,7 +1,9 @@
-﻿import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CombatEvent } from "app/warcraft-logs/combat-event";
 import { Specialization, ClassesService } from "app/warcraft-logs/classes.service";
-import { Friendly } from "app/warcraft-logs/report";
+import { Actor } from "app/warcraft-logs/report";
+import { MarkupHelper } from "app/helpers/markup-helper";
+import { MarkupParser } from "app/helpers/markup-parser";
 
 @Component({
     selector: 'fight-summary-raid',
@@ -10,8 +12,11 @@ import { Friendly } from "app/warcraft-logs/report";
 })
 export class FightSummaryRaidComponent implements OnChanges {
 
+    MarkupHelper = MarkupHelper;
+    MarkupParser = MarkupParser;
+
     @Input() combatantInfo: CombatEvent[];
-    @Input() friendlies: Friendly[];
+    @Input() friendlies: Actor[];
     raid: Player[] = [];
     get raidItemLevel() {
         return this.raid.map(x => x.itemLevel).reduce((x, y) => x + y) / this.raid.length;

@@ -1,6 +1,8 @@
 import { FightEvent } from "./fight-event";
 import { CombatAbility } from "app/warcraft-logs/combat-event";
 import { EventConfig } from "app/event-config/event-config";
+import { Actor } from "app/warcraft-logs/report";
+import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class AbilityEvent extends FightEvent {
 
@@ -8,20 +10,20 @@ export class AbilityEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: string,
+        private source: Actor,
         private ability: Ability,
         private sequence: number,
-        private target: string = null,
-        private showTarget: boolean = false,) {
+        private target: Actor,
+        private showTarget: boolean) {
 
         super(config, timestamp, isFriendly);
     }
 
     get title(): string {
         if (this.isFriendly) {
-            return `${this.source ? `${this.source} casts ` : ''}${this.ability.name}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${this.target}` : ''}`;
+            return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${this.ability.name}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
         } else {
-            return `${this.ability.name}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${this.source}` : ''}`;
+            return `${this.ability.name}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}` : ''}`;
         }
     }
     get mediumTitle(): string {
@@ -30,7 +32,6 @@ export class AbilityEvent extends FightEvent {
     get shortTitle(): string {
         return this.initials(this.ability.name) + this.frequencyString(this.sequence);
     }
-
 }
 
 export class Ability {

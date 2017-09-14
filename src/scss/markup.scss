@@ -1,6 +1,7 @@
 @import "bootstrap-variables";
 @import "custom-variables";
 
+// Brands
 .markup-success {
   color: $brand-success;
 }
@@ -15,4 +16,125 @@
 }
 .markup-warning {
   color: $brand-warning;
+}
+
+// Classes
+.markup-death-knight {
+  color: $class-death-knight !important;
+
+  :hover {
+    color: $class-death-knight-hover !important;
+  }
+}
+
+.markup-druid {
+  color: $class-druid !important;
+
+  :hover {
+    color: $class-druid-hover !important;
+  }
+}
+
+.markup-hunter {
+  color: $class-hunter !important;
+
+  :hover {
+    color: $class-hunter-hover !important;
+  }
+}
+
+.markup-mage {
+  color: $class-mage !important;
+
+  :hover {
+    color: $class-mage-hover !important;
+  }
+}
+
+.markup-monk {
+  color: $class-monk !important;
+
+  :hover {
+    color: $class-monk-hover !important;
+  }
+}
+
+.markup-paladin {
+  color: $class-paladin !important;
+
+  :hover {
+    color: $class-paladin-hover !important;
+  }
+}
+
+.markup-priest {
+  color: $class-priest !important;
+
+  :hover {
+    color: $class-priest-hover !important;
+  }
+}
+
+.markup-rogue {
+  color: $class-rogue !important;
+
+  :hover {
+    color: $class-rogue-hover !important;
+  }
+}
+
+.markup-shaman {
+  color: $class-shaman !important;
+
+  :hover {
+    color: $class-shaman-hover !important;
+  }
+}
+
+.markup-warlock {
+  color: $class-warlock !important;
+
+  :hover {
+    color: $class-warlock-hover !important;
+  }
+}
+
+.markup-warrior {
+  color: $class-warrior !important;
+
+  :hover {
+    color: $class-warrior-hover !important;
+  }
+}
+
+.markup-demon-hunter {
+  color: $class-demon-hunter !important;
+
+  :hover {
+    color: $class-demon-hunter-hover !important;
+  }
+}
+
+.markup-boss {
+  color: $class-boss !important;
+
+  :hover {
+    color: $class-boss-hover !important;
+  }
+}
+
+.markup-npc {
+  color: $class-npc !important;
+
+  :hover {
+    color: $class-npc-hover !important;
+  }
+}
+
+.markup-pet {
+  color: $class-pet !important;
+
+  :hover {
+    color: $class-pet-hover !important;
+  }
 }
