@@ -53,3 +53,5 @@ Thumbs.db
 .vs/warcraft-logs-raid-cd-analysis/v15/.suo
 *.suo
 /.vs
+src/assets/.vs/slnx.sqlite
+src/assets/.vs/VSWorkspaceState.json

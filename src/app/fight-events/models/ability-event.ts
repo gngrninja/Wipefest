@@ -21,13 +21,13 @@ export class AbilityEvent extends FightEvent {
 
     get title(): string {
         if (this.isFriendly) {
-            return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${this.ability.name}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
+            return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
         } else {
-            return `${this.ability.name}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}` : ''}`;
+            return `${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}` : ''}`;
         }
     }
     get mediumTitle(): string {
-        return this.ability.name + this.frequencyString(this.sequence);
+        return MarkupHelper.Ability(this.ability) + this.frequencyString(this.sequence);
     }
     get shortTitle(): string {
         return this.initials(this.ability.name) + this.frequencyString(this.sequence);

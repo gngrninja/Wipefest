@@ -1,6 +1,7 @@
 import { FightEvent } from "./fight-event";
 import { Ability } from "./ability-event";
 import { EventConfig } from "app/event-config/event-config";
+import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class HeroismEvent extends FightEvent {
 
@@ -15,7 +16,7 @@ export class HeroismEvent extends FightEvent {
     rowClass = "heroism";
 
     get title(): string {
-        return this.ability.name;
+        return MarkupHelper.Ability(this.ability);
     }
 
 }

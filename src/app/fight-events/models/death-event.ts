@@ -32,7 +32,7 @@ export class DeathEvent extends FightEvent {
         if (this.isFriendly && this.killingBlow) {
             return MarkupHelper.Actor(this.source) +
                 (this.deathWindow == 0 ? " one-shot by " : " died to ") +
-                (this.killingBlow.name == "Melee" ? "melee from " + MarkupHelper.Actor(this.from) : this.killingBlow.name);
+                (this.killingBlow.name == "Melee" ? "melee from " + MarkupHelper.Actor(this.from) : MarkupHelper.Ability(this.killingBlow));
         } else {
             return MarkupHelper.Actor(this.source) + " died";
         }

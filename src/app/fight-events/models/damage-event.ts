@@ -30,21 +30,21 @@ export class DamageEvent extends FightEvent {
     }
 
     get tableTitle(): string {
-        return `${this.ability.name} (${this.damageText})${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`
+        return `${MarkupHelper.Ability(this.ability)} (${this.damageText})${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`
     }
 
     get title(): string {
         if (this.isFriendly) {
-            return `${this.ability.name} (${this.damageText})${this.source ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
+            return `${MarkupHelper.Ability(this.ability)} (${this.damageText})${this.source ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
         } else {
-            return `${this.ability.name} (${this.damageText})`;
+            return `${MarkupHelper.Ability(this.ability)} (${this.damageText})`;
         }
     }
     get mediumTitle(): string {
         if (this.isFriendly) {
-            return `${this.ability.name} (${this.damage}) from ${MarkupHelper.Actor(this.source)}`;
+            return `${MarkupHelper.Ability(this.ability)} (${this.damage}) from ${MarkupHelper.Actor(this.source)}`;
         } else {
-            return `${this.ability.name} (${this.damage})`;
+            return `${MarkupHelper.Ability(this.ability)} (${this.damage})`;
         }
     }
     get shortTitle(): string {
