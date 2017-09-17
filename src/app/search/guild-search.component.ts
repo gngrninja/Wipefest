@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from "@angular/router";
 import { LocalStorage } from "app/shared/local-storage";
 import { LoggerService } from "app/shared/logger.service";
@@ -81,7 +81,7 @@ export class GuildSearchComponent implements OnInit {
 
     clean(input: string): string {
         if (!input) return "";
-        return input.trim().replace(/ /g, "-").replace(/'/g, "");
+        return input.trim().replace(/ /g, "-").replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "");
     }
 
 }

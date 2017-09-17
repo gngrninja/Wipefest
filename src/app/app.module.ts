@@ -44,6 +44,7 @@ import { LoggerService } from "app/shared/logger.service";
 import { GlobalErrorHandler } from "app/shared/global-error-handler";
 import { GetInvolvedComponent } from './get-involved/get-involved.component';
 import { DiscordComponent } from "app/discord/discord.component";
+import { AutoCompleteComponent } from "app/shared/autocomplete/auto-complete.component";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -79,6 +80,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         FightSummaryRaidComponent,
         GetInvolvedComponent,
         DiscordComponent,
+        AutoCompleteComponent,
         // Core UI
         NAV_DROPDOWN_DIRECTIVES,
         BreadcrumbsComponent,
