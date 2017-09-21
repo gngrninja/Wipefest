@@ -38,7 +38,11 @@ export class AutoCompleteComponent implements OnInit {
     search = "";
     @ViewChild("searchBox") searchBox;
 
-    get filteredData(): AutoCompleteCategory[] {
+    filteredData: AutoCompleteCategory[] = [];
+    filter() {
+        this.filteredData = this.filterData();
+    }
+    filterData(): AutoCompleteCategory[] {
         if (this.search.trim().length < 1) return [];
 
         return this.clone(this.data)
@@ -70,6 +74,7 @@ export class AutoCompleteComponent implements OnInit {
 
     open() {
         this.collapsed = false;
+        this.scrollToHighlighted();
         setTimeout(() => this.searchBox.nativeElement.focus(), 50);
     }
 

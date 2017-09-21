@@ -1,12 +1,9 @@
-﻿<div class="row mb-2 pl-2 pr-2">
-  <div class="p-1 pt-0 col-md-5">
+<div class="row mb-2 pl-2 pr-2">
+  <div class="p-1 pt-0 col-md-6">
+    <auto-complete [data]="data" [placeholder]="'Choose realm'" [selectedCategory]="region" [selectedValue]="realm" (valueSelected)="selectRealm($event)"></auto-complete>
+  </div>
+  <div class="p-1 pt-0 col-md-6">
     <input class="form-control" type="text" aria-label="Guild" placeholder="Guild" [(ngModel)]="guild" (keyup.enter)="trySearch()" (input)="update()" (change)="update()" />
-  </div>
-  <div class="p-1 pt-0 col-md-5">
-    <input class="form-control" type="text" aria-label="Realm" placeholder="Realm" [(ngModel)]="realm" (keyup.enter)="trySearch()" (input)="update()" (change)="update()" />
-  </div>
-  <div class="p-1 pt-0 col-md-2">
-    <input class="form-control" type="text" aria-label="Region" placeholder="Region" [(ngModel)]="region" (keyup.enter)="trySearch()" (input)="update()" (change)="update()" />
   </div>
 </div>
 

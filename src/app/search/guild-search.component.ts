@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from "@angular/router";
 import { LocalStorage } from "app/shared/local-storage";
 import { LoggerService } from "app/shared/logger.service";
+import { AutoCompleteSelectedValue, AutoCompleteCategory } from "app/shared/autocomplete/auto-complete.component";
+import { Realms } from "app/shared/realms";
 
 @Component({
     selector: 'guild-search',
@@ -9,6 +11,8 @@ import { LoggerService } from "app/shared/logger.service";
     styleUrls: ['./search.component.css']
 })
 export class GuildSearchComponent implements OnInit {
+
+    data = [];
 
     constructor(private router: Router, private localStorage: LocalStorage, private logger: LoggerService) { }
 
@@ -35,6 +39,23 @@ export class GuildSearchComponent implements OnInit {
         this.realm = this.realm || this.favouriteRealm || "";
         this.region = this.region || this.favouriteRegion || "";
         this.update();
+
+        this.data = [];
+        Realms.forEach(x => {
+            let category = this.data.find(d => d.name == x.region);
+            if (category) {
+                category.values.push(x.realm);
+            } else {
+                this.data.push(new AutoCompleteCategory(x.region, [x.realm]));
+            }
+        });
+    }
+
+    selectRealm(value: AutoCompleteSelectedValue) {
+        this.region = value.category;
+        this.realm = value.value;
+        this.update();
+        this.trySearch();
     }
 
     update() {
