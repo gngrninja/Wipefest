@@ -7,11 +7,16 @@ import { Component, Input, ViewChild, OnInit, EventEmitter, Output } from '@angu
 })
 export class AutoCompleteComponent implements OnInit {
 
+    @ViewChild("autoComplete") autoComplete;
+
     @Input() data: AutoCompleteCategory[];
     @Input() placeholder: string;
     @Input() height = 200;
     @Input() selectedCategory = "";
     @Input() selectedValue = "";
+
+    highlightedCategory = "";
+    highlightedValue = "";
 
     @Output() valueSelected = new EventEmitter<AutoCompleteSelectedValue>();
 
@@ -21,9 +26,6 @@ export class AutoCompleteComponent implements OnInit {
     }
 
     collapsed = true;
-
-    //selectedCategory = "";
-    //selectedValue = "";
 
     get displayValue() {
         if (this.selectedValue == "") {
@@ -36,7 +38,7 @@ export class AutoCompleteComponent implements OnInit {
     search = "";
     @ViewChild("searchBox") searchBox;
 
-    get filteredData() {
+    get filteredData(): AutoCompleteCategory[] {
         if (this.search.trim().length < 1) return [];
 
         return this.clone(this.data)
@@ -47,7 +49,7 @@ export class AutoCompleteComponent implements OnInit {
             })
             .filter(x => x.values.length > 0);
     }
-    
+
     private clone(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
@@ -73,10 +75,87 @@ export class AutoCompleteComponent implements OnInit {
 
     close() {
         this.collapsed = true;
+        this.autoComplete.nativeElement.focus();
+    }
+    
+    up(event: Event) {
+        event.preventDefault();
+
+        if (this.highlightedCategory == "" && this.highlightedValue == "") {
+            return;
+        }
+
+        let filteredData = this.filteredData;
+        if (filteredData.length == 0) {
+            this.highlightedCategory = "";
+            this.highlightedValue = "";
+            return;
+        }
+
+        let categoryIndex = filteredData.findIndex(x => x.name == this.highlightedCategory);
+        let values = filteredData[categoryIndex].values;
+        let valueIndex = values.findIndex(x => x == this.highlightedValue);
+
+        if (valueIndex == 0) {
+            if (categoryIndex == 0) {
+                return;
+            }
+
+            this.highlightedCategory = filteredData[categoryIndex - 1].name;
+            this.highlightedValue = filteredData[categoryIndex - 1].values[filteredData[categoryIndex - 1].values.length - 1];
+            return;
+        }
+
+        this.highlightedValue = values[valueIndex - 1];
     }
 
-    private select(category: string, value: string) {
+    down(event: Event) {
+        event.preventDefault();
+
+        let filteredData = this.filteredData;
+        if (filteredData.length == 0) {
+            this.highlightedCategory = "";
+            this.highlightedValue = "";
+            return;
+        }
+
+        if (this.highlightedCategory == "" && this.highlightedValue == "") {
+            this.highlightedCategory = filteredData[0].name;
+            this.highlightedValue = filteredData[0].values[0];
+            return;
+        }
+
+        let categoryIndex = filteredData.findIndex(x => x.name == this.highlightedCategory);
+        let values = filteredData[categoryIndex].values;
+        let valueIndex = values.findIndex(x => x == this.highlightedValue);
+
+        if (valueIndex == values.length - 1) {
+            if (categoryIndex == filteredData.length - 1) {
+                return;
+            }
+
+            this.highlightedCategory = filteredData[categoryIndex + 1].name;
+            this.highlightedValue = filteredData[categoryIndex + 1].values[0];
+            return;
+        }
+
+        this.highlightedValue = values[valueIndex + 1];
+    }
+
+    scrollToHighlighted() {
+        if (this.highlightedCategory != "" && this.highlightedValue != "") {
+            let span = document.getElementById(this.highlightedCategory + '-' + this.highlightedValue);
+            span.scrollIntoView({ block: "nearest" });
+        }
+    }
+    
+    select(category: string, value: string) {
         this.close();
+
+        if (!this.filteredData.some(x => x.name == category && x.values.some(y => y == value))) {
+            return;
+        }
+
         this.selectedCategory = category;
         this.selectedValue = value;
         this.valueSelected.emit(new AutoCompleteSelectedValue(category, value));

@@ -43,7 +43,9 @@
       line-height: 28px;
 
       .value {
-        &:hover {
+        cursor: pointer;
+
+        &:hover, &.highlighted {
           background-color: dodgerblue;
         }
       }
