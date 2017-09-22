@@ -74,9 +74,11 @@ export class AutoCompleteComponent implements OnInit {
     }
 
     open() {
-        this.collapsed = false;
-        this.scrollToHighlighted();
-        setTimeout(() => this.searchBox.nativeElement.focus(), 50);
+        if (this.collapsed) {
+            this.collapsed = false;
+            this.scrollToHighlighted();
+            setTimeout(() => this.searchBox.nativeElement.focus(), 50);
+        }
     }
 
     close() {
