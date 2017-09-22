@@ -157,7 +157,6 @@ export class AutoCompleteComponent implements OnInit {
         if (this.highlightedCategory != "" && this.highlightedValue != "") {
             let li = document.getElementById(this.highlightedCategory + '-' + this.highlightedValue);
             if (li) {
-                console.log(li);
                 scrollIntoViewIfNeeded(li, false);
             }
         }
