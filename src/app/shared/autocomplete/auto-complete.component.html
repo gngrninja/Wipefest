@@ -5,9 +5,10 @@
 
   <div [hidden]="collapsed" class="data-container" [style.width.px]="width">
     <input class="form-control" type="text" autocomplete="off" placeholder="Search..."
-           [(ngModel)]="search" (keyup)="filter()" #searchBox
+           [ngModel]="search" (keyup)="filter(searchBox.value)" #searchBox
            (keyup.escape)="close()"
-           (keydown.arrowup)="up($event); scrollToHighlighted()" (keydown.arrowdown)="down($event); scrollToHighlighted()" (keyup.enter)="select(highlightedCategory, highlightedValue)"/>
+           (keydown.arrowup)="up($event); scrollToHighlighted()" (keydown.arrowdown)="down($event); scrollToHighlighted()"
+           (keyup.enter)="select(highlightedCategory, highlightedValue)"/>
 
     <div *ngIf="search.trim().length > 0" class="data" [style.maxHeight.px]="height">
       <ul *ngIf="filteredData.length > 0">

@@ -40,8 +40,11 @@ export class AutoCompleteComponent implements OnInit {
     @ViewChild("searchBox") searchBox;
 
     filteredData: AutoCompleteCategory[] = [];
-    filter() {
-        this.filteredData = this.filterData();
+    filter(search: string) {
+        if (this.search != search) {
+            this.search = search;
+            this.filteredData = this.filterData();
+        }
     }
     filterData(): AutoCompleteCategory[] {
         if (this.search.trim().length < 1) return [];
