@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 
 @Component({
     selector: 'auto-complete',
@@ -149,8 +150,10 @@ export class AutoCompleteComponent implements OnInit {
 
     scrollToHighlighted() {
         if (this.highlightedCategory != "" && this.highlightedValue != "") {
-            let span = document.getElementById(this.highlightedCategory + '-' + this.highlightedValue);
-            span.scrollIntoView({ block: "nearest" });
+            let li = document.getElementById(this.highlightedCategory + '-' + this.highlightedValue);
+            if (li) {
+                scrollIntoViewIfNeeded(li, false);
+            }
         }
     }
     

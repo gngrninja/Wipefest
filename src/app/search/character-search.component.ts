@@ -55,7 +55,6 @@ export class CharacterSearchComponent implements OnInit {
         this.region = value.category;
         this.realm = value.value;
         this.update();
-        this.trySearch();
     }
 
     update() {
