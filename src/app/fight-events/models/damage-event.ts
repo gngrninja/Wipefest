@@ -11,10 +11,12 @@ export class DamageEvent extends FightEvent {
         public timestamp: number,
         public isFriendly: boolean,
         private source: Actor,
+        private target: Actor,
         private ability: Ability,
         private damage: number,
         private absorbed: number,
-        private overkill: number) {
+        private overkill: number,
+        private isChild: boolean) {
 
         super(config, timestamp, isFriendly);
     }
@@ -30,25 +32,27 @@ export class DamageEvent extends FightEvent {
     }
 
     get tableTitle(): string {
-        return `${MarkupHelper.Ability(this.ability)} (${this.damageText})${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`
+        return this.title;
     }
 
     get title(): string {
-        if (this.isFriendly) {
-            return `${MarkupHelper.Ability(this.ability)} (${this.damageText})${this.source ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
-        } else {
-            return `${MarkupHelper.Ability(this.ability)} (${this.damageText})`;
+        let title = `${MarkupHelper.Ability(this.ability)} (${this.damageText})${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
+        if (!this.isChild) {
+            title = `${MarkupHelper.Actor(this.target)} damaged by ` + title;
         }
+
+        return title;
     }
     get mediumTitle(): string {
-        if (this.isFriendly) {
-            return `${MarkupHelper.Ability(this.ability)} (${this.damage}) from ${MarkupHelper.Actor(this.source)}`;
-        } else {
-            return `${MarkupHelper.Ability(this.ability)} (${this.damage})`;
+        let title = `${MarkupHelper.Ability(this.ability)}${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
+        if (!this.isChild) {
+            title = `${MarkupHelper.Actor(this.target)} damaged by ` + title;
         }
+
+        return title;
     }
     get shortTitle(): string {
-        return `${this.initials(this.ability.name)} (${this.damage})`;
+        return `${this.initials(this.ability.name)} ({[style="danger"] ${this.damage}})`;
     }
 
 }

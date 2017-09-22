@@ -15,14 +15,14 @@ import { DeathEvent } from "../models/death-event";
 @Injectable()
 export class FightEventService {
 
-    getEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], deaths: Death[], timestampOffset: number = 0): FightEvent[] {
+    getEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], deaths: Death[], timestampOffset: number = 0, isChild: boolean = false): FightEvent[] {
         switch (config.eventType) {
             case "heroism":
                 return this.getHeroismEvents(report, fight, config, combatEvents);
             case "ability":
                 return this.getAbilityEvents(report, fight, config, combatEvents);
             case "damage":
-                return this.getDamageEvents(report, fight, config, combatEvents, timestampOffset);
+                return this.getDamageEvents(report, fight, config, combatEvents, timestampOffset, isChild);
             case "phase":
                 return this.getPhaseChangeEvents(report, fight, config, combatEvents);
             case "debuff":
@@ -63,17 +63,19 @@ export class FightEventService {
         return events;
     }
 
-    private getDamageEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], timestampOffset): DamageEvent[] {
+    private getDamageEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[], timestampOffset: number, isChild: boolean): DamageEvent[] {
         let events = combatEvents.map(
             x => new DamageEvent(
                 config,
                 x.timestamp - fight.start_time + timestampOffset,
                 config.friendly || x.sourceIsFriendly,
                 config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
+                config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
                 new Ability(x.ability),
                 x.amount,
                 x.absorbed,
-                x.overkill));
+                x.overkill,
+                isChild));
 
         return events;
     }
@@ -143,7 +145,7 @@ export class FightEventService {
                 death.deathWindow,
                 death.damage.total,
                 death.healing.total,
-                this.getEvents(report, fight, new EventConfig({ eventType: "damage" }), death.events, deaths, fight.start_time - death.timestamp)));
+                this.getEvents(report, fight, new EventConfig({ eventType: "damage" }), death.events, deaths, fight.start_time - death.timestamp, true)));
 
         return events;
     }
