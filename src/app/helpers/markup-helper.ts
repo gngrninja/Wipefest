@@ -3,16 +3,24 @@ import { Ability } from "app/fight-events/models/ability-event";
 
 export module MarkupHelper {
 
-    export function Actor(source: Actor): string {
-        return `{[style="${getStyleForActorType(source.type)}"] ${source.name}}`
+    export function Style(style: string, text): string {
+        return `{[style="${style}"] ${text}}`;
     }
 
-    export function Class(className: string, text: string): string {
-        return `{[style="${getStyleForActorType(className.replace(" ", ""))}"] ${text}}`
+    export function Danger(text): string {
+        return Style("danger", text);
+    }
+
+    export function Actor(source: Actor): string {
+        return Style(getStyleForActorType(source.type), source.name);
+    }
+
+    export function Class(className: string, text): string {
+        return Style(getStyleForActorType(className.replace(" ", "")), text);
     }
 
     export function Ability(ability: Ability) {
-        return `{[style="${getSchoolForAbilityType(ability.type)}"] ${ability.name}}`;
+        return Style(getSchoolForAbilityType(ability.type), ability.name);
     }
 
     function getStyleForActorType(actorType: string): string {

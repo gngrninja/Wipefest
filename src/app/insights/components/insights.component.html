@@ -1,0 +1,6 @@
+<div *ngIf="insights.length > 0" class="block p-3">
+  <h6>Insights</h6>
+  <ul class="mb-0">
+    <li *ngFor="let insight of insights" [innerHtml]="MarkupParser.Parse(insight.title)"></li>
+  </ul>
+</div>

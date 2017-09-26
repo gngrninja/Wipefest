@@ -45,6 +45,8 @@ import { GlobalErrorHandler } from "app/shared/global-error-handler";
 import { GetInvolvedComponent } from './get-involved/get-involved.component';
 import { DiscordComponent } from "app/discord/discord.component";
 import { AutoCompleteComponent } from "app/shared/autocomplete/auto-complete.component";
+import { InsightsComponent } from "app/insights/components/insights.component";
+import { InsightService } from "app/insights/services/insight.service";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -81,6 +83,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         GetInvolvedComponent,
         DiscordComponent,
         AutoCompleteComponent,
+        InsightsComponent,
         // Core UI
         NAV_DROPDOWN_DIRECTIVES,
         BreadcrumbsComponent,
@@ -157,6 +160,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         QueryService,
         FightEventService,
         ClassesService,
+        InsightService,
         LocalStorage
     ],
     bootstrap: [AppComponent]

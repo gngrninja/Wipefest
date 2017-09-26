@@ -40,6 +40,7 @@
           <div *ngIf="error" class="block p-3 text-center">
             <error [error]="error"></error>
           </div>
+          <insights *ngIf="events && !error" [fight]="fight" [events]="events"></insights>
           <fight-events *ngIf="events && !error" [fight]="fight" [events]="events"></fight-events>
         </div>
       </div>
