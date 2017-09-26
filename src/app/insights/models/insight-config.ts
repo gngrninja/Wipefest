@@ -4,6 +4,14 @@ export class InsightConfig {
 
 }
 
+export class CustomInsightConfig extends InsightConfig {
+
+    constructor(public handler: string) {
+        super("custom");
+    }
+
+}
+
 export class AvoidableDamageInsightConfig extends InsightConfig {
 
     constructor(public eventConfigName: string) {

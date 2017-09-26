@@ -6,7 +6,7 @@ import { Fight } from "app/warcraft-logs/report";
 import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightService } from "app/insights/services/insight.service";
 import { Insight } from "app/insights/models/insight";
-import { AvoidableDamageInsightConfig, InsightConfig } from "app/insights/models/insight-config";
+import { AvoidableDamageInsightConfig, InsightConfig, CustomInsightConfig } from "app/insights/models/insight-config";
 
 @Component({
     selector: 'insights',
@@ -30,11 +30,14 @@ export class InsightsComponent implements OnChanges {
         this.insights = [];
 
         if (this.fight.boss == 2050) { // Sisters of the Moon
-            this.configs = [new AvoidableDamageInsightConfig("Glaive Storm")];
+            this.configs = [
+                new CustomInsightConfig("Twilight Glaive"),
+                new AvoidableDamageInsightConfig("Glaive Storm")
+            ];
         }
 
         if (this.events.length > 0) {
-            this.insights = this.configs.map(x => this.insightService.getInsight(x, this.events));
+            this.insights = this.configs.map(x => this.insightService.getInsight(x, this.events)).filter(x => x != null);
         }
     }
 

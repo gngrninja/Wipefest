@@ -7,7 +7,7 @@ export class AvoidableDamageInsight extends Insight {
 
     constructor(
         private ability: Ability,
-        private playersAndHits: PlayersAndFrequency[]
+        private playersAndHits: PlayerAndFrequency[]
     ) {
         super();
     }
@@ -17,13 +17,12 @@ export class AvoidableDamageInsight extends Insight {
     }
 
     get title(): string {
-        return `You were hit by ${MarkupHelper.Ability(this.ability)} ${MarkupHelper.Danger(this.totalHits)} times, which is avoidable: ` +
-            `${this.playersAndHits.sort((x, y) => y.frequency - x.frequency).map(x => `${MarkupHelper.Actor(x.player)} (${x.frequency})`).join(", ")}.`;;
+        return `You were hit by ${MarkupHelper.Ability(this.ability)} ${MarkupHelper.Danger(this.totalHits)} times, which is avoidable: ${MarkupHelper.PlayersAndFrequency(this.playersAndHits)}`;
     }
 
 }
 
-export class PlayersAndFrequency {
+export class PlayerAndFrequency {
 
     constructor(public player: Actor, public frequency: number) { }
 

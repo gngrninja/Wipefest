@@ -1,5 +1,8 @@
-export abstract class Insight {
+export class Insight {
 
-    abstract get title(): string;
+    constructor(private _title: string = "") { }
 
+    get title(): string {
+        return this._title;
+    }
 }

@@ -1,5 +1,6 @@
 import { Actor } from "app/warcraft-logs/report";
 import { Ability } from "app/fight-events/models/ability-event";
+import { PlayerAndFrequency } from "app/insights/models/avoidable-damage-insight";
 
 export module MarkupHelper {
 
@@ -21,6 +22,10 @@ export module MarkupHelper {
 
     export function Ability(ability: Ability) {
         return Style(getSchoolForAbilityType(ability.type), ability.name);
+    }
+
+    export function PlayersAndFrequency(playersAndFrequency: PlayerAndFrequency[]) {
+        return `${playersAndFrequency.sort((x, y) => y.frequency - x.frequency).map(x => `${Actor(x.player)} (${x.frequency})`).join(", ")}.`;
     }
 
     function getStyleForActorType(actorType: string): string {
