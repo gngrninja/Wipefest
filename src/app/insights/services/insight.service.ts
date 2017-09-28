@@ -22,9 +22,6 @@ export class InsightService {
     }
 
     private getAvoidableDamageInsight(config: AvoidableDamageInsightConfig, events: FightEvent[]): AvoidableDamageInsight {
-
-        //return new AvoidableDamageInsight((<any>events[1]).ability, [], "");
-
         let damageEvents = events
             .filter(x => x.config)
             .filter(x => x.config.name == config.eventConfigName && x.config.eventType == "damage")
@@ -44,6 +41,8 @@ export class InsightService {
         switch (config.handler) {
             case "Twilight Glaive":
                 return SistersOfTheMoonInsights.TwilightGlaive(events);
+            case "Astral Vulnerability":
+                return SistersOfTheMoonInsights.AstralVulnerability(events);
             default: {
                 throw new Error(`${config.handler} is an unsupported custom insight handler`);
             }

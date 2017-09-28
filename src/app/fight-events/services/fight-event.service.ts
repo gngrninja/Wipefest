@@ -112,6 +112,8 @@ export class FightEventService {
                 x.timestamp - fight.start_time,
                 config.friendly,
                 config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
+                config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
+                config.showSource,
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
 

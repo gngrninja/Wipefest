@@ -20,6 +20,7 @@ export class EventConfig {
     timestamp: number;
     friendly: boolean;
     source: string;
+    showSource: boolean;
     filter: EventConfigFilter;
 
     public constructor(init?: Partial<EventConfig>) {
