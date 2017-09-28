@@ -23,6 +23,8 @@ export class InsightService {
 
     private getAvoidableDamageInsight(config: AvoidableDamageInsightConfig, events: FightEvent[]): AvoidableDamageInsight {
 
+        //return new AvoidableDamageInsight((<any>events[1]).ability, [], "");
+
         let damageEvents = events
             .filter(x => x.config)
             .filter(x => x.config.name == config.eventConfigName && x.config.eventType == "damage")
@@ -35,7 +37,7 @@ export class InsightService {
         let players = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
         let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length });
 
-        return new AvoidableDamageInsight(damageEvents[0].ability, playersAndHits);
+        return new AvoidableDamageInsight(damageEvents[0].ability, playersAndHits, config.tip);
     }
 
     private getCustomInsight(config: CustomInsightConfig, events: FightEvent[]): Insight {

@@ -1,3 +1,6 @@
+<div [hidden]="!(shownEvents && shownEvents.length > 0)" class="block p-1 pl-3">
+  <h5 class="mb-1">Events</h5>
+</div>
 <div [hidden]="!(shownEvents && shownEvents.length > 0)" class="fight-summary-tabs">
   <ngb-tabset #tabs="ngbTabset">
     <ngb-tab>

@@ -1,6 +1,6 @@
 export class InsightConfig {
 
-    constructor(public type: string) { }
+    constructor(public type: string, public tip: string = "") { }
 
 }
 
@@ -14,8 +14,8 @@ export class CustomInsightConfig extends InsightConfig {
 
 export class AvoidableDamageInsightConfig extends InsightConfig {
 
-    constructor(public eventConfigName: string) {
-        super("avoidableDamage");
+    constructor(public eventConfigName: string, public tip: string = "") {
+        super("avoidableDamage", tip);
     }
 
 }

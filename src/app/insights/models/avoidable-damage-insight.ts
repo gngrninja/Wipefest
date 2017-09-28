@@ -7,17 +7,19 @@ export class AvoidableDamageInsight extends Insight {
 
     constructor(
         private ability: Ability,
-        private playersAndHits: PlayerAndFrequency[]
+        private playersAndHits: PlayerAndFrequency[],
+        private __tip: string
     ) {
-        super();
+        // Pass details in here rather than having separate property to avoid annoying ExpressionChangedAfterCheck errors
+        super("", MarkupHelper.PlayersAndFrequency(playersAndHits), __tip);
     }
 
     private get totalHits(): number {
-        return this.playersAndHits.map(x => x.frequency).reduce((x, y) => x + y);
+        return this.playersAndHits.map(x => x.frequency).reduce((x, y) => x + y, 0);
     }
 
     get title(): string {
-        return `You were hit by ${MarkupHelper.Ability(this.ability)} ${MarkupHelper.Danger(this.totalHits)} times, which is avoidable: ${MarkupHelper.PlayersAndFrequency(this.playersAndHits)}`;
+        return `You were hit by ${MarkupHelper.Ability(this.ability)} ${MarkupHelper.Danger(this.totalHits)} times, which is avoidable.`;
     }
 
 }

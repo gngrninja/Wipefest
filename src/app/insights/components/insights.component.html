@@ -1,6 +1,26 @@
-<div *ngIf="insights.length > 0" class="block p-3">
-  <h6>Insights</h6>
-  <ul class="mb-0">
-    <li *ngFor="let insight of insights" [innerHtml]="MarkupParser.Parse(insight.title)"></li>
-  </ul>
+<div *ngIf="insights.length > 0" class="block p-1 pl-3">
+  <h5 class="mb-1">Insights</h5>
 </div>
+
+<table>
+  <tr *ngFor="let row of rows">
+    <td>
+      <div class="insight-title pl-2" [ngClass]="row.showDetails ? 'showDetails' : ''"
+           (click)="row.toggle()">
+        <i class="arrow fa fa-chevron-down mr-1" [ngClass]="row.showDetails ? 'down' : 'right'" aria-hidden="true"></i>
+        <span [innerHtml]="MarkupParser.Parse(row.insight.title)"></span>
+      </div>
+
+      <div *ngIf="row.showDetails" class="details">
+        <div class="alert alert-gray mt-3">
+          <div class="alert-title"><span><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i>Details</span></div>
+          <div class="mt-2" [innerHtml]="MarkupParser.Parse(row.insight.details)"></div>
+        </div>
+        <div class="alert alert-gray mt-4 mb-0">
+          <div class="alert-title"><span><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Tip</span></div>
+          <div class="mt-2" [innerHtml]="MarkupParser.Parse(row.insight.tip)"></div>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
