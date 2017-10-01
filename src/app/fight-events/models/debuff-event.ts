@@ -21,6 +21,8 @@ export class DebuffEvent extends FightEvent {
     }
 
     get title(): string {
+        if (this.config.title) return this.config.title;
+
         if (this.isFriendly) {
             if (this.config.filter.stack) {
                 return `${MarkupHelper.Actor(this.target)} gains ${this.config.filter.stack} ${MarkupHelper.Ability(this.ability)}${this.showSource ? ` from ${MarkupHelper.Actor(this.source)}` : ''}`;
@@ -34,6 +36,8 @@ export class DebuffEvent extends FightEvent {
         }
     }
     get mediumTitle(): string {
+        if (this.config.title) return this.config.title;
+
         if (this.config.filter.stack) {
             return `${this.config.filter.stack} ${MarkupHelper.Ability(this.ability)}`;
         }

@@ -20,6 +20,8 @@ export class AbilityEvent extends FightEvent {
     }
 
     get title(): string {
+        if (this.config.title) return this.config.title;
+
         if (this.isFriendly) {
             return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
         } else {
@@ -27,6 +29,8 @@ export class AbilityEvent extends FightEvent {
         }
     }
     get mediumTitle(): string {
+        if (this.config.title) return this.config.title;
+
         return MarkupHelper.Ability(this.ability) + this.frequencyString(this.sequence);
     }
     get shortTitle(): string {

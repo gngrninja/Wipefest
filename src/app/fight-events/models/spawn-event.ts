@@ -16,9 +16,13 @@ export class SpawnEvent extends FightEvent {
     }
 
     get title(): string {
+        if (this.config.title) return this.config.title;
+
         return `${MarkupHelper.Actor(this.actor)}${this.frequencyString(this.instance)} spawned`;
     }
     get mediumTitle(): string {
+        if (this.config.title) return this.config.title;
+
         return this.title;
     }
     get shortTitle(): string {

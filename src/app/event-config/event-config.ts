@@ -21,6 +21,7 @@ export class EventConfig {
     friendly: boolean;
     source: string;
     showSource: boolean;
+    title: string;
     filter: EventConfigFilter;
 
     public constructor(init?: Partial<EventConfig>) {

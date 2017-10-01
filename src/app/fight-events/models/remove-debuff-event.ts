@@ -21,6 +21,8 @@ export class RemoveDebuffEvent extends FightEvent {
     }
 
     get title(): string {
+        if (this.config.title) return this.config.title;
+
         if (this.isFriendly) {
             return `${MarkupHelper.Actor(this.target)} loses ${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showSource ? ` from ${MarkupHelper.Actor(this.source)}` : ''}`;
         } else {
@@ -28,6 +30,8 @@ export class RemoveDebuffEvent extends FightEvent {
         }
     }
     get mediumTitle(): string {
+        if (this.config.title) return this.config.title;
+
         return "- " + MarkupHelper.Ability(this.ability) + this.frequencyString(this.sequence);
     }
     get shortTitle(): string {

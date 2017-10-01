@@ -36,6 +36,8 @@ export class DamageEvent extends FightEvent {
     }
 
     get title(): string {
+        if (this.config.title) return this.config.title;
+
         let title = `${MarkupHelper.Ability(this.ability)} (${this.damageText})${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
         if (!this.isChild) {
             title = `${MarkupHelper.Actor(this.target)} damaged by ` + title;
@@ -44,6 +46,8 @@ export class DamageEvent extends FightEvent {
         return title;
     }
     get mediumTitle(): string {
+        if (this.config.title) return this.config.title;
+
         let title = `${MarkupHelper.Ability(this.ability)}${this.source && this.isFriendly ? ` from ${MarkupHelper.Actor(this.source)}` : ""}`;
         if (!this.isChild) {
             title = `${MarkupHelper.Actor(this.target)} damaged by ` + title;

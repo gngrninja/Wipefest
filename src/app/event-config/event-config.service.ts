@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Rx";
 import { EventConfig, EventConfigIndex } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
@@ -55,26 +55,38 @@ export class EventConfigService {
             }
 
             if (config.filter.range && matchingCombatEvents.length > 0) {
-                matchingCombatEvents = this.filterToRange(matchingCombatEvents, config.filter.range, config.filter.minimum);
+                matchingCombatEvents = this.filterToRange(config, matchingCombatEvents, config.filter.range, config.filter.minimum);
             }
         }
 
         return matchingCombatEvents;
     }
 
-    private filterToRange(combatEvents: CombatEvent[], range: number, minimum: number): CombatEvent[] {
+    private filterToRange(config: EventConfig, combatEvents: CombatEvent[], range: number, minimum: number): CombatEvent[] {
         combatEvents = combatEvents.sort((a, b) => a.timestamp - b.timestamp);
         let start = combatEvents[0].timestamp;
         let end = combatEvents[combatEvents.length - 1].timestamp;
 
         let matchingCombatEventsOnePerRange: CombatEvent[] = [];
         while (start <= end) {
-            if (minimum && combatEvents.filter(x => x.timestamp >= start && x.timestamp <= (start + range)).length < minimum) {
+            let eventsInRange = combatEvents.filter(x => x.timestamp >= start && x.timestamp <= (start + range));
+            if ((minimum && eventsInRange.length < minimum) || eventsInRange.length == 0) {
                 start += 500;
                 continue;
             }
 
-            matchingCombatEventsOnePerRange.push(combatEvents.find(x => x.timestamp >= start));
+            if (config.eventType == "damage") {
+                // Sum all damage into first matching damage event and use that
+                let totalEvent = eventsInRange.reduce((x, y) => {
+                    x.amount += y.amount;
+                    x.absorbed += y.absorbed;
+                    x.overkill += y.overkill;
+                    return x;
+                });
+                matchingCombatEventsOnePerRange.push(totalEvent);
+            } else {
+                matchingCombatEventsOnePerRange.push(combatEvents.find(x => x.timestamp >= start));
+            }
 
             start = matchingCombatEventsOnePerRange[matchingCombatEventsOnePerRange.length - 1].timestamp;
             start += range;

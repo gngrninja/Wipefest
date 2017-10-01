@@ -48,6 +48,12 @@ export class InsightsComponent implements OnChanges {
             ];
         }
 
+        if (this.fight.boss == 2052) { // Maiden of Vigilance
+            this.configs = [
+                new CustomInsightConfig("Echoes")
+            ];
+        }
+
         if (this.events.length > 0) {
             this.insights = this.configs.map(x => this.insightService.getInsight(x, this.events)).filter(x => x != null);
         }

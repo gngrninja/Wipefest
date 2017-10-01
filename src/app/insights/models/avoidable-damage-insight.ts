@@ -20,7 +20,7 @@ export class AvoidableDamageInsight extends Insight {
     }
 
     get title(): string {
-        return `You were hit by ${MarkupHelper.AbilityWithIcon(this.ability)} ${MarkupHelper.Info(this.totalHits)} times.`;
+        return `Hit by ${MarkupHelper.AbilityWithIcon(this.ability)} ${MarkupHelper.Info(this.totalHits)} times.`;
     }
 
 }

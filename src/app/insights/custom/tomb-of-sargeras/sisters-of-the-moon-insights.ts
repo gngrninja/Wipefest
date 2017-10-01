@@ -34,7 +34,7 @@ export module SistersOfTheMoonInsights {
         let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
         let totalHits = playersAndHits.map(x => x.frequency).reduce((x, y) => x + y);
 
-        let insight = `You unnecessarily intercepted ${MarkupHelper.AbilityWithIcon(damageEvents[0].ability)} ${MarkupHelper.Info(totalHits)} times.`;
+        let insight = `Unnecessarily intercepted ${MarkupHelper.AbilityWithIcon(damageEvents[0].ability)} ${MarkupHelper.Info(totalHits)} times.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndHits);
         let tip = `${MarkupHelper.Style("boss", "Huntress Kasparian")} debuffs a player with ${MarkupHelper.Style("arcane", "Twilight Glaive")},
 before firing a glaive at them that travels from ${MarkupHelper.Style("boss", "Huntress Kasparian")}, to the player, and back.
@@ -65,7 +65,7 @@ and prefers to target ranged players.`;
         let playersAndFrequency = players.map(player => <any>{ player: player, frequency: debuffEvents.filter(x => x.source == player).length }).sort((x, y) => y.frequency - x.frequency);
         let totalFrequency = playersAndFrequency.map(x => x.frequency).reduce((x, y) => x + y);
 
-        let insight = `You gained ${MarkupHelper.Info(6)} stacks of ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} ${MarkupHelper.Info(totalFrequency)} times.`;
+        let insight = `Gained ${MarkupHelper.Info(6)} stacks of ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} ${MarkupHelper.Info(totalFrequency)} times.`;
         let details = `The sixth stack was gained from: ${MarkupHelper.PlayersAndFrequency(playersAndFrequency)}`;
         let tip = `Every time a player crosses the line,
 the raid takes damage from ${MarkupHelper.Style("spellshadow", "Astral Purge")},
@@ -112,7 +112,7 @@ even if the tanks move them out of range.`;
         let threshold = 10000;
         let playersAndDurationsOverThreshold = playersAndDurations.filter(x => x.duration >= threshold);
 
-        let insight = `You had a total ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} duration of ${MarkupHelper.Info(Timestamp.ToSeconds(totalDuration))}, with ${MarkupHelper.Info(playersAndDurationsOverThreshold.length)} lasting longer than ${Timestamp.ToSeconds(threshold)}.`;
+        let insight = `Had a total ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} duration of ${MarkupHelper.Info(Timestamp.ToSeconds(totalDuration))}, with ${MarkupHelper.Info(playersAndDurationsOverThreshold.length)} lasting longer than ${Timestamp.ToSeconds(threshold)}.`;
         let details = MarkupHelper.PlayersAndDurations(playersAndDurationsOverThreshold);
         let tip = `${MarkupHelper.Style("arcane", "Moon Burn")} is a 30 second long debuff that deals damage every 2 seconds.
 Players can remove it by crossing the line (triggering ${MarkupHelper.Style("spellshadow", "Astral Purge")}).

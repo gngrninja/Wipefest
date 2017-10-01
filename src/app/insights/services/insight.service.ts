@@ -5,6 +5,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightConfig, AvoidableDamageInsightConfig, CustomInsightConfig } from "app/insights/models/insight-config";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { SistersOfTheMoonInsights } from "app/insights/custom/tomb-of-sargeras/sisters-of-the-moon-insights";
+import { MaidenOfVigilanceInsights } from "app/insights/custom/tomb-of-sargeras/maiden-of-vigilance-insights";
 
 @Injectable()
 export class InsightService {
@@ -45,6 +46,8 @@ export class InsightService {
                 return SistersOfTheMoonInsights.AstralVulnerability(events);
             case "Moon Burn":
                 return SistersOfTheMoonInsights.MoonBurn(events);
+            case "Echoes":
+                return MaidenOfVigilanceInsights.Echoes(events);
             default: {
                 throw new Error(`${config.handler} is an unsupported custom insight handler`);
             }

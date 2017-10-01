@@ -12,11 +12,11 @@
       </div>
 
       <div *ngIf="row.showDetails" class="details">
-        <div class="alert alert-gray mt-3">
+        <div *ngIf="row.insight.details" class="alert alert-gray mt-3">
           <div class="alert-title"><span><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i>Details</span></div>
           <div class="mt-2" [innerHtml]="MarkupParser.Parse(row.insight.details)"></div>
         </div>
-        <div class="alert alert-gray mt-4 mb-0">
+        <div *ngIf="row.insight.tip" class="alert alert-gray mt-4 mb-0">
           <div class="alert-title"><span><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Tip</span></div>
           <div class="mt-2" [innerHtml]="MarkupParser.Parse(row.insight.tip)"></div>
         </div>
