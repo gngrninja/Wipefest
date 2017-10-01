@@ -10,6 +10,10 @@ export module MarkupHelper {
         return `{[style="${style}"] ${text}}`;
     }
 
+    export function AbilityIcon(id: number, iconUrl: string, name: string = null): string {
+        return `{[image="${iconUrl}" url="http://wowhead.com/spell=${id}" style="icon"] ${name ? name : id}}`;
+    }
+
     export function Success(text): string {
         return Style("success", text);
     }
@@ -39,7 +43,11 @@ export module MarkupHelper {
     }
 
     export function Ability(ability: Ability) {
-        return Style(getSchoolForAbilityType(ability.type), ability.name);
+        return `${Style(getSchoolForAbilityType(ability.type), ability.name)}`;
+    }
+
+    export function AbilityWithIcon(ability: Ability) {
+        return `${AbilityIcon(ability.guid, ability.iconUrl, ability.name)} ${Ability(ability)}`;
     }
 
     export function PlayersAndFrequency(playersAndFrequency: PlayerAndFrequency[]) {

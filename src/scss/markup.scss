@@ -22,121 +22,121 @@
 .markup-death-knight {
   color: $class-death-knight !important;
 
-  :hover {
+  /*&:hover{
     color: $class-death-knight-hover !important;
-  }
+  }*/
 }
 
 .markup-druid {
   color: $class-druid !important;
 
-  :hover {
+  /*&:hover{
     color: $class-druid-hover !important;
-  }
+  }*/
 }
 
 .markup-hunter {
   color: $class-hunter !important;
 
-  :hover {
+  /*&:hover{
     color: $class-hunter-hover !important;
-  }
+  }*/
 }
 
 .markup-mage {
   color: $class-mage !important;
 
-  :hover {
+  /*&:hover{
     color: $class-mage-hover !important;
-  }
+  }*/
 }
 
 .markup-monk {
   color: $class-monk !important;
 
-  :hover {
+  /*&:hover{
     color: $class-monk-hover !important;
-  }
+  }*/
 }
 
 .markup-paladin {
   color: $class-paladin !important;
 
-  :hover {
+  /*&:hover{
     color: $class-paladin-hover !important;
-  }
+  }*/
 }
 
 .markup-priest {
   color: $class-priest !important;
 
-  :hover {
+  /*&:hover{
     color: $class-priest-hover !important;
-  }
+  }*/
 }
 
 .markup-rogue {
   color: $class-rogue !important;
 
-  :hover {
+  /*&:hover{
     color: $class-rogue-hover !important;
-  }
+  }*/
 }
 
 .markup-shaman {
   color: $class-shaman !important;
 
-  :hover {
+  /*&:hover{
     color: $class-shaman-hover !important;
-  }
+  }*/
 }
 
 .markup-warlock {
   color: $class-warlock !important;
 
-  :hover {
+  /*&:hover{
     color: $class-warlock-hover !important;
-  }
+  }*/
 }
 
 .markup-warrior {
   color: $class-warrior !important;
 
-  :hover {
+  /*&:hover{
     color: $class-warrior-hover !important;
-  }
+  }*/
 }
 
 .markup-demon-hunter {
   color: $class-demon-hunter !important;
 
-  :hover {
+  /*&:hover{
     color: $class-demon-hunter-hover !important;
-  }
+  }*/
 }
 
 .markup-boss {
   color: $class-boss !important;
 
-  :hover {
+  /*&:hover{
     color: $class-boss-hover !important;
-  }
+  }*/
 }
 
 .markup-npc {
   color: $class-npc !important;
 
-  :hover {
+  /*&:hover{
     color: $class-npc-hover !important;
-  }
+  }*/
 }
 
 .markup-pet {
   color: $class-pet !important;
 
-  :hover {
+  /*&:hover{
     color: $class-pet-hover !important;
-  }
+  }*/
 }
 
 // Abilities
@@ -169,4 +169,18 @@
 }
 .markup-chaos {
   color: $ability-chaos !important;
+}
+
+
+.markup-icon {
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    margin-top: -3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+  }
 }

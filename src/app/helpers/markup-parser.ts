@@ -23,9 +23,14 @@ export module MarkupParser {
 
     const rules = [
         new Rule("url", `<a href="$0" target="_blank" rel="noopener noreferrer">$1</a>`),
-        new Rule("style", `<span class="$0">$1</span>`, style => style.split(" ").map(s => `markup-${s}`).join(" "))
+        new Rule("style", `<span class="$0">$1</span>`, style => style.split(" ").map(s => `markup-${s}`).join(" ")),
+        new Rule("image", `<img src="$0" alt="$1" />`)
     ]
 
+    /*
+    Example A: {[style="bold"] text} => <span class="markup-bold">text</span>
+    Example B: {[url="http://google.com" style="bold no-underline"] text} => <span class="markup-bold markup-no-underline"><a href="http://google.com" target="_blank" rel="noopener noreferrer">text</a></span>
+    */
     export function Parse(input: string): string {
         let tags = getMatches(input, /{\[(.+?)] (.+?)}/g)
             .map(t => {

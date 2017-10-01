@@ -4,6 +4,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location, PopStateEvent } from "@angular/common";
+import { MarkupParser } from "app/helpers/markup-parser";
 
 @Component({
     selector: 'app-root',
