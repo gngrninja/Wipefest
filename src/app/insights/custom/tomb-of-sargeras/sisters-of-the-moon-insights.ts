@@ -112,7 +112,7 @@ even if the tanks move them out of range.`;
         let threshold = 10000;
         let playersAndDurationsOverThreshold = playersAndDurations.filter(x => x.duration >= threshold);
 
-        let insight = `Had a total ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} duration of ${MarkupHelper.Info(Timestamp.ToSeconds(totalDuration))}, with ${MarkupHelper.Info(playersAndDurationsOverThreshold.length)} lasting longer than ${Timestamp.ToSeconds(threshold)}.`;
+        let insight = `Had a total ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} duration of ${MarkupHelper.Info(Timestamp.ToSeconds(totalDuration))}, with ${MarkupHelper.Info(playersAndDurationsOverThreshold.length)} lasting longer than ${MarkupHelper.Info(Timestamp.ToSeconds(threshold))}.`;
         let details = MarkupHelper.PlayersAndDurations(playersAndDurationsOverThreshold);
         let tip = `${MarkupHelper.Style("arcane", "Moon Burn")} is a 30 second long debuff that deals damage every 2 seconds.
 Players can remove it by crossing the line (triggering ${MarkupHelper.Style("spellshadow", "Astral Purge")}).

@@ -10,7 +10,7 @@ export class DamageEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: Actor,
+        public source: Actor,
         public target: Actor,
         public ability: Ability,
         private damage: number,

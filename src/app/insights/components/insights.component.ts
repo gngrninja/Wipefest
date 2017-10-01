@@ -50,6 +50,9 @@ export class InsightsComponent implements OnChanges {
 
         if (this.fight.boss == 2052) { // Maiden of Vigilance
             this.configs = [
+                new CustomInsightConfig("Unstable Soul Full Expiration Explosion"),
+                new CustomInsightConfig("Unstable Soul Early Expiration Explosion"),
+                new CustomInsightConfig("Creator's Grace"),
                 new CustomInsightConfig("Echoes")
             ];
         }
