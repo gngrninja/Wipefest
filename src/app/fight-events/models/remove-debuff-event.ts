@@ -1,0 +1,37 @@
+import { FightEvent } from "./fight-event";
+import { CombatAbility } from "app/warcraft-logs/combat-event";
+import { Ability } from "./ability-event";
+import { EventConfig } from "app/event-config/event-config";
+import { Actor } from "app/warcraft-logs/report";
+import { MarkupHelper } from "app/helpers/markup-helper";
+
+export class RemoveDebuffEvent extends FightEvent {
+
+    constructor(
+        public config: EventConfig,
+        public timestamp: number,
+        public isFriendly: boolean,
+        public target: Actor,
+        public source: Actor,
+        private showSource: boolean,
+        public ability: Ability,
+        public sequence: number) {
+
+        super(config, timestamp, isFriendly);
+    }
+
+    get title(): string {
+        if (this.isFriendly) {
+            return `${MarkupHelper.Actor(this.target)} loses ${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showSource ? ` from ${MarkupHelper.Actor(this.source)}` : ''}`;
+        } else {
+            return `${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)} removed from ${MarkupHelper.Actor(this.target)}${this.showSource ? ` from ${MarkupHelper.Actor(this.source)}` : ''}`;
+        }
+    }
+    get mediumTitle(): string {
+        return "- " + MarkupHelper.Ability(this.ability) + this.frequencyString(this.sequence);
+    }
+    get shortTitle(): string {
+        return "- " + this.initials(this.ability.name) + this.frequencyString(this.sequence);
+    }
+
+}

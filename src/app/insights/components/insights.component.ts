@@ -35,6 +35,7 @@ export class InsightsComponent implements OnChanges {
                 new CustomInsightConfig("Twilight Glaive"),
                 new AvoidableDamageInsightConfig("Glaive Storm", "Glaive Storm is cast by Huntress Kasparian, so watch her position before it casts (be aware that she might teleport just before she casts it). When Glaive Storm reaches the edge of the room, it splits into 3 smaller glaives that bounce back. When these smaller glaives reach the edge of the room, they each split into 3 even smaller glaives that bounce back. This is the hardest part of this ability. The enrage timer is not usually an issue in this encounter, so be sure to focus more on your dodging than your throughput, if necessary. Sometimes, Twilight Glaive can overlap with the end of Glaive Storm, so pay attention to the positioning for that as well. Once all of the glaives have passed, you can usually move back into your regular position."),
                 new CustomInsightConfig("Astral Vulnerability"),
+                new CustomInsightConfig("Moon Burn")
             ];
         }
 

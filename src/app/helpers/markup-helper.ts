@@ -1,6 +1,8 @@
 import { Actor } from "app/warcraft-logs/report";
 import { Ability } from "app/fight-events/models/ability-event";
-import { PlayerAndFrequency } from "app/insights/models/avoidable-damage-insight";
+import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
+import { PlayerAndDuration } from "app/insights/models/player-and-duration";
+import { Timestamp } from "app/helpers/timestamp-helper";
 
 export module MarkupHelper {
 
@@ -8,8 +10,24 @@ export module MarkupHelper {
         return `{[style="${style}"] ${text}}`;
     }
 
+    export function Success(text): string {
+        return Style("success", text);
+    }
+
     export function Danger(text): string {
         return Style("danger", text);
+    }
+
+    export function Warning(text): string {
+        return Style("warning", text);
+    }
+
+    export function Info(text): string {
+        return Style("info", text);
+    }
+
+    export function Primary(text): string {
+        return Style("primary", text);
     }
 
     export function Actor(source: Actor): string {
@@ -25,7 +43,11 @@ export module MarkupHelper {
     }
 
     export function PlayersAndFrequency(playersAndFrequency: PlayerAndFrequency[]) {
-        return `${playersAndFrequency.sort((x, y) => y.frequency - x.frequency).map(x => `${Actor(x.player)} (${x.frequency})`).join(", ")}.`;
+        return `${playersAndFrequency.map(x => `${Actor(x.player)} (${x.frequency})`).join(", ")}.`;
+    }
+
+    export function PlayersAndDurations(playersAndDurations: PlayerAndDuration[]) {
+        return `${playersAndDurations.map(x => `${Actor(x.player)} (${Timestamp.ToSeconds(x.duration)})`).join(", ")}.`;
     }
 
     function getStyleForActorType(actorType: string): string {

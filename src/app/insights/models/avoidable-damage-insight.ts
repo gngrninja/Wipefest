@@ -2,6 +2,7 @@ import { Actor } from "app/warcraft-logs/report";
 import { Ability } from "app/fight-events/models/ability-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { Insight } from "app/insights/models/insight";
+import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
 
 export class AvoidableDamageInsight extends Insight {
 
@@ -11,7 +12,7 @@ export class AvoidableDamageInsight extends Insight {
         private __tip: string
     ) {
         // Pass details in here rather than having separate property to avoid annoying ExpressionChangedAfterCheck errors
-        super("", MarkupHelper.PlayersAndFrequency(playersAndHits), __tip);
+        super("", MarkupHelper.PlayersAndFrequency(playersAndHits.sort((x, y) => y.frequency - x.frequency)), __tip);
     }
 
     private get totalHits(): number {
@@ -19,13 +20,7 @@ export class AvoidableDamageInsight extends Insight {
     }
 
     get title(): string {
-        return `You were hit by ${MarkupHelper.Ability(this.ability)} ${MarkupHelper.Danger(this.totalHits)} times, which is avoidable.`;
+        return `You were hit by ${MarkupHelper.Ability(this.ability)} ${MarkupHelper.Info(this.totalHits)} times.`;
     }
-
-}
-
-export class PlayerAndFrequency {
-
-    constructor(public player: Actor, public frequency: number) { }
 
 }

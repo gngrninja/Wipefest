@@ -40,7 +40,7 @@
   </td>
   <td *ngIf="!isTitle(event)" class="event">
     <div *ngIf="!event.isFriendly" class="unfriendly">
-      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent)"
+      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(RemoveDebuffEvent)"
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
                     [alt]="event.ability.name"

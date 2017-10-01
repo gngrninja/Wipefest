@@ -43,6 +43,8 @@ export class InsightService {
                 return SistersOfTheMoonInsights.TwilightGlaive(events);
             case "Astral Vulnerability":
                 return SistersOfTheMoonInsights.AstralVulnerability(events);
+            case "Moon Burn":
+                return SistersOfTheMoonInsights.MoonBurn(events);
             default: {
                 throw new Error(`${config.handler} is an unsupported custom insight handler`);
             }

@@ -18,7 +18,7 @@
     <div class="mr-1">
       <i class="fa" aria-hidden="true" [ngClass]="event.isFriendly ? 'fa-chevron-right friendly' : 'fa-chevron-left unfriendly'"></i>
 
-      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(HeroismEvent)"
+      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(RemoveDebuffEvent) || event.isInstanceOf(HeroismEvent)"
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
                     [alt]="event.ability.name"

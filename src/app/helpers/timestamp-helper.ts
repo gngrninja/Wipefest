@@ -13,6 +13,17 @@ export module Timestamp {
         return text + minutes + ":" + ("00" + seconds).substring(seconds.toString().length);
     }
 
+    export function ToSeconds(duration: number): string {
+        let deciseconds = Math.floor((duration % 1000) / 100);
+        let seconds = Math.floor(duration / 1000);
+
+        if (deciseconds > 0) {
+            return `${seconds}.${deciseconds}s`;
+        }
+
+        return `${seconds}s`;
+    }
+
     export function ToDayAndMonth(timestamp: number): string {
         let date = new Date(timestamp);
         let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
