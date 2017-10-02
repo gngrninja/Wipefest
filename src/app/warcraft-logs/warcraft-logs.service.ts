@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { CombatEvent } from "./combat-event";
@@ -76,7 +76,8 @@ export class WarcraftLogsService {
             + "/" + region
             + "?api_key=" + this.apiKey
             + "&start=" + start
-            + "&end=" + end)
+            + "&end=" + end
+            + "&random=" + this.getRandomString())
             .map(response => response.json())
             .catch(error => this.handleError(error));
     }
@@ -84,7 +85,8 @@ export class WarcraftLogsService {
     getReport(reportId: string): Observable<Report> {
         return this.get(this.url
             + "report/fights/" + reportId
-            + "?api_key=" + this.apiKey)
+            + "?api_key=" + this.apiKey
+            + "&random=" + this.getRandomString())
             .map(response => {
                 let report = response.json();
                 report.id = reportId;
@@ -159,6 +161,19 @@ export class WarcraftLogsService {
         }
 
         return Observable.throw(error);
+    }
+
+    private getRandomString() {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let output = "";
+        for (let i = 0; i < 12; i++) {
+            output += characters[this.getRandomNumber(characters.length)];
+        }
+        return output;
+    }
+
+    private getRandomNumber(max: number) {
+        return Math.floor(Math.random() * (max + 0.999999));
     }
 
 }

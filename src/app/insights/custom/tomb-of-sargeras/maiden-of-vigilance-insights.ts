@@ -8,6 +8,30 @@ import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
 
 export module MaidenOfVigilanceInsights {
 
+    //Unstable Soul gains
+    //    - From Echoes
+    //    - Not from boss (show infusion of affected players?)
+
+    //Unstable Soul explosions
+    //    - Expired(didn't jump in hole)
+    //    - Expired early (died)
+
+    //Unsoaked orbs
+
+    //Died to falling damage
+
+    //Avoidable Echoes damage
+
+    //P2 Damage Buff
+
+
+    //Unnecessarily gained X Unstable Soul.
+    //Allowed X unprotected Unstable Soul explosions.
+    //Failed to soak X orbs.
+    //X players fell in the hole.
+    //Gained 5 stacks of Creator's Grace / Demon's Vigor X times.
+    //Hit by Light Echoes / Fel Echoes X times.
+
     function GetAbilitiesIfTheyExist(events: any[], abilityIds: number[]): Ability[] {
         let abilities: Ability[] = [];
 
