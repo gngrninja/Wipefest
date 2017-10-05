@@ -46,14 +46,22 @@ export class InsightService {
                 return SistersOfTheMoonInsights.AstralVulnerability(events);
             case "Moon Burn":
                 return SistersOfTheMoonInsights.MoonBurn(events);
+            case "Unstable Soul Gains":
+                return MaidenOfVigilanceInsights.UnstableSoulGains(events);
             case "Unstable Soul Full Expiration Explosion":
                 return MaidenOfVigilanceInsights.UnstableSoulFullExpirationExplosion(events);
             case "Unstable Soul Early Expiration Explosion":
                 return MaidenOfVigilanceInsights.UnstableSoulEarlyExpirationExplosion(events);
             case "Echoes":
                 return MaidenOfVigilanceInsights.Echoes(events);
+            case "Unstable Soul Gains From Echoes":
+                return MaidenOfVigilanceInsights.UnstableSoulGainsFromEchoes(events);
             case "Creator's Grace":
                 return MaidenOfVigilanceInsights.CreatorsGrace(events);
+            case "Orbs":
+                return MaidenOfVigilanceInsights.Orbs(events);
+            case "Died From Falling":
+                return MaidenOfVigilanceInsights.DiedFromFalling(events);
             default: {
                 throw new Error(`${config.handler} is an unsupported custom insight handler`);
             }

@@ -3,6 +3,7 @@ import { Ability } from "app/fight-events/models/ability-event";
 import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
 import { PlayerAndDuration } from "app/insights/models/player-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";
+import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 
 export module MarkupHelper {
 
@@ -56,6 +57,10 @@ export module MarkupHelper {
 
     export function PlayersAndDurations(playersAndDurations: PlayerAndDuration[]) {
         return `${playersAndDurations.map(x => `${Actor(x.player)} (${Timestamp.ToSeconds(x.duration)})`).join(", ")}.`;
+    }
+
+    export function AbilitiesAndTimestamps(abilitiesAndTimestamps: AbilityAndTimestamp[]) {
+        return `${abilitiesAndTimestamps.map(x => `${AbilityIcon(x.ability.guid, x.ability.iconUrl, x.ability.name)} (${Timestamp.ToMinutesAndSeconds(x.timestamp)})`).join(", ")}.`;
     }
 
     function getStyleForActorType(actorType: string): string {
