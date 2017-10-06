@@ -1,6 +1,10 @@
 @import "bootstrap-variables";
 @import "custom-variables";
 
+.markup-bold {
+  font-weight: bold;
+}
+
 // Brands
 .markup-success {
   color: $brand-success;

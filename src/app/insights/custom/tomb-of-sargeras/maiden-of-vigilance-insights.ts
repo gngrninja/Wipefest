@@ -8,30 +8,11 @@ import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
 import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 import { Actor } from "app/warcraft-logs/report";
 import { DeathEvent } from "app/fight-events/models/death-event";
+import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
+import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
+import { Timestamp } from "app/helpers/timestamp-helper";
 
 export module MaidenOfVigilanceInsights {
-
-    //Unstable Soul gains
-    //    - From Echoes
-    //    - Not from boss (show infusion of affected players?)
-
-    //Unstable Soul explosions
-    //    - Expired(didn't jump in hole)
-    //    - Expired early (died)
-
-    //Unsoaked orbs
-
-    //Died to falling damage
-
-    //Avoidable Echoes damage
-
-    //P2 Damage Buff
-
-
-    //Unnecessarily gained X Unstable Soul.
-    //Allowed X unprotected Unstable Soul explosions.
-    //X players fell in the hole.
-    //Hit by Light Echoes / Fel Echoes X times.
 
     function GetAbilitiesIfTheyExist(events: any[], abilityIds: number[]): Ability[] {
         let abilities: Ability[] = [];
@@ -99,7 +80,14 @@ export module MaidenOfVigilanceInsights {
 
         let insight = `${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} exploded by fully expiring ${MarkupHelper.Info(totalFrequency)} time${GetPlural(totalFrequency)}.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndFrequencies);
-        let tip = null;
+        let tip = `${MarkupHelper.Ability(debuffEvents[0].ability)} explodes when it fully expires,
+dealing massive raid damage.
+Targeted players need to jump into the hole to gain ${MarkupHelper.Style("physical", "Aegwynn's Ward")},
+which protects the raid from the explosion.
+The player will then be knocked out of the hole to safety.
+${MarkupHelper.Style("physical", "Aegwynn's Ward")} is not applied straight away,
+so players need to jump into the hole 1-2 seconds before their debuff expires.
+If players jump too early, then they risk falling too far to be knocked out of the hole when they explode.`;
 
         return new Insight(insight, details, tip);
     }
@@ -127,9 +115,12 @@ export module MaidenOfVigilanceInsights {
         let playersAndFrequencies = GetPlayersAndFrequenciesFromTarget(debuffEvents);
         let totalFrequency = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y);
 
-        let insight = `${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} exploded early due to player death ${MarkupHelper.Info(totalFrequency)} time${GetPlural(totalFrequency)}.`;
+        let insight = `${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} exploded early ${MarkupHelper.Info(totalFrequency)} time${GetPlural(totalFrequency)}.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndFrequencies);
-        let tip = null;
+        let tip = `If a player dies while affected by ${MarkupHelper.Ability(debuffEvents[0].ability)},
+then the explosion (that would normally occur when the debuff expires) is triggered early.
+${MarkupHelper.Ability(debuffEvents[0].ability)} deals ticking damage, so be sure to keep targeted players alive.
+Also, if a debuffed player collides with a player of the opposite infusion, or takes damage from an ability of the opposite infusion, then they will explode early.`;
 
         return new Insight(insight, details, tip);
     }
@@ -152,7 +143,11 @@ export module MaidenOfVigilanceInsights {
 
         let insight = `Gained ${MarkupHelper.Info(7)} stacks of ${abilities.map(x => MarkupHelper.AbilityWithIcon(x)).join(" / ")} ${MarkupHelper.Info(totalFrequency)} time${GetPlural(totalFrequency)}.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndFrequencies);
-        let tip = null;
+        let tip = `When a player soaks an orb that matches their infusion,
+they gain a stack of ${abilities.map(x => MarkupHelper.Ability(x)).join(" / ")}, which increases throughput.
+Nearby players also gain a stack. The range of this is fairly small, so make sure to group tightly when collecting orbs.
+Gaining stacks allows you to break ${MarkupHelper.Style("holy", "Titanic Bulwark")} sooner,
+ending the phase and putting a stop to the increasing raid damage.`;
 
         return new Insight(insight, details, tip);
     }
@@ -177,7 +172,12 @@ export module MaidenOfVigilanceInsights {
 
         let insight = `Hit by ${abilities.map(x => MarkupHelper.AbilityWithIcon(x)).join(" / ")} ${MarkupHelper.Info(totalHits)} time${GetPlural(totalHits)}.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndHits);
-        let tip = null;
+        let tip = `When ${MarkupHelper.Style("boss", "Maiden of Vigilance")} casts
+${MarkupHelper.Style("holy", "Hammer of Creation")} or ${MarkupHelper.Style("fire", "Hammer of Obliteration")},
+she leaves behind a pool of ${MarkupHelper.Style("holy", "Light Remanence")} or ${MarkupHelper.Style("fire", "Fel Remanence")}.
+As this pool shrinks, ${MarkupHelper.Style("holy", "Light Echoes")} or ${MarkupHelper.Style("fire", "Fel Echoes")}
+appear as swirls beneath the feet of players.
+Moving out of these before they land will reduce unnecessary damage.`;
 
         return new Insight(insight, details, tip);
     }
@@ -193,11 +193,18 @@ export module MaidenOfVigilanceInsights {
             return null;
         }
 
+        let abilities = GetAbilitiesIfTheyExist(debuffEvents, [248801, 239069]);
+
         let abilitiesAndTimestamps = debuffEvents.map(x => new AbilityAndTimestamp(x.ability, x.timestamp));
 
         let insight = `Failed to soak ${debuffEvents.length} orb${GetPlural(debuffEvents.length)}.`;
         let details = MarkupHelper.AbilitiesAndTimestamps(abilitiesAndTimestamps);
-        let tip = null;
+        let tip = `Failing to soak orbs causes the raid to gain ${MarkupHelper.Style("fire", "Fragment Burst")},
+which deals heavy raid damage and increases further damage from ${MarkupHelper.Style("fire", "Fragment Burst")} for 8 seconds.
+Gaining this several times will often cause a wipe, so it's important to make sure that all orbs are soaked.
+Because orbs of both infusions spawn on both sides of the boss,
+raids usually aim to have melee/healers soaking near the boss,
+with ranged damage dealers soaking the remaining orbs in assigned lanes behind the melee/healers.`;
 
         return new Insight(insight, details, tip);
     }
@@ -230,7 +237,9 @@ export module MaidenOfVigilanceInsights {
 
         let insight = `${MarkupHelper.Info(totalHits)} hit${GetPlural(totalHits)} of ${abilities.map(x => MarkupHelper.AbilityWithIcon(x)).join(" / ")} resulted in Unstable Soul.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndHits);
-        let tip = null;
+        let tip = `Moving out of ${MarkupHelper.Style("holy", "Light Echoes")} or ${MarkupHelper.Style("fire", "Fel Echoes")}
+is particularly important if the player has the opposite infusion to the ability,
+as getting hit will cause an unnecessary ${MarkupHelper.Style("fire", "Unstable Soul")}.`;
 
         return new Insight(insight, details, tip);
     }
@@ -259,7 +268,15 @@ export module MaidenOfVigilanceInsights {
 
         let insight = `Unnecessarily gained ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} ${MarkupHelper.Info(totalFrequency)} time${GetPlural(totalFrequency)}.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndFrequencies);
-        let tip = null;
+        let tip = `Players can gain ${MarkupHelper.Ability(debuffEvents[0].ability)} in three different ways:
+${MarkupHelper.Info("(1)")} Whenever the boss casts ${MarkupHelper.Style("holy", "Mass Instability")}, three people can ${MarkupHelper.Ability(debuffEvents[0].ability)};
+${MarkupHelper.Info("(2)")} Whenever two players of opposite infusions collide, they gain ${MarkupHelper.Ability(debuffEvents[0].ability)};
+${MarkupHelper.Info("(3)")} Whenever a player is hit by an ability that does not match their infusion, they gain ${MarkupHelper.Ability(debuffEvents[0].ability)}.
+Source ${MarkupHelper.Info("(1)")} cannot be avoided, but ${MarkupHelper.Info("(2)")} and ${MarkupHelper.Info("(3)")} can and should be avoided.
+To avoid ${MarkupHelper.Info("(2)")}, the raid can group all players with ${MarkupHelper.Style("holy", "Light Infusion")} on one side of the boss,
+and players with ${MarkupHelper.Style("fire", "Fel Infusion")} on the other side.
+To avoid ${MarkupHelper.Info("(3)")}, players must focus on dodging orbs that don't match their infusion,
+as well as abilities such as ${MarkupHelper.Style("holy", "Light Infusion")} / ${MarkupHelper.Style("fire", "Fel Infusion")}.`;
 
         return new Insight(insight, details, tip);
     }
@@ -281,7 +298,43 @@ export module MaidenOfVigilanceInsights {
 
         let insight = `${MarkupHelper.Info(totalFrequency)} player${GetPlural(totalFrequency)} fell to their death.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndFrequencies);
-        let tip = null;
+        let tip = `Players must jump into the hole to gain ${MarkupHelper.Style("physical", "Aegwynn's Ward")},
+which protects the raid from ${MarkupHelper.Style("fire", "Unstable Soul")} explosions.
+However, if a player jumps too early, then the knockback from their explosion will not be enough to knock them out of the hole,
+and they will fall to their death.`;
+
+        return new Insight(insight, details, tip);
+    }
+
+    export function PhaseTwoDuration(events: FightEvent[]): Insight {
+        let phaseEvents = events
+            .filter(x => x.config)
+            .filter(x => x.config.eventType == "phase")
+            .map(x => <PhaseChangeEvent>x)
+            .sort((x, y) => x.timestamp - y.timestamp);
+
+        let phasesAndDurations = phaseEvents
+            .map(phase => {
+                let nextPhase = phaseEvents.find(x => x.timestamp > phase.timestamp);
+                if (!nextPhase) {
+                    return null;
+                }
+                return new PhaseAndDuration(phase.config.name, nextPhase.timestamp - phase.timestamp);
+            })
+            .filter(x => x != null)
+            .filter(x => x.phase == "Phase 2");
+
+        if (phasesAndDurations.length == 0) {
+            return null;
+        }
+
+        let averageDuration = phasesAndDurations.map(x => x.duration).reduce((x, y) => x + y) / phasesAndDurations.length;
+
+        let insight = `Had an average ${MarkupHelper.Info(phasesAndDurations[0].phase)} duration of ${MarkupHelper.Info(Timestamp.ToMinutesAndSeconds(averageDuration))}.`;
+        let details = MarkupHelper.PhasesAndDurations(phasesAndDurations);
+        let tip = `During ${MarkupHelper.Info("Phase 2")}, the raid takes ever-increasing damage from ${MarkupHelper.Style("holy", "Wrath of the Creators")}.
+${MarkupHelper.Info("Phase 2")} ends when the raid has done enough damage to break ${MarkupHelper.Style("holy", "Titanic Bulwark")}.
+It can be useful to save damage cooldowns and ${MarkupHelper.Style("nature", "Heroism")} for this phase to break the shield quicker.`;
 
         return new Insight(insight, details, tip);
     }

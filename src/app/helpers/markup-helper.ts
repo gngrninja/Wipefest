@@ -4,6 +4,7 @@ import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
 import { PlayerAndDuration } from "app/insights/models/player-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
+import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
 
 export module MarkupHelper {
 
@@ -35,6 +36,10 @@ export module MarkupHelper {
         return Style("primary", text);
     }
 
+    export function Bold(text): string {
+        return Style("bold", text);
+    }
+
     export function Actor(source: Actor): string {
         return Style(getStyleForActorType(source.type), source.name);
     }
@@ -61,6 +66,10 @@ export module MarkupHelper {
 
     export function AbilitiesAndTimestamps(abilitiesAndTimestamps: AbilityAndTimestamp[]) {
         return `${abilitiesAndTimestamps.map(x => `${AbilityIcon(x.ability.guid, x.ability.iconUrl, x.ability.name)} (${Timestamp.ToMinutesAndSeconds(x.timestamp)})`).join(", ")}.`;
+    }
+
+    export function PhasesAndDurations(phasesAndDurations: PhaseAndDuration[]) {
+        return `Durations of each phase: ${phasesAndDurations.map((x, index) => `${Bold(index + 1)}: ${Info(Timestamp.ToMinutesAndSeconds(x.duration))}`).join(", ")}.`;
     }
 
     function getStyleForActorType(actorType: string): string {

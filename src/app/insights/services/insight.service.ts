@@ -62,6 +62,8 @@ export class InsightService {
                 return MaidenOfVigilanceInsights.Orbs(events);
             case "Died From Falling":
                 return MaidenOfVigilanceInsights.DiedFromFalling(events);
+            case "Phase Two Duration":
+                return MaidenOfVigilanceInsights.PhaseTwoDuration(events);
             default: {
                 throw new Error(`${config.handler} is an unsupported custom insight handler`);
             }

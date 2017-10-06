@@ -57,7 +57,8 @@ export class InsightsComponent implements OnChanges {
                 new CustomInsightConfig("Unstable Soul Early Expiration Explosion"),
                 new CustomInsightConfig("Orbs"),
                 new CustomInsightConfig("Creator's Grace"),
-                new CustomInsightConfig("Died From Falling")
+                new CustomInsightConfig("Died From Falling"),
+                new CustomInsightConfig("Phase Two Duration")
             ];
         }
 
