@@ -7,6 +7,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightService } from "app/insights/services/insight.service";
 import { Insight } from "app/insights/models/insight";
 import { AvoidableDamageInsightConfig, InsightConfig, CustomInsightConfig } from "app/insights/models/insight-config";
+import { DeathEvent } from "app/fight-events/models/death-event";
 
 @Component({
     selector: 'insights',
@@ -27,6 +28,10 @@ export class InsightsComponent implements OnChanges {
     constructor(private insightService: InsightService) { }
 
     ngOnChanges(changes: SimpleChanges) {
+        this.calculateInsights();
+    }
+
+    calculateInsights() {
         this.configs = [];
         this.insights = [];
 

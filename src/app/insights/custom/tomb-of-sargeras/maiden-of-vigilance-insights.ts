@@ -269,7 +269,7 @@ as getting hit will cause an unnecessary ${MarkupHelper.Style("fire", "Unstable 
         let insight = `Unnecessarily gained ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} ${MarkupHelper.Info(totalFrequency)} time${GetPlural(totalFrequency)}.`;
         let details = MarkupHelper.PlayersAndFrequency(playersAndFrequencies);
         let tip = `Players can gain ${MarkupHelper.Ability(debuffEvents[0].ability)} in three different ways:
-${MarkupHelper.Info("(1)")} Whenever the boss casts ${MarkupHelper.Style("holy", "Mass Instability")}, three people can ${MarkupHelper.Ability(debuffEvents[0].ability)};
+${MarkupHelper.Info("(1)")} Whenever the boss casts ${MarkupHelper.Style("holy", "Mass Instability")}, three people gain ${MarkupHelper.Ability(debuffEvents[0].ability)};
 ${MarkupHelper.Info("(2)")} Whenever two players of opposite infusions collide, they gain ${MarkupHelper.Ability(debuffEvents[0].ability)};
 ${MarkupHelper.Info("(3)")} Whenever a player is hit by an ability that does not match their infusion, they gain ${MarkupHelper.Ability(debuffEvents[0].ability)}.
 Source ${MarkupHelper.Info("(1)")} cannot be avoided, but ${MarkupHelper.Info("(2)")} and ${MarkupHelper.Info("(3)")} can and should be avoided.

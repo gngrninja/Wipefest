@@ -34,14 +34,33 @@
             </a>,
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
           </div>
+          <div class="block p-1 pl-3">
+            <form class="death-threshold">
+              <i id="enable-icon"
+                 class="fa fa-lg" [ngClass]="enableDeathThreshold ? 'fa-check-square-o' : 'fa-square-o'"
+                 aria-hidden="true"
+                 (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)"></i>
+              <span id="ignore" [ngClass]="enableDeathThreshold ? '' : 'disabled'">
+                <label for="deathThreshold">Ignore events after</label>
+                <input type="number"
+                       name="deathThreshold"
+                       aria-label="Death Threshold"
+                       min="1" max="99"
+                       [(ngModel)]="deathThreshold"
+                       [disabled]="!enableDeathThreshold"
+                       (input)="eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)" />
+                deaths.
+              </span>
+            </form>
+          </div>
           <div *ngIf="events.length == 0 && !error" class="block p-1 pl-3">
             <spinner></spinner>
           </div>
           <div *ngIf="error" class="block p-3 text-center">
             <error [error]="error"></error>
           </div>
-          <insights *ngIf="events && !error" [fight]="fight" [events]="events"></insights>
-          <fight-events *ngIf="events && !error" [fight]="fight" [events]="events"></fight-events>
+          <insights *ngIf="events && !error" [fight]="fight" [events]="eventsBeforeDeathThreshold"></insights>
+          <fight-events *ngIf="events && !error" [fight]="fight" [events]="eventsBeforeDeathThreshold"></fight-events>
         </div>
       </div>
     </div>

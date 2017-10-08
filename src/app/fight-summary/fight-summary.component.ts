@@ -17,6 +17,7 @@ import { TitleEvent } from "app/fight-events/models/title-event";
 import { Subscription } from "rxjs/Subscription";
 import { Death } from "app/warcraft-logs/death";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
+import { DeathEvent } from "app/fight-events/models/death-event";
 
 @Component({
     selector: 'fight-summary',
@@ -36,7 +37,11 @@ export class FightSummaryComponent implements OnInit {
 
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
+    eventsBeforeDeathThreshold: FightEvent[] = [];
     combatantInfo: CombatEvent[] = [];
+
+    enableDeathThreshold = true;
+    deathThreshold = 2;
 
     error: any;
 
@@ -65,6 +70,7 @@ export class FightSummaryComponent implements OnInit {
         if (this.reportSubscription) {
             this.reportSubscription.unsubscribe();
         }
+
         if (this.combatEventSubscription) {
             this.combatEventSubscription.unsubscribe();
         }
@@ -121,6 +127,7 @@ export class FightSummaryComponent implements OnInit {
 
     private selectFight(fight: Fight) {
         this.fight = fight;
+        this.enableDeathThreshold = !this.fight.kill;
         this.wipefestService.selectFight(this.fight);
 
         this.loadData();
@@ -128,6 +135,7 @@ export class FightSummaryComponent implements OnInit {
 
     private loadData() {
         this.events = [];
+        this.eventsBeforeDeathThreshold = [];
         if (this.report && this.fight) {
             let combatEvents = [];
             let loadingCombatEvents = true;
@@ -169,6 +177,7 @@ export class FightSummaryComponent implements OnInit {
         this.events.push(new EndOfFightEvent(this.fight.end_time - this.fight.start_time, this.fight.kill));
         this.events.push(...events);
         this.events = this.sortEvents(this.events);
+        this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(this.events, this.deathThreshold);
     }
 
     private loadCombatEvents(): Observable<CombatEvent[]> {
@@ -194,6 +203,20 @@ export class FightSummaryComponent implements OnInit {
                 this.logger.logError(error);
                 return caught;
             });
+    }
+
+    getEventsBeforeDeathThreshold(events: FightEvent[], deathThreshold: number): FightEvent[] {
+        let eventsBeforeDeathThreshold = events;
+        if (deathThreshold > 0 && this.enableDeathThreshold) {
+            let deathEvents = events.filter(x => x.config).filter(x => x.config.name == "Deaths").map(x => <DeathEvent>x);
+            if (deathEvents.length >= deathThreshold) {
+                let deathThresholdTimestamp = deathEvents[deathThreshold - 1].timestamp;
+                eventsBeforeDeathThreshold = events.filter(x => x.timestamp < deathThresholdTimestamp);
+                eventsBeforeDeathThreshold.push(...deathEvents.slice(0, deathThreshold));
+                eventsBeforeDeathThreshold.push(events[events.length - 1]);
+            }
+        }
+        return eventsBeforeDeathThreshold;
     }
 
     private sortEvents(events: FightEvent[]): FightEvent[] {

@@ -66,7 +66,7 @@ and prefers to target ranged players.`;
         let totalFrequency = playersAndFrequency.map(x => x.frequency).reduce((x, y) => x + y);
 
         let insight = `Gained ${MarkupHelper.Info(6)} stacks of ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} ${MarkupHelper.Info(totalFrequency)} times.`;
-        let details = `The sixth stack was gained from: ${MarkupHelper.PlayersAndFrequency(playersAndFrequency)}`;
+        let details = null;
         let tip = `Every time a player crosses the line,
 the raid takes damage from ${MarkupHelper.Style("spellshadow", "Astral Purge")},
 and gains a stack of ${MarkupHelper.Style("physical", "Astral Vulnerability")}
@@ -108,11 +108,12 @@ even if the tanks move them out of range.`;
             .filter(x => x != null);
 
         let totalDuration = playersAndDurations.map(x => x.duration).reduce((x, y) => x + y);
+        let averageDuration = totalDuration / playersAndDurations.length;
 
         let threshold = 10000;
         let playersAndDurationsOverThreshold = playersAndDurations.filter(x => x.duration >= threshold);
 
-        let insight = `Had a total ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} duration of ${MarkupHelper.Info(Timestamp.ToSeconds(totalDuration))}, with ${MarkupHelper.Info(playersAndDurationsOverThreshold.length)} lasting longer than ${MarkupHelper.Info(Timestamp.ToSeconds(threshold))}.`;
+        let insight = `Had an average ${MarkupHelper.AbilityWithIcon(debuffEvents[0].ability)} duration of ${MarkupHelper.Info(Timestamp.ToSeconds(averageDuration))}, with ${MarkupHelper.Info(playersAndDurationsOverThreshold.length)} lasting longer than ${MarkupHelper.Info(Timestamp.ToSeconds(threshold))}.`;
         let details = MarkupHelper.PlayersAndDurations(playersAndDurationsOverThreshold);
         let tip = `${MarkupHelper.Style("arcane", "Moon Burn")} is a 30 second long debuff that deals damage every 2 seconds.
 Players can remove it by crossing the line (triggering ${MarkupHelper.Style("spellshadow", "Astral Purge")}).

@@ -1,4 +1,37 @@
-﻿@import "../../scss/bootstrap-variables";
+@import "../../scss/bootstrap-variables";
+
+.death-threshold {
+
+  #enable-icon:hover {
+    color: #fff;
+    cursor: pointer;
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+  }
+
+  #ignore {
+    margin-left: 6px;
+
+    label {
+      margin-bottom: 0;
+    }
+
+    input {
+      width: 40px;
+      text-align: center;
+      border: 1px solid $gray-dark;
+      border-radius: 4px;
+    }
+
+    &.disabled {
+      color: $gray-lighter;
+    }
+  }
+}
 
 .sidebar {
   z-index: 2;
