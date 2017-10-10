@@ -41,7 +41,10 @@
                  aria-hidden="true"
                  (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)"></i>
               <span id="ignore" [ngClass]="enableDeathThreshold ? '' : 'disabled'">
-                <label for="deathThreshold">Ignore events after</label>
+                <label for="deathThreshold"
+                       (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)">
+                  Ignore events after
+                </label>
                 <input type="number"
                        name="deathThreshold"
                        aria-label="Death Threshold"
@@ -49,7 +52,9 @@
                        [(ngModel)]="deathThreshold"
                        [disabled]="!enableDeathThreshold"
                        (input)="eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)" />
-                deaths.
+                <span (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)">
+                  deaths.
+                </span>
               </span>
             </form>
           </div>

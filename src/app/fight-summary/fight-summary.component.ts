@@ -40,7 +40,7 @@ export class FightSummaryComponent implements OnInit {
     eventsBeforeDeathThreshold: FightEvent[] = [];
     combatantInfo: CombatEvent[] = [];
 
-    enableDeathThreshold = true;
+    enableDeathThreshold = false;
     deathThreshold = 2;
 
     error: any;
@@ -127,7 +127,9 @@ export class FightSummaryComponent implements OnInit {
 
     private selectFight(fight: Fight) {
         this.fight = fight;
-        this.enableDeathThreshold = !this.fight.kill;
+        if (this.fight.kill) {
+            this.enableDeathThreshold = false;
+        }
         this.wipefestService.selectFight(this.fight);
 
         this.loadData();

@@ -56,6 +56,10 @@ export module MarkupHelper {
         return `${AbilityIcon(ability.guid, ability.iconUrl, ability.name)} ${Ability(ability)}`;
     }
 
+    export function AbilitiesWithIcons(abilities: Ability[]) {
+        return abilities.map(x => AbilityWithIcon(x)).join(" / ");
+    }
+
     export function PlayersAndFrequency(playersAndFrequency: PlayerAndFrequency[]) {
         return `${playersAndFrequency.map(x => `${Actor(x.player)} (${x.frequency})`).join(", ")}.`;
     }
