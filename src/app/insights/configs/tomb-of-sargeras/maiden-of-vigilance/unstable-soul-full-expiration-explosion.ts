@@ -10,7 +10,7 @@ export class UnstableSoulFullExpirationExplosion extends InsightConfig {
         super(2052,
             "{unstableSoul} exploded by fully expiring {totalFrequency} time{plural}.",
             "{playersAndFrequencies}",
-            `{unstableSoul} explodes when it fully expires, dealing massive raid damage.
+            `{unstableSoulTooltip} explodes when it fully expires, dealing massive raid damage.
 Targeted players need to jump into the hole to gain {ability:241593:Aegwynn's Ward:physical},
 which protects the raid from the explosion.
 The player will then be knocked out of the hole to safety.
@@ -43,7 +43,8 @@ If players jump too early, then they risk falling too far to be knocked out of t
         let totalFrequency = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y);
 
         return {
-            unstableSoul: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
+            unstableSoul: MarkupHelper.AbilityWithIcon(debuffEvents[0].ability),
+            unstableSoulTooltip: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
             playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency)

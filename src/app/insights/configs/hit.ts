@@ -35,7 +35,8 @@ export class Hit extends InsightConfig {
         let totalHits = playersAndHits.map(x => x.frequency).reduce((x, y) => x + y, 0);
         
         return {
-            abilities: MarkupHelper.AbilitiesWithTooltips(abilities),
+            abilities: MarkupHelper.AbilitiesWithIcons(abilities),
+            abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
             totalHits: MarkupHelper.Info(totalHits),
             plural: this.getPlural(totalHits),
             playersAndHits: MarkupHelper.PlayersAndFrequency(playersAndHits)

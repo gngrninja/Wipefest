@@ -37,7 +37,8 @@ export class StackThreshold extends InsightConfig {
         let totalFrequency = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y);
 
         return {
-            abilities: MarkupHelper.AbilitiesWithTooltips(abilities),
+            abilities: MarkupHelper.AbilitiesWithIcons(abilities),
+            abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency),
             playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),

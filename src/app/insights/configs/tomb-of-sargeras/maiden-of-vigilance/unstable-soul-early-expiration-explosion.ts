@@ -10,9 +10,9 @@ export class UnstableSoulEarlyExpirationExplosion extends InsightConfig {
         super(2052,
             "{unstableSoul} exploded early {totalFrequency} time{plural}.",
             "{playersAndFrequencies}",
-            `If a player dies while affected by {unstableSoul},
+            `If a player dies while affected by {unstableSoulTooltip},
 then the explosion (that would normally occur when the debuff expires) is triggered early.
-{unstableSoul} deals ticking damage, so be sure to keep targeted players alive.
+{unstableSoulTooltip} deals ticking damage, so be sure to keep targeted players alive.
 Also, if a debuffed player collides with a player of the opposite infusion, or takes damage from an ability of the opposite infusion, then they will explode early.`);
     }
 
@@ -40,7 +40,8 @@ Also, if a debuffed player collides with a player of the opposite infusion, or t
         let totalFrequency = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y);
 
         return {
-            unstableSoul: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
+            unstableSoul: MarkupHelper.AbilityWithIcon(debuffEvents[0].ability),
+            unstableSoulTooltip: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
             playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency)
