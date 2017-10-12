@@ -43,7 +43,7 @@ If players jump too early, then they risk falling too far to be knocked out of t
         let totalFrequency = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y);
 
         return {
-            unstableSoul: MarkupHelper.AbilityWithIcon(debuffEvents[0].ability),
+            unstableSoul: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
             playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency)

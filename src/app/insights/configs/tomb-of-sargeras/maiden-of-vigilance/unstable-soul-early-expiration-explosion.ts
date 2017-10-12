@@ -40,7 +40,7 @@ Also, if a debuffed player collides with a player of the opposite infusion, or t
         let totalFrequency = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y);
 
         return {
-            unstableSoul: MarkupHelper.AbilityWithIcon(debuffEvents[0].ability),
+            unstableSoul: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
             playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency)

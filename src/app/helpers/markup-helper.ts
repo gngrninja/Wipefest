@@ -52,8 +52,16 @@ export module MarkupHelper {
         return `${Style(getSchoolForAbilityType(ability.type), ability.name)}`;
     }
 
-    export function AbilityWithTooltip(id: number, name: string, style: string) {
+    export function AbilityWithTooltip(ability: Ability) {
+        return AbilityWithTooltip2(ability.guid, ability.name, getSchoolForAbilityType(ability.type));
+    }
+
+    export function AbilityWithTooltip2(id: number, name: string, style: string) {
         return `{[url="http://wowhead.com/spell=${id}" style="${style}"] ${name}}`;
+    }
+
+    export function AbilitiesWithTooltips(abilities: Ability[]) {
+        return abilities.map(x => AbilityWithTooltip(x)).join(" / ");
     }
 
     export function AbilityWithIcon(ability: Ability) {

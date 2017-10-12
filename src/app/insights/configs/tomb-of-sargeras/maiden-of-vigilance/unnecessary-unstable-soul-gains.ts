@@ -45,7 +45,7 @@ as well as abilities such as {ability:238037:Light Echoes:holy} / {ability:23842
         let unstableSoul = debuffEvents[0].ability;
 
         return {
-            unstableSoul: MarkupHelper.AbilityWithIcon(unstableSoul),
+            unstableSoul: MarkupHelper.AbilityWithTooltip(unstableSoul),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency),
             playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies)

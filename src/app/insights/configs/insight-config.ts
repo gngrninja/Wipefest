@@ -81,7 +81,7 @@ export abstract class InsightConfig {
         //}
         //return MarkupHelper.Style(backupStyle, backupName);
 
-        return MarkupHelper.AbilityWithTooltip(abilityId, name, style);
+        return MarkupHelper.AbilityWithTooltip2(abilityId, name, style);
     }
 
     protected getPlural(number: number): string {
