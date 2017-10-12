@@ -67,12 +67,21 @@ export abstract class InsightConfig {
         return playersAndFrequencies;
     }
 
-    protected getAbilityMarkup(events: any[], abilityId: number, backupName: string, backupStyle: string): string {
-        let event = events.find(x => x.ability && x.ability.guid == abilityId);
-        if (event) {
-            return MarkupHelper.AbilityWithIcon(event.ability);
-        }
-        return MarkupHelper.Style(backupStyle, backupName);
+    protected getPlayersAndFrequenciesFromSource(events: any[]): PlayerAndFrequency[] {
+        let players = events.map(x => x.source).filter((x, index, array) => array.indexOf(x) == index);
+        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: events.filter(x => x.source == player).length }).sort((x, y) => y.frequency - x.frequency);
+
+        return playersAndFrequencies;
+    }
+
+    protected getAbilityMarkup(events: any[], abilityId: number, name: string, style: string): string {
+        //let event = events.find(x => x.ability && x.ability.guid == abilityId);
+        //if (event) {
+        //    return MarkupHelper.AbilityWithIcon(event.ability);
+        //}
+        //return MarkupHelper.Style(backupStyle, backupName);
+
+        return MarkupHelper.AbilityWithTooltip(abilityId, name, style);
     }
 
     protected getPlural(number: number): string {

@@ -52,6 +52,10 @@ export module MarkupHelper {
         return `${Style(getSchoolForAbilityType(ability.type), ability.name)}`;
     }
 
+    export function AbilityWithTooltip(id: number, name: string, style: string) {
+        return `{[url="http://wowhead.com/spell=${id}" style="${style}"] ${name}}`;
+    }
+
     export function AbilityWithIcon(ability: Ability) {
         return `${AbilityIcon(ability.guid, ability.iconUrl, ability.name)} ${Ability(ability)}`;
     }
