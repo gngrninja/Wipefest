@@ -4,6 +4,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { MaidenOfVigilanceInsightConfigs } from "app/insights/configs/tomb-of-sargeras/maiden-of-vigilance/all";
 import { InsightConfig } from "app/insights/configs/insight-config";
 import { SistersOfTheMoonInsightConfigs } from "app/insights/configs/tomb-of-sargeras/sisters-of-the-moon/all";
+import { MistressSasszineInsightConfigs } from "app/insights/configs/tomb-of-sargeras/mistress-sasszine/all";
 
 @Injectable()
 export class InsightService {
@@ -11,6 +12,7 @@ export class InsightService {
     private getInsightConfigs(): InsightConfig[] {
         return [
             ...SistersOfTheMoonInsightConfigs.All(),
+            ...MistressSasszineInsightConfigs.All(),
             ...MaidenOfVigilanceInsightConfigs.All()
         ];
     }
