@@ -6,6 +6,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { MaidenOfVigilanceInsightConfigs } from "app/insights/configs/tomb-of-sargeras/maiden-of-vigilance/all";
 import { InsightConfig } from "app/insights/configs/insight-config";
+import { SistersOfTheMoonInsightConfigs } from "app/insights/configs/tomb-of-sargeras/sisters-of-the-moon/all";
 //import { SistersOfTheMoonInsights } from "app/insights/custom/tomb-of-sargeras/sisters-of-the-moon-insights";
 //import { MaidenOfVigilanceInsights } from "app/insights/custom/tomb-of-sargeras/maiden-of-vigilance-insights";
 
@@ -13,7 +14,10 @@ import { InsightConfig } from "app/insights/configs/insight-config";
 export class InsightService {
 
     private getInsightConfigs(): InsightConfig[] {
-        return [...MaidenOfVigilanceInsightConfigs.All()];
+        return [
+            ...SistersOfTheMoonInsightConfigs.All(),
+            ...MaidenOfVigilanceInsightConfigs.All()
+        ];
     }
 
     getInsights(boss: number, events: FightEvent[]): Insight[] {

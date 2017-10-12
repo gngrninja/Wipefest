@@ -13,8 +13,8 @@ export class DiedFromFalling extends InsightConfig {
 
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
-        if (!insightTemplate) this.insightTemplate = "{totalFrequency} player{plural} fell to their death{plural}.";
-        if (!detailsTemplate) this.detailsTemplate = "{playersAndFrequencies}";
+        if (insightTemplate == null) this.insightTemplate = "{totalFrequency} player{plural} fell to their death{plural}.";
+        if (detailsTemplate == null) this.detailsTemplate = "{playersAndFrequencies}";
     }
 
     getProperties(events: FightEvent[]): any {

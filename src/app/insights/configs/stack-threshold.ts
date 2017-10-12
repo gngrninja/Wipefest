@@ -17,8 +17,8 @@ export class StackThreshold extends InsightConfig {
 
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
-        if (!insightTemplate) this.insightTemplate = "Gained {stacks} stacks of {abilities} {totalFrequency} time{plural}.";
-        if (!detailsTemplate) this.detailsTemplate = "{playersAndFrequencies}";
+        if (insightTemplate == null) this.insightTemplate = "Gained {stacks} stacks of {abilities} {totalFrequency} time{plural}.";
+        if (detailsTemplate == null) this.detailsTemplate = "{playersAndFrequencies}";
     }
 
     getProperties(events: FightEvent[]): any {

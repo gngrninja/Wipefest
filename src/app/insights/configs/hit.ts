@@ -15,8 +15,8 @@ export class Hit extends InsightConfig {
 
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
-        if (!insightTemplate) this.insightTemplate = "Hit by {abilities} {totalHits} time{plural}.";
-        if (!detailsTemplate) this.detailsTemplate = "{playersAndHits}";
+        if (insightTemplate == null) this.insightTemplate = "Hit by {abilities} {totalHits} time{plural}.";
+        if (detailsTemplate == null) this.detailsTemplate = "{playersAndHits}";
     }
 
     getProperties(events: FightEvent[]): any {
@@ -31,7 +31,7 @@ export class Hit extends InsightConfig {
 
         let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
         let players = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length });
+        let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
         let totalHits = playersAndHits.map(x => x.frequency).reduce((x, y) => x + y, 0);
         
         return {

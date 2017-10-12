@@ -16,8 +16,8 @@ export class PhaseDuration extends InsightConfig {
 
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
-        if (!insightTemplate) this.insightTemplate = "Had an average {phase} duration of {averageDuration}.";
-        if (!detailsTemplate) this.detailsTemplate = "{phasesAndDurations}";
+        if (insightTemplate == null) this.insightTemplate = "Had an average {phase} duration of {averageDuration}.";
+        if (detailsTemplate == null) this.detailsTemplate = "{phasesAndDurations}";
     }
 
     getProperties(events: FightEvent[]): any {

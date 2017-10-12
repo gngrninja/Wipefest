@@ -16,8 +16,8 @@ export class Debuff extends InsightConfig {
 
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
-        if (!insightTemplate) this.insightTemplate = "Gained {abilities} {totalHits} time{plural}.";
-        if (!detailsTemplate) this.detailsTemplate = "{abilitiesAndTimestamps}";
+        if (insightTemplate == null) this.insightTemplate = "Gained {abilities} {totalHits} time{plural}.";
+        if (detailsTemplate == null) this.detailsTemplate = "{abilitiesAndTimestamps}";
     }
 
     getProperties(events: FightEvent[]): any {
