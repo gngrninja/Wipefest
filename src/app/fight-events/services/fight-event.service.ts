@@ -78,7 +78,7 @@ export class FightEventService {
                 x.amount,
                 x.absorbed,
                 x.overkill,
-                isChild));
+                isChild)).filter(x => x.target);
 
         return events;
     }

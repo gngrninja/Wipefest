@@ -6,6 +6,7 @@ import { InsightConfig } from "app/insights/configs/insight-config";
 import { SistersOfTheMoonInsightConfigs } from "app/insights/configs/tomb-of-sargeras/sisters-of-the-moon/all";
 import { MistressSasszineInsightConfigs } from "app/insights/configs/tomb-of-sargeras/mistress-sasszine/all";
 import { GorothInsightConfigs } from "app/insights/configs/tomb-of-sargeras/goroth/all";
+import { DemonicInquisitionInsightConfigs } from "app/insights/configs/tomb-of-sargeras/demonic-inquisition/all";
 
 @Injectable()
 export class InsightService {
@@ -13,6 +14,7 @@ export class InsightService {
     private getInsightConfigs(): InsightConfig[] {
         return [
             ...GorothInsightConfigs.All(),
+            ...DemonicInquisitionInsightConfigs.All(),
             ...SistersOfTheMoonInsightConfigs.All(),
             ...MistressSasszineInsightConfigs.All(),
             ...MaidenOfVigilanceInsightConfigs.All()
