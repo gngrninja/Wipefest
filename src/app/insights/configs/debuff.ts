@@ -44,7 +44,7 @@ export class Debuff extends InsightConfig {
             totalHits: MarkupHelper.Info(totalHits),
             plural: this.getPlural(totalHits),
             abilitiesAndTimestamps: MarkupHelper.AbilitiesAndTimestamps(abilitiesAndTimestamps),
-            playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
+            playersAndFrequencies: MarkupHelper.PlayersAndFrequencies(playersAndFrequencies),
         };
     }
 

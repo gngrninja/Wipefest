@@ -53,7 +53,7 @@ and prefers to target ranged players.`);
             twilightGlaiveTooltip: MarkupHelper.AbilityWithTooltip(twilightGlaive),
             totalHits: MarkupHelper.Info(totalHits),
             plural: this.getPlural(totalHits),
-            playersAndHits: MarkupHelper.PlayersAndFrequency(playersAndHits)
+            playersAndHits: MarkupHelper.PlayersAndFrequencies(playersAndHits)
         };
     }
     

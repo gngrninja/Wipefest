@@ -49,7 +49,7 @@ as well as abilities such as {ability:238037:Light Echoes:holy} / {ability:23842
             unstableSoulTooltip: MarkupHelper.AbilityWithTooltip(unstableSoul),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency),
-            playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies)
+            playersAndFrequencies: MarkupHelper.PlayersAndFrequencies(playersAndFrequencies)
         };
     }
 

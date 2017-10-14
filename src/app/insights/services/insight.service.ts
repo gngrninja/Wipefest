@@ -5,12 +5,14 @@ import { MaidenOfVigilanceInsightConfigs } from "app/insights/configs/tomb-of-sa
 import { InsightConfig } from "app/insights/configs/insight-config";
 import { SistersOfTheMoonInsightConfigs } from "app/insights/configs/tomb-of-sargeras/sisters-of-the-moon/all";
 import { MistressSasszineInsightConfigs } from "app/insights/configs/tomb-of-sargeras/mistress-sasszine/all";
+import { GorothInsightConfigs } from "app/insights/configs/tomb-of-sargeras/goroth/all";
 
 @Injectable()
 export class InsightService {
 
     private getInsightConfigs(): InsightConfig[] {
         return [
+            ...GorothInsightConfigs.All(),
             ...SistersOfTheMoonInsightConfigs.All(),
             ...MistressSasszineInsightConfigs.All(),
             ...MaidenOfVigilanceInsightConfigs.All()

@@ -5,6 +5,7 @@ import { PlayerAndDuration } from "app/insights/models/player-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
+import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
 
 export module MarkupHelper {
 
@@ -72,12 +73,20 @@ export module MarkupHelper {
         return abilities.map(x => AbilityWithIcon(x)).join(" / ");
     }
 
-    export function PlayersAndFrequency(playersAndFrequency: PlayerAndFrequency[]) {
+    export function Timestamps(timestamps: number[]) {
+        return timestamps.map(x => Timestamp.ToMinutesAndSeconds(x)).join(", ");
+    }
+
+    export function PlayersAndFrequencies(playersAndFrequency: PlayerAndFrequency[]) {
         return `${playersAndFrequency.map(x => `${Actor(x.player)} (${x.frequency})`).join(", ")}.`;
     }
 
     export function PlayersAndDurations(playersAndDurations: PlayerAndDuration[]) {
         return `${playersAndDurations.map(x => `${Actor(x.player)} (${Timestamp.ToSeconds(x.duration)})`).join(", ")}.`;
+    }
+
+    export function PlayersAndTimestamps(playersAndTimestamps: PlayerAndTimestamp[]) {
+        return `${playersAndTimestamps.map(x => `${Actor(x.player)} (${Timestamp.ToMinutesAndSeconds(x.timestamp)})`).join(", ")}.`;
     }
 
     export function AbilitiesAndTimestamps(abilitiesAndTimestamps: AbilityAndTimestamp[]) {

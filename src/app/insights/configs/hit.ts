@@ -29,6 +29,7 @@ export class Hit extends InsightConfig {
             return null;
         }
 
+        let timestamps = damageEvents.map(x => x.timestamp);
         let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
         let players = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
         let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
@@ -39,7 +40,8 @@ export class Hit extends InsightConfig {
             abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
             totalHits: MarkupHelper.Info(totalHits),
             plural: this.getPlural(totalHits),
-            playersAndHits: MarkupHelper.PlayersAndFrequency(playersAndHits)
+            playersAndHits: MarkupHelper.PlayersAndFrequencies(playersAndHits),
+            timestamps: MarkupHelper.Timestamps(timestamps)
         }
     }
 

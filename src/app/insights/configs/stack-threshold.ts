@@ -41,7 +41,7 @@ export class StackThreshold extends InsightConfig {
             abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency),
-            playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
+            playersAndFrequencies: MarkupHelper.PlayersAndFrequencies(playersAndFrequencies),
             stacks: this.stacks
         }
     }

@@ -45,7 +45,7 @@ as getting hit will cause an unnecessary {ability:243276:Unstable Soul:fire}.`);
             totalHits: MarkupHelper.Info(totalHits),
             plural: this.getPlural(totalHits),
             abilities: MarkupHelper.AbilitiesWithIcons(abilities),
-            playersAndHits: MarkupHelper.PlayersAndFrequency(playersAndHits)
+            playersAndHits: MarkupHelper.PlayersAndFrequencies(playersAndHits)
         };
     }
 

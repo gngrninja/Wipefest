@@ -42,7 +42,7 @@ Also, if a debuffed player collides with a player of the opposite infusion, or t
         return {
             unstableSoul: MarkupHelper.AbilityWithIcon(debuffEvents[0].ability),
             unstableSoulTooltip: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
-            playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
+            playersAndFrequencies: MarkupHelper.PlayersAndFrequencies(playersAndFrequencies),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency)
         };

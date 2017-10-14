@@ -15,7 +15,7 @@ export class DeathEvent extends FightEvent {
         private fight: Fight,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: Actor,
+        public source: Actor,
         public killingBlow: Ability,
         private from: Actor,
         private deathWindow: number,

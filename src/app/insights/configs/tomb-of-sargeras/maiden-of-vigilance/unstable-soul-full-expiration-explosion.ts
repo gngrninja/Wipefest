@@ -45,7 +45,7 @@ If players jump too early, then they risk falling too far to be knocked out of t
         return {
             unstableSoul: MarkupHelper.AbilityWithIcon(debuffEvents[0].ability),
             unstableSoulTooltip: MarkupHelper.AbilityWithTooltip(debuffEvents[0].ability),
-            playersAndFrequencies: MarkupHelper.PlayersAndFrequency(playersAndFrequencies),
+            playersAndFrequencies: MarkupHelper.PlayersAndFrequencies(playersAndFrequencies),
             totalFrequency: MarkupHelper.Info(totalFrequency),
             plural: this.getPlural(totalFrequency)
         };
