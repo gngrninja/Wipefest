@@ -4,6 +4,7 @@ import { DebuffDuration } from "app/insights/configs/debuff-duration";
 import { Debuff } from "app/insights/configs/debuff";
 import { StackThreshold } from "app/insights/configs/stack-threshold";
 import { Hit } from "app/insights/configs/hit";
+import { Spawn } from "app/insights/configs/spawn";
 
 export module GorothInsightConfigs {
 
@@ -13,7 +14,7 @@ export module GorothInsightConfigs {
             new StackThreshold(2032, ["Burning Armor (2)"], [231363], 2),
             new Hit(2032, ["Infernal Spike"], [233021]),
             new Hit(2032, ["Fel Pool"], [230348]),
-            new Hit(2032, ["Infernal Detonation"], [233900], null, "{timestamps}")
+            new Spawn(2032, "Brimstone Infernal")
         ];
     }
 
