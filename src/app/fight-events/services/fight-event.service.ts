@@ -50,7 +50,7 @@ export class FightEventService {
 
         return events;
     }
-    
+
     private getAbilityEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): AbilityEvent[] {
         let events = combatEvents.map(
             x => new AbilityEvent(

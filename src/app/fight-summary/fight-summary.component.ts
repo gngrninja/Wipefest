@@ -179,6 +179,7 @@ export class FightSummaryComponent implements OnInit {
         this.events.push(new EndOfFightEvent(this.fight.end_time - this.fight.start_time, this.fight.kill));
         this.events.push(...events);
         this.events = this.sortEvents(this.events);
+        this.events = this.events.filter((x, index, array) => array.findIndex(y => y.timestamp == x.timestamp && y.title == x.title) == index); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown)
         this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(this.events, this.deathThreshold);
     }
 
