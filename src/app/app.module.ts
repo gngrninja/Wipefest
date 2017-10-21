@@ -98,6 +98,10 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         HttpModule,
         RouterModule.forRoot([
             {
+                path: "character/:character/:realm/:region/:zone",
+                component: CharacterSearchResultsComponent
+            },
+            {
                 path: "character/:character/:realm/:region",
                 component: CharacterSearchResultsComponent
             },

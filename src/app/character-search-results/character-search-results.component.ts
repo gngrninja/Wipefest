@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Parse, ParseSpecData } from "app/warcraft-logs/parse";
@@ -15,13 +15,18 @@ import { LoggerService } from "app/shared/logger.service";
     styleUrls: ['./character-search-results.component.scss']
 })
 export class CharacterSearchResultsComponent implements OnInit {
-
+    
     loading = true;
 
     character: string;
     realm: string;
     region: string;
 
+    zones: Zone[] = [
+        new Zone("Tomb of Sargeras", "sargeras", 13, [1, 2]),
+        new Zone("Antorus, the Burning Throne", "antorus", 17, [1])
+    ];
+    selectedZone: Zone;
     encounters: CharacterSearchResultEncounter[] = [];
 
     error: any;
@@ -50,6 +55,7 @@ export class CharacterSearchResultsComponent implements OnInit {
         this.character = params["character"] || this.localStorage.get("character");
         this.realm = params["realm"] || this.localStorage.get("characterRealm");
         this.region = params["region"] || this.localStorage.get("characterRegion");
+        this.selectedZone = this.zones.find(x => x.slug == params["zone"]) || this.zones[0];
         this.encounters = [];
 
         if (!this.character || !this.realm || !this.region) {
@@ -57,7 +63,7 @@ export class CharacterSearchResultsComponent implements OnInit {
             return;
         }
 
-        this.warcraftLogsService.getParses(this.character, this.realm, this.region, 13, [1, 2])
+        this.warcraftLogsService.getParses(this.character, this.realm, this.region, this.selectedZone.id, this.selectedZone.partitions)
             .subscribe(parses => {
                 this.loading = false;
                 this.error = null;
@@ -139,5 +145,11 @@ export class CharacterSearchResultFight {
         public itemLevel: number,
         public reportId: string,
         public fightId: number) { }
+
+}
+
+export class Zone {
+
+    constructor(public title: string, public slug: string, public id: number, public partitions: number[]) { }
 
 }

@@ -13,6 +13,16 @@
         <h3 class="mb-0">Parses for {{character || '...'}}</h3>
       </div>
 
+      <div class="tabs-block">
+        <ul class="nav nav-tabs justify-content-start">
+          <li *ngFor="let zone of zones" class="nav-item">
+            <a class="nav-link" [ngClass]="selectedZone == zone ? 'active' : ''" routerLink="/character/{{character}}/{{realm}}/{{region}}/{{zone.slug}}">
+              {{zone.title}}
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <div *ngIf="loading" class="block p-1 pl-3">
         <spinner></spinner>
       </div>
