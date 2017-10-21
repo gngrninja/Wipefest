@@ -19,6 +19,7 @@ import { Death } from "app/warcraft-logs/death";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { DeathEvent } from "app/fight-events/models/death-event";
 import { environment } from "environments/environment";
+import { LocalStorage } from "app/shared/local-storage";
 
 @Component({
     selector: 'fight-summary',
@@ -51,7 +52,8 @@ export class FightSummaryComponent implements OnInit {
     private deathsSubscription: Subscription;
 
     Difficulty = Difficulty;
-    eventConfigBranch = "master";
+    eventConfigAccount: string;
+    eventConfigBranch: string;
     canChangeEventConfigBranch = window.location.href.indexOf("www.wipefest.net") == -1;
 
     constructor(
@@ -62,10 +64,15 @@ export class FightSummaryComponent implements OnInit {
         private queryService: QueryService,
         private eventService: FightEventService,
         private warcraftLogsService: WarcraftLogsService,
+        private localStorage: LocalStorage,
         private logger: LoggerService) { }
 
     ngOnInit() {
         this.wipefestService.selectPage(Page.FightSummary);
+
+        this.eventConfigAccount = this.localStorage.get("eventConfigAccount") || "JoshYaxley";
+        this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
+
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
 
@@ -190,8 +197,8 @@ export class FightSummaryComponent implements OnInit {
         this.error = null;
 
         return this.eventConfigService
-            .getIncludes(this.fight.boss, this.eventConfigBranch)
-            .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes), this.eventConfigBranch))
+            .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
+            .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes), this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
                 this.configs = configs;
 
@@ -251,5 +258,10 @@ export class FightSummaryComponent implements OnInit {
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;
                 return 0;
             });
+    }
+
+    setEventConfigLocation() {
+        this.localStorage.set("eventConfigAccount", this.eventConfigAccount);
+        this.localStorage.set("eventConfigBranch", this.eventConfigBranch);
     }
 }

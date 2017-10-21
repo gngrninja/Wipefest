@@ -40,7 +40,7 @@
   }
 }
 
-input[name=eventConfigBranch] {
+input[name=eventConfigAccount], input[name=eventConfigBranch] {
   border: 1px solid $gray-dark;
   border-radius: 4px;
 }

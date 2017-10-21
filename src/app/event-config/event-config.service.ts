@@ -12,11 +12,8 @@ export class EventConfigService {
 
     constructor(private http: Http, private logger: LoggerService) { }
     
-    getEventConfigs(includes: string[], eventConfigBranch: string): Observable<EventConfig[]> {
-        let url = environment.eventConfigsUrl;
-        if (eventConfigBranch) {
-            url = url.replace("master", eventConfigBranch);
-        }
+    getEventConfigs(includes: string[], eventConfigAccount: string, eventConfigBranch: string): Observable<EventConfig[]> {
+        let url = this.getBaseUrl(eventConfigAccount, eventConfigBranch);
 
         let batch: Observable<EventConfig[]>[] = [];
 
@@ -32,11 +29,8 @@ export class EventConfigService {
             .map(x => [].concat.apply([], x)); // Flatten arrays into one array
     }
 
-    getIncludes(bossId: number, eventConfigBranch: string): Observable<string[]> {
-        let url = environment.eventConfigsUrl;
-        if (eventConfigBranch) {
-            url = url.replace("master", eventConfigBranch);
-        }
+    getIncludes(bossId: number, eventConfigAccount: string, eventConfigBranch: string): Observable<string[]> {
+        let url = this.getBaseUrl(eventConfigAccount, eventConfigBranch);
 
         return this.getEventConfigIndex(url).map(x => x.find(boss => boss.id == bossId).includes);
     }
@@ -142,6 +136,18 @@ export class EventConfigService {
         }
 
         return Observable.throw(error);
+    }
+
+    private getBaseUrl(eventConfigAccount: string, eventConfigBranch: string): string {
+        let url = environment.eventConfigsUrl;
+        if (eventConfigAccount) {
+            url = url.replace("JoshYaxley", eventConfigAccount);
+        }
+        if (eventConfigBranch) {
+            url = url.replace("master", eventConfigBranch);
+        }
+
+        return url;
     }
 
 }
