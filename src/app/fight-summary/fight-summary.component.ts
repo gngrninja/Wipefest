@@ -187,6 +187,8 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private loadCombatEvents(): Observable<CombatEvent[]> {
+        this.error = null;
+
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigBranch)
             .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes), this.eventConfigBranch))
