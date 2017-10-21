@@ -197,7 +197,7 @@ export class FightSummaryComponent implements OnInit {
             }).catch((error, caught) => {
                 this.error = error;
                 this.logger.logError(error);
-                return caught;
+                return Observable.empty();
             });
     }
 
