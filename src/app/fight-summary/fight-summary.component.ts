@@ -18,6 +18,7 @@ import { Subscription } from "rxjs/Subscription";
 import { Death } from "app/warcraft-logs/death";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { DeathEvent } from "app/fight-events/models/death-event";
+import { environment } from "environments/environment";
 
 @Component({
     selector: 'fight-summary',
@@ -50,6 +51,8 @@ export class FightSummaryComponent implements OnInit {
     private deathsSubscription: Subscription;
 
     Difficulty = Difficulty;
+    eventConfigBranch = "master";
+    canChangeEventConfigBranch = window.location.href.indexOf("www.wipefest.net") == -1;
 
     constructor(
         private route: ActivatedRoute,
@@ -185,8 +188,8 @@ export class FightSummaryComponent implements OnInit {
 
     private loadCombatEvents(): Observable<CombatEvent[]> {
         return this.eventConfigService
-            .getIncludes(this.fight.boss)
-            .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes)))
+            .getIncludes(this.fight.boss, this.eventConfigBranch)
+            .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes), this.eventConfigBranch))
             .flatMap(configs => {
                 this.configs = configs;
 

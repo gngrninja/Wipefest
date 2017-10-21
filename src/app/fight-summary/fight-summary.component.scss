@@ -40,6 +40,11 @@
   }
 }
 
+input[name=eventConfigBranch] {
+  border: 1px solid $gray-dark;
+  border-radius: 4px;
+}
+
 .sidebar {
   z-index: 2;
 }

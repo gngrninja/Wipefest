@@ -34,6 +34,13 @@
             </a>,
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
           </div>
+          <div *ngIf="canChangeEventConfigBranch" class="block p-1 pl-3">
+            <form class="form-inline">
+              <label class="mr-2" for="eventConfigBranch">Event Config Branch:</label>
+              <input type="text" class="form-control-sm mr-2" name="eventConfigBranch" [(ngModel)]="eventConfigBranch" />
+              <button class="btn btn-sm btn-primary" (click)="loadData()">Set</button>
+            </form>
+          </div>
           <div class="block p-1 pl-3">
             <form class="death-threshold">
               <i id="enable-icon"

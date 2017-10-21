@@ -9,16 +9,19 @@ import { LoggerService } from "app/shared/logger.service";
 
 @Injectable()
 export class EventConfigService {
-    
-    private url = environment.eventConfigsUrl;
 
     constructor(private http: Http, private logger: LoggerService) { }
     
-    getEventConfigs(includes: string[]): Observable<EventConfig[]> {
+    getEventConfigs(includes: string[], eventConfigBranch: string): Observable<EventConfig[]> {
+        let url = environment.eventConfigsUrl;
+        if (eventConfigBranch) {
+            url = url.replace("master", eventConfigBranch);
+        }
+
         let batch: Observable<EventConfig[]>[] = [];
 
         includes.forEach(include => {
-            let observable = this.http.get(this.url + include + ".json")
+            let observable = this.http.get(url + include + ".json")
                 .map(response => response.json())
                 .catch(error => this.handleError(error));
 
@@ -29,12 +32,17 @@ export class EventConfigService {
             .map(x => [].concat.apply([], x)); // Flatten arrays into one array
     }
 
-    getIncludes(bossId: number): Observable<string[]> {
-        return this.getEventConfigIndex().map(x => x.find(boss => boss.id == bossId).includes);
+    getIncludes(bossId: number, eventConfigBranch: string): Observable<string[]> {
+        let url = environment.eventConfigsUrl;
+        if (eventConfigBranch) {
+            url = url.replace("master", eventConfigBranch);
+        }
+
+        return this.getEventConfigIndex(url).map(x => x.find(boss => boss.id == bossId).includes);
     }
 
-    private getEventConfigIndex(): Observable<EventConfigIndex[]> {
-        return this.http.get(this.url + "index.json")
+    private getEventConfigIndex(url: string): Observable<EventConfigIndex[]> {
+        return this.http.get(url + "index.json")
             .map(response => response.json())
             .catch(error => this.handleError(error));
     }
