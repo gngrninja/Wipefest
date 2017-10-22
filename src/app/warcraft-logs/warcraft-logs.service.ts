@@ -146,6 +146,17 @@ export class WarcraftLogsService {
             new Encounter(2052, "Maiden of Vigilance"),
             new Encounter(2038, "Fallen Avatar"),
             new Encounter(2051, "Kil'jaeden"),
+            new Encounter(2076, "Garothi Worldbreaker"),
+            new Encounter(2074, "Felhounds of Sargeras"),
+            new Encounter(2070, "Antoran High Command"),
+            new Encounter(2075, "The Defense of Eonar"),
+            new Encounter(2064, "Portal Keeper Hasabel"),
+            new Encounter(2082, "Imonar the Soulhunter"),
+            new Encounter(2088, "Kin'garoth"),
+            new Encounter(2069, "Varimathras"),
+            new Encounter(2073, "The Coven of Shivarra"),
+            new Encounter(2063, "Aggramar"),
+            new Encounter(2092, "Argus the Unmaker"),
         ];
     }
 
