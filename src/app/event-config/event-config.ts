@@ -41,14 +41,19 @@ export class EventConfigFilter {
     minimum: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;
+    query: string;
 
 }
 
 export class EventConfigCombinedFilter {
 
-    constructor(public type: string, public stack: number, public filters: EventConfigFilter[]) { }
+    constructor(public type: string, public stack: number, public filters: EventConfigFilter[], public query: string = null) { }
 
     parse(): string {
+        if (this.query) {
+            return this.query;
+        }
+
         if (this.type == "firstseen") {
             let actorGuids = this.filters.map(x => x.actor.id);
             return `(source.firstSeen = timestamp and source.id in (${actorGuids.join(', ')})) or ` +

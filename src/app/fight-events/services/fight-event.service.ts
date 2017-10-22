@@ -73,6 +73,7 @@ export class FightEventService {
                 x.timestamp - fight.start_time + timestampOffset,
                 config.friendly || x.sourceIsFriendly,
                 config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
+                config.showSource,
                 config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
                 new Ability(x.ability),
                 x.amount,

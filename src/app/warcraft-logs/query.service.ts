@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EventConfigFilter, EventConfig, EventConfigFilterAbility, EventConfigCombinedFilter } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
@@ -33,12 +33,16 @@ export class QueryService {
             }
 
             filter.types.forEach(type => {
-                let index = combinedFilters.findIndex(x => x.type == type && x.stack == filter.stack);
-
-                if (index != -1) {
-                    combinedFilters[index].filters.push(filter);
+                if (filter.query && !combinedFilters.some(x => x.query == filter.query)) {
+                    combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter], filter.query));
                 } else {
-                    combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter]));
+                    let index = combinedFilters.findIndex(x => x.type == type && x.stack == filter.stack);
+
+                    if (index != -1) {
+                        combinedFilters[index].filters.push(filter);
+                    } else {
+                        combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter]));
+                    }
                 }
             });
         });
