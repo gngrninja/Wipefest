@@ -44,10 +44,15 @@ export class InsightTableRow {
 
     constructor(public insight: Insight) { }
 
+    get hasDetails(): boolean {
+        return (this.insight.details && this.insight.details != ".") || (this.insight.tip && this.insight.tip != ".");
+    }
     private showDetails = false;
 
     toggle() {
-        this.showDetails = !this.showDetails;
+        if (this.hasDetails) {
+            this.showDetails = !this.showDetails;
+        }
     }
 
 }

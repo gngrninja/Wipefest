@@ -5,13 +5,14 @@
 <table>
   <tr *ngFor="let row of rows">
     <td>
-      <div class="insight-title pl-2" [ngClass]="row.showDetails ? 'showDetails' : ''"
+      <div class="insight-title pl-2" [ngClass]="{'showDetails': row.showDetails, 'clickable': row.hasDetails}"
            (click)="row.toggle()">
-        <i class="arrow fa fa-chevron-down mr-1" [ngClass]="row.showDetails ? 'down' : 'right'" aria-hidden="true"></i>
+        <i *ngIf="row.hasDetails" class="arrow fa fa-chevron-down mr-1" [ngClass]="row.showDetails ? 'down' : 'right'" aria-hidden="true"></i>
+        <i *ngIf="!row.hasDetails" class="arrow fa fa-info-circle mr-1 ml-1" aria-hidden="true"></i>
         <span [innerHtml]="MarkupParser.Parse(row.insight.title)"></span>
       </div>
 
-      <div *ngIf="row.showDetails" class="details">
+      <div *ngIf="row.showDetails && row.hasDetails" class="details">
         <div *ngIf="row.insight.details && row.insight.details != '.'" class="alert alert-gray mt-3 mb-0">
           <div class="alert-title"><span><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i>Details</span></div>
           <div class="mt-2" [innerHtml]="MarkupParser.Parse(row.insight.details)"></div>

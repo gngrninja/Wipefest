@@ -14,22 +14,16 @@ export class DamageEvent extends FightEvent {
         private showSource: boolean,
         public target: Actor,
         public ability: Ability,
-        private damage: number,
-        private absorbed: number,
-        private overkill: number,
+        public damage: number,
+        public absorbed: number,
+        public overkill: number,
         private isChild: boolean) {
 
         super(config, timestamp, isFriendly);
     }
 
     get damageText(): string {
-        let text = `{[style="danger"] ${this.damage}}`;
-        if (this.absorbed > 0)
-            text += `, A: {[style="info"] ${this.absorbed}}`;
-        if (this.overkill > 0)
-            text += `, O: {[style="warning"] ${this.overkill}}`;
-
-        return text;
+        return MarkupHelper.Damage(this.damage, this.absorbed, this.overkill);
     }
 
     get tableTitle(): string {

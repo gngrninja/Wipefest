@@ -6,6 +6,7 @@ import { Timestamp } from "app/helpers/timestamp-helper";
 import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
 import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
+import { PlayerAndDamage } from "app/insights/models/player-and-damage";
 
 export module MarkupHelper {
 
@@ -53,6 +54,16 @@ export module MarkupHelper {
         return `${Style(getSchoolForAbilityType(ability.type), ability.name)}`;
     }
 
+    export function Damage(damage: number, absorbed: number, overkill: number) {
+        let text = Style("danger", damage);
+        if (absorbed > 0)
+            text += `, A: ${Style("info", absorbed)}`;
+        if (overkill > 0)
+            text += `, O: ${Style("warning", overkill)}`;
+
+        return text;
+    }
+
     export function AbilityWithTooltip(ability: Ability) {
         return AbilityWithTooltip2(ability.guid, ability.name, getSchoolForAbilityType(ability.type));
     }
@@ -87,6 +98,10 @@ export module MarkupHelper {
 
     export function PlayersAndTimestamps(playersAndTimestamps: PlayerAndTimestamp[]) {
         return `${playersAndTimestamps.map(x => `${Actor(x.player)} (${Timestamp.ToMinutesAndSeconds(x.timestamp)})`).join(", ")}.`;
+    }
+
+    export function PlayersAndDamages(playersAndDamages: PlayerAndDamage[]) {
+        return `${playersAndDamages.map(x => `${Actor(x.player)} (${Damage(x.damage, x.absorbed, x.overkill)})`).join(", ")}`;
     }
 
     export function AbilitiesAndTimestamps(abilitiesAndTimestamps: AbilityAndTimestamp[]) {
