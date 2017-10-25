@@ -11,24 +11,43 @@ export module RaidFactory {
 
         let players = friendlies.map(x => {
             let combatantInfo = combatantInfos.find(y => x.id == y.sourceID);
-            if (!combatantInfo) {
-                // This was happening for Pets that for some reason were listed under friendlies instead of friendlyPets
-                // Leaving this here in case there are any other peculiarities
-                console.log(`No combatant info could be found for ${x.name} of type ${x.type} with source ID ${x.id}`);
-                return null;
-            }
-            let gear = combatantInfo.gear
-                .filter((x, index, array) => x.id != 0 && index != 3 && index != 17); // Remove shirt, tabard, and "invisible off-hand" when using two-hand
-            let itemLevel = gear
-                .map(x => x.itemLevel)
-                .reduce((x, y) => x + y)
-                / gear.length;
 
-            return new Player(x.name, this.classesService.getSpecialization(combatantInfo.specID), itemLevel);
-        }).filter(x => x != null);
+            let itemLevel: number = null;
+            let specialization: Specialization = null;
+            if (combatantInfo) {
+                let gear = combatantInfo.gear
+                    .filter((x, index, array) => x.id != 0 && index != 3 && index != 17); // Remove shirt, tabard, and "invisible off-hand" when using two-hand
+                itemLevel = gear
+                    .map(x => x.itemLevel)
+                    .reduce((x, y) => x + y)
+                    / gear.length;
+
+                specialization = classesService.getSpecialization(combatantInfo.specID);
+            }
+
+            return new Player(x.name, x.type, specialization, itemLevel);
+        }).sort(byClassThenSpecializationThenName);
 
         return new Raid(players);
     }
+
+    function byClassThenSpecializationThenName(a: Player, b: Player) {
+        if (a.className == b.className) {
+            if (!a.specialization || !b.specialization || a.specialization.name == b.specialization.name) {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (a.name.toLowerCase() == b.name.toLowerCase()) return 0;
+            }
+            if (a.specialization && b.specialization) {
+                if (a.specialization.name.toLowerCase() < b.specialization.name.toLowerCase()) return -1;
+                if (a.specialization.name.toLowerCase() > b.specialization.name.toLowerCase()) return 1;
+                if (a.specialization.name.toLowerCase() == b.specialization.name.toLowerCase()) return 0;
+            }
+        }
+        if (a.className.toLowerCase() < b.className.toLowerCase()) return -1;
+        if (a.className.toLowerCase() > b.className.toLowerCase()) return 1;
+        if (a.className.toLowerCase() == b.className.toLowerCase()) return 0;
+    };
 
 }
 
@@ -40,16 +59,16 @@ export class Raid {
         return this.players.map(x => x.itemLevel).reduce((x, y) => x + y, 0) / this.players.length;
     }
     get tanks() {
-        return this.players.filter(x => x.specialization.role == "Tank").sort(this.byClassThenSpecializationThenName);
+        return this.players.filter(x => x.specialization && x.specialization.role == "Tank");
     }
     get healers() {
-        return this.players.filter(x => x.specialization.role == "Healer").sort(this.byClassThenSpecializationThenName);
+        return this.players.filter(x => x.specialization && x.specialization.role == "Healer");
     }
     get ranged() {
-        return this.players.filter(x => x.specialization.role == "Ranged").sort(this.byClassThenSpecializationThenName);
+        return this.players.filter(x => x.specialization && x.specialization.role == "Ranged");
     }
     get melee() {
-        return this.players.filter(x => x.specialization.role == "Melee").sort(this.byClassThenSpecializationThenName);
+        return this.players.filter(x => x.specialization && x.specialization.role == "Melee");
     }
     get roles(): RoleWithPlayers[] {
         return [
@@ -59,26 +78,10 @@ export class Raid {
             new RoleWithPlayers("Melee", this.melee),
         ]
     }
-
-    private byClassThenSpecializationThenName = (a: Player, b: Player) => {
-        if (a.specialization.className == b.specialization.className) {
-            if (a.specialization.name == b.specialization.name) {
-                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-                if (a.name.toLowerCase() == b.name.toLowerCase()) return 0;
-            }
-            if (a.specialization.name.toLowerCase() < b.specialization.name.toLowerCase()) return -1;
-            if (a.specialization.name.toLowerCase() > b.specialization.name.toLowerCase()) return 1;
-            if (a.specialization.name.toLowerCase() == b.specialization.name.toLowerCase()) return 0;
-        }
-        if (a.specialization.className.toLowerCase() < b.specialization.className.toLowerCase()) return -1;
-        if (a.specialization.className.toLowerCase() > b.specialization.className.toLowerCase()) return 1;
-        if (a.specialization.className.toLowerCase() == b.specialization.className.toLowerCase()) return 0;
-    };
 }
 
 export class Player {
-    constructor(public name: string, public specialization: Specialization, public itemLevel: number) { }
+    constructor(public name: string, public className: string, public specialization: Specialization, public itemLevel: number) { }
 }
 
 export class RoleWithPlayers {

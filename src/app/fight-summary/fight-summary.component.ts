@@ -181,7 +181,7 @@ export class FightSummaryComponent implements OnInit {
 
     private populateEvents(combatEvents: CombatEvent[], deaths: Death[]) {
         this.combatantInfos = combatEvents.filter(x => x.type == "combatantinfo");
-        this.raid = RaidFactory.Get(this.combatantInfos, this.getFriendliesForFight(this.fight.id), this.classesService)
+        this.raid = RaidFactory.Get(this.combatantInfos, this.getPlayersForFight(this.fight.id), this.classesService)
 
         let events: FightEvent[] = [].concat.apply([], this.configs.map(config => {
             let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
@@ -257,9 +257,9 @@ export class FightSummaryComponent implements OnInit {
         });
     }
 
-    private getFriendliesForFight(fightId: number) {
+    private getPlayersForFight(fightId: number) {
         return this.report.friendlies
-            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1 && x.type != "Pet")
+            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1 && this.classesService.specializations.some(s => s.className == x.type))
             .sort((a, b) => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;

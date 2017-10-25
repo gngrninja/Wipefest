@@ -1,23 +1,17 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ClassesService {
 
     getSpecialization(specializationId: number): Specialization {
-        let specialization = this.specializations.find(x => x.id == specializationId);
-
-        if (specialization == undefined) {
-            throw `"No specialization could be found with id ${specializationId}`;
-        }
-
-        return specialization;
+        return this.specializations.find(x => x.id == specializationId);
     }
 
     getSpecializationByName(className: string, specialization: string): Specialization {
         return this.specializations.find(x => x.className.replace(" ", "") == className.replace(" ", "") && x.name.replace(" ", "") == specialization.replace(" ", ""));
     }
 
-    private specializations: Specialization[] = [
+    public specializations: Specialization[] = [
         new Specialization(62, "Mage", "Arcane", "Ranged"),
         new Specialization(63, "Mage", "Fire", "Ranged"),
         new Specialization(64, "Mage", "Frost", "Ranged"),
