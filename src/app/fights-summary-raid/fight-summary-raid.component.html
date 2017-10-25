@@ -1,16 +1,23 @@
 <div class="aside-menu-scrollable rtl">
   <div class="ltr">
-    <h4><span class="badge badge-default">{{raidItemLevel | number : '1.0-1'}}</span></h4>
-    <div *ngFor="let role of roles" class="mt-2">
-      <h6>
-        {{role.name}}
-        <span class="badge badge-info">{{role.players.length}}</span>
-      </h6>
-      <div *ngFor="let player of role.players" class="ml-3">
-        <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
-        <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.specialization.className, player.name))"></span>
-        <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
+    <ng-container *ngIf="raid.players.length > 0">
+      <h4><span class="badge badge-default">{{raid.itemLevel | number : '1.0-1'}}</span></h4>
+      <div *ngFor="let role of raid.roles" class="mt-2">
+        <h6>
+          {{role.name}}
+          <span class="badge badge-info">{{role.players.length}}</span>
+        </h6>
+        <div *ngFor="let player of role.players" class="ml-3">
+          <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
+          <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.specialization.className, player.name))"></span>
+          <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
+        </div>
       </div>
+    </ng-container>
+    <div *ngIf="raid.players.length == 0">
+      <p>No combatant info could be found for this fight.</p>
+      <p>This is likely caused by not having Advanced Combat Logging enabled.</p>
+      <p>This setting can be found in the Network pane under System preferences.</p>
     </div>
   </div>
 </div>

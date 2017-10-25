@@ -20,6 +20,8 @@ import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { DeathEvent } from "app/fight-events/models/death-event";
 import { environment } from "environments/environment";
 import { LocalStorage } from "app/shared/local-storage";
+import { Raid, RaidFactory } from "app/raid/raid";
+import { ClassesService } from "app/warcraft-logs/classes.service";
 
 @Component({
     selector: 'fight-summary',
@@ -40,7 +42,8 @@ export class FightSummaryComponent implements OnInit {
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
     eventsBeforeDeathThreshold: FightEvent[] = [];
-    combatantInfo: CombatEvent[] = [];
+    combatantInfos: CombatEvent[] = [];
+    raid: Raid;
 
     enableDeathThreshold = false;
     deathThreshold = 2;
@@ -64,6 +67,7 @@ export class FightSummaryComponent implements OnInit {
         private queryService: QueryService,
         private eventService: FightEventService,
         private warcraftLogsService: WarcraftLogsService,
+        private classesService: ClassesService,
         private localStorage: LocalStorage,
         private logger: LoggerService) { }
 
@@ -93,7 +97,7 @@ export class FightSummaryComponent implements OnInit {
 
         this.fight = null;
         this.events = [];
-        this.combatantInfo = [];
+        this.combatantInfos = [];
         this.configs = [];
 
         if (this.report && this.report.id == reportId) {
@@ -148,6 +152,8 @@ export class FightSummaryComponent implements OnInit {
     private loadData() {
         this.events = [];
         this.eventsBeforeDeathThreshold = [];
+        this.raid = null;
+
         if (this.report && this.fight) {
             let combatEvents = [];
             let loadingCombatEvents = true;
@@ -174,7 +180,8 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private populateEvents(combatEvents: CombatEvent[], deaths: Death[]) {
-        this.combatantInfo = combatEvents.filter(x => x.type == "combatantinfo");
+        this.combatantInfos = combatEvents.filter(x => x.type == "combatantinfo");
+        this.raid = RaidFactory.Get(this.combatantInfos, this.getFriendliesForFight(this.fight.id), this.classesService)
 
         let events: FightEvent[] = [].concat.apply([], this.configs.map(config => {
             let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);

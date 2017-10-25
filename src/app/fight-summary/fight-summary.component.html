@@ -89,6 +89,6 @@
     <wf-footer></wf-footer>
   </main>
   <aside class="aside-menu">
-    <fight-summary-raid *ngIf="combatantInfo.length > 0 && fight" [combatantInfo]="combatantInfo" [friendlies]="getFriendliesForFight(fight.id)"></fight-summary-raid>
+    <fight-summary-raid *ngIf="raid" [raid]="raid"></fight-summary-raid>
   </aside>
 </div>
