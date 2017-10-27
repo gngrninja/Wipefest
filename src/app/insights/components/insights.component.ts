@@ -1,10 +1,12 @@
 import { Component, OnChanges, Input, SimpleChanges } from "@angular/core";
 import { MarkupParser } from "app/helpers/markup-parser";
-import { Fight } from "app/warcraft-logs/report";
+import { Fight, Report } from "app/warcraft-logs/report";
 import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightService } from "app/insights/services/insight.service";
 import { Insight } from "app/insights/models/insight";
 import { InsightConfig } from "app/insights/configs/insight-config";
+import { Raid } from "app/raid/raid";
+import { InsightContext } from "app/insights/models/insight-context";
 
 @Component({
     selector: 'insights',
@@ -13,7 +15,9 @@ import { InsightConfig } from "app/insights/configs/insight-config";
 })
 export class InsightsComponent implements OnChanges {
 
+    @Input() report: Report;
     @Input() fight: Fight;
+    @Input() raid: Raid;
     @Input() events: FightEvent[];
 
     configs: InsightConfig[] = [];
@@ -32,7 +36,8 @@ export class InsightsComponent implements OnChanges {
         this.insights = [];
 
         if (this.events.length > 0) {
-            this.insights = this.insightService.getInsights(this.fight.boss, this.events);
+            let context = new InsightContext(this.report, this.fight, this.raid, this.events);
+            this.insights = this.insightService.getInsights(this.fight.boss, context);
         }
 
         this.rows = this.insights.map(x => new InsightTableRow(x));

@@ -3,6 +3,9 @@ import { Insight } from "app/insights/models/insight";
 import { Ability } from "app/fight-events/models/ability-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { PlayerAndFrequency } from "app/insights/models/player-and-frequency";
+import { InsightContext } from "app/insights/models/insight-context";
+import { Actor } from "app/warcraft-logs/report";
+import { Raid } from "app/raid/raid";
 
 export abstract class InsightConfig {
 
@@ -12,16 +15,16 @@ export abstract class InsightConfig {
         protected detailsTemplate,
         protected tipTemplate) { }
 
-    getInsight(events: FightEvent[]): Insight {
-        let properties = this.getProperties(events);
+    getInsight(context: InsightContext): Insight {
+        let properties = this.getProperties(context);
         if (properties == null) {
             return null;
         }
 
-        return this.generateInsight(this.insightTemplate, this.detailsTemplate, this.tipTemplate, properties, events);
+        return this.generateInsight(this.insightTemplate, this.detailsTemplate, this.tipTemplate, properties, context.events);
     }
 
-    abstract getProperties(events: FightEvent[]): any;
+    abstract getProperties(context: InsightContext): any;
 
     protected renderTemplate(template: string, properties: any, events: FightEvent[]) {
         if (template == null) return null;
@@ -75,12 +78,6 @@ export abstract class InsightConfig {
     }
 
     protected getAbilityMarkup(events: any[], abilityId: number, name: string, style: string): string {
-        //let event = events.find(x => x.ability && x.ability.guid == abilityId);
-        //if (event) {
-        //    return MarkupHelper.AbilityWithIcon(event.ability);
-        //}
-        //return MarkupHelper.Style(backupStyle, backupName);
-
         return MarkupHelper.AbilityWithTooltip2(abilityId, name, style);
     }
 
@@ -88,6 +85,10 @@ export abstract class InsightConfig {
         if (number == 1) return "";
 
         return "s";
+    }
+
+    protected getPlayerFromActor(actor: Actor, raid: Raid) {
+        return raid.players.find(x => x.name == actor.name);
     }
 
     private getMatches(regex: RegExp, input: string) {

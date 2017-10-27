@@ -3,6 +3,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class Debuff extends InsightConfig {
 
@@ -20,8 +21,8 @@ export class Debuff extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndFrequencies}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let debuffEvents = events
+    getProperties(context: InsightContext): any {
+        let debuffEvents = context.events
             .filter(x => x.config)
             .filter(x => this.eventConfigNames.indexOf(x.config.name) != -1 && x.config.eventType == "debuff")
             .map(x => <DebuffEvent>x)

@@ -3,6 +3,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { DeathEvent } from "app/fight-events/models/death-event";
 import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class Death extends InsightConfig {
 
@@ -19,8 +20,8 @@ export class Death extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndTimestamps}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let deathEvents = events
+    getProperties(context: InsightContext): any {
+        let deathEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Deaths")
             .map(x => <DeathEvent>x)

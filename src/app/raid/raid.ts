@@ -82,6 +82,10 @@ export class Raid {
 
 export class Player {
     constructor(public name: string, public className: string, public specialization: Specialization, public itemLevel: number) { }
+
+    toActor(): Actor {
+        return new Actor(this.name, this.className);
+    }
 }
 
 export class RoleWithPlayers {

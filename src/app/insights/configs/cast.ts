@@ -2,6 +2,7 @@ import { InsightConfig } from "app/insights/configs/insight-config";
 import { FightEvent } from "app/fight-events/models/fight-event";
 import { AbilityEvent } from "app/fight-events/models/ability-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class Cast extends InsightConfig {
 
@@ -19,8 +20,8 @@ export class Cast extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{timestamps}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let abilityEvents = events
+    getProperties(context: InsightContext): any {
+        let abilityEvents = context.events
             .filter(x => x.config)
             .filter(x => this.eventConfigNames.indexOf(x.config.name) != -1 && x.config.eventType == "ability")
             .map(x => <AbilityEvent>x);

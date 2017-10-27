@@ -3,6 +3,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnstableSoulFullExpirationExplosion extends InsightConfig {
 
@@ -19,13 +20,13 @@ so players need to jump into the hole 1-2 seconds before their debuff expires.
 If players jump too early, then they risk falling too far to be knocked out of the hole when they explode.`);
     }
 
-    getProperties(events: FightEvent[]): any {
-        let damageEvents = events
+    getProperties(context: InsightContext): any {
+        let damageEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Unstable Soul Explosion" && x.config.eventType == "damage")
             .map(x => <DamageEvent>x);
 
-        let debuffEvents = events
+        let debuffEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Unstable Soul" && x.config.eventType == "debuff")
             .map(x => <DebuffEvent>x)

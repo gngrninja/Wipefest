@@ -4,6 +4,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightConfig } from "app/insights/configs/insight-config";
 import { TombOfSargerasInsightConfigs } from "app/insights/configs/tomb-of-sargeras/all";
 import { AntorusTheBurningThroneInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/all";
+import { InsightContext } from "app/insights/models/insight-context";
 
 @Injectable()
 export class InsightService {
@@ -15,10 +16,10 @@ export class InsightService {
         ];
     }
 
-    getInsights(boss: number, events: FightEvent[]): Insight[] {
+    getInsights(boss: number, context: InsightContext): Insight[] {
         return this.getInsightConfigs()
             .filter(x => x.boss == boss)
-            .map(x => x.getInsight(events))
+            .map(x => x.getInsight(context))
             .filter(x => x != null);
     }
 

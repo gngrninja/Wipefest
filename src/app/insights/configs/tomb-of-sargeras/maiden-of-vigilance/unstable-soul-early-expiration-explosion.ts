@@ -3,6 +3,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnstableSoulEarlyExpirationExplosion extends InsightConfig {
 
@@ -16,13 +17,13 @@ then the explosion (that would normally occur when the debuff expires) is trigge
 Also, if a debuffed player collides with a player of the opposite infusion, or takes damage from an ability of the opposite infusion, then they will explode early.`);
     }
 
-    getProperties(events: FightEvent[]): any {
-        let damageEvents = events
+    getProperties(context: InsightContext): any {
+        let damageEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Unstable Soul Explosion" && x.config.eventType == "damage")
             .map(x => <DamageEvent>x);
 
-        let debuffEvents = events
+        let debuffEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Unstable Soul" && x.config.eventType == "debuff")
             .map(x => <DebuffEvent>x)

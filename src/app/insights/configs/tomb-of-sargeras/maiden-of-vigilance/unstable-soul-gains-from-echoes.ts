@@ -4,6 +4,7 @@ import { DamageEvent } from "app/fight-events/models/damage-event";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { Actor } from "app/warcraft-logs/report";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnstableSoulGainsFromEchoes extends InsightConfig {
 
@@ -16,13 +17,13 @@ is particularly important if the player has the opposite infusion to the ability
 as getting hit will cause an unnecessary {ability:243276:Unstable Soul:fire}.`);
     }
 
-    getProperties(events: FightEvent[]): any {
-        let damageEvents = events
+    getProperties(context: InsightContext): any {
+        let damageEvents = context.events
             .filter(x => x.config)
             .filter(x => (x.config.name == "Light Echoes" || x.config.name == "Fel Echoes") && x.config.eventType == "damage")
             .map(x => <DamageEvent>x)
             .filter(x => {
-                let infusion = this.getPlayerInfusion(events, x.target, x.timestamp);
+                let infusion = this.getPlayerInfusion(context.events, x.target, x.timestamp);
 
                 let infusionDoesNotMatchEchoes =
                     (infusion.ability.guid == 235213 && x.ability.guid == 238420) ||

@@ -1,7 +1,7 @@
 <div class="aside-menu-scrollable rtl">
   <div class="ltr">
     <ng-container *ngIf="raid.itemLevel != 0">
-      <h4><span class="badge badge-default">{{raid.itemLevel | number : '1.0-1'}}</span></h4>
+      <h4>{{raid.players.length}}<span class="ml-2 badge badge-default">{{raid.itemLevel | number : '1.0-1'}}</span></h4>
       <div *ngFor="let role of raid.roles" class="mt-2">
         <h6>
           {{role.name}}
@@ -15,7 +15,7 @@
       </div>
     </ng-container>
     <ng-container *ngIf="raid.itemLevel == 0 && raid.players.length > 0">
-      <h4><span class="badge badge-default">{{raid.players.length}}</span></h4>
+      <h4>{{raid.players.length}}</h4>
       <div *ngFor="let player of raid.players" class="ml-3">
         <img src="https://www.warcraftlogs.com/img/icons/{{player.className}}.jpg" alt="{{player.className}}" />
         <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.className, player.name))"></span>

@@ -81,7 +81,7 @@
           <div *ngIf="error" class="block p-3 text-center">
             <error [error]="error"></error>
           </div>
-          <insights *ngIf="events && !error" [fight]="fight" [events]="eventsBeforeDeathThreshold"></insights>
+          <insights *ngIf="events && !error" [report]="report" [raid]="raid" [fight]="fight" [events]="eventsBeforeDeathThreshold"></insights>
           <fight-events *ngIf="events && !error" [fight]="fight" [events]="eventsBeforeDeathThreshold"></fight-events>
         </div>
       </div>

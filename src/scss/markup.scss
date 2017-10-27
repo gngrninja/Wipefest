@@ -12,6 +12,23 @@
   }
 }
 
+// Tables
+table.markup-table-details {
+  width: 100%;
+  margin-bottom: 0;
+
+  th {
+    border-color: $gray-lighter;
+    padding: 4px;
+    border-top: 0;
+  }
+
+  td {
+    border-color: $gray-light;
+    padding: 4px;
+  }
+}
+
 // Brands
 .markup-success {
   color: $brand-success;

@@ -3,6 +3,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { AbilityEvent } from "app/fight-events/models/ability-event";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnnecessaryUnstableSoulGains extends InsightConfig {
 
@@ -21,13 +22,13 @@ To avoid ${MarkupHelper.Info("(3)")}, players must focus on dodging orbs that do
 as well as abilities such as {ability:238037:Light Echoes:holy} / {ability:238420:Fel Echoes:fire}.`);
     }
 
-    getProperties(events: FightEvent[]): any {
-        let castEvents = events
+    getProperties(context: InsightContext): any {
+        let castEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Mass Instability" && x.config.eventType == "ability")
             .map(x => <AbilityEvent>x);
 
-        let debuffEvents = events
+        let debuffEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Unstable Soul" && x.config.eventType == "debuff")
             .map(x => <DebuffEvent>x)

@@ -3,6 +3,7 @@ import { FightEvent } from "app/fight-events/models/fight-event";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class TwilightGlaive extends InsightConfig {
 
@@ -23,13 +24,13 @@ but all raid members should be aware of the path
 and prefers to target ranged players.`);
     }
 
-    getProperties(events: FightEvent[]): any {
-        let debuffEvents = events
+    getProperties(context: InsightContext): any {
+        let debuffEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Twilight Glaive" && x.config.eventType == "debuff")
             .map(x => <DebuffEvent>x);
 
-        let damageEvents = events
+        let damageEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Twilight Glaive" && x.config.eventType == "damage")
             .map(x => <DamageEvent>x)

@@ -2,6 +2,7 @@ import { InsightConfig } from "app/insights/configs/insight-config";
 import { FightEvent } from "app/fight-events/models/fight-event";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class HitHard extends InsightConfig {
 
@@ -20,8 +21,8 @@ export class HitHard extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndDamages}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let damageEvents = events
+    getProperties(context: InsightContext): any {
+        let damageEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.eventType == "damage" && this.eventConfigNames.indexOf(x.config.name) != -1)
             .map(x => <DamageEvent>x)

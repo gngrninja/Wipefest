@@ -2,6 +2,7 @@ import { InsightConfig } from "app/insights/configs/insight-config";
 import { FightEvent } from "app/fight-events/models/fight-event";
 import { SpawnEvent } from "app/fight-events/models/spawn-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class Spawn extends InsightConfig {
 
@@ -18,8 +19,8 @@ export class Spawn extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{timestamps}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let spawnEvents = events
+    getProperties(context: InsightContext): any {
+        let spawnEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == this.eventConfigName && x.config.eventType == "spawn")
             .map(x => <SpawnEvent>x);

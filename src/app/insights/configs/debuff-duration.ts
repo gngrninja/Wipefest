@@ -6,6 +6,7 @@ import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 import { RemoveDebuffEvent } from "app/fight-events/models/remove-debuff-event";
 import { PlayerAndDuration } from "app/insights/models/player-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class DebuffDuration extends InsightConfig {
 
@@ -30,14 +31,14 @@ export class DebuffDuration extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndDurationsOverThreshold}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let debuffEvents = events
+    getProperties(context: InsightContext): any {
+        let debuffEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == this.appliedEventConfigName && x.config.eventType == "debuff")
             .map(x => <DebuffEvent>x)
             .sort((x, y) => x.timestamp - y.timestamp);
 
-        let removeDebuffEvents = events
+        let removeDebuffEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == this.removedEventConfigName && x.config.eventType == "removedebuff")
             .map(x => <RemoveDebuffEvent>x)

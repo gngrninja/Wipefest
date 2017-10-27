@@ -4,6 +4,7 @@ import { MarkupHelper } from "app/helpers/markup-helper";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";
+import { InsightContext } from "app/insights/models/insight-context";
 
 export class PhaseDuration extends InsightConfig {
 
@@ -20,8 +21,8 @@ export class PhaseDuration extends InsightConfig {
         if (detailsTemplate == null) this.detailsTemplate = "{phasesAndDurations}";
     }
 
-    getProperties(events: FightEvent[]): any {
-        let phaseEvents = events
+    getProperties(context: InsightContext): any {
+        let phaseEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.eventType == "phase")
             .map(x => <PhaseChangeEvent>x)

@@ -2,7 +2,7 @@
   <h5 class="mb-1 d-inline-block">Insights</h5>
 </div>
 
-<table>
+<table class="insight">
   <tr *ngFor="let row of rows">
     <td>
       <div class="insight-title pl-2" [ngClass]="{'showDetails': row.showDetails, 'clickable': row.hasDetails}"

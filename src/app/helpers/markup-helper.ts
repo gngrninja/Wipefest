@@ -7,11 +7,17 @@ import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
 import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
 import { PlayerAndDamage } from "app/insights/models/player-and-damage";
+import { TimestampAndPlayers } from "app/insights/models/timestamp-and-players";
+import { Player } from "app/raid/raid";
 
 export module MarkupHelper {
 
     export function Style(style: string, text): string {
         return `{[style="${style}"] ${text}}`;
+    }
+
+    export function Icon(iconUrl: string, alt: string): string {
+        return `{[image="${iconUrl}" style="icon"] ${alt}}`;
     }
 
     export function AbilityIcon(id: number, iconUrl: string, name: string = null): string {
@@ -44,6 +50,10 @@ export module MarkupHelper {
 
     export function Actor(source: Actor): string {
         return Style(getStyleForActorType(source.type), source.name);
+    }
+
+    export function Player(player: Player): string {
+        return Actor(player.toActor());
     }
 
     export function Class(className: string, text): string {
@@ -133,6 +143,36 @@ export module MarkupHelper {
             case 96: return "spellshadow";
             case 124: case 125: case 126: case 127: return "chaos";
             default: return abilityType.toString();
+        }
+    }
+
+    export class Table {
+        constructor(public rows: TableRow[], public head: TableRow = null, public cssClass: string = null) {}
+
+        parse(): string {
+            let headHtml = "";
+            if (this.head) {
+                headHtml = `<thead>${this.head.parse("th")}</thead>`;
+            }
+            let bodyHtml = `<tbody>${this.rows.map(cell => cell.parse()).join("")}</tbody>`;
+
+            return `<table${this.cssClass ? ` class="${this.cssClass}"` : ""}>${headHtml}${bodyHtml}</table>`;
+        }
+    }
+
+    export class TableRow {
+        constructor(public cells: TableCell[], public cssClass: string = null) { }
+
+        parse(cellElement: string = "td"): string {
+            return `<tr${this.cssClass ? ` class="${this.cssClass}"` : ""}>${this.cells.map(cell => cell.parse(cellElement)).join("")}</tr>`;
+        }
+    }
+
+    export class TableCell {
+        constructor(public contents: string, public cssClass: string = null) { }
+
+        parse(element: string = "td"): string {
+            return `<${element}${this.cssClass ? ` class="${this.cssClass}"` : ""}>${this.contents}</${element}>`;
         }
     }
 
