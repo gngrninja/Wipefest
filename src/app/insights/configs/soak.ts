@@ -6,6 +6,7 @@ import { Fight, Report } from "app/warcraft-logs/report";
 import { InsightContext } from "app/insights/models/insight-context";
 import { TimestampAndPlayers } from "app/insights/models/timestamp-and-players";
 import { Timestamp } from "app/helpers/timestamp-helper";
+import { SortRaid } from "app/raid/raid";
 
 export class Soak extends InsightConfig {
 
@@ -43,6 +44,7 @@ export class Soak extends InsightConfig {
                 soak = [x];
             }
         });
+        soaks.push(soak);
 
         if (soaks.length == 0) {
             this.insightTemplate = "Failed to soak {abilities}.";
@@ -55,11 +57,13 @@ export class Soak extends InsightConfig {
         let players = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
         let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
 
-        let timestampsAndSoakingPlayers = soaks.map(x => new TimestampAndPlayers(x[0].timestamp, x.map(y => this.getPlayerFromActor(y.target, context.raid))));
+        let timestampsAndSoakingPlayers = soaks.map(x => new TimestampAndPlayers(x[0].timestamp, x.map(y => this.getPlayerFromActor(y.target, context.raid)).sort(SortRaid.ByClassThenSpecializationThenName)));
         let timestampsAndNonSoakingPlayers = soaks.map(x =>
             new TimestampAndPlayers(
                 x[0].timestamp,
-                context.raid.players.filter(p => !x.map(y => y.target).some(t => p.name == t.name))));
+                context.raid.players
+                    .filter(p => !x.map(y => y.target).some(t => p.name == t.name))
+                    .sort(SortRaid.ByClassThenSpecializationThenName)));
         
         let timestampsAndPlayersTable =
             new MarkupHelper.Table(timestampsAndSoakingPlayers.map((x, index) =>

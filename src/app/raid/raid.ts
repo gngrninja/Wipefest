@@ -26,12 +26,16 @@ export module RaidFactory {
             }
 
             return new Player(x.name, x.type, specialization, itemLevel);
-        }).sort(byClassThenSpecializationThenName);
+        }).sort(SortRaid.ByClassThenSpecializationThenName);
 
         return new Raid(players);
     }
 
-    function byClassThenSpecializationThenName(a: Player, b: Player) {
+}
+
+export module SortRaid {
+
+    export function ByClassThenSpecializationThenName(a: Player, b: Player) {
         if (a.className == b.className) {
             if (!a.specialization || !b.specialization || a.specialization.name == b.specialization.name) {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
