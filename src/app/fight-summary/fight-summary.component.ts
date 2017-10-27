@@ -259,7 +259,7 @@ export class FightSummaryComponent implements OnInit {
 
     private getPlayersForFight(fightId: number) {
         return this.report.friendlies
-            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1 && this.classesService.specializations.some(s => s.className == x.type))
+            .filter(x => x.fights.map(x => x.id).indexOf(fightId) != -1 && this.classesService.specializations.some(s => s.type == x.type))
             .sort((a, b) => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;
