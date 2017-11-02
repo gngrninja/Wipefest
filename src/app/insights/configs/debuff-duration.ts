@@ -48,7 +48,7 @@ export class DebuffDuration extends InsightConfig {
             .map(gained => {
                 let removeDebuffEvent = removeDebuffEvents.find(lost => gained.target == lost.target && gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
                 if (!removeDebuffEvent) {
-                    return null;
+                    return new PlayerAndDuration(gained.target, context.fight.end_time - context.fight.start_time - gained.timestamp);
                 }
 
                 let duration = removeDebuffEvent.timestamp - gained.timestamp
