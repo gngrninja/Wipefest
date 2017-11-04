@@ -12,6 +12,7 @@ import { DamageEvent } from "../models/damage-event";
 import { Death } from "app/warcraft-logs/death";
 import { DeathEvent } from "../models/death-event";
 import { RemoveDebuffEvent } from "app/fight-events/models/remove-debuff-event";
+import { InterruptEvent } from "app/fight-events/models/interrupt-event";
 
 @Injectable()
 export class FightEventService {
@@ -30,6 +31,8 @@ export class FightEventService {
                 return this.getDebuffEvents(report, fight, config, combatEvents);
             case "removedebuff":
                 return this.getRemoveDebuffEvents(report, fight, config, combatEvents);
+            case "interrupt":
+                return this.getInterruptEvents(report, fight, config, combatEvents);
             case "spawn":
                 return this.getSpawnEvents(report, fight, config, combatEvents);
             case "death":
@@ -135,6 +138,21 @@ export class FightEventService {
                 config.showSource,
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
+
+        return events;
+    }
+
+    private getInterruptEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): InterruptEvent[] {
+        let events = combatEvents.map(
+            x => new InterruptEvent(
+                config,
+                x.timestamp - fight.start_time,
+                config.friendly || x.sourceIsFriendly,
+                config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
+                new Ability(x.extraAbility),
+                combatEvents.filter(y => y.extraAbility.name == x.extraAbility.name && y.timestamp < x.timestamp).length + 1,
+                config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
+                config.showTarget || false));
 
         return events;
     }

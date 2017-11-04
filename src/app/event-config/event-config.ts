@@ -66,6 +66,10 @@ export class EventConfigCombinedFilter {
             return `type in ('cast', 'applybuff', 'applydebuff') and (${filters.join(") or (")})`;
         }
 
+        if (this.type == "interrupt") {
+            return `type = 'interrupt'`;
+        }
+
         let query = `type = '${this.type}' and ability.id in (${this.filters.map(x => x.ability).map(x => [].concat.apply([], x.ids ? x.ids : [x.id])).join(", ")})`;
 
         if (this.stack > 0) {

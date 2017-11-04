@@ -1,6 +1,7 @@
 export class CombatEvent {
 
     ability: CombatAbility;
+    extraAbility: CombatAbility;
     absorbed: number;
     amount: number;
     timestamp: number;

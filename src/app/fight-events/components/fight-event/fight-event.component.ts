@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { FightEvent } from "../../models/fight-event";
 import { TitleEvent } from "../../models/title-event";
 import { AbilityEvent } from "../../models/ability-event";
+import { InterruptEvent } from "../../models/interrupt-event";
 import { DamageEvent } from "../../models/damage-event";
 import { DebuffEvent } from "../../models/debuff-event";
 import { RemoveDebuffEvent } from "../../models/remove-debuff-event";
@@ -26,6 +27,7 @@ export class FightEventComponent {
 
     TitleEvent = TitleEvent;
     AbilityEvent = AbilityEvent;
+    InterruptEvent = InterruptEvent;
     DamageEvent = DamageEvent;
     DebuffEvent = DebuffEvent;
     RemoveDebuffEvent = RemoveDebuffEvent;

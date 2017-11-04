@@ -171,12 +171,14 @@ export class EventConfigService {
                 (combatEvent.sourceID == actor.id ||
                   combatEvent.targetID == actor.id) &&
                 config.filter.types.indexOf(combatEvent.type) != -1 &&
-                config.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1;
+                (config.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1 ||
+                 (combatEvent.extraAbility && config.filter.ability.ids.indexOf(combatEvent.extraAbility.guid) != -1));
         }
 
         return (combatEvent: CombatEvent) =>
             config.filter.types.indexOf(combatEvent.type) != -1 &&
-            config.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1;
+            (config.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1 ||
+             (combatEvent.extraAbility && config.filter.ability.ids.indexOf(combatEvent.extraAbility.guid) != -1));
     }
 
     private handleError(error: Response | any): Observable<Response> {
