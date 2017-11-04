@@ -38,6 +38,7 @@ export class EventConfigFilter {
     firstPerInstance: boolean;
     stack: number;
     range: number;
+    rangePerActor: number;
     minimum: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;

@@ -55,9 +55,11 @@ export class EventConfigService {
             if (config.filter.stack) {
                 matchingCombatEvents = matchingCombatEvents.filter(x => x.stack == config.filter.stack);
             }
-
             if (config.filter.range && matchingCombatEvents.length > 0) {
                 matchingCombatEvents = this.filterToRange(config, matchingCombatEvents, config.filter.range, config.filter.minimum);
+            }
+            if (config.filter.rangePerActor && matchingCombatEvents.length > 0) {
+                matchingCombatEvents = this.filterToRangePerActor(config, matchingCombatEvents, config.filter.rangePerActor, config.filter.minimum);
             }
         }
 
@@ -87,15 +89,57 @@ export class EventConfigService {
                 });
                 matchingCombatEventsOnePerRange.push(totalEvent);
             } else {
-                matchingCombatEventsOnePerRange.push(combatEvents.find(x => x.timestamp >= start));
+                matchingCombatEventsOnePerRange.push(eventsInRange.find(x => x.timestamp >= start));
             }
 
             start = matchingCombatEventsOnePerRange[matchingCombatEventsOnePerRange.length - 1].timestamp;
             start += range;
         }
-        combatEvents = matchingCombatEventsOnePerRange;
 
-        return combatEvents;
+        return matchingCombatEventsOnePerRange;
+    }
+
+    private filterToRangePerActor(config: EventConfig, combatEvents: CombatEvent[], range: number, minimum: number): CombatEvent[] {
+        combatEvents = combatEvents.sort((a, b) => a.timestamp - b.timestamp);
+
+        let actorIds = combatEvents.map(x => x.sourceID);
+        actorIds.push(...combatEvents.map(x => x.targetID));
+        actorIds = actorIds.filter((x, index, array) => array.indexOf(x) == index)
+            .filter(x => x != null && x != undefined);
+
+        let matchingCombatEventsOnePerRangePerActor = actorIds.map(actorId => {
+            let start = combatEvents[0].timestamp;
+            let end = combatEvents[combatEvents.length - 1].timestamp;
+
+            let matchingCombatEventsOnePerRange: CombatEvent[] = [];
+            while (start <= end) {
+                let eventsInRange = combatEvents.filter(x => (x.targetID == actorId || x.sourceID == actorId) && x.timestamp >= start && x.timestamp <= (start + range));
+                if ((minimum && eventsInRange.length < minimum) || eventsInRange.length == 0) {
+                    start += 500;
+                    continue;
+                }
+
+                if (config.eventType == "damage") {
+                    // Sum all damage into first matching damage event and use that
+                    let totalEvent = eventsInRange.reduce((x, y) => {
+                        x.amount += y.amount;
+                        x.absorbed += y.absorbed;
+                        x.overkill += y.overkill;
+                        return x;
+                    });
+                    matchingCombatEventsOnePerRange.push(totalEvent);
+                } else {
+                    matchingCombatEventsOnePerRange.push(eventsInRange.find(x => x.timestamp >= start));
+                }
+
+                start = matchingCombatEventsOnePerRange[matchingCombatEventsOnePerRange.length - 1].timestamp;
+                start += range;
+            }
+
+            return matchingCombatEventsOnePerRange;
+        });
+
+        return [].concat(...matchingCombatEventsOnePerRangePerActor);
     }
 
     private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {

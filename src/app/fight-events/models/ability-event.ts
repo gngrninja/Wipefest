@@ -25,7 +25,7 @@ export class AbilityEvent extends FightEvent {
         if (this.isFriendly) {
             return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
         } else {
-            return `${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}` : ''}`;
+            return `${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}` : ''}`;
         }
     }
     get mediumTitle(): string {
