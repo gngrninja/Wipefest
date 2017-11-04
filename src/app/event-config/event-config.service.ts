@@ -116,16 +116,23 @@ export class EventConfigService {
         if (!config.filter.types) {
             config.filter.types = [config.filter.type];
         }
+        if (config.filter.ability && !config.filter.ability.ids) {
+            config.filter.ability.ids = [config.filter.ability.id];
+        }
+        
+        if (config.filter.actor) {
+            let actor = report.enemies.find(x => x.guid == config.filter.actor.id);
 
-        if (config.filter.ability.ids) {
             return (combatEvent: CombatEvent) =>
+                (combatEvent.sourceID == actor.id ||
+                  combatEvent.targetID == actor.id) &&
                 config.filter.types.indexOf(combatEvent.type) != -1 &&
                 config.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1;
         }
 
         return (combatEvent: CombatEvent) =>
             config.filter.types.indexOf(combatEvent.type) != -1 &&
-            combatEvent.ability.guid == config.filter.ability.id;
+            config.filter.ability.ids.indexOf(combatEvent.ability.guid) != -1;
     }
 
     private handleError(error: Response | any): Observable<Response> {
