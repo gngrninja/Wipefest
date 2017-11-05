@@ -11,7 +11,7 @@ export class AbilityEvent extends FightEvent {
         public timestamp: number,
         public isFriendly: boolean,
         private source: Actor,
-        private ability: Ability,
+        public ability: Ability,
         private sequence: number,
         private target: Actor,
         private showTarget: boolean) {
@@ -23,9 +23,9 @@ export class AbilityEvent extends FightEvent {
         if (this.config.title) return this.config.title;
 
         if (this.isFriendly) {
-            return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
+            return `${this.source ? `${MarkupHelper.Actor(this.source)} casts ` : ''}${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.showTarget && this.target ? ` on ${MarkupHelper.Actor(this.target)}` : ''}`;
         } else {
-            return `${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}${this.showTarget ? ` on ${MarkupHelper.Actor(this.target)}` : ''}` : ''}`;
+            return `${MarkupHelper.Ability(this.ability)}${this.frequencyString(this.sequence)}${this.source ? ` cast by ${MarkupHelper.Actor(this.source)}${this.showTarget && this.target ? ` on ${MarkupHelper.Actor(this.target)}` : ''}` : ''}`;
         }
     }
     get mediumTitle(): string {

@@ -2,6 +2,7 @@ export class Report {
 
     id: string;
     friendlies: Actor[];
+    friendlyPets: PetActor[];
     enemies: Actor[];
     fights: Fight[];
     title: string;
@@ -19,6 +20,10 @@ export class Actor {
 
     constructor(public name: string, public type: string = "NPC") { }
 
+}
+
+export class PetActor extends Actor {
+    petOwner: number;
 }
 
 export class FightId {

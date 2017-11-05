@@ -19,7 +19,7 @@ export class Interrupt extends InsightConfig {
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Interrupted {abilities} {totalInterrupts}/{totalCastAttempts} time{plural}.";
-        if (detailsTemplate == null) this.detailsTemplate = "<h6>Players</h6><p>{playersAndFrequencies}</p><h6>Interrupted</h6><p>{playersAndTimestamps}</p><h6>Casts</h6>{castTimestamps}";
+        if (detailsTemplate == null) this.detailsTemplate = "<h6>Players</h6><p>{playersAndFrequencies}</p><h6>Interrupts</h6><p>{playersAndTimestamps}</p><h6>Casts</h6>{castTimestamps}";
     }
 
     getProperties(context: InsightContext): any {
