@@ -13,6 +13,7 @@ import { Death } from "app/warcraft-logs/death";
 import { DeathEvent } from "../models/death-event";
 import { RemoveDebuffEvent } from "app/fight-events/models/remove-debuff-event";
 import { InterruptEvent } from "app/fight-events/models/interrupt-event";
+import { DebuffStackEvent } from "app/fight-events/models/debuff-stack-event";
 
 @Injectable()
 export class FightEventService {
@@ -29,6 +30,8 @@ export class FightEventService {
                 return this.getPhaseChangeEvents(report, fight, config, combatEvents);
             case "debuff":
                 return this.getDebuffEvents(report, fight, config, combatEvents);
+            case "debuffstack":
+                return this.getDebuffStackEvents(report, fight, config, combatEvents);
             case "removedebuff":
                 return this.getRemoveDebuffEvents(report, fight, config, combatEvents);
             case "interrupt":
@@ -123,6 +126,22 @@ export class FightEventService {
                 config.showSource,
                 new Ability(x.ability),
                 combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && array.indexOf(y) < array.indexOf(x)).length + 1));
+
+        return events;
+    }
+
+    private getDebuffStackEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): DebuffStackEvent[] {
+        let events = combatEvents.map(
+            x => new DebuffStackEvent(
+                config,
+                x.timestamp - fight.start_time,
+                config.friendly,
+                config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
+                config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
+                config.showSource,
+                new Ability(x.ability),
+                x.stack,
+                combatEvents.filter((y, index, array) => y.ability.name == x.ability.name && y.stack == x.stack && array.indexOf(y) < array.indexOf(x)).length + 1));
 
         return events;
     }

@@ -18,7 +18,7 @@
       <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
       <span class="hidden-sm-up" [innerHtml]="parse(event.shortTitle)"></span>
 
-      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(RemoveDebuffEvent) || event.isInstanceOf(HeroismEvent)"
+      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(DebuffStackEvent) || event.isInstanceOf(RemoveDebuffEvent) || event.isInstanceOf(HeroismEvent)"
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
                     [alt]="event.ability.name"
@@ -40,7 +40,7 @@
   </td>
   <td *ngIf="!isTitle(event)" class="event">
     <div *ngIf="!event.isFriendly" class="unfriendly">
-      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(RemoveDebuffEvent)"
+      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(DebuffStackEvent) || event.isInstanceOf(RemoveDebuffEvent)"
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
                     [alt]="event.ability.name"

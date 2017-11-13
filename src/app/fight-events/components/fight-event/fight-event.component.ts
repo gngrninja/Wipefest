@@ -5,6 +5,7 @@ import { AbilityEvent } from "../../models/ability-event";
 import { InterruptEvent } from "../../models/interrupt-event";
 import { DamageEvent } from "../../models/damage-event";
 import { DebuffEvent } from "../../models/debuff-event";
+import { DebuffStackEvent } from "../../models/debuff-stack-event";
 import { RemoveDebuffEvent } from "../../models/remove-debuff-event";
 import { DeathEvent } from "../../models/death-event";
 import { PhaseChangeEvent } from "../../models/phase-change-event";
@@ -30,6 +31,7 @@ export class FightEventComponent {
     InterruptEvent = InterruptEvent;
     DamageEvent = DamageEvent;
     DebuffEvent = DebuffEvent;
+    DebuffStackEvent = DebuffStackEvent;
     RemoveDebuffEvent = RemoveDebuffEvent;
     DeathEvent = DeathEvent;
     PhaseChangeEvent = PhaseChangeEvent;
