@@ -36,7 +36,7 @@ export class QueryService {
                 if (filter.query && !combinedFilters.some(x => x.query == filter.query)) {
                     combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter], filter.query));
                 } else {
-                    let index = combinedFilters.findIndex(x => x.type == type && x.stack == filter.stack);
+                    let index = combinedFilters.findIndex(x => !x.query && x.type == type && x.stack == filter.stack);
 
                     if (index != -1) {
                         combinedFilters[index].filters.push(filter);
