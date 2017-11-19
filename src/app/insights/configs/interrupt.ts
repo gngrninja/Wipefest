@@ -19,7 +19,7 @@ export class Interrupt extends InsightConfig {
         super(boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Interrupted {abilities} {totalInterrupts}/{totalCastAttempts} time{plural}.";
-        if (detailsTemplate == null) this.detailsTemplate = "<h6>Players</h6><p>{playersAndFrequencies}</p><h6>Interrupts</h6><p>{playersAndTimestamps}</p><h6>Casts</h6>{castTimestamps}";
+        if (detailsTemplate == null) this.detailsTemplate = "{playersSection}{interruptsSection}{castsSection}";
     }
 
     getProperties(context: InsightContext): any {
@@ -39,8 +39,12 @@ export class Interrupt extends InsightConfig {
             return null;
         }
 
-        let playersAndTimestamps = interruptEvents.map(x => new PlayerAndTimestamp(x.source, x.timestamp));
         let abilities = this.getAbilitiesIfTheyExist(interruptEvents, this.abilityIds);
+        if (abilities.length == 0) {
+            abilities = this.getAbilitiesIfTheyExist(abilityEvents, this.abilityIds);
+        }
+
+        let playersAndTimestamps = interruptEvents.map(x => new PlayerAndTimestamp(x.source, x.timestamp));
         let players = interruptEvents.map(x => x.source).filter((x, index, array) => array.indexOf(x) == index);
         let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: interruptEvents.filter(x => x.source == player).length }).sort((x, y) => y.frequency - x.frequency);
         let totalInterrupts = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y, 0);
@@ -54,7 +58,10 @@ export class Interrupt extends InsightConfig {
             playersAndFrequencies: MarkupHelper.PlayersAndFrequencies(playersAndFrequencies),
             playersAndTimestamps: MarkupHelper.PlayersAndTimestamps(playersAndTimestamps),
             totalCastAttempts: MarkupHelper.Info(totalCastAttempts),
-            castTimestamps: MarkupHelper.Timestamps(castTimestamps)
+            castTimestamps: MarkupHelper.Timestamps(castTimestamps),
+            playersSection: playersAndFrequencies.length ? "<h6>Players</h6><p>{playersAndFrequencies}</p>" : "",
+            interruptsSection: playersAndTimestamps.length ? "<h6>Interrupts</h6><p>{playersAndTimestamps}</p>" : "",
+            castsSection: castTimestamps.length ? "<h6>Casts</h6>{castTimestamps}" : ""
         }
     }
 

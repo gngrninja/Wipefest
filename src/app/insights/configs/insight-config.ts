@@ -35,9 +35,11 @@ export abstract class InsightConfig {
             template = template.split(abilityMatch[0]).join(this.getAbilityMarkup(events, +abilityMatch[1], abilityMatch[2], abilityMatch[3]));
         }
 
-        for (var property in properties) {
-            if (properties.hasOwnProperty(property)) {
-                template = template.split(`{${property}}`).join(properties[property]);
+        for (var i = 0; i < 2; i++) { // Let properties have properties embedded in them by iterating twice
+            for (var property in properties) {
+                if (properties.hasOwnProperty(property)) {
+                    template = template.split(`{${property}}`).join(properties[property]);
+                }
             }
         }
 
