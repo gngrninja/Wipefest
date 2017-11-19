@@ -145,6 +145,9 @@ export class EventConfigService {
     private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
         if (config.filter.type == "firstseen") {
             let actor = report.enemies.find(x => x.guid == config.filter.actor.id);
+
+            if (!actor) return (combatEvent: CombatEvent) => false;
+
             return (combatEvent: CombatEvent) =>
                 combatEvent.sourceID == actor.id ||
                 combatEvent.targetID == actor.id;
