@@ -22,6 +22,7 @@ export class ReportSummaryComponent implements OnInit {
     reportId = "";
     report: Report;
     error: any;
+    lastFightId: number = 0;
     
     get encountersByDifficulty(): Fight[][][] {
         return [this.mythicEncounters, this.heroicEncounters, this.normalEncounters];
@@ -69,6 +70,7 @@ export class ReportSummaryComponent implements OnInit {
     private selectReport(report: Report) {
         this.report = report;
         if (this.report) {
+            this.lastFightId = this.report.fights[this.report.fights.length - 1].id;
             this.report.fights = this.report.fights
                 .filter(x => x.size >= 10 && [3, 4, 5].indexOf(x.difficulty) != -1)
                 .sort(function (a, b) { return a.id - b.id; });

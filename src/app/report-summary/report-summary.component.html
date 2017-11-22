@@ -1,5 +1,4 @@
 <div class="app-body">
-
   <main class="main mt-4">
     <div class="container mb-3">
       <div class="title p-2 pl-3">
@@ -8,24 +7,19 @@
       <div class="block p-2 pl-5 pr-5 mb-2">
         <link-search></link-search>
       </div>
-
       <div *ngIf="loading" class="block p-1 pl-3">
         <spinner></spinner>
       </div>
-
       <div *ngIf="!loading && !report && error" class="title p-3 text-center">
         <error [error]="error"></error>
       </div>
-
       <div *ngIf="!loading && !error && !report && reportId != ''" class="title p-3 text-center">
         No report could be found.
       </div>
-
       <div *ngIf="report && !loading">
         <div class="title p-2 pl-3">
           <h3 class="mb-0">{{report.title}}</h3>
         </div>
-
         <div class="block p-1 pl-3">
           <div class="row">
             <div class="col-md-3"><strong>Owner</strong>: {{report.owner}}</div>
@@ -34,11 +28,9 @@
             <div class="col-md-3"><a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a></div>
           </div>
         </div>
-
         <div *ngIf="!loading && report && error" class="block p-3 text-center">
           <error [error]="error"></error>
         </div>
-
         <ng-container *ngFor="let encounters of encountersByDifficulty">
           <ng-container *ngIf="encounters.length > 0">
             <ng-container *ngFor="let encounter of encounters">
@@ -46,22 +38,42 @@
               <div class="block-no-bottom encounter-name p-1 pl-3">
                 <h5 class="mb-0">{{Difficulty.ToString(encounter[0].difficulty)}} {{encounter[0].name}}</h5>
               </div>
+              <div class="block-no-bottom encounter-fights p-2 pl-3 pb-0">
+                <ng-container *ngFor="let fight of encounter; let i = index">
+                  <a *ngIf="fight.id == lastFightId"
+                     routerLink="/report/{{report.id}}/fight/last"
+                     class="fight-link">
+                    <div class="fight mr-1 mb-1"
+                         [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
+                      <div class="fight-details">
+                        <span>Last Pull</span>
+                        <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
+                        <span class="time">{{Timestamp.ToTime(fight.start_time + report.start)}}</span>
+                      </div>
+                      <div class="fight-progress-bg" *ngIf="!fight.kill">
+                        <div class="fight-progress-fg" [style.width]="100 - Math.ceil(fight.fightPercentage / 100) + '%'"></div>
+                      </div>
+                    </div>
+                  </a>
+                </ng-container>
+              </div>
               <div class="block encounter-fights p-2 pl-3">
-                <a *ngFor="let fight of encounter; let i = index"
-                   routerLink="/report/{{report.id}}/fight/{{fight.id}}"
-                   class="fight-link">
-                  <div class="fight mr-1 mb-1"
-                       [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
-                    <div class="fight-details">
-                      <span *ngIf="!fight.kill">{{i + 1}}.</span>
-                      <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
-                      <span class="time">{{Timestamp.ToTime(fight.start_time + report.start)}}</span>
+                <ng-container *ngFor="let fight of encounter; let i = index">
+                  <a routerLink="/report/{{report.id}}/fight/{{fight.id}}"
+                     class="fight-link">
+                    <div class="fight mr-1 mb-1"
+                         [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
+                      <div class="fight-details">
+                        <span *ngIf="!fight.kill">{{i + 1}}.</span>
+                        <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
+                        <span class="time">{{Timestamp.ToTime(fight.start_time + report.start)}}</span>
+                      </div>
+                      <div class="fight-progress-bg" *ngIf="!fight.kill">
+                        <div class="fight-progress-fg" [style.width]="100 - Math.ceil(fight.fightPercentage / 100) + '%'"></div>
+                      </div>
                     </div>
-                    <div class="fight-progress-bg" *ngIf="!fight.kill">
-                      <div class="fight-progress-fg" [style.width]="100 - Math.ceil(fight.fightPercentage / 100) + '%'"></div>
-                    </div>
-                  </div>
-                </a>
+                  </a>
+                </ng-container>
               </div>
             </ng-container>
           </ng-container>
@@ -70,5 +82,4 @@
     </div>
   </main>
 </div>
-
 <wf-footer></wf-footer>
