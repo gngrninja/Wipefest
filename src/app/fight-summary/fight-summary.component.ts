@@ -127,6 +127,11 @@ export class FightSummaryComponent implements OnInit {
 
     private tryToSelectFightById(fightId) {
         if (fightId) {
+            if (fightId == "last") {
+                this.selectFight(this.report.fights[this.report.fights.length - 1]);
+                return;
+            }
+
             let matchingFights = this.report.fights.filter(x => x.id == +fightId);
 
             if (matchingFights.length > 0) {

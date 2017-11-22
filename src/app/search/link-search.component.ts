@@ -48,7 +48,7 @@ export class LinkSearchComponent implements OnInit {
 
         let reportId = reportResults[0].replace("\/reports\/", "");
 
-        let fightResults = this.warcraftLogsLink.match("fight=[0-9]*");
+        let fightResults = this.warcraftLogsLink.match("fight=([0-9]|last)*");
 
         if (!(fightResults && fightResults.length > 0)) {
             return `/report/${reportId}`;
