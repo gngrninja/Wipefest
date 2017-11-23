@@ -3,6 +3,7 @@ import { GarothiWorldbreakerInsightConfigs } from "app/insights/configs/antorus-
 import { FelhoundsOfSargerasInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/felhounds-of-sargeras/all";
 import { AntoranHighCommandInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/antoran-high-command/all";
 import { PortalKeeperHasabelInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/portal-keeper-hasabel/all";
+import { TheDefenseOfEonarInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/the-defense-of-eonar/all";
 
 export module AntorusTheBurningThroneInsightConfigs {
 
@@ -11,7 +12,8 @@ export module AntorusTheBurningThroneInsightConfigs {
             ...GarothiWorldbreakerInsightConfigs.All(),
             ...FelhoundsOfSargerasInsightConfigs.All(),
             ...AntoranHighCommandInsightConfigs.All(),
-            ...PortalKeeperHasabelInsightConfigs.All()
+            ...PortalKeeperHasabelInsightConfigs.All(),
+            ...TheDefenseOfEonarInsightConfigs.All()
         ];
     }
 
