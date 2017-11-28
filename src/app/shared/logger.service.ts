@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Angulartics2 } from "angulartics2/dist";
+import { Angulartics2 } from "angulartics2";
 import { Response } from "@angular/http";
 import * as StackTrace from 'stacktrace-js';
 import { Router } from "@angular/router";

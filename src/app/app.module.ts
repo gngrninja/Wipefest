@@ -7,7 +7,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 import { AppComponent } from './app.component';
 import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
@@ -55,118 +56,118 @@ import { AsideToggleDirective, MobileAsideMenuToggleDirective } from './core-ui/
 import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavbarComponent,
-        FooterComponent,
-        SpinnerComponent,
-        FightSummaryComponent,
-        WelcomeComponent,
-        ReportSummaryComponent,
-        FightEventsComponent,
-        FightEventComponent,
-        TimelineFightEventComponent,
-        TableFightEventComponent,
-        AbilityIconComponent,
-        SearchComponent,
-        CharacterSearchComponent,
-        GuildSearchComponent,
-        LinkSearchComponent,
-        CharacterSearchResultsComponent,
-        SpecIconComponent,
-        ErrorComponent,
-        NotFoundComponent,
-        GuildSearchResultsComponent,
-        ToggleableSearchComponent,
-        FightSummaryFiltersComponent,
-        FightSummaryRaidComponent,
-        GetInvolvedComponent,
-        DiscordComponent,
-        AutoCompleteComponent,
-        InsightsComponent,
-        // Core UI
-        NAV_DROPDOWN_DIRECTIVES,
-        BreadcrumbsComponent,
-        SIDEBAR_TOGGLE_DIRECTIVES,
-        AsideToggleDirective,
-        MobileAsideMenuToggleDirective
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        HttpModule,
-        RouterModule.forRoot([
-            {
-                path: "character/:character/:realm/:region/:zone",
-                component: CharacterSearchResultsComponent
-            },
-            {
-                path: "character/:character/:realm/:region",
-                component: CharacterSearchResultsComponent
-            },
-            {
-                path: "character",
-                component: CharacterSearchResultsComponent
-            },
-            {
-                path: "guild/:guild/:realm/:region",
-                component: GuildSearchResultsComponent
-            },
-            {
-                path: "guild",
-                component: GuildSearchResultsComponent
-            },
-            {
-                path: "report/:reportId/fight/:fightId",
-                component: FightSummaryComponent
-            },
-            {
-                path: "report/:reportId",
-                component: ReportSummaryComponent
-            },
-            {
-                path: "link?link=:link",
-                component: ReportSummaryComponent
-            },
-            {
-                path: "link",
-                component: ReportSummaryComponent
-            },
-            {
-                path: "discord",
-                component: DiscordComponent
-            },
-            {
-                path: "error",
-                component: ErrorComponent
-            },
-            {
-                path: "",
-                component: WelcomeComponent
-            },
-            {
-                path: "**",
-                component: NotFoundComponent
-            }
-        ], { useHash: true }),
-        Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
-        NgbModule.forRoot()
-    ],
-    providers: [
-        Location,
-        { provide: LocationStrategy, useClass: PathLocationStrategy },
-        LoggerService,
-        { provide: ErrorHandler, useClass: GlobalErrorHandler },
-        WarcraftLogsService,
-        WipefestService,
-        EventConfigService,
-        QueryService,
-        FightEventService,
-        ClassesService,
-        InsightService,
-        LocalStorage
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    FooterComponent,
+    SpinnerComponent,
+    FightSummaryComponent,
+    WelcomeComponent,
+    ReportSummaryComponent,
+    FightEventsComponent,
+    FightEventComponent,
+    TimelineFightEventComponent,
+    TableFightEventComponent,
+    AbilityIconComponent,
+    SearchComponent,
+    CharacterSearchComponent,
+    GuildSearchComponent,
+    LinkSearchComponent,
+    CharacterSearchResultsComponent,
+    SpecIconComponent,
+    ErrorComponent,
+    NotFoundComponent,
+    GuildSearchResultsComponent,
+    ToggleableSearchComponent,
+    FightSummaryFiltersComponent,
+    FightSummaryRaidComponent,
+    GetInvolvedComponent,
+    DiscordComponent,
+    AutoCompleteComponent,
+    InsightsComponent,
+    // Core UI
+    NAV_DROPDOWN_DIRECTIVES,
+    BreadcrumbsComponent,
+    SIDEBAR_TOGGLE_DIRECTIVES,
+    AsideToggleDirective,
+    MobileAsideMenuToggleDirective
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot([
+      {
+        path: "character/:character/:realm/:region/:zone",
+        component: CharacterSearchResultsComponent
+      },
+      {
+        path: "character/:character/:realm/:region",
+        component: CharacterSearchResultsComponent
+      },
+      {
+        path: "character",
+        component: CharacterSearchResultsComponent
+      },
+      {
+        path: "guild/:guild/:realm/:region",
+        component: GuildSearchResultsComponent
+      },
+      {
+        path: "guild",
+        component: GuildSearchResultsComponent
+      },
+      {
+        path: "report/:reportId/fight/:fightId",
+        component: FightSummaryComponent
+      },
+      {
+        path: "report/:reportId",
+        component: ReportSummaryComponent
+      },
+      {
+        path: "link?link=:link",
+        component: ReportSummaryComponent
+      },
+      {
+        path: "link",
+        component: ReportSummaryComponent
+      },
+      {
+        path: "discord",
+        component: DiscordComponent
+      },
+      {
+        path: "error",
+        component: ErrorComponent
+      },
+      {
+        path: "",
+        component: WelcomeComponent
+      },
+      {
+        path: "**",
+        component: NotFoundComponent
+      }
+    ], { useHash: true }),
+    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
+    NgbModule.forRoot()
+  ],
+  providers: [
+    Location,
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    LoggerService,
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    WarcraftLogsService,
+    WipefestService,
+    EventConfigService,
+    QueryService,
+    FightEventService,
+    ClassesService,
+    InsightService,
+    LocalStorage
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

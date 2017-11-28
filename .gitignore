@@ -55,3 +55,4 @@ Thumbs.db
 /.vs
 src/assets/.vs/slnx.sqlite
 src/assets/.vs/VSWorkspaceState.json
+package-lock.json
