@@ -23,7 +23,7 @@ export class CharacterSearchResultsComponent implements OnInit {
     region: string;
 
     zones: Zone[] = [
-        new Zone("Tomb of Sargeras", "sargeras", 13, [1, 2]),
+        new Zone("Tomb of Sargeras", "sargeras", 13, [1, 2, 3]),
         new Zone("Antorus, the Burning Throne", "antorus", 17, [1])
     ];
     selectedZone: Zone;
@@ -55,7 +55,7 @@ export class CharacterSearchResultsComponent implements OnInit {
         this.character = params["character"] || this.localStorage.get("character");
         this.realm = params["realm"] || this.localStorage.get("characterRealm");
         this.region = params["region"] || this.localStorage.get("characterRegion");
-        this.selectedZone = this.zones.find(x => x.slug == params["zone"]) || this.zones[0];
+        this.selectedZone = this.zones.find(x => x.slug == params["zone"]) || this.zones[1];
         this.encounters = [];
 
         if (!this.character || !this.realm || !this.region) {
