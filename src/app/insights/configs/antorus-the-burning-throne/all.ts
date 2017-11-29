@@ -5,6 +5,7 @@ import { AntoranHighCommandInsightConfigs } from "app/insights/configs/antorus-t
 import { PortalKeeperHasabelInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/portal-keeper-hasabel/all";
 import { TheDefenseOfEonarInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/the-defense-of-eonar/all";
 import { ImonarTheSoulHunterInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/imonar-the-soulhunter/all";
+import { KingarothInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/kingaroth/all";
 
 export module AntorusTheBurningThroneInsightConfigs {
 
@@ -15,7 +16,8 @@ export module AntorusTheBurningThroneInsightConfigs {
             ...AntoranHighCommandInsightConfigs.All(),
             ...PortalKeeperHasabelInsightConfigs.All(),
             ...TheDefenseOfEonarInsightConfigs.All(),
-            ...ImonarTheSoulHunterInsightConfigs.All()
+            ...ImonarTheSoulHunterInsightConfigs.All(),
+            ...KingarothInsightConfigs.All()
         ];
     }
 
