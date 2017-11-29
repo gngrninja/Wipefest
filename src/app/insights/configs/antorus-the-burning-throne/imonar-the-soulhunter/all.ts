@@ -24,14 +24,14 @@ export module ImonarTheSoulHunterInsightConfigs {
       new Hit(2082, ["Pulse Grenade"], [247681]),
 
       // Sever stacks too high
-      new Debuff(2082, ["Charged Blasts"], [247716]),
+      new Debuff(2082, ["Charged Blasts"], [247716], null, null, "This includes people targeted, who cannot avoid getting hit."),
       new Debuff(2082, ["Shrapnel Blast"], [247932]),
       
       new HitWithoutDebuff(2082, ["Empowered Pulse Grenade"], [250007], ["Empowered Pulse Grenade"], [250006], 600000),
       new Debuff(2082, ["Empowered Shrapnel Blast"], [248094]),
 
-      new PhaseDuration(2082, "Transition 1"),
-      new PhaseDuration(2082, "Transition 2"),
+      new PhaseDuration(2082, "Transition 1", "Had a {phase} duration of {averageDuration}.", ""),
+      new PhaseDuration(2082, "Transition 2", "Had a {phase} duration of {averageDuration}.", ""),
       new Hit(2082, ["Seared Skin"], [254181]),
       new Debuff(2082, ["Stasis Trap"], [247641]),
       new Hit(2082, ["Blastwire"], [247962], null, "{timestamps}", null)
