@@ -7,6 +7,7 @@ import { TheDefenseOfEonarInsightConfigs } from "app/insights/configs/antorus-th
 import { ImonarTheSoulHunterInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/imonar-the-soulhunter/all";
 import { KingarothInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/kingaroth/all";
 import { VarimathrasInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/varimathras/all";
+import { TheCovenOfShivarraInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/the-coven-of-shivarra/all";
 
 export module AntorusTheBurningThroneInsightConfigs {
 
@@ -19,7 +20,8 @@ export module AntorusTheBurningThroneInsightConfigs {
             ...TheDefenseOfEonarInsightConfigs.All(),
             ...ImonarTheSoulHunterInsightConfigs.All(),
             ...KingarothInsightConfigs.All(),
-            ...VarimathrasInsightConfigs.All()
+            ...VarimathrasInsightConfigs.All(),
+            ...TheCovenOfShivarraInsightConfigs.All()
         ];
     }
 
