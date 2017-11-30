@@ -21,7 +21,7 @@ export module ImonarTheSoulHunterInsightConfigs {
       // Shock Lance stacks too high
       new DebuffDuration(2082, "Sleep Canister", "Sleep Canister (Removed)"),
       new Debuff(2082, ["Slumber Gas"], [247565]),
-      new Hit(2082, ["Pulse Grenade"], [247681]),
+      new Hit(2082, ["Pulse Grenade"], [247388]),
 
       // Sever stacks too high
       new Debuff(2082, ["Charged Blasts"], [247716], null, null, "This includes people targeted, who cannot avoid getting hit."),
