@@ -3,7 +3,7 @@ import { Observable } from "rxjs/Rx";
 import { EventConfig, EventConfigIndex } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
-import { Report } from "app/warcraft-logs/report";
+import { Report, Fight } from "app/warcraft-logs/report";
 import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";
 
@@ -41,10 +41,10 @@ export class EventConfigService {
             .catch(error => this.handleError(error));
     }
 
-    filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], report: Report): CombatEvent[] {
+    filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], fight: Fight, report: Report): CombatEvent[] {
         let matchingCombatEvents: CombatEvent[] = [];
         if (config.filter) {
-            matchingCombatEvents = combatEvents.filter(this.getFilterExpression(config, report));
+            matchingCombatEvents = combatEvents.filter(this.getFilterExpression(config, fight, report));
             
             if (config.filter.first && matchingCombatEvents.length > 0) {
                 matchingCombatEvents = [matchingCombatEvents[0]];
@@ -142,8 +142,8 @@ export class EventConfigService {
         return [].concat(...matchingCombatEventsOnePerRangePerActor);
     }
 
-    private getFilterExpression(config: EventConfig, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
-        if (config.filter.type == "firstseen") {
+    private getFilterExpression(config: EventConfig, fight: Fight, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
+      if (config.filter.type == "firstseen") {
             let actor = report.enemies.find(x => x.guid == config.filter.actor.id);
 
             if (!actor) return (combatEvent: CombatEvent) => false;

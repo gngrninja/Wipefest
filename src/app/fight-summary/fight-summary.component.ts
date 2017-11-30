@@ -189,7 +189,7 @@ export class FightSummaryComponent implements OnInit {
         this.raid = RaidFactory.Get(this.combatantInfos, this.getPlayersForFight(this.fight.id), this.classesService)
 
         let events: FightEvent[] = [].concat.apply([], this.configs.map(config => {
-            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.report);
+            let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.fight, this.report);
 
             return this.eventService.getEvents(this.report, this.fight, config, matchingCombatEvents, deaths);
         }));

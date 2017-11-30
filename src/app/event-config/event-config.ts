@@ -22,6 +22,7 @@ export class EventConfig {
     source: string;
     showSource: boolean;
     title: string;
+    difficulties: number[];
     filter: EventConfigFilter;
 
     public constructor(init?: Partial<EventConfig>) {
