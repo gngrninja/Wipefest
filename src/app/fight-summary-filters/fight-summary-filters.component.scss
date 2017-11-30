@@ -1,4 +1,4 @@
-﻿@import "../../scss/bootstrap-variables";
+@import "../../scss/bootstrap-variables";
 
 .sidebar-nav {
   padding: 20px;
@@ -8,10 +8,26 @@
   max-width: 280px;
 }
 
-.enabled {
-  cursor: pointer;
+.filter {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+
+  &.show {
+    color: $brand-info !important;
+  }
+
+  &.enabled {
+    cursor: pointer;
+    color: $brand-warning
+  }
+
+  &.disabled {
+    color: $gray-light;
+  }
 }
 
-.disabled {
-  background-color: $gray;
-}
+

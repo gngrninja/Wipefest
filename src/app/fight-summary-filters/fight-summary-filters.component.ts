@@ -76,9 +76,9 @@ export class FightSummaryFiltersComponent implements OnChanges {
     }
 
     getButtonClass(config: EventConfig) {
-        var classes = "btn btn-sm mb-1 mr-1 ";
+        var classes = "filter ";
         if (this.getEventsForEventConfig(config).length > 0) {
-            classes += config.show ? "enabled btn-primary" : "enabled";
+            classes += config.show ? "enabled show" : "enabled";
         } else {
             classes += "disabled";
         }

@@ -1,4 +1,4 @@
-﻿<div class="sidebar-nav">
+<div class="sidebar-nav">
   <ul class="nav">
     <li class="nav-item">
       <button (click)="showAll()" class="btn btn-sm btn-primary mt-1 mb-1 mr-1">
@@ -18,9 +18,9 @@
         </li>
         <li class="nav-item">
           <ng-container *ngFor="let config of getEventConfigsForTags(tags)">
-            <button (click)="toggleConfig(config)" [class]="getButtonClass(config)" [disabled]="getEventsForEventConfig(config).length == 0">
+            <div (click)="toggleConfig(config)" [class]="getButtonClass(config)">
               {{config.name}} <span class="badge badge-default">{{getEventsForEventConfig(config).length}}</span>
-            </button>
+            </div>
           </ng-container>
         </li>
       </div>
