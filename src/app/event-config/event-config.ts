@@ -36,6 +36,7 @@ export class EventConfigFilter {
     type: string;
     types: string[];
     first: boolean;
+    index: number;
     firstPerInstance: boolean;
     stack: number;
     range: number;
