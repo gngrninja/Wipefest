@@ -9,6 +9,7 @@ import { KingarothInsightConfigs } from "app/insights/configs/antorus-the-burnin
 import { VarimathrasInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/varimathras/all";
 import { TheCovenOfShivarraInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/the-coven-of-shivarra/all";
 import { AggramarInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/aggramar/all";
+import { ArgusTheUnmakerInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/argus-the-unmaker/all";
 
 export module AntorusTheBurningThroneInsightConfigs {
 
@@ -23,7 +24,8 @@ export module AntorusTheBurningThroneInsightConfigs {
             ...KingarothInsightConfigs.All(),
             ...VarimathrasInsightConfigs.All(),
             ...TheCovenOfShivarraInsightConfigs.All(),
-            ...AggramarInsightConfigs.All()
+            ...AggramarInsightConfigs.All(),
+            ...ArgusTheUnmakerInsightConfigs.All()
         ];
     }
 

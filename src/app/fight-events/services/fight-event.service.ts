@@ -69,7 +69,7 @@ export class FightEventService {
       x => new AbilityEvent(
         config,
         x.timestamp - fight.start_time,
-        config.friendly || x.sourceIsFriendly,
+        config.friendly == undefined ? x.sourceIsFriendly : config.friendly,
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         new Ability(x.ability),
         combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1,
@@ -98,8 +98,10 @@ export class FightEventService {
   }
 
   private getPhaseChangeEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): PhaseChangeEvent[] {
+    let collapsed = config.collapsed == undefined ? false : config.collapsed;
+
     if (!config.filter && config.timestamp < fight.end_time - fight.start_time) {
-      return [new PhaseChangeEvent(config, config.timestamp, config.name)];
+      return [new PhaseChangeEvent(config, config.timestamp, config.name, !collapsed)];
     }
 
     if (combatEvents.length == 0) return [];
@@ -112,13 +114,13 @@ export class FightEventService {
             .find(x => (x.hitPoints * 100 / x.maxHitPoints) <= config.filter.actor.percent + 1);
 
         if (combatEvent) {
-          return [new PhaseChangeEvent(config, combatEvent.timestamp - fight.start_time - 1, config.name)];
+          return [new PhaseChangeEvent(config, combatEvent.timestamp - fight.start_time - 1, config.name, !collapsed)];
         } else {
           return [];
         }
       }
 
-      return combatEvents.map(x => new PhaseChangeEvent(config, x.timestamp - fight.start_time - 1, config.name));
+      return combatEvents.map(x => new PhaseChangeEvent(config, x.timestamp - fight.start_time - 1, config.name, !collapsed));
     }
   }
 
