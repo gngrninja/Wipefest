@@ -34,6 +34,7 @@ import { QueryService } from './warcraft-logs/query.service';
 import { EventConfigService } from "app/event-config/event-config.service";
 import { FightEventService } from "./fight-events/services/fight-event.service";
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
+import { FightSummaryFilterCategoryComponent } from './fight-summary-filters/fight-summary-filter-category.component';
 import { ClassesService } from "app/warcraft-logs/classes.service";
 import { FightSummaryRaidComponent } from "app/fights-summary-raid/fight-summary-raid.component";
 import { FooterComponent } from "app/footer.component";
@@ -80,6 +81,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
     GuildSearchResultsComponent,
     ToggleableSearchComponent,
     FightSummaryFiltersComponent,
+    FightSummaryFilterCategoryComponent,
     FightSummaryRaidComponent,
     GetInvolvedComponent,
     DiscordComponent,

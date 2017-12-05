@@ -8,26 +8,6 @@
   max-width: 280px;
 }
 
-.filter {
-  -webkit-user-select: none; /* Chrome/Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
-  user-select: none;
-
-  &.show {
-    color: $brand-info !important;
-  }
-
-  &.enabled {
-    cursor: pointer;
-    color: $brand-warning
-  }
-
-  &.disabled {
-    color: $gray-light;
-  }
+.filter-categories {
+  padding-top: 14px;
 }
-
-

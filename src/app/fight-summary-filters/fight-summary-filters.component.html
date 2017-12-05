@@ -4,26 +4,19 @@
       <button (click)="showAll()" class="btn btn-sm btn-primary mt-1 mb-1 mr-1">
         Show All
       </button>
-      <button (click)="hideAll()" class="btn btn-sm btn-secondary mt-1 mb-1 mr-1">
+      <button (click)="hideAll()" class="btn btn-sm btn-warning mt-1 mb-1 mr-1">
         Hide All
       </button>
-      <button (click)="reset()" class="btn btn-sm btn-warning mt-1 mb-1 mr-1">
+      <button (click)="reset()" class="btn btn-sm btn-secondary mt-1 mb-1 mr-1">
         Reset
       </button>
     </li>
-    <ng-container *ngFor="let tags of getTags()">
-      <div *ngIf="tags[0] != 'phase'">
-        <li class="nav-title">
-          {{tags.join(" ")}}
-        </li>
-        <li class="nav-item">
-          <ng-container *ngFor="let config of getEventConfigsForTags(tags)">
-            <div (click)="toggleConfig(config)" [class]="getButtonClass(config)">
-              {{config.name}} <span class="badge badge-default">{{getEventsForEventConfig(config).length}}</span>
-            </div>
-          </ng-container>
-        </li>
-      </div>
-    </ng-container>
   </ul>
+
+  <div class="filter-categories" *ngFor="let category of categories">
+    <fight-summary-filter-category [depth]="category.depth"
+                                   [name]="category.name"
+                                   [filters]="category.filters"
+                                   [categories]="category.categories"></fight-summary-filter-category>
+  </div>
 </div>

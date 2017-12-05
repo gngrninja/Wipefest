@@ -1,0 +1,42 @@
+<table>
+  <thead>
+    <tr>
+      <th [ngClass]="'depth-' + depth">{{name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let filter of filters"
+      class="filter"
+      [ngClass]="getButtonClass(filter.config, filter.count)"
+      (click)="toggleConfig(filter.config, filter.configs)">
+    <td class="name-cell">
+      <span class="ability-icon">
+        <ability-icon [abilityId]="filter.abilityId"
+                      [abilityIcon]="filter.abilityIcon"
+                      [alt]=""
+                      [linkToWowhead]="true"></ability-icon>
+      </span>
+      {{filter.config.name}}
+    </td>
+    <td class="count-cell"><span class="badge badge-default">{{filter.count}}</span></td>
+    <td class="enable-cell">
+      <i class="enable-icon fa fa-lg"
+         [ngClass]="filter.config.show ? 'fa-check-square-o' : 'fa-square-o'"
+         aria-hidden="true"></i>
+    </td>
+  </tr>
+    <tr>
+      <td colspan="3">
+        <div class="categories">
+          <fight-summary-filter-category *ngFor="let category of categories"
+                                         [depth]="category.depth"
+                                         [name]="category.name"
+                                         [filters]="category.filters"
+                                         [categories]="category.categories"></fight-summary-filter-category>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
