@@ -16,12 +16,14 @@ export class EventConfig {
     showTarget: boolean;
     tags: string[];
     show: boolean;
+    collapsed: boolean;
     eventType: string;
     timestamp: number;
     friendly: boolean;
     source: string;
     showSource: boolean;
     title: string;
+    difficulties: number[];
     filter: EventConfigFilter;
 
     public constructor(init?: Partial<EventConfig>) {
@@ -35,6 +37,7 @@ export class EventConfigFilter {
     type: string;
     types: string[];
     first: boolean;
+    index: number;
     firstPerInstance: boolean;
     stack: number;
     range: number;

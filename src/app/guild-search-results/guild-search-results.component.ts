@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { GuildReport } from "app/warcraft-logs/guild-report";
 import { Router, ActivatedRoute, Params } from "@angular/router";
@@ -57,7 +57,7 @@ export class GuildSearchResultsComponent implements OnInit {
                 this.loading = false;
                 this.error = null;
 
-                reports = reports.filter(x => x.zone == 13).sort((a, b) => b.start - a.start);
+                reports = reports.filter(x => x.zone == 13 || x.zone == 17).sort((a, b) => b.start - a.start);
                 this.reports = reports;
             },
             error => {

@@ -15,6 +15,7 @@ export class QueryService {
         let query = this.joinQueries(queries);
 
         if (!environment.production) {
+            console.log(eventConfigs);
             console.log(query);
         }
 
