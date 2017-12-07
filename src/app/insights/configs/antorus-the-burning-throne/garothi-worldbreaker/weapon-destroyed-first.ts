@@ -10,7 +10,7 @@ export class WeaponDestroyedFirst extends InsightConfig {
             `Destroyed the {weapon} first.`,
             null,`
 ${MarkupHelper.Info("Phase 2")} ends when players kill either the ${MarkupHelper.Style("npc", "Annihilator")} or ${MarkupHelper.Style("npc", "Decimator")}.
-When one weapon is destroyed, the other weapon is empowered.`);
+When one weapon is destroyed, the other weapon is empowered. On Mythic difficulty, a weapon goes Haywire whenever it is destroyed.`);
     }
 
     getProperties(context: InsightContext): any {
