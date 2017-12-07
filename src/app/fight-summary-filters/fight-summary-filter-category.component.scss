@@ -18,7 +18,7 @@ table {
 
   &.enabled {
     cursor: pointer;
-    color: $brand-warning
+    color: $gray-lighter;
   }
 
   &.disabled {
