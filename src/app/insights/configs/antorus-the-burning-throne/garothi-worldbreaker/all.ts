@@ -46,7 +46,7 @@ At the end of ${MarkupHelper.Info("Phase 2")},
 ${MarkupHelper.Style("boss", "Garothi Worldbreaker")} will cast {ability:244969:Eradication:physical},
 which deals more damage the closer you are to him.
 Make sure to move away from the boss to reduce this damage.`),
-            new Soak(2076, ["Annihilation"], [244761], null, null, `
+            new Soak(2076, ["Annihilation", "Shrapnel"], [244761, 247044], null, null, `
 When the ${MarkupHelper.Style("npc", "Annihilator")} weapon is active, it casts {ability:244761:Annihilation:fire},
 which creates small circles on the ground that need to be soaked.
 The damage from {ability:244761:Annihilation:fire} will be split across soakers,

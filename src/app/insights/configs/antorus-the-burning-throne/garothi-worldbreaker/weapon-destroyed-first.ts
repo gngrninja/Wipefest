@@ -19,14 +19,37 @@ When one weapon is destroyed, the other weapon is empowered.`);
             return null;
         }
 
-        let weapon = context.events.filter(x => x.config).some(x => x.config.name == "Decimation" && x.timestamp > phaseOnes[1].timestamp)
+        let weapon = null;
+        if (context.fight.difficulty == 5) {
+          let decimatorDestroyed = context.events.filter(x => x.config).find(x => x.config.name == "Haywire (Decimation)");
+          let annihilatorDestroyed = context.events.filter(x => x.config).find(x => x.config.name == "Haywire (Annihilation)");
+
+          if (decimatorDestroyed == null && annihilatorDestroyed == null) {
+            return null;
+          }
+          if (decimatorDestroyed != null && annihilatorDestroyed == null) {
+            weapon = "Decimator";
+          }
+          if (decimatorDestroyed == null && annihilatorDestroyed != null) {
+            weapon = "Annihilator";
+          }
+          if (decimatorDestroyed != null && annihilatorDestroyed != null) {
+            if (decimatorDestroyed.timestamp < annihilatorDestroyed.timestamp) {
+              weapon = "Decimator";
+            } else {
+              weapon = "Annihilator";
+            }
+          }
+        } else {
+          weapon = context.events.filter(x => x.config).some(x => x.config.name == "Decimation" && x.timestamp > phaseOnes[1].timestamp)
             ? "Annihilator"
             : context.events.filter(x => x.config).some(x => x.config.name == "Annihilation" && x.timestamp > phaseOnes[1].timestamp)
-                ? "Decimator"
-                : null;
+              ? "Decimator"
+              : null;
 
-        if (weapon == null) {
+          if (weapon == null) {
             return null;
+          }
         }
 
         return {

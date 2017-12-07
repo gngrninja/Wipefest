@@ -37,7 +37,7 @@ export class Soak extends InsightConfig {
         let soaks: DamageEvent[][] = [];
         let soak = [damageEvents[0]];
         damageEvents.slice(1).forEach(x => {
-            if (x.timestamp < soak[0].timestamp + 3000) {
+            if (x.timestamp < soak[0].timestamp + 1500) {
                 soak.push(x);
             } else {
                 soaks.push(soak);
