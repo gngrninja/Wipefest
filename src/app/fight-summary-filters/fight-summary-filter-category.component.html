@@ -1,5 +1,5 @@
 <table>
-  <thead>
+  <thead *ngIf="hasFilters">
     <tr>
       <th [ngClass]="'depth-' + depth">{{name}}</th>
     </tr>

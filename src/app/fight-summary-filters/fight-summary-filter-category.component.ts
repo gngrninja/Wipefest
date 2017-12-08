@@ -15,6 +15,11 @@ export class FightSummaryFilterCategoryComponent {
   @Input() filters: EventConfigFilter[];
   @Input() categories: EventConfigCategory[];
 
+  get hasFilters(): boolean {
+    // TODO: Recursively check this category and subcategories for any filters
+    return true;
+  }
+
   constructor(private readonly logger: LoggerService) { }
 
   getButtonClass(config: EventConfig, count: number) {

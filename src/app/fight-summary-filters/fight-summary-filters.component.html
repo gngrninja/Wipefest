@@ -13,6 +13,10 @@
     </li>
   </ul>
 
+  <div class="mt-2">
+    <input type="text" class="form-control" name="categoryFilter" [(ngModel)]="categoryFilter" (input)="categories = getFilteredCategories()" />
+  </div>
+
   <div class="filter-categories" *ngFor="let category of categories">
     <fight-summary-filter-category [depth]="category.depth"
                                    [name]="category.name"

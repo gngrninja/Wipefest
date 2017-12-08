@@ -14,6 +14,46 @@ export class FightSummaryFiltersComponent implements OnChanges {
   @Input() configs: EventConfig[];
   @Input() events: FightEvent[] = [];
   categories: EventConfigCategory[] = [];
+  categoryFilter: string = "";
+
+  getFilteredCategories(): EventConfigCategory[] {
+    let categories = [];
+    const tagss = this.getTags();
+
+    tagss.forEach(tags => {
+      let filteredCategories = categories;
+      let currentTags = [];
+      tags.forEach(tag => {
+        currentTags.push(tag);
+        let category = filteredCategories.find(x => x.name == tag);
+        if (category) {
+          filteredCategories = category.categories;
+        } else {
+          let configs = this.getEventConfigsForTags(currentTags);
+          if (this.categoryFilter) {
+            configs = configs.filter(x =>
+              x.name.toLowerCase().indexOf(this.categoryFilter.toLowerCase()) != -1 ||
+              x.tags.some(x => x.toLowerCase().indexOf(this.categoryFilter.toLowerCase()) != -1));
+          }
+          let filters = configs.map(config => {
+            let events: any[] = this.getEventsForEventConfig(config);
+            let eventWithAbility = events.find(x => x.ability);
+            if (eventWithAbility) {
+              let ability: Ability = eventWithAbility.ability;
+              return new EventConfigFilter(config, ability.guid, ability.abilityIcon, events.length, this.configs);
+            }
+            return new EventConfigFilter(config, null, null, events.length, this.configs);
+          });
+          filteredCategories.push(new EventConfigCategory(currentTags.length, tag, filters));
+          filteredCategories = filteredCategories[filteredCategories.length - 1].categories;
+        }
+      });
+    });
+
+    categories = categories.filter(x => x.name != "phase");
+
+    return categories;
+  }
 
   get uniqueConfigs(): EventConfig[] {
     return this.configs.filter(
@@ -31,35 +71,36 @@ export class FightSummaryFiltersComponent implements OnChanges {
   ngOnChanges() {
     this.defaultVisibilities = this.configs.map(x => new EventConfigDefaultVisbility(x.name, x.tags, x.show));
 
-    this.categories = [];
-    const tagss = this.getTags();
+    this.categories = this.getFilteredCategories();
+    //this.categories = [];
+    //const tagss = this.getTags();
 
-    tagss.forEach(tags => {
-      let categories = this.categories;
-      let currentTags = [];
-      tags.forEach(tag => {
-        currentTags.push(tag);
-        let category = categories.find(x => x.name == tag);
-        if (category) {
-          categories = category.categories;
-        } else {
-          let configs = this.getEventConfigsForTags(currentTags);
-          let filters = configs.map(config => {
-            let events: any[] = this.getEventsForEventConfig(config);
-            let eventWithAbility = events.find(x => x.ability);
-            if (eventWithAbility) {
-              let ability: Ability = eventWithAbility.ability;
-              return new EventConfigFilter(config, ability.guid, ability.abilityIcon, events.length, this.configs);
-            }
-            return new EventConfigFilter(config, null, null, events.length, this.configs);
-          });
-          categories.push(new EventConfigCategory(currentTags.length, tag, filters));
-          categories = categories[categories.length - 1].categories;
-        }
-      });
-    });
+    //tagss.forEach(tags => {
+    //  let categories = this.categories;
+    //  let currentTags = [];
+    //  tags.forEach(tag => {
+    //    currentTags.push(tag);
+    //    let category = categories.find(x => x.name == tag);
+    //    if (category) {
+    //      categories = category.categories;
+    //    } else {
+    //      let configs = this.getEventConfigsForTags(currentTags);
+    //      let filters = configs.map(config => {
+    //        let events: any[] = this.getEventsForEventConfig(config);
+    //        let eventWithAbility = events.find(x => x.ability);
+    //        if (eventWithAbility) {
+    //          let ability: Ability = eventWithAbility.ability;
+    //          return new EventConfigFilter(config, ability.guid, ability.abilityIcon, events.length, this.configs);
+    //        }
+    //        return new EventConfigFilter(config, null, null, events.length, this.configs);
+    //      });
+    //      categories.push(new EventConfigCategory(currentTags.length, tag, filters));
+    //      categories = categories[categories.length - 1].categories;
+    //    }
+    //  });
+    //});
 
-    this.categories = this.categories.filter(x => x.name != "phase");
+    //this.categories = this.categories.filter(x => x.name != "phase");
   }
 
   showAll() {
