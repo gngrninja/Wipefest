@@ -3,7 +3,7 @@
       unselectable="on"
       class="phase-change"
       (click)="togglePhaseCollapse(event)">
-    <i class="fa mr-1 phase-collapse-icon" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="event.show ? 'down' : 'right'" aria-hidden="true"></i>
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
   <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
@@ -12,7 +12,7 @@
 
   <td *ngIf="!isTitle(event)" class="event">
     <div *ngIf="event.isFriendly" class="friendly">
-      <i *ngIf="event.canCollapse" class="fa mr-1 collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-chevron-right' : 'fa-chevron-down'"></i>
+      <i *ngIf="event.canCollapse" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="event.collapsed ? 'right' : 'down'" aria-hidden="true"></i>
 
       <span class="hidden-md-down" [innerHtml]="parse(event.title)"></span>
       <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
@@ -54,7 +54,7 @@
       <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
       <span class="hidden-sm-up" [innerHtml]="parse(event.shortTitle)"></span>
 
-      <i *ngIf="event.canCollapse" class="fa ml-1 collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-chevron-right' : 'fa-chevron-down'"></i>
+      <i *ngIf="event.canCollapse" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="event.collapsed ? 'right' : 'down'" aria-hidden="true"></i>
     </div>
   </td>
 </tr>

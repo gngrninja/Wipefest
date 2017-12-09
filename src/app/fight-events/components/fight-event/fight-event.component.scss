@@ -52,15 +52,17 @@ td.phase-change {
   user-select: none;
 }
 
-i.phase-collapse-icon {
-  vertical-align: text-top;
-  color: $brand-primary;
+.arrow {
+  color: $brand-info;
 }
 
-i.collapse-icon {
+.phase-icon {
+  vertical-align: text-top;
+}
+
+.collapse-icon {
   vertical-align: middle;
   margin-top: -3px;
-  color: $brand-info;
 }
 
 td.end-of-fight {

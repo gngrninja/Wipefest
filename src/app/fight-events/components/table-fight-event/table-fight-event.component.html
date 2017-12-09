@@ -3,7 +3,7 @@
       unselectable="on"
       class="phase-change"
       (click)="togglePhaseCollapse(event)">
-    <i class="fa mr-1 phase-collapse-icon" aria-hidden="true" [ngClass]="event.show ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="event.show ? 'down' : 'right'" aria-hidden="true"></i>
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
   <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
@@ -16,8 +16,6 @@
 
   <td *ngIf="!isTitle(event)" class="table-event-icons">
     <div class="mr-1">
-      <i class="fa" aria-hidden="true" [ngClass]="event.isFriendly ? 'fa-chevron-right friendly' : 'fa-chevron-left unfriendly'"></i>
-
       <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(DebuffStackEvent) || event.isInstanceOf(RemoveDebuffEvent) || event.isInstanceOf(HeroismEvent)"
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
@@ -29,15 +27,13 @@
                     [abilityIcon]="event.killingBlow.abilityIcon"
                     [alt]=""
                     [linkToWowhead]="true"></ability-icon>
-
-      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
     </div>
   </td>
   <td *ngIf="!isTitle(event)" class="table-event">
     <div>
-      <i *ngIf="event.canCollapse" class="fa collapse-icon" aria-hidden="true" [ngClass]="event.collapsed ? 'fa-plus' : 'fa-chevron-down'"></i>
-      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <i *ngIf="event.canCollapse" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="event.collapsed ? 'right' : 'down'" aria-hidden="true"></i>
       <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
       <span [innerHtml]="parse(event.tableTitle)"></span>
     </div>
   </td>

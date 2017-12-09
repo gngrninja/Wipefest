@@ -7,7 +7,7 @@ td.table-timestamp {
 }
 
 td.table-event-icons {
-  width: 40px;
+  width: 24px;
   text-align: left;
   vertical-align: text-top;
 }
@@ -21,6 +21,15 @@ td.table-event-icons {
 }
 
 .fa {
+  margin-top: -2px;
+}
+
+.phase-icon {
+  margin-top: 0;
+  vertical-align: text-top;
+}
+
+.collapse-icon {
   margin-top: -2px;
 }
 
