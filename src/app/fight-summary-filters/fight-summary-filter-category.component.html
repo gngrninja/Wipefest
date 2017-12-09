@@ -11,7 +11,8 @@
       (click)="toggleConfig(filter.config, filter.configs)">
     <td class="name-cell">
       <span class="ability-icon">
-        <ability-icon [abilityId]="filter.abilityId"
+        <ability-icon *ngIf="filter.abilityId"
+                      [abilityId]="filter.abilityId"
                       [abilityIcon]="filter.abilityIcon"
                       [alt]=""
                       [linkToWowhead]="true"></ability-icon>

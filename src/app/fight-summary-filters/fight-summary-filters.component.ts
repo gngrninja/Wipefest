@@ -16,6 +16,45 @@ export class FightSummaryFiltersComponent implements OnChanges {
   categories: EventConfigCategory[] = [];
   categoryFilter: string = "";
 
+  get uniqueConfigs(): EventConfig[] {
+    return this.configs.filter(
+      (config, index, array) =>
+        array.findIndex(
+          x =>
+            x.name == config.name &&
+            x.tags.join(" ") == config.tags.join(" ")) == index);
+  }
+
+  private defaultVisibilities: EventConfigDefaultVisbility[];
+
+  constructor(private readonly logger: LoggerService) { }
+
+  ngOnChanges() {
+    this.defaultVisibilities = this.configs.map(x => new EventConfigDefaultVisbility(x.name, x.tags, x.show));
+
+    this.categories = this.getFilteredCategories();
+  }
+
+  showAll() {
+    this.configs.forEach(x => x.show = true);
+    this.logger.logShowAllFilters();
+  }
+
+  hideAll() {
+    this.configs.filter(x => x.eventType != "phase").forEach(x => x.show = false);
+    this.logger.logHideAllFilters();
+  }
+
+  reset() {
+    this.configs.forEach(x => {
+      const match = this.defaultVisibilities.find(y => y.name == x.name && y.tags.join(" ") == x.tags.join(" "));
+      if (match) {
+        x.show = match.show;
+      }
+    });
+    this.logger.logResetFilters();
+  }
+
   getFilteredCategories(): EventConfigCategory[] {
     let categories = [];
     const tagss = this.getTags();
@@ -55,74 +94,6 @@ export class FightSummaryFiltersComponent implements OnChanges {
     return categories;
   }
 
-  get uniqueConfigs(): EventConfig[] {
-    return this.configs.filter(
-      (config, index, array) =>
-        array.findIndex(
-          x =>
-            x.name == config.name &&
-            x.tags.join(" ") == config.tags.join(" ")) == index);
-  }
-
-  private defaultVisibilities: EventConfigDefaultVisbility[];
-
-  constructor(private readonly logger: LoggerService) { }
-
-  ngOnChanges() {
-    this.defaultVisibilities = this.configs.map(x => new EventConfigDefaultVisbility(x.name, x.tags, x.show));
-
-    this.categories = this.getFilteredCategories();
-    //this.categories = [];
-    //const tagss = this.getTags();
-
-    //tagss.forEach(tags => {
-    //  let categories = this.categories;
-    //  let currentTags = [];
-    //  tags.forEach(tag => {
-    //    currentTags.push(tag);
-    //    let category = categories.find(x => x.name == tag);
-    //    if (category) {
-    //      categories = category.categories;
-    //    } else {
-    //      let configs = this.getEventConfigsForTags(currentTags);
-    //      let filters = configs.map(config => {
-    //        let events: any[] = this.getEventsForEventConfig(config);
-    //        let eventWithAbility = events.find(x => x.ability);
-    //        if (eventWithAbility) {
-    //          let ability: Ability = eventWithAbility.ability;
-    //          return new EventConfigFilter(config, ability.guid, ability.abilityIcon, events.length, this.configs);
-    //        }
-    //        return new EventConfigFilter(config, null, null, events.length, this.configs);
-    //      });
-    //      categories.push(new EventConfigCategory(currentTags.length, tag, filters));
-    //      categories = categories[categories.length - 1].categories;
-    //    }
-    //  });
-    //});
-
-    //this.categories = this.categories.filter(x => x.name != "phase");
-  }
-
-  showAll() {
-    this.configs.forEach(x => x.show = true);
-    this.logger.logShowAllFilters();
-  }
-
-  hideAll() {
-    this.configs.filter(x => x.eventType != "phase").forEach(x => x.show = false);
-    this.logger.logHideAllFilters();
-  }
-
-  reset() {
-    this.configs.forEach(x => {
-      const match = this.defaultVisibilities.find(y => y.name == x.name && y.tags.join(" ") == x.tags.join(" "));
-      if (match) {
-        x.show = match.show;
-      }
-    });
-    this.logger.logResetFilters();
-  }
-
   getTags(): string[][] {
     return this.configs
       .map(config => config.tags)
@@ -158,6 +129,14 @@ export class EventConfigCategory {
     public name: string,
     public filters: EventConfigFilter[],
     public categories: EventConfigCategory[] = []) {
+  }
+
+  get hasFilters(): boolean {
+    return this.filters.length > 0 || (this.categories.some(x => this.categoryHasFilters(x)));
+  }
+
+  private categoryHasFilters(category: EventConfigCategory) {
+    return category.filters.length > 0 || (category.categories.some(x => this.categoryHasFilters(x)));
   }
 
 }

@@ -14,13 +14,15 @@
   </ul>
 
   <div class="mt-2">
-    <input type="text" class="form-control" name="categoryFilter" [(ngModel)]="categoryFilter" (input)="categories = getFilteredCategories()" />
+    <input type="text" class="form-control" name="categoryFilter" placeholder="Search filters..." [(ngModel)]="categoryFilter" (input)="categories = getFilteredCategories()" />
   </div>
 
-  <div class="filter-categories" *ngFor="let category of categories">
-    <fight-summary-filter-category [depth]="category.depth"
-                                   [name]="category.name"
-                                   [filters]="category.filters"
-                                   [categories]="category.categories"></fight-summary-filter-category>
-  </div>
+  <ng-container *ngFor="let category of categories">
+    <div class="filter-categories" *ngIf="category.hasFilters">
+      <fight-summary-filter-category [depth]="category.depth"
+                                     [name]="category.name"
+                                     [filters]="category.filters"
+                                     [categories]="category.categories"></fight-summary-filter-category>
+    </div>
+  </ng-container>
 </div>

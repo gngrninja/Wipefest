@@ -16,8 +16,7 @@ export class FightSummaryFilterCategoryComponent {
   @Input() categories: EventConfigCategory[];
 
   get hasFilters(): boolean {
-    // TODO: Recursively check this category and subcategories for any filters
-    return true;
+    return this.filters.length > 0 || this.categories.some(x => x.hasFilters);
   }
 
   constructor(private readonly logger: LoggerService) { }
