@@ -10,70 +10,76 @@ import { EndOfFightEvent } from "../../models/end-of-fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { MarkupParser } from "app/helpers/markup-parser";
 import { DamageEvent } from "app/fight-events/models/damage-event";
+import { environment } from "environments/environment";
 
 @Component({
-    selector: 'fight-events',
-    templateUrl: './fight-events.component.html',
-    styleUrls: ['./fight-events.component.scss']
+  selector: 'fight-events',
+  templateUrl: './fight-events.component.html',
+  styleUrls: ['./fight-events.component.scss']
 })
 export class FightEventsComponent implements AfterViewInit {
 
-    @Input() fight: Fight;
-    @Input() events: FightEvent[];
-    @ViewChild('tabs') tabs;
+  @Input() fight: Fight;
+  @Input() events: FightEvent[];
+  @ViewChild('tabs') tabs;
 
-    view = FightEventsView.Table;
-    FightEventsView = FightEventsView;
+  view = FightEventsView.Table;
+  FightEventsView = FightEventsView;
 
-    constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
+  constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
 
-    ngAfterViewInit() {
-        setTimeout(() => this.selectDefaultTab(), 1);
-    }
+  ngAfterViewInit() {
+    setTimeout(() => this.selectDefaultTab(), 1);
+  }
 
-    get hiddenIntervals(): Interval[] {
-        return this.events
-            .filter(x => x.isInstanceOf(PhaseChangeEvent) || x.isInstanceOf(EndOfFightEvent))
-            .map((x, index, array) => {
-                if (x.isInstanceOf(PhaseChangeEvent)) {
-                    let phase = <PhaseChangeEvent>x;
-                    if (!phase.show) {
-                        return new Interval(x.timestamp, array[index + 1].timestamp);
-                    }
-                }
-                return null;
-            })
-            .filter(x => x != null);
-    }
-
-    get shownEvents(): FightEvent[] {
-        return this.events
-            .filter(x => !this.eventIsFiltered(x) && !this.eventIsHidden(x));
-    }
-
-    selectDefaultTab() {
-        if (window.innerWidth < 1300) {
-            this.tabs.select("table-tab");
+  get hiddenIntervals(): Interval[] {
+    return this.events
+      .filter(x => x.isInstanceOf(PhaseChangeEvent) || x.isInstanceOf(EndOfFightEvent))
+      .map((x, index, array) => {
+        if (x.isInstanceOf(PhaseChangeEvent)) {
+          let phase = <PhaseChangeEvent>x;
+          if (!phase.show) {
+            return new Interval(x.timestamp, array[index + 1].timestamp);
+          }
         }
+        return null;
+      })
+      .filter(x => x != null);
+  }
+
+  get shownEvents(): FightEvent[] {
+    var shownEvents = this.events.filter(x => !this.eventIsFiltered(x) && !this.eventIsHidden(x))
+
+    if (!environment.production) {
+      console.log(shownEvents);
     }
 
-    private eventIsFiltered(event: FightEvent): boolean {
-        return event.config && !event.config.show;
-    }
+    return shownEvents;
+  }
 
-    private eventIsHidden(event: FightEvent): boolean {
-        return !event.isInstanceOf(PhaseChangeEvent) &&
-            !event.isInstanceOf(EndOfFightEvent) &&
-            this.hiddenIntervals.some(i => i.start <= event.timestamp && i.end >= event.timestamp);
+  selectDefaultTab() {
+    if (window.innerWidth < 1300) {
+      this.tabs.select("table-tab");
     }
+  }
+
+  private eventIsFiltered(event: FightEvent): boolean {
+    return event.config && !event.config.show;
+  }
+
+  private eventIsHidden(event: FightEvent): boolean {
+    return !event.isInstanceOf(PhaseChangeEvent) &&
+      !event.isInstanceOf(EndOfFightEvent) &&
+      this.hiddenIntervals.some(i => i.start <= event.timestamp && i.end >= event.timestamp);
+  }
 }
 
 export class Interval {
-    constructor(
-        public start: number,
-        public end: number) { }
+  constructor(
+    public start: number,
+    public end: number) { }
 }
 
 export enum FightEventsView {
-    Timeline, Table
+  Timeline, Table
 }

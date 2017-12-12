@@ -7,6 +7,8 @@ import { Debuff } from "app/insights/configs/debuff";
 import { HitWithoutDebuff } from "app/insights/configs/hit-without-debuff";
 import { DebuffUnlessRole } from "app/insights/configs/debuff-unless-role";
 import { DebuffDuration } from "app/insights/configs/debuff-duration";
+import { HitFriendly } from "app/insights/configs/hit-friendly";
+import { SargerasBlessingDuration } from "app/insights/configs/antorus-the-burning-throne/felhounds-of-sargeras/sargeras-blessing-duration";
 
 export module FelhoundsOfSargerasInsightConfigs {
 
@@ -35,7 +37,7 @@ If the raid is grouped up when this happens, it is useful to move as a group.`),
 
             new Hit(2074, ["Consuming Sphere"], [254403], null, null, `
 At 33 energy, ${MarkupHelper.Style("boss", "Shatug")} spawns a {ability:254403:Consuming Sphere:shadow},
-will pulls the raid towards its location.
+which pulls the raid towards its location.
 Players need to run away from the sphere to avoid hitting it,
 which deals damage and applies a debuff that increases the damage taken from the sphere.`),
 
@@ -46,13 +48,23 @@ which progressively slows the target for 5 seconds.
 When the debuff expires, targets within 8 yards are feared, unless there are at least 2 other players within 8 yards.
 Counter this mechanic by ensuring every target has enough players stacked on them to prevent the fear.`),
 
-            new DebuffDuration(2074, "Sargeras' Blessing", "Sargeras' Blessing (Removed)", null,
-                "Had a total {ability} duration of {totalDuration}.", null, `
-Whenever ${MarkupHelper.Style("boss", "F'Harg")} and ${MarkupHelper.Style("boss", "Shatug")} are within 40 yards of one another,
-they gain {ability:246057:Sargeras' Blessing:shadow},
-which massively increases their damage done.
-Prevent them from gaining this debuff by tanking them at least 40 yards apart.
-Ranged players can stay between the two bosses, so that everything is within their range.`)
+            new SargerasBlessingDuration(),
+
+            new Hit(2074, ["Burning Flash"], [244681], null, null, `
+Half of the raid will be afflicted with {ability:244054:Flametouched:fire}.
+When these players take shadow damage (such as from {ability:244583:Siphoned:shadow} or {ability:244130:Consuming Detonation:shadow}),
+they spawn yellow circles that will explode, dealing {ability:244681:Burning Flash:fire} damage.
+{ability:244054:Flametouched:fire} players should move as a group to avoid this mechanic.`),
+
+            new Hit(2074, ["Burning Remnant"], [245022], null, null, `
+Whenever {ability:244681:Burning Flash:fire} explodes, it leaves fire patches on the ground for 2 minutes.
+These fire patches deal {ability:245022:Burning Remnant:fire} damage.
+This damage is small, and players may choose to stand in these fire patches to stack more patches on top of them and save space.`),
+
+            new HitFriendly(2074, ["Shadowscar"], [245100], null, null, `
+Half of the raid will be afflicted with {ability:244055:Shadowtouched:shadow}.
+When these players take fire damage (such as from {ability:244163:Molten Flare:fire} or {ability:244473:Enflamed:fire}),
+They trigger {ability:245100:Shadowscar:shadow}, gripping the nearest ally to them and blasting them for shadow damage.`)
         ];
     }
 
