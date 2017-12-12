@@ -7,7 +7,7 @@ export class TitleEvent extends FightEvent {
         public timestamp: number,
         public text: string) {
 
-        super(null, timestamp, null);
+        super(null, timestamp, null, null, null);
     }
     
     get title(): string {

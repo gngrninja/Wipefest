@@ -11,13 +11,15 @@ export class RemoveDebuffEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
+        public x: number,
+        public y: number,
         public target: Actor,
         public source: Actor,
         private showSource: boolean,
         public ability: Ability,
         public sequence: number) {
 
-        super(config, timestamp, isFriendly);
+        super(config, timestamp, isFriendly, x, y);
     }
 
     get title(): string {

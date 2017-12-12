@@ -13,6 +13,7 @@ import { Interrupt } from "app/insights/configs/interrupt";
 import { PodDuration } from "app/insights/configs/antorus-the-burning-throne/antoran-high-command/pod-duration";
 import { FusilladeBeforeFelshield } from "app/insights/configs/antorus-the-burning-throne/antoran-high-command/fusillade-before-felshield";
 import { LessThanSixEmittersBeforeErodus } from "app/insights/configs/antorus-the-burning-throne/antoran-high-command/less-than-six-emitters-before-erodus";
+import { ClosestHit } from "app/insights/configs/closest-hit";
 
 export module AntoranHighCommandInsightConfigs {
 
@@ -23,10 +24,12 @@ Whichever boss is active will periodically cast {ability:244892:Exploit Weakness
 which deals a high amount of physical damage and increases physical damage taken for 20 seconds.
 Only tanks should get hit by this, and they should swap on the debuff.`),
 
-            new Hit(2070, ["Entropic Mines"], [245121], null, null, `
+            new ClosestHit(2070, ["Entropic Mines"], [245121], ["Entropic Mine"], null, null, `
 While ${MarkupHelper.Style("boss", "Chief Engineer Ishkar")} is in his pod,
 he will cast {ability:245161:Entropic Mine:physical}, spawning mines near players.
-The raid should avoid these mines, moving around the room to safe areas if necessary.`),
+The raid should avoid these mines, moving around the room to safe areas if necessary.
+These mines explode naturally after 3:45, so it is a good idea to gradually clear them to control the damage.
+Safely explode 2 or 3 at a time, and then allow time for the DoT to drop off before exploding more.`),
 
             new Interrupt(2070, ["Pyroblast"], [246505], null, null, `
 While ${MarkupHelper.Style("boss", "General Erodus")} is in his pod,

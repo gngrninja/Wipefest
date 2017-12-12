@@ -18,7 +18,7 @@ export class Actor {
     id: number;
     guid: number;
 
-    constructor(public name: string, public type: string = "NPC") { }
+    constructor(public name: string, public type: string = "NPC", public instance: number = 0) { }
 
 }
 

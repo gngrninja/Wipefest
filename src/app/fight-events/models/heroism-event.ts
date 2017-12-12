@@ -10,7 +10,7 @@ export class HeroismEvent extends FightEvent {
         public timestamp: number,
         public ability: Ability) {
 
-        super(config, timestamp, true);
+        super(config, timestamp, true, null, null);
     }
 
     rowClass = "heroism";

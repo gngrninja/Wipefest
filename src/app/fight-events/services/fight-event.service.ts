@@ -70,6 +70,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time,
         config.friendly == undefined ? x.sourceIsFriendly : config.friendly,
+        x.x,
+        x.y,
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         new Ability(x.ability),
         combatEvents.filter(y => y.ability.name == x.ability.name && y.timestamp < x.timestamp).length + 1,
@@ -85,6 +87,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time + timestampOffset,
         config.friendly || x.sourceIsFriendly,
+        x.x,
+        x.y,
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         config.showSource,
         config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
@@ -130,6 +134,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time,
         config.friendly,
+        x.x,
+        x.y,
         config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         config.showSource,
@@ -145,6 +151,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time,
         config.friendly,
+        x.x,
+        x.y,
         config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         config.showSource,
@@ -161,6 +169,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time,
         config.friendly,
+        x.x,
+        x.y,
         config.target ? new Actor(config.target) : this.getCombatEventTarget(x, report),
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         config.showSource,
@@ -176,6 +186,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time,
         config.friendly || x.sourceIsFriendly,
+        x.x,
+        x.y,
         config.source ? new Actor(config.source) : this.getCombatEventSource(x, report),
         new Ability(x.extraAbility),
         combatEvents.filter(y => y.extraAbility.name == x.extraAbility.name && y.timestamp < x.timestamp).length + 1,
@@ -191,6 +203,8 @@ export class FightEventService {
         config,
         x.timestamp - fight.start_time,
         config.friendly,
+        x.x,
+        x.y,
         new Actor(config.name),
         index + 1));
 
@@ -225,9 +239,19 @@ export class FightEventService {
         id = pet.petOwner;
       }
 
-      return report.friendlies.find(x => x.id === id);
+      var friendly = JSON.parse(JSON.stringify(report.friendlies.find(x => x.id === id) || null));
+      if (friendly) {
+        friendly.instance = event.sourceInstance;
+      }
+
+      return friendly;
     } else {
-      return report.enemies.find(x => x.id === event.sourceID);
+      var enemy = JSON.parse(JSON.stringify(report.enemies.find(x => x.id === event.sourceID) || null));
+      if (enemy) {
+        enemy.instance = event.sourceInstance;
+      }
+      
+      return enemy;
     }
   }
 

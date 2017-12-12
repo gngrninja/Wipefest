@@ -26,6 +26,10 @@ or if the current boss casts {ability:245227:Assume Command:physical}.`);
     }
 
     getProperties(context: InsightContext): any {
+        if (context.fight.difficulty == 3) {
+            return null;
+        }
+
         let enterPodEvents = context.events
             .filter(x => x.config)
             .filter(x => x.config.name == "Psychic Assault")

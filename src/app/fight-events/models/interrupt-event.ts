@@ -11,13 +11,15 @@ export class InterruptEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
+        public x: number,
+        public y: number,
         public source: Actor,
         private ability: Ability,
         private sequence: number,
         private target: Actor,
         private showTarget: boolean) {
 
-        super(config, timestamp, isFriendly);
+        super(config, timestamp, isFriendly, x, y);
     }
 
     get title(): string {

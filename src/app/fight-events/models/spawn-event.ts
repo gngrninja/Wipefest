@@ -9,10 +9,12 @@ export class SpawnEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
+        public x: number,
+        public y: number,
         private actor: Actor,
         private instance: number) {
 
-        super(config, timestamp, isFriendly);
+        super(config, timestamp, isFriendly, x, y);
     }
 
     get title(): string {

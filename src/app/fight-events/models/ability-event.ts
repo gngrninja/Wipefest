@@ -10,13 +10,15 @@ export class AbilityEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
-        private source: Actor,
+        public x: number,
+        public y: number,
+        public source: Actor,
         public ability: Ability,
         private sequence: number,
         private target: Actor,
         private showTarget: boolean) {
 
-        super(config, timestamp, isFriendly);
+        super(config, timestamp, isFriendly, x, y);
     }
 
     get title(): string {

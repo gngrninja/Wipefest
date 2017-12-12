@@ -23,7 +23,7 @@ export class DeathEvent extends FightEvent {
         private healingReceived: number,
         public childEvents: FightEvent[]) {
 
-        super(config, timestamp, isFriendly, childEvents);
+        super(config, timestamp, isFriendly, null, null, childEvents);
     }
 
     rowClass = "death";

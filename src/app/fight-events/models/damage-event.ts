@@ -10,6 +10,8 @@ export class DamageEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
+        public x: number,
+        public y: number,
         public source: Actor,
         private showSource: boolean = true,
         public target: Actor,
@@ -19,7 +21,7 @@ export class DamageEvent extends FightEvent {
         public overkill: number,
         private isChild: boolean) {
 
-        super(config, timestamp, isFriendly);
+        super(config, timestamp, isFriendly, x, y);
     }
 
     get damageText(): string {

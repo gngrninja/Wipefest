@@ -9,7 +9,7 @@ export class PhaseChangeEvent extends FightEvent {
         public phase: string,
         public show = true) {
 
-        super(config, timestamp, null);
+        super(config, timestamp, null, null, null);
     }
     
     get title(): string {

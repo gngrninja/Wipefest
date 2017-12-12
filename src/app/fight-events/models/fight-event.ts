@@ -8,6 +8,8 @@ export abstract class FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public isFriendly: boolean,
+        public x: number,
+        public y: number,
         public childEvents: FightEvent[] = []) { }
     
     collapsed = true;

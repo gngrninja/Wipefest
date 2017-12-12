@@ -34,7 +34,7 @@ This creates a {ability:244910:Felshield:fire} that the raid should stand in to 
         }
 
         let fusilladesWithoutFelshields = fusilladeEvents
-            .filter(fusillade => !felshieldEvents.some(felshield => felshield.timestamp > fusillade.timestamp - 10000 && felshield.timestamp < fusillade.timestamp));
+            .filter(fusillade => !felshieldEvents.some(felshield => felshield.timestamp > fusillade.timestamp - 8000 && felshield.timestamp < fusillade.timestamp + 2000));
 
         if (fusilladesWithoutFelshields.length == 0) {
             return null;
