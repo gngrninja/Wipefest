@@ -17,7 +17,7 @@ import { ClosestHit } from "app/insights/configs/closest-hit";
 
 export module AntoranHighCommandInsightConfigs {
 
-    export function All(): InsightConfig[] {
+  export function All(): InsightConfig[] {
         return [
             new HitUnlessRole(2070, ["Exploit Weakness"], [244892], "Tank", null, null, `
 Whichever boss is active will periodically cast {ability:244892:Exploit Weakness:physical},
@@ -48,7 +48,12 @@ and pod players should watch their health, being sure to exit the pod before the
 
             new LessThanSixEmittersBeforeErodus(),
 
-            new FusilladeBeforeFelshield()
+            new FusilladeBeforeFelshield(),
+
+            new HitWithoutDebuff(2070, ["Shocked"], [244748], ["Shock Grenade"], [244737], 9000, null, null, `
+Every 15 to 20 seconds, 3 players will be afflicted with {ability:244737:Shock Grenade:fire}.
+5 seconds later, these players will explode, dealing damage and stunning players within 8 yards.
+Players with {ability:244737:Shock Grenade:fire} should find a safe position, where they won't hit anyone else when they explode.`)
         ];
     }
 

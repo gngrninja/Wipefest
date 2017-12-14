@@ -45,8 +45,8 @@ export class Interrupt extends InsightConfig {
         }
 
         let playersAndTimestamps = interruptEvents.map(x => new PlayerAndTimestamp(x.source, x.timestamp));
-        let players = interruptEvents.map(x => x.source).filter((x, index, array) => array.indexOf(x) == index);
-        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: interruptEvents.filter(x => x.source == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let players = interruptEvents.map(x => x.source).filter((x, index, array) => array.map(y => y.id).indexOf(x.id) == index);
+        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: interruptEvents.filter(x => x.source.id == player.id).length }).sort((x, y) => y.frequency - x.frequency);
         let totalInterrupts = playersAndFrequencies.map(x => x.frequency).reduce((x, y) => x + y, 0);
         let castTimestamps = abilityEvents.map(x => x.timestamp);
 

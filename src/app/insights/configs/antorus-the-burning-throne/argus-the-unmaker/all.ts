@@ -32,7 +32,6 @@ export module ArgusTheUnmakerInsightConfigs {
       
       // Cosmic Power 255935 debuff on non-casting Constellar Designates
       new Interrupt(2092, ["Cosmic Beacon"], [252616]),
-      new Interrupt(2092, ["Starblast"], [253061]),
       new HitWithoutDebuff(2092, ["Cosmic Ray"], [252707], ["Cosmic Ray"], [252729], 10000),
       
       // Ember of Rage 257299 debuff duration / debuff stacks?
