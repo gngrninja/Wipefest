@@ -41,7 +41,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
   }
 
   hideAll() {
-    this.configs.filter(x => x.eventType != "phase").forEach(x => x.show = false);
+    this.configs.filter(x => ["phase", "title"].indexOf(x.eventType) == -1).forEach(x => x.show = false);
     this.logger.logHideAllFilters();
   }
 
@@ -89,7 +89,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
       });
     });
 
-    categories = categories.filter(x => x.name != "phase");
+    categories = categories.filter(x => ["phase", "title"].indexOf(x.name) == -1);
 
     return categories;
   }

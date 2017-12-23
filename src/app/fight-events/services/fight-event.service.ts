@@ -14,6 +14,7 @@ import { DeathEvent } from "../models/death-event";
 import { RemoveDebuffEvent } from "app/fight-events/models/remove-debuff-event";
 import { InterruptEvent } from "app/fight-events/models/interrupt-event";
 import { DebuffStackEvent } from "app/fight-events/models/debuff-stack-event";
+import { TitleEvent } from "app/fight-events/models/title-event";
 
 @Injectable()
 export class FightEventService {
@@ -47,6 +48,8 @@ export class FightEventService {
         return this.getSpawnEvents(report, fight, config, combatEvents);
       case "death":
         return this.getDeathEvents(report, fight, config, deaths);
+      case "title":
+        return this.getTitleEvents(report, fight, config, combatEvents);
       default: {
         throw new Error(`'${config.eventType}' is an unsupported event type`);
       }
@@ -229,6 +232,27 @@ export class FightEventService {
         this.getEvents(report, fight, new EventConfig({ eventType: "damage" }), death.events, deaths, fight.start_time - death.timestamp, true)));
 
     return events;
+  }
+
+  private getTitleEvents(report: Report, fight: Fight, config: EventConfig, combatEvents: CombatEvent[]): TitleEvent[] {
+    let title = config.title || config.name;
+
+    if (config.timestamps) {
+      return config.timestamps
+        .filter(timestamp => timestamp < fight.end_time - fight.start_time)
+        .map((timestamp, index) => {
+          if (config.titles) {
+            title = config.titles[index];
+          }
+          return new TitleEvent(timestamp, title, config.titles ? 0 : (index + 1), true);
+        });
+    }
+
+    if (!config.filter && config.timestamp < fight.end_time - fight.start_time) {
+      return [new TitleEvent(config.timestamp, title, 0, true)];
+    }
+
+    return combatEvents.map((combatEvent, index) => new TitleEvent(combatEvent.timestamp, title, index + 1, true));
   }
 
   getCombatEventSource(event: CombatEvent, report: Report) {

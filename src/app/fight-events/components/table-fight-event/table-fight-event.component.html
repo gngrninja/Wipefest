@@ -7,7 +7,8 @@
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
   <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
-    <h5>{{event.title}}</h5>
+    <h5 *ngIf="!event.subtitle">{{event.title}}</h5>
+    <h6 *ngIf="event.subtitle">{{event.title}}</h6>
   </td>
 
   <td *ngIf="!isTitle(event)" class="table-timestamp">

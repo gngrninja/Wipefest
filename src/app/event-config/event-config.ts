@@ -19,10 +19,12 @@ export class EventConfig {
     collapsed: boolean;
     eventType: string;
     timestamp: number;
+    timestamps: number[];
     friendly: boolean;
     source: string;
     showSource: boolean;
     title: string;
+    titles: string[];
     difficulties: number[];
     filter: EventConfigFilter;
 
