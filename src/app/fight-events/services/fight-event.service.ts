@@ -257,6 +257,12 @@ export class FightEventService {
 
   getCombatEventTarget(event: CombatEvent, report: Report) {
     if (event.targetIsFriendly) {
+      let id = event.targetID;
+      let pet = report.friendlyPets.find(x => x.id == id);
+      if (pet) {
+        return pet;
+      }
+
       return report.friendlies.find(x => x.id === event.targetID);
     } else {
       return report.enemies.find(x => x.id === event.targetID);
