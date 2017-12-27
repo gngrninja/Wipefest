@@ -9,10 +9,11 @@ import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
 import { PlayerAndDamage } from "app/insights/models/player-and-damage";
 import { TimestampAndPlayers } from "app/insights/models/timestamp-and-players";
 import { Player } from "app/raid/raid";
+import { PlayerAndAbility } from "../insights/models/player-and-ability";
 
 export module MarkupHelper {
 
-    export function Style(style: string, text): string {
+  export function Style(style: string, text): string {
         return `{[style="${style}"] ${text}}`;
     }
 
@@ -112,6 +113,10 @@ export module MarkupHelper {
 
     export function PlayersAndDamages(playersAndDamages: PlayerAndDamage[]) {
         return `${playersAndDamages.map(x => `${Actor(x.player)} (${Damage(x.damage, x.absorbed, x.overkill)})`).join(", ")}`;
+    }
+
+    export function PlayersAndAbilities(playersAndAbilities: PlayerAndAbility[]) {
+      return `${playersAndAbilities.map(x => `${Actor(x.player)} ${AbilityIcon(x.ability.guid, x.ability.iconUrl, x.ability.name)}`).join(", ")}`;
     }
 
     export function AbilitiesAndTimestamps(abilitiesAndTimestamps: AbilityAndTimestamp[]) {
