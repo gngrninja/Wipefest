@@ -22,6 +22,7 @@ import { environment } from "environments/environment";
 import { LocalStorage } from "app/shared/local-storage";
 import { Raid, RaidFactory } from "app/raid/raid";
 import { ClassesService } from "app/warcraft-logs/classes.service";
+import { StateService } from "app/shared/state.service";
 
 @Component({
     selector: 'fight-summary',
@@ -69,6 +70,7 @@ export class FightSummaryComponent implements OnInit {
         private warcraftLogsService: WarcraftLogsService,
         private classesService: ClassesService,
         private localStorage: LocalStorage,
+        private stateService: StateService,
         private logger: LoggerService) { }
 
     ngOnInit() {
@@ -76,6 +78,10 @@ export class FightSummaryComponent implements OnInit {
 
         this.eventConfigAccount = this.localStorage.get("eventConfigAccount") || "JoshYaxley";
         this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
+
+        if (this.stateService.ignore != undefined) {
+            this.enableDeathThreshold = this.stateService.ignore;
+        }
 
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
@@ -146,9 +152,6 @@ export class FightSummaryComponent implements OnInit {
 
     private selectFight(fight: Fight) {
         this.fight = fight;
-        if (this.fight.kill) {
-            this.enableDeathThreshold = false;
-        }
         this.wipefestService.selectFight(this.fight);
 
         this.loadData();
@@ -270,6 +273,12 @@ export class FightSummaryComponent implements OnInit {
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;
                 return 0;
             });
+    }
+
+    private toggleDeathThreshold() {
+        this.enableDeathThreshold = !this.enableDeathThreshold;
+        this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(this.events, this.deathThreshold);
+        this.stateService.ignore = this.enableDeathThreshold;
     }
 
     setEventConfigLocation() {

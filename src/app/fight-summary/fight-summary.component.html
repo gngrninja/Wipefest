@@ -42,11 +42,11 @@
           <div class="block p-1 pl-3">
             <strong>Report</strong>: <a routerLink="/report/{{report.id}}">{{report.title}}</a>,
             <strong>Fight</strong>:
-            <a *ngIf="fightIndex > 0" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex - 1].id}}" class="icon-link">
+            <a *ngIf="fightIndex > 0" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex - 1].id}}" [queryParams]="stateService.queryParams" class="icon-link">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             {{fightIndex + 1}}
-            <a *ngIf="fightIndex < report.fights.length - 1" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex + 1].id}}" class="icon-link">
+            <a *ngIf="fightIndex < report.fights.length - 1" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex + 1].id}}" [queryParams]="stateService.queryParams" class="icon-link">
               <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </a>,
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
@@ -56,10 +56,10 @@
               <i id="enable-icon"
                  class="fa fa-lg" [ngClass]="enableDeathThreshold ? 'fa-check-square-o' : 'fa-square-o'"
                  aria-hidden="true"
-                 (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)"></i>
+                 (click)="toggleDeathThreshold()"></i>
               <span id="ignore" [ngClass]="enableDeathThreshold ? '' : 'disabled'">
                 <label for="deathThreshold"
-                       (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)">
+                       (click)="toggleDeathThreshold()">
                   Ignore events after
                 </label>
                 <input type="number"
@@ -69,7 +69,7 @@
                        [(ngModel)]="deathThreshold"
                        [disabled]="!enableDeathThreshold"
                        (input)="eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)" />
-                <span (click)="enableDeathThreshold = !enableDeathThreshold; eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)">
+                <span (click)="toggleDeathThreshold()">
                   deaths.
                 </span>
               </span>
