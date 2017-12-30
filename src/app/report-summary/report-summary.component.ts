@@ -70,18 +70,22 @@ export class ReportSummaryComponent implements OnInit {
     private selectReport(report: Report) {
         this.report = report;
         if (this.report) {
-            this.lastFightId = this.report.fights[this.report.fights.length - 1].id;
             this.report.fights = this.report.fights
                 .filter(x => x.size >= 10 && [3, 4, 5].indexOf(x.difficulty) != -1)
-                .sort(function (a, b) { return a.id - b.id; });
-            this.wipefestService.selectReport(this.report);
-            this.wipefestService.selectFight(this.report.fights[0]);
+              .sort(function (a, b) { return a.id - b.id; });
 
             this.populateEncounters();
+            this.wipefestService.selectReport(this.report);
 
             if (this.report.fights.length == 0) {
-                this.error = "Sorry, this report contains no supported fights.";
+              this.error = "Sorry, this report contains no supported fights.";
+              return;
             }
+
+            this.lastFightId = this.report.fights[this.report.fights.length - 1].id;
+
+            
+            this.wipefestService.selectFight(this.report.fights[0]);
         }
     }
 
