@@ -31,8 +31,14 @@ export abstract class InsightConfig {
 
         let abilityMatches = this.getMatches(/{ability:(.+?):(.+?):(.+?)}/g, template);
         for (var i = 0; i < abilityMatches.length; i++) {
-            let abilityMatch = abilityMatches[i];
-            template = template.split(abilityMatch[0]).join(this.getAbilityMarkup(events, +abilityMatch[1], abilityMatch[2], abilityMatch[3]));
+          let abilityMatch = abilityMatches[i];
+          template = template.split(abilityMatch[0]).join(this.getAbilityMarkup(events, +abilityMatch[1], abilityMatch[2], abilityMatch[3]));
+        }
+
+        let npcMatches = this.getMatches(/{npc:(.+?)}/g, template);
+        for (var i = 0; i < npcMatches.length; i++) {
+          let npcMatch = npcMatches[i];
+          template = template.split(npcMatch[0]).join(MarkupHelper.Style("npc", npcMatch[1]));
         }
 
         for (var i = 0; i < 2; i++) { // Let properties have properties embedded in them by iterating twice
