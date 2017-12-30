@@ -9,11 +9,13 @@ import { DebuffUnlessRole } from "app/insights/configs/debuff-unless-role";
 import { DebuffDuration } from "app/insights/configs/debuff-duration";
 import { Interrupt } from "app/insights/configs/interrupt";
 import { HitUnlessRole } from "app/insights/configs/hit-unless-role";
+import { ParaxisTeams } from "./paraxis-teams";
 
 export module TheDefenseOfEonarInsightConfigs {
 
-    export function All(): InsightConfig[] {
+  export function All(): InsightConfig[] {
         return [
+            new ParaxisTeams(),
             new Hit(2075, ["Rain of Fel"], [248329], null, null, "This insight also lists the targets of {ability:248329:Rain of Fel:fire}, who cannot avoid being hit."),
             new Hit(2075, ["Fel Wake"], [248795]),
             new HitUnlessRole(2075, ["Fel Swipe"], [250703], "Tank"),
