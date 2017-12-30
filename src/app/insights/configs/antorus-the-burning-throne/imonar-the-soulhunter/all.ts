@@ -21,7 +21,7 @@ export module ImonarTheSoulHunterInsightConfigs {
       // Shock Lance stacks too high
       new DebuffDuration(2082, "Sleep Canister", "Sleep Canister (Removed)"),
       new Debuff(2082, ["Slumber Gas"], [247565]),
-      new Hit(2082, ["Pulse Grenade"], [247388]),
+      new Hit(2082, ["Pulse Grenade"], [247388, 247681]),
 
       // Sever stacks too high
       new Debuff(2082, ["Charged Blasts"], [247716], null, null, "This includes people targeted, who cannot avoid getting hit."),
@@ -32,6 +32,8 @@ export module ImonarTheSoulHunterInsightConfigs {
 
       new PhaseDuration(2082, "Transition 1", "Had a {phase} duration of {averageDuration}.", ""),
       new PhaseDuration(2082, "Transition 2", "Had a {phase} duration of {averageDuration}.", ""),
+      new PhaseDuration(2082, "Transition 3", "Had a {phase} duration of {averageDuration}.", ""),
+      new PhaseDuration(2082, "Transition 4", "Had a {phase} duration of {averageDuration}.", ""),
       new Hit(2082, ["Seared Skin"], [254181]),
       new Debuff(2082, ["Stasis Trap"], [247641]),
       new Hit(2082, ["Blastwire"], [247962], null, "{timestamps}", null)
