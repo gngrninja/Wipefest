@@ -16,7 +16,8 @@ export module TheDefenseOfEonarInsightConfigs {
   export function All(): InsightConfig[] {
         return [
             new ParaxisTeams(),
-            new Hit(2075, ["Rain of Fel"], [248329], null, null, "This insight also lists the targets of {ability:248329:Rain of Fel:fire}, who cannot avoid being hit."),
+            new Hit(2075, ["Rain of Fel"], [248329], null, null, `
+This insight also lists the targets of {ability:248329:Rain of Fel:fire}, who cannot avoid being hit.`),
             new Hit(2075, ["Fel Wake"], [248795]),
             new HitUnlessRole(2075, ["Fel Swipe"], [250703], "Tank"),
             new Interrupt(2075, ["Artillery Strike"], [246305])
