@@ -63,7 +63,7 @@ each ideally consisting of 1 healer and 3 DPS.`);
       ]), "table table-hover markup-table-details");
 
     return {
-      total: total,
+      total: MarkupHelper.Info(total),
       plural: this.getPlural(total),
       teams: table.parse()
     };
