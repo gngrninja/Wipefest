@@ -51,7 +51,7 @@ export class FightEventsComponent implements AfterViewInit {
     var shownEvents = this.events.filter(x => !this.eventIsFiltered(x) && !this.eventIsHidden(x))
 
     if (!environment.production) {
-      console.log(shownEvents);
+      //console.log(shownEvents);
     }
 
     return shownEvents;

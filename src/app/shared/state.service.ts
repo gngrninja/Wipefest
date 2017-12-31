@@ -14,6 +14,8 @@ export class StateService {
     this.route.queryParams.subscribe(queryParams => {
       this.queryParams = {};
       this.queryParams.ignore = queryParams["ignore"];
+      this.queryParams.deathThreshold = Math.max(1, Math.min(<number> queryParams["deathThreshold"], 99));
+
       if (!environment.production) {
         console.log(this.queryParams);
       }
@@ -30,6 +32,15 @@ export class StateService {
 
   set ignore(value: boolean) {
     this.queryParams.ignore = value;
+    this.updateQueryParams();
+  }
+
+  get deathThreshold(): number {
+    return this.queryParams.deathThreshold;
+  }
+
+  set deathThreshold(value: number) {
+    this.queryParams.deathThreshold = value;
     this.updateQueryParams();
   }
 

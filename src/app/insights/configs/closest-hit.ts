@@ -72,8 +72,7 @@ export class ClosestHit extends InsightConfig {
       if (!abilityEvent) {
         return null;
       }
-
-      console.log(`${abilityEvent.source.id} ${abilityEvent.source.instance} ${abilityEvent.x} ${abilityEvent.y}`);
+      
       let closest = trigger[0].target;
       let closestDistance = 100000000;
 

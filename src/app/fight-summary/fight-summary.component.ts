@@ -82,6 +82,9 @@ export class FightSummaryComponent implements OnInit {
         if (this.stateService.ignore != undefined) {
             this.enableDeathThreshold = this.stateService.ignore;
         }
+        if (this.stateService.deathThreshold != undefined) {
+            this.deathThreshold = this.stateService.deathThreshold;
+        }
 
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
@@ -273,6 +276,10 @@ export class FightSummaryComponent implements OnInit {
                 if (b.name.toLowerCase() < a.name.toLowerCase()) return 1;
                 return 0;
             });
+    }
+
+    private onDeathThresholdChange(event) {
+      this.stateService.deathThreshold = this.deathThreshold;
     }
 
     private toggleDeathThreshold() {

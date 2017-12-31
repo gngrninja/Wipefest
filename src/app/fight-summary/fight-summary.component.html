@@ -67,6 +67,7 @@
                        aria-label="Death Threshold"
                        min="1" max="99"
                        [(ngModel)]="deathThreshold"
+                       (ngModelChange)="onDeathThresholdChange($event)"
                        [disabled]="!enableDeathThreshold"
                        (input)="eventsBeforeDeathThreshold = getEventsBeforeDeathThreshold(events, deathThreshold)" />
                 <span (click)="toggleDeathThreshold()">
