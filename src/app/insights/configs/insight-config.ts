@@ -22,7 +22,7 @@ export abstract class InsightConfig {
             return null;
         }
 
-        return this.generateInsight(this.insightTemplate, this.detailsTemplate, this.tipTemplate, properties, context.events);
+        return this.generateInsight(this.id, this.boss, this.insightTemplate, this.detailsTemplate, this.tipTemplate, properties, context.events);
     }
 
     abstract getProperties(context: InsightContext): any;
@@ -53,12 +53,12 @@ export abstract class InsightConfig {
         return template;
     }
 
-    protected generateInsight(insightTemplate: string, detailsTemplate: string, tipTemplate: string, properties: any, events: FightEvent[]): Insight {
+    protected generateInsight(id: string, boss: number, insightTemplate: string, detailsTemplate: string, tipTemplate: string, properties: any, events: FightEvent[]): Insight {
         let insight = this.renderTemplate(insightTemplate, properties, events);
         let details = this.renderTemplate(detailsTemplate, properties, events);
         let tip = this.renderTemplate(tipTemplate, properties, events);
 
-        return new Insight(insight, details, tip);
+        return new Insight(id, boss, insight, details, tip);
     }
 
     protected getAbilitiesIfTheyExist(events: any[], abilityIds: number[]): Ability[] {

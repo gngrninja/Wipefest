@@ -41,14 +41,16 @@ export class InsightsComponent implements OnChanges {
             this.insights = this.insightService.getInsights(this.fight.boss, context);
         }
 
-        this.rows = this.insights.map(x => new InsightTableRow(x));
+        this.rows = this.insights.map(x => new InsightTableRow(x, this.stateService));
     }
 
 }
 
 export class InsightTableRow {
 
-    constructor(public insight: Insight) { }
+    constructor(public insight: Insight, private stateService: StateService) {
+        this.showDetails = this.stateService.isInsightSelected(this.insight.id, this.insight.boss);
+    }
 
     get hasDetails(): boolean {
         return (this.insight.details && this.insight.details != ".") || (this.insight.tip && this.insight.tip != ".");
@@ -58,6 +60,7 @@ export class InsightTableRow {
     toggle() {
         if (this.hasDetails) {
             this.showDetails = !this.showDetails;
+            this.stateService.setInsightSelected(this.insight.id, this.insight.boss, this.showDetails);
         }
     }
 

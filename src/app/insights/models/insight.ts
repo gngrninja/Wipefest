@@ -1,6 +1,6 @@
 export class Insight {
 
-    constructor(private _title: string = "", private _details: string = "", private _tip: string = "") { }
+    constructor(public id: string, public boss: number, private _title: string = "", private _details: string = "", private _tip: string = "") { }
 
     get title(): string {
         return this._title;
