@@ -243,7 +243,7 @@ export class FightSummaryComponent implements OnInit {
             if (deathEvents.length >= deathThreshold) {
                 let deathThresholdTimestamp = deathEvents[deathThreshold - 1].timestamp;
                 eventsBeforeDeathThreshold = events.filter(x => x.timestamp < deathThresholdTimestamp);
-                eventsBeforeDeathThreshold.push(...deathEvents.slice(0, deathThreshold));
+                eventsBeforeDeathThreshold.push(...deathEvents.slice(deathThreshold - 1, deathThreshold));
                 eventsBeforeDeathThreshold.push(events[events.length - 1]);
             }
         }
