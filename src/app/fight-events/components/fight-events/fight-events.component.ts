@@ -11,6 +11,7 @@ import { MarkupHelper } from "app/helpers/markup-helper";
 import { MarkupParser } from "app/helpers/markup-parser";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { environment } from "environments/environment";
+import { StateService } from "app/shared/state.service";
 
 @Component({
   selector: 'fight-events',
@@ -26,7 +27,10 @@ export class FightEventsComponent implements AfterViewInit {
   view = FightEventsView.Table;
   FightEventsView = FightEventsView;
 
-  constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
+  constructor(
+    private warcraftLogsService: WarcraftLogsService,
+    private stateService: StateService,
+    private logger: LoggerService) { }
 
   ngAfterViewInit() {
     setTimeout(() => this.selectDefaultTab(), 1);

@@ -11,6 +11,7 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class DebuffDuration extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private appliedEventConfigName: string,
         private removedEventConfigName: string,
@@ -19,7 +20,7 @@ export class DebuffDuration extends InsightConfig {
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) {
             if (this.threshold > 0) {

@@ -8,8 +8,8 @@ import { AbilityEvent } from "app/fight-events/models/ability-event";
 
 export class FusilladeBeforeFelshield extends InsightConfig {
 
-    constructor() {
-        super(2070,
+    constructor(id: string) {
+        super(id, 2070,
             `Failed to activate {felshield} before {fusillade} {total} time{plural}.`,
             `{timestamps}`, `
 When {ability:244625:Fusillade:fire} is being cast,

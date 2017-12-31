@@ -7,8 +7,8 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class TwilightGlaive extends InsightConfig {
 
-    constructor() {
-        super(2050,
+    constructor(id: string) {
+        super(id, 2050,
             "Unnecessarily intercepted {twilightGlaive} {totalHits} time{plural}.",
             "{playersAndHits}",
             `${MarkupHelper.Style("boss", "Huntress Kasparian")} debuffs a player with {twilightGlaiveTooltip},

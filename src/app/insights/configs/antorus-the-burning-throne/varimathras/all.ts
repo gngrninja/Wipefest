@@ -16,15 +16,15 @@ import { MarkedPrey } from "app/insights/configs/antorus-the-burning-throne/vari
 
 export module VarimathrasInsightConfigs {
 
-  export function All(): InsightConfig[] {
-    return [
-      // Necrotic Embrace spreads
+    export function All(): InsightConfig[] {
+        return [
+            // Necrotic Embrace spreads
 
-      new HitUnlessRole(2069, ["Shadow Strike"], [243960], "Tank"),
-      new MarkedPrey(),
-      new Hit(2069, ["Dark Fissure"], [244005]),
-      new HitWithoutDebuff(2069, ["Alone in the Darkness"], [243963], ["Necrotic Embrace"], [244094], 10000)
-    ];
-  }
+            new HitUnlessRole("0", 2069, ["Shadow Strike"], [243960], "Tank"),
+            new MarkedPrey("1"),
+            new Hit("2", 2069, ["Dark Fissure"], [244005]),
+            new HitWithoutDebuff("3", 2069, ["Alone in the Darkness"], [243963], ["Necrotic Embrace"], [244094], 10000)
+        ];
+    }
 
 }

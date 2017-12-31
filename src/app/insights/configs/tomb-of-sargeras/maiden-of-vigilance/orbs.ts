@@ -2,8 +2,8 @@ import { Debuff } from "app/insights/configs/debuff";
 
 export class Orbs extends Debuff {
 
-    constructor() {
-        super(2052, ["Orbs"], [248801, 239069],
+    constructor(id: string) {
+        super(id, 2052, ["Orbs"], [248801, 239069],
             "Failed to soak {totalHits} orb{plural}.",
             "{abilitiesAndTimestamps}",
             `Failing to soak orbs causes the raid to gain {ability:248801:Fragment Burst:fire},

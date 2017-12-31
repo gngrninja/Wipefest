@@ -7,6 +7,7 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class HitBySomeoneElse extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private eventConfigNames: string[],
         private abilityIds: number[],
@@ -14,7 +15,7 @@ export class HitBySomeoneElse extends InsightConfig {
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Hit by someone else's {abilities} {totalHits} time{plural}.";
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndHits}";

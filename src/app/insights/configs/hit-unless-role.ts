@@ -7,6 +7,7 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class HitUnlessRole extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private eventConfigNames: string[],
         private abilityIds: number[],
@@ -15,7 +16,7 @@ export class HitUnlessRole extends InsightConfig {
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Non-{role}s hit by {abilities} {totalHits} time{plural}.";
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndHits}";

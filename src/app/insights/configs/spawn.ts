@@ -7,13 +7,14 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class Spawn extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private eventConfigName: string,
         insightTemplate: string = null,
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "{totalSpawns} {spawn}{plural} spawned.";
         if (detailsTemplate == null) this.detailsTemplate = "{timestamps}";

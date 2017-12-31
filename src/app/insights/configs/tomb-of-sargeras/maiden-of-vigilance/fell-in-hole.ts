@@ -3,8 +3,8 @@ import { DiedFromFalling } from "app/insights/configs/died-from-falling";
 
 export class FellInHole extends DiedFromFalling {
 
-    constructor() {
-        super(2052,
+    constructor(id: string) {
+        super(id, 2052,
             "{totalFrequency} player{plural} fell in the hole.",
             null,
             `Players must jump into the hole to gain {ability:241593:Aegwynn's Ward:physical},

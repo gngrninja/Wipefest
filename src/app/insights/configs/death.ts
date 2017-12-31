@@ -8,13 +8,14 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class Death extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private abilityIds: number[],
         insightTemplate: string = null,
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "{totalFrequency} player{plural} died to {abilities}.";
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndTimestamps}";

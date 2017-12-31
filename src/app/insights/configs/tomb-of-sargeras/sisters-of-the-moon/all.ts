@@ -8,10 +8,10 @@ export module SistersOfTheMoonInsightConfigs {
 
     export function All(): InsightConfig[] {
         return [
-            new TwilightGlaive(),
-            new GlaiveStorm(),
-            new AstralVulnerability(),
-            new MoonBurn()
+            new TwilightGlaive("0"),
+            new GlaiveStorm("1"),
+            new AstralVulnerability("2"),
+            new MoonBurn("3")
         ];
     }
 

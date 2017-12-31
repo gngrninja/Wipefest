@@ -3,8 +3,8 @@ import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class GlaiveStorm extends Hit {
 
-    constructor() {
-        super(2050, ["Glaive Storm"], [236480], null, null,
+    constructor(id: string) {
+        super(id, 2050, ["Glaive Storm"], [236480], null, null,
             `{abilityTooltips} is cast by ${MarkupHelper.Style("boss", "Huntress Kasparian")},
 so watch her position before it casts (be aware that she might teleport just before she casts it).
 When {abilityTooltips} reaches the edge of the room, it splits into 3 smaller glaives that bounce back.

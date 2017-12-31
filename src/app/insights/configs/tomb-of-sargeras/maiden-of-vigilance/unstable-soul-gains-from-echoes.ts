@@ -8,8 +8,8 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnstableSoulGainsFromEchoes extends InsightConfig {
 
-    constructor() {
-        super(2052,
+    constructor(id: string) {
+        super(id, 2052,
             "{totalHits} hit{plural} of {abilities} resulted in {ability:243276:Unstable Soul:fire}.",
             "{playersAndHits}",
             `Moving out of {ability:238037:Light Echoes:holy} or {ability:238420:Fel Echoes:fire}

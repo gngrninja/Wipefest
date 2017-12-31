@@ -9,6 +9,7 @@ import { Timestamp } from "app/helpers/timestamp-helper";
 export class HitWithoutDebuff extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private damageEventConfigNames: string[],
         private damageAbilityIds: number[],
@@ -19,7 +20,7 @@ export class HitWithoutDebuff extends InsightConfig {
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Hit by {damageAbilties} {totalHits} time{plural} (except after gaining {debuffAbilities}).";
         if (detailsTemplate == null) this.detailsTemplate = "{playersAndHits}";

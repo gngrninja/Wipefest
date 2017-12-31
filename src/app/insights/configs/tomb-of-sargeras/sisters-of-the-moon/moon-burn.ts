@@ -2,8 +2,8 @@ import { DebuffDuration } from "app/insights/configs/debuff-duration";
 
 export class MoonBurn extends DebuffDuration {
 
-    constructor() {
-        super(2050, "Moon Burn", "Moon Burn (Removed)", 10000, null, null,
+    constructor(id: string) {
+        super(id, 2050, "Moon Burn", "Moon Burn (Removed)", 10000, null, null,
             `{abilityTooltip} is a 30 second long debuff that deals damage every 2 seconds.
 Players can remove it by crossing the line (triggering {ability:234998:Astral Purge:spellshadow}).
 On Mythic, make sure to watch the raid's current {ability:236330:Astral Vulnerability:physical} stacks before crossing the line.

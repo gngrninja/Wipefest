@@ -10,8 +10,8 @@ import { EndOfFightEvent } from "app/fight-events/models/end-of-fight-event";
 
 export class PodDuration extends InsightConfig {
 
-    constructor() {
-        super(2070,
+    constructor(id: string) {
+        super(id, 2070,
             `Stayed inside each pod for a total of {totalDuration}, and an average of {averageDuration}.`,
             `{playersAndDurations}`, `
 When a boss leaves their pod and joins the fight,

@@ -10,6 +10,7 @@ import { Raid } from "app/raid/raid";
 export abstract class InsightConfig {
 
     constructor(
+        public id: string,
         public boss: number,
         protected insightTemplate,
         protected detailsTemplate,

@@ -11,59 +11,59 @@ import { DebuffEvent } from "app/fight-events/models/debuff-event";
 
 export class MarkedPrey extends InsightConfig {
 
-  constructor() {
+    constructor(id: string) {
 
-    super(2069, "Intercepted {abilities} {totalFrequency} time{plural}.", "<p>{interceptorsAndFrequencies}</p> {targetsAndInterceptorsTable}", null);
-  }
-
-  getProperties(context: InsightContext): any {
-    let damageEvents = context.events
-      .filter(x => x.config)
-      .filter(x => x.config.name == "Shadow Hunter" && x.config.eventType == "damage")
-      .map(x => <DamageEvent>x);
-
-    if (damageEvents.length == 0) {
-      return null;
+        super(id, 2069, "Intercepted {abilities} {totalFrequency} time{plural}.", "<p>{interceptorsAndFrequencies}</p> {targetsAndInterceptorsTable}", null);
     }
 
-    let debuffEvents = context.events
-      .filter(x => x.config)
-      .filter(x => x.config.name == "Marked Prey" && x.config.eventType == "debuff")
-      .map(x => <DebuffEvent>x)
-      .sort((x, y) => y.timestamp - x.timestamp);
+    getProperties(context: InsightContext): any {
+        let damageEvents = context.events
+            .filter(x => x.config)
+            .filter(x => x.config.name == "Shadow Hunter" && x.config.eventType == "damage")
+            .map(x => <DamageEvent>x);
 
-    let abilities = this.getAbilitiesIfTheyExist(debuffEvents, [244042]);
+        if (damageEvents.length == 0) {
+            return null;
+        }
 
-    let interceptors = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-    let interceptorsAndFrequencies = interceptors.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
-    let totalFrequency = damageEvents.length;
+        let debuffEvents = context.events
+            .filter(x => x.config)
+            .filter(x => x.config.name == "Marked Prey" && x.config.eventType == "debuff")
+            .map(x => <DebuffEvent>x)
+            .sort((x, y) => y.timestamp - x.timestamp);
 
-    let targetsAndInterceptors = damageEvents.map(x => <any>{
-      timestamp: x.timestamp,
-      target: debuffEvents.find(y => y.timestamp < x.timestamp).target,
-      interceptor: x.target
-    });
+        let abilities = this.getAbilitiesIfTheyExist(debuffEvents, [244042]);
 
-    let targetsAndInterceptorsTable =
-      new MarkupHelper.Table(targetsAndInterceptors.map(x =>
-        new MarkupHelper.TableRow([
-          new MarkupHelper.TableCell(Timestamp.ToMinutesAndSeconds(x.timestamp)),
-          new MarkupHelper.TableCell(MarkupHelper.Actor(x.target)),
-          new MarkupHelper.TableCell(MarkupHelper.Actor(x.interceptor))])),
-        new MarkupHelper.TableRow([
-          new MarkupHelper.TableCell("Time"),
-          new MarkupHelper.TableCell("Target"),
-          new MarkupHelper.TableCell("Interceptor")]),
-        "table table-hover markup-table-details");
+        let interceptors = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
+        let interceptorsAndFrequencies = interceptors.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let totalFrequency = damageEvents.length;
 
-    return {
-      abilities: MarkupHelper.AbilitiesWithIcons(abilities),
-      abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
-      targetsAndInterceptorsTable: targetsAndInterceptorsTable.parse(),
-      totalFrequency: totalFrequency,
-      plural: this.getPlural(totalFrequency),
-      interceptorsAndFrequencies: MarkupHelper.PlayersAndFrequencies(interceptorsAndFrequencies)
+        let targetsAndInterceptors = damageEvents.map(x => <any>{
+            timestamp: x.timestamp,
+            target: debuffEvents.find(y => y.timestamp < x.timestamp).target,
+            interceptor: x.target
+        });
+
+        let targetsAndInterceptorsTable =
+            new MarkupHelper.Table(targetsAndInterceptors.map(x =>
+                new MarkupHelper.TableRow([
+                    new MarkupHelper.TableCell(Timestamp.ToMinutesAndSeconds(x.timestamp)),
+                    new MarkupHelper.TableCell(MarkupHelper.Actor(x.target)),
+                    new MarkupHelper.TableCell(MarkupHelper.Actor(x.interceptor))])),
+                new MarkupHelper.TableRow([
+                    new MarkupHelper.TableCell("Time"),
+                    new MarkupHelper.TableCell("Target"),
+                    new MarkupHelper.TableCell("Interceptor")]),
+                "table table-hover markup-table-details");
+
+        return {
+            abilities: MarkupHelper.AbilitiesWithIcons(abilities),
+            abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
+            targetsAndInterceptorsTable: targetsAndInterceptorsTable.parse(),
+            totalFrequency: totalFrequency,
+            plural: this.getPlural(totalFrequency),
+            interceptorsAndFrequencies: MarkupHelper.PlayersAndFrequencies(interceptorsAndFrequencies)
+        }
     }
-  }
 
 }

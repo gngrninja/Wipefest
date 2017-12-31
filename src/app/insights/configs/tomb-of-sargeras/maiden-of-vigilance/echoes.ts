@@ -3,8 +3,8 @@ import { MarkupHelper } from "app/helpers/markup-helper";
 
 export class Echoes extends Hit {
 
-    constructor() {
-        super(2052, ["Fel Echoes", "Light Echoes"], [238037, 238420], null, null,
+    constructor(id: string) {
+        super(id, 2052, ["Fel Echoes", "Light Echoes"], [238037, 238420], null, null,
             `When ${MarkupHelper.Style("boss", "Maiden of Vigilance")} casts
 {ability:241635:Hammer of Creation:physical} or {ability:241636:Hammer of Obliteration:physical},
 she leaves behind a pool of {ability:0:Light Remanence:holy} or {ability:0:Fel Remanence:fire}.

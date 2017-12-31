@@ -7,8 +7,8 @@ import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 
 export class LessThanSixEmittersBeforeErodus extends InsightConfig {
 
-    constructor() {
-        super(2070,
+    constructor(id: string) {
+        super(id, 2070,
             `Failed to cast {felshieldEmitter} at least 6 times before the first General Erodus phase.`,
             null, `
 When ${MarkupHelper.Style("boss", "Chief Engineer Ishkar")} is active,

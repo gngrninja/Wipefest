@@ -10,9 +10,9 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class SargerasBlessingDuration extends InsightConfig {
 
-  constructor() {
+    constructor(id: string) {
 
-    super(2074, "Had a total {ability} duration of {totalDuration}.", "{playersAndDurationsOverThreshold}", `
+    super(id, 2074, "Had a total {ability} duration of {totalDuration}.", "{playersAndDurationsOverThreshold}", `
 Whenever ${MarkupHelper.Style("boss", "F'Harg")} and ${MarkupHelper.Style("boss", "Shatug")} are within 40 yards of one another,
 they gain {ability:246057:Sargeras' Blessing:shadow},
 which massively increases their damage done.

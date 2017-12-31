@@ -7,6 +7,7 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class HitFriendly extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private eventConfigNames: string[],
         private abilityIds: number[],
@@ -14,7 +15,7 @@ export class HitFriendly extends InsightConfig {
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Hit friendlies with {abilities} {totalHits} time{plural}.";
         if (detailsTemplate == null) this.detailsTemplate = "<h6>Sources</h6><p>{sourcesAndHits}</p><h6>Targets</h6>{targetsAndHits}";

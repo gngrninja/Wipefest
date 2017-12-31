@@ -13,15 +13,15 @@ export module MaidenOfVigilanceInsightConfigs {
 
     export function All(): InsightConfig[] {
         return [
-            new UnnecessaryUnstableSoulGains(),
-            new Echoes(),
-            new UnstableSoulGainsFromEchoes(),
-            new UnstableSoulFullExpirationExplosion(),
-            new UnstableSoulEarlyExpirationExplosion(),
-            new Orbs(),
-            new CreatorsGrace(),
-            new FellInHole(),
-            new TitanicBulwark()
+            new UnnecessaryUnstableSoulGains("0"),
+            new Echoes("1"),
+            new UnstableSoulGainsFromEchoes("2"),
+            new UnstableSoulFullExpirationExplosion("3"),
+            new UnstableSoulEarlyExpirationExplosion("4"),
+            new Orbs("5"),
+            new CreatorsGrace("6"),
+            new FellInHole("7"),
+            new TitanicBulwark("8")
         ];
     }
 

@@ -7,8 +7,8 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnstableSoulFullExpirationExplosion extends InsightConfig {
 
-    constructor() {
-        super(2052,
+    constructor(id: string) {
+        super(id, 2052,
             "{unstableSoul} exploded by fully expiring {totalFrequency} time{plural}.",
             "{playersAndFrequencies}",
             `{unstableSoulTooltip} explodes when it fully expires, dealing massive raid damage.

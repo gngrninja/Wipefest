@@ -5,8 +5,8 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class WeaponDestroyedFirst extends InsightConfig {
 
-    constructor() {
-        super(2076,
+    constructor(id: string) {
+        super(id, 2076,
             `Destroyed the {weapon} first.`,
             null,`
 ${MarkupHelper.Info("Phase 2")} ends when players kill either the ${MarkupHelper.Style("npc", "Annihilator")} or ${MarkupHelper.Style("npc", "Decimator")}.

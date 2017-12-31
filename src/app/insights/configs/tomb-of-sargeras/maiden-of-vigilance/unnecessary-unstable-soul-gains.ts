@@ -7,8 +7,8 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnnecessaryUnstableSoulGains extends InsightConfig {
 
-    constructor() {
-        super(2052,
+    constructor(id: string) {
+        super(id, 2052,
             "Unnecessarily gained {unstableSoul} {totalFrequency} time{plural}.",
             "{playersAndFrequencies}",
             `Players can gain {unstableSoulTooltip} in three different ways:

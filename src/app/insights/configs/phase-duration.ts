@@ -9,13 +9,14 @@ import { InsightContext } from "app/insights/models/insight-context";
 export class PhaseDuration extends InsightConfig {
 
     constructor(
+        id: string,
         boss: number,
         private phase: string,
         insightTemplate: string = null,
         detailsTemplate: string = null,
         tipTemplate: string = null) {
 
-        super(boss, insightTemplate, detailsTemplate, tipTemplate);
+        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
         if (insightTemplate == null) this.insightTemplate = "Had an average {phase} duration of {averageDuration}.";
         if (detailsTemplate == null) this.detailsTemplate = "{phasesAndDurations}";

@@ -7,8 +7,8 @@ import { InsightContext } from "app/insights/models/insight-context";
 
 export class UnstableSoulEarlyExpirationExplosion extends InsightConfig {
 
-    constructor() {
-        super(2052,
+    constructor(id: string) {
+        super(id, 2052,
             "{unstableSoul} exploded early {totalFrequency} time{plural}.",
             "{playersAndFrequencies}",
             `If a player dies while affected by {unstableSoulTooltip},
