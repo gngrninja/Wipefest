@@ -4,45 +4,57 @@ import { environment } from "environments/environment";
 
 @Injectable()
 export class StateService {
-  
-  queryParams: any;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router) {
+    queryParams: any;
 
-    this.route.queryParams.subscribe(queryParams => {
-      this.queryParams = {};
-      this.queryParams.ignore = queryParams.hasOwnProperty("ignore") ? queryParams["ignore"] : undefined;
-      this.queryParams.deathThreshold = queryParams.hasOwnProperty("deathThreshold") ? Math.max(1, Math.min(<number> queryParams["deathThreshold"], 99)) : undefined;
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router) {
 
-      if (!environment.production) {
-        console.log(this.queryParams);
-      }
-    });
-  }
+        this.route.queryParams.subscribe(queryParams => {
+            this.queryParams = {};
+            this.queryParams.ignore = queryParams.hasOwnProperty("ignore") ? queryParams["ignore"] : undefined;
+            this.queryParams.deathThreshold = queryParams.hasOwnProperty("deathThreshold") ? Math.max(1, Math.min(<number>queryParams["deathThreshold"], 99)) : undefined;
 
-  private updateQueryParams() {
-    this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.queryParams })
-  }
+            this.queryParams = this.clean(this.queryParams);
 
-  get ignore(): boolean {
-    return this.queryParams.ignore == "true";
-  }
+            if (!environment.production) {
+                console.log(this.queryParams);
+            }
+        });
+    }
 
-  set ignore(value: boolean) {
-    this.queryParams.ignore = value;
-    this.updateQueryParams();
-  }
+    private updateQueryParams() {
+        this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.queryParams })
+    }
 
-  get deathThreshold(): number {
-    return this.queryParams.deathThreshold;
-  }
+    private clean(obj) {
+        for (var propName in obj) {
+            if (obj[propName] === null || obj[propName] === undefined) {
+                delete obj[propName];
+            }
+        }
 
-  set deathThreshold(value: number) {
-    this.queryParams.deathThreshold = value;
-    this.updateQueryParams();
-  }
+        return obj;
+    }
+
+    get ignore(): boolean {
+        return this.queryParams.ignore == "true";
+    }
+
+    set ignore(value: boolean) {
+        this.queryParams.ignore = value;
+        this.updateQueryParams();
+    }
+
+    get deathThreshold(): number {
+        return this.queryParams.deathThreshold;
+    }
+
+    set deathThreshold(value: number) {
+        this.queryParams.deathThreshold = value;
+        this.updateQueryParams();
+    }
 
 }
 

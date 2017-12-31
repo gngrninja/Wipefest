@@ -7,6 +7,7 @@ import { Insight } from "app/insights/models/insight";
 import { InsightConfig } from "app/insights/configs/insight-config";
 import { Raid } from "app/raid/raid";
 import { InsightContext } from "app/insights/models/insight-context";
+import { StateService } from "app/shared/state.service";
 
 @Component({
     selector: 'insights',
@@ -26,7 +27,7 @@ export class InsightsComponent implements OnChanges {
 
     MarkupParser = MarkupParser;
 
-    constructor(private insightService: InsightService) { }
+    constructor(private insightService: InsightService, private stateService: StateService) { }
 
     ngOnChanges(changes: SimpleChanges) {
         this.calculateInsights();
