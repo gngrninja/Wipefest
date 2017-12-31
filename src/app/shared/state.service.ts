@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { environment } from "environments/environment";
+import { Observable } from "rxjs/Rx";
 
 @Injectable()
 export class StateService {
@@ -23,6 +24,10 @@ export class StateService {
                 console.log(this.queryParams);
             }
         });
+    }
+
+    get changes(): Observable<Params> {
+        return this.route.queryParams;
     }
 
     private updateQueryParams() {

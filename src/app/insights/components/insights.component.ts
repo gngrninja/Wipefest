@@ -49,7 +49,9 @@ export class InsightsComponent implements OnChanges {
 export class InsightTableRow {
 
     constructor(public insight: Insight, private stateService: StateService) {
-        this.showDetails = this.stateService.isInsightSelected(this.insight.id, this.insight.boss);
+        this.stateService.changes.subscribe(() => {
+            this.showDetails = this.stateService.isInsightSelected(this.insight.id, this.insight.boss);
+        })
     }
 
     get hasDetails(): boolean {
