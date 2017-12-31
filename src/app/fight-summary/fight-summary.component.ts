@@ -79,12 +79,8 @@ export class FightSummaryComponent implements OnInit {
         this.eventConfigAccount = this.localStorage.get("eventConfigAccount") || "JoshYaxley";
         this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
 
-        if (this.stateService.ignore != undefined) {
-            this.enableDeathThreshold = this.stateService.ignore;
-        }
-        if (this.stateService.deathThreshold != undefined) {
-            this.deathThreshold = this.stateService.deathThreshold;
-        }
+        this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
+        this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
 
         this.route.params.subscribe((params) => this.handleRoute(params));
     }
