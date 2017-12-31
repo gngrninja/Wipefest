@@ -63,11 +63,15 @@ export class StateService {
         if (this.queryParams.insights == undefined)
             return insightParams;
 
-        this.queryParams.insights.split(",").forEach(bossAndInsights => {
-            let split = bossAndInsights.split("-");
-            let boss = <number>split[0];
-            split[1].split("").forEach(id => insightParams.push(new SelectedInsight(id, boss)));
-        });
+        try {
+            this.queryParams.insights.split(",").forEach(bossAndInsights => {
+                let split = bossAndInsights.split("-");
+                let boss = <number>split[0];
+                split[1].split("").forEach(id => insightParams.push(new SelectedInsight(id, boss)));
+            });
+        } catch (error) {
+            return insightParams;
+        }
 
         return insightParams;
     }
