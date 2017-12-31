@@ -9,6 +9,7 @@ export class EventConfigIndex {
 
 export class EventConfig {
 
+    id: string;
     name: string;
     icon: string;
     style: string;
