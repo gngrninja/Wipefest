@@ -2,43 +2,47 @@ import { Component, Input } from '@angular/core';
 import { EventConfigCategory, EventConfigFilter } from "./fight-summary-filters.component";
 import { EventConfig } from "app/event-config/event-config";
 import { LoggerService } from "../shared/logger.service";
+import { StateService, SelectedFilter } from "app/shared/state.service";
 
 @Component({
-  selector: 'fight-summary-filter-category',
-  templateUrl: './fight-summary-filter-category.component.html',
-  styleUrls: ['./fight-summary-filter-category.component.scss']
+    selector: 'fight-summary-filter-category',
+    templateUrl: './fight-summary-filter-category.component.html',
+    styleUrls: ['./fight-summary-filter-category.component.scss']
 })
 export class FightSummaryFilterCategoryComponent {
 
-  @Input() depth: number;
-  @Input() name: string;
-  @Input() filters: EventConfigFilter[];
-  @Input() categories: EventConfigCategory[];
+    @Input() depth: number;
+    @Input() name: string;
+    @Input() filters: EventConfigFilter[];
+    @Input() categories: EventConfigCategory[];
 
-  get hasFilters(): boolean {
-    return this.filters.length > 0 || this.categories.some(x => x.hasFilters);
-  }
-
-  constructor(private readonly logger: LoggerService) { }
-
-  getButtonClass(config: EventConfig, count: number) {
-    let classes = "filter ";
-    if (count > 0) {
-      classes += config.show ? "enabled show" : "enabled";
-    } else {
-      classes += "disabled";
+    get hasFilters(): boolean {
+        return this.filters.length > 0 || this.categories.some(x => x.hasFilters);
     }
 
-    return classes;
-  }
+    constructor(private stateService: StateService, private readonly logger: LoggerService) { }
 
-  toggleConfig(config: EventConfig, configs: EventConfig[]) {
-    configs
-      .filter(x => x.name == config.name &&
-        x.tags.join(" ") == config.tags.join(" "))
-      .forEach(x => x.show = !x.show);
+    getButtonClass(config: EventConfig, count: number) {
+        let classes = "filter ";
+        if (count > 0) {
+            classes += config.show ? "enabled show" : "enabled";
+        } else {
+            classes += "disabled";
+        }
 
-    this.logger.logToggleFilter(`${config.name} (${config.tags.join(" ")})`, config.show);
-  }
+        return classes;
+    }
+
+    toggleConfig(config: EventConfig, configs: EventConfig[]) {
+        configs
+            .filter(x => x.name == config.name &&
+                x.tags.join(" ") == config.tags.join(" "))
+            .forEach(x => {
+                x.show = !x.show;
+            });
+
+        this.stateService.selectFiltersFromConfigs(configs);
+        this.logger.logToggleFilter(`${config.name} (${config.tags.join(" ")})`, config.show);
+    }
 
 }

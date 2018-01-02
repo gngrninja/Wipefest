@@ -22,6 +22,7 @@ export class EventConfigService {
             let observable = this.http.get(url + include + ".json")
                 .map(response => {
                     let configs = response.json().map(config => {
+                        config.showByDefault = config.show;
                         config.file = include;
                         config.group = this.fileToGroup(include);
                         return config;

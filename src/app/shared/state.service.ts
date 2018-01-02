@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { environment } from "environments/environment";
 import { Observable } from "rxjs/Rx";
+import { EventConfig } from "app/event-config/event-config";
 
 @Injectable()
 export class StateService {
@@ -125,14 +126,14 @@ export class StateService {
     get filters(): SelectedFilter[] {
         let filterParams: SelectedFilter[] = [];
 
-        if (this.queryParams.insights == undefined)
+        if (this.queryParams.filters == undefined)
             return filterParams;
 
         try {
             this.queryParams.filters.split(",").forEach(groupAndFilters => {
                 let split = groupAndFilters.split("-");
                 let group = split[0];
-                split[1].split("").forEach(id => filterParams.push(new SelectedFilter(id, group)));
+                split[1].match(/(..?)/g).forEach(id => filterParams.push(new SelectedFilter(id, group)));
             });
         } catch (error) {
             return filterParams;
@@ -160,25 +161,12 @@ export class StateService {
         this.updateQueryParams();
     }
 
-    isFilterSelected(id: string, group: string): boolean {
-        return this.filters.some(x => x.id == id && x.group == group);
-    }
-
-    selectFilter(id: string, group: string) {
-        if (!this.isFilterSelected(id, group)) {
-            let selectedFilters = this.filters;
-            selectedFilters.push(new SelectedFilter(id, group))
-
-            this.filters = selectedFilters;
+    selectFiltersFromConfigs(configs: EventConfig[]) {
+        if (configs.every(x => x.show == x.showByDefault)) {
+            this.filters = [];
+        } else {
+            this.filters = configs.filter(x => x.eventType != "phase" && x.eventType != "title" && x.show).map(x => new SelectedFilter(x.id, x.group));
         }
-    }
-
-    deselectFilter(id: string, group: string) {
-        this.filters = this.filters.filter(x => !(x.id == id && x.group == group));
-    }
-
-    setFilterSelected(id: string, group: string, selected: boolean) {
-        selected ? this.selectFilter(id, group) : this.deselectFilter(id, group);
     }
 
 }
