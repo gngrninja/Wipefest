@@ -32,12 +32,14 @@ export class FightSummaryFiltersComponent implements OnChanges {
 
     ngOnChanges() {
         if (this.configs && this.stateService.filters.length > 0) {
-            this.configs.filter(x => x.eventType != "phase" && x.eventType != "title").forEach(x => x.show = false);
-            for (let i = 0; i < this.stateService.filters.length; i++) {
-                let filter = this.stateService.filters[i];
-                let config = this.configs.find(x => x.id == filter.id && x.group == filter.group);
-                if (config) {
-                    config.show = true;
+            if (this.stateService.filters.every(filter => this.configs.find(config => config.group == filter.group) != undefined)) {
+                this.configs.filter(x => x.eventType != "phase" && x.eventType != "title").forEach(x => x.show = false);
+                for (let i = 0; i < this.stateService.filters.length; i++) {
+                    let filter = this.stateService.filters[i];
+                    let config = this.configs.find(x => x.id == filter.id && x.group == filter.group);
+                    if (config) {
+                        config.show = true;
+                    }
                 }
             }
         }
