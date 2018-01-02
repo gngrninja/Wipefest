@@ -215,7 +215,7 @@ export class FightSummaryComponent implements OnInit {
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
             .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes), this.eventConfigAccount, this.eventConfigBranch))
-          .flatMap(configs => {
+            .flatMap(configs => {
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 
                 return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs));
@@ -276,7 +276,7 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private onDeathThresholdChange(event) {
-      this.stateService.deathThreshold = this.deathThreshold;
+        this.stateService.deathThreshold = this.deathThreshold;
     }
 
     private toggleDeathThreshold() {

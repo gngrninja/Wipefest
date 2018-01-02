@@ -150,6 +150,7 @@ export class WarcraftLogsService {
             new Encounter(2074, "Felhounds of Sargeras"),
             new Encounter(2070, "Antoran High Command"),
             new Encounter(2075, "Eonar the Life-Binder"),
+            new Encounter(2075, "The Defense of Eonar"),
             new Encounter(2064, "Portal Keeper Hasabel"),
             new Encounter(2082, "Imonar the Soulhunter"),
             new Encounter(2088, "Kin'garoth"),

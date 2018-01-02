@@ -17,6 +17,7 @@ export class StateService {
             this.queryParams.ignore = queryParams.hasOwnProperty("ignore") ? queryParams["ignore"] : undefined;
             this.queryParams.deathThreshold = queryParams.hasOwnProperty("deathThreshold") ? Math.max(1, Math.min(<number>queryParams["deathThreshold"], 99)) : undefined;
             this.queryParams.insights = queryParams.hasOwnProperty("insights") ? queryParams.insights : undefined;
+            this.queryParams.filters = queryParams.hasOwnProperty("filters") ? queryParams.filters : undefined;
 
             this.queryParams = this.clean(this.queryParams);
 
@@ -121,11 +122,77 @@ export class StateService {
         selected ? this.selectInsight(id, boss) : this.deselectInsight(id, boss);
     }
 
+    get filters(): SelectedFilter[] {
+        let filterParams: SelectedFilter[] = [];
+
+        if (this.queryParams.insights == undefined)
+            return filterParams;
+
+        try {
+            this.queryParams.filters.split(",").forEach(groupAndFilters => {
+                let split = groupAndFilters.split("-");
+                let group = split[0];
+                split[1].split("").forEach(id => filterParams.push(new SelectedFilter(id, group)));
+            });
+        } catch (error) {
+            return filterParams;
+        }
+
+        return filterParams;
+    }
+
+    set filters(value: SelectedFilter[]) {
+        let filtersPerGroup: SelectedFilter[][] = [];
+        value.forEach(x => {
+            let filter = new SelectedFilter(x.id, x.group);
+            let existingIndex = filtersPerGroup.findIndex(y => y.some(z => z.group == x.group));
+            if (existingIndex === -1) {
+                filtersPerGroup.push([filter]);
+            } else {
+                filtersPerGroup[existingIndex].push(filter);
+            }
+        });
+
+        let filterQueryString = filtersPerGroup.map(x => `${x[0].group}-${x.map(y => y.id).join("")}`).join(",");
+
+        this.queryParams.filters = filterQueryString == "" ? undefined : filterQueryString;
+
+        this.updateQueryParams();
+    }
+
+    isFilterSelected(id: string, group: string): boolean {
+        return this.filters.some(x => x.id == id && x.group == group);
+    }
+
+    selectFilter(id: string, group: string) {
+        if (!this.isFilterSelected(id, group)) {
+            let selectedFilters = this.filters;
+            selectedFilters.push(new SelectedFilter(id, group))
+
+            this.filters = selectedFilters;
+        }
+    }
+
+    deselectFilter(id: string, group: string) {
+        this.filters = this.filters.filter(x => !(x.id == id && x.group == group));
+    }
+
+    setFilterSelected(id: string, group: string, selected: boolean) {
+        selected ? this.selectFilter(id, group) : this.deselectFilter(id, group);
+    }
+
 }
 
 export class SelectedInsight {
     constructor(
         public id: string,
         public boss: number
+    ) { }
+}
+
+export class SelectedFilter {
+    constructor(
+        public id: string,
+        public group: string
     ) { }
 }
