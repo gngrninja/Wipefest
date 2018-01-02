@@ -13,6 +13,7 @@ import { MarkupParser } from "app/helpers/markup-parser";
 })
 export class AppComponent {
 
+    private lastUrl = "";
     private lastPoppedUrl: string;
 
     constructor(
@@ -28,8 +29,10 @@ export class AppComponent {
             if (ev instanceof NavigationEnd) {
                 if (ev.url == this.lastPoppedUrl)
                     this.lastPoppedUrl = undefined;
-                else
+                else if (ev.url.split("?")[0] != this.lastUrl.split("?")[0])
                     window.scrollTo(0, 0);
+
+                this.lastUrl = ev.url;
             }
             
             document.querySelector('body').classList.remove('sidebar-mobile-show');
