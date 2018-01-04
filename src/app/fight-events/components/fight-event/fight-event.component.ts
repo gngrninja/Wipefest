@@ -17,6 +17,8 @@ import { Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Difficulty } from "app/helpers/difficulty-helper";
 import { MarkupParser } from "app/helpers/markup-parser";
+import { EventConfig } from "app/event-config/event-config";
+import { StateService } from "app/shared/state.service";
 
 @Component({
     template: `Warning: Instead of using FightEventComponent, use one of its children`
@@ -25,6 +27,7 @@ export class FightEventComponent {
     
     @Input() fight: Fight;
     @Input() event: FightEvent;
+    @Input() events: FightEvent[];
 
     TitleEvent = TitleEvent;
     AbilityEvent = AbilityEvent;
@@ -39,10 +42,11 @@ export class FightEventComponent {
     HeroismEvent = HeroismEvent;
     EndOfFightEvent = EndOfFightEvent;
 
-    constructor(private warcraftLogsService: WarcraftLogsService, private logger: LoggerService) { }
+    constructor(private warcraftLogsService: WarcraftLogsService, private stateService: StateService, private logger: LoggerService) { }
 
     togglePhaseCollapse(event: PhaseChangeEvent) {
         event.show = !event.show;
+        this.stateService.selectPhasesFromEvents(this.events);
         this.logger.logTogglePhase(Difficulty.ToString(this.fight.difficulty), this.warcraftLogsService.getEncounter(this.fight.boss).name, event.title, event.show);
     }
 

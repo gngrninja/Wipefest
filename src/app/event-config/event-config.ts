@@ -21,6 +21,7 @@ export class EventConfig {
     show: boolean;
     showByDefault: boolean;
     collapsed: boolean;
+    collapsedByDefault: boolean;
     eventType: string;
     timestamp: number;
     timestamps: number[];

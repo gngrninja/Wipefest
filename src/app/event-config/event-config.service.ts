@@ -23,6 +23,7 @@ export class EventConfigService {
                 .map(response => {
                     let configs = response.json().map(config => {
                         config.showByDefault = config.show;
+                        config.collapsedByDefault = config.collapsed == true;
                         config.file = include;
                         config.group = this.fileToGroup(include);
                         return config;

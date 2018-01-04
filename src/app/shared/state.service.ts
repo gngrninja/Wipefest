@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, Params } from "@angular/router";
 import { environment } from "environments/environment";
 import { Observable } from "rxjs/Rx";
 import { EventConfig } from "app/event-config/event-config";
+import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
+import { FightEvent } from "app/fight-events/models/fight-event";
 
 @Injectable()
 export class StateService {
@@ -19,6 +21,7 @@ export class StateService {
             this.queryParams.deathThreshold = queryParams.hasOwnProperty("deathThreshold") ? Math.max(1, Math.min(<number>queryParams["deathThreshold"], 99)) : undefined;
             this.queryParams.insights = queryParams.hasOwnProperty("insights") ? queryParams.insights : undefined;
             this.queryParams.filters = queryParams.hasOwnProperty("filters") ? queryParams.filters : undefined;
+            this.queryParams.phases = queryParams.hasOwnProperty("phases") ? queryParams.phases : undefined;
 
             this.queryParams = this.clean(this.queryParams);
 
@@ -169,6 +172,53 @@ export class StateService {
         }
     }
 
+    get phases(): SelectedPhase[] {
+        let phaseParams: SelectedPhase[] = [];
+
+        if (this.queryParams.phases == undefined)
+            return phaseParams;
+
+        try {
+            this.queryParams.phases.split(",").forEach(groupAndPhases => {
+                let split = groupAndPhases.split("-");
+                let group = split[0];
+                split[1].match(/(..?)/g).forEach(id => phaseParams.push(new SelectedPhase(id, group)));
+            });
+        } catch (error) {
+            return phaseParams;
+        }
+
+        return phaseParams;
+    }
+
+    set phases(value: SelectedPhase[]) {
+        let phasesPerGroup: SelectedPhase[][] = [];
+        value.forEach(x => {
+            let filter = new SelectedPhase(x.id, x.group);
+            let existingIndex = phasesPerGroup.findIndex(y => y.some(z => z.group == x.group));
+            if (existingIndex === -1) {
+                phasesPerGroup.push([filter]);
+            } else {
+                phasesPerGroup[existingIndex].push(filter);
+            }
+        });
+
+        let phaseQueryString = phasesPerGroup.map(x => `${x[0].group}-${x.map(y => y.id).join("")}`).join(",");
+
+        this.queryParams.phases = phaseQueryString == "" ? undefined : phaseQueryString;
+
+        this.updateQueryParams();
+    }
+
+    selectPhasesFromEvents(events: FightEvent[]) {
+        let phaseEvents = events.filter(x => x.config && x.config.eventType == "phase").map(x => <PhaseChangeEvent>x);
+        if (phaseEvents.every(x => x.show == !x.config.collapsedByDefault)) {
+            this.phases = [];
+        } else {
+            this.phases = phaseEvents.filter(x => x.show).map(x => new SelectedPhase(x.config.id, x.config.group));
+        }
+    }
+
 }
 
 export class SelectedInsight {
@@ -179,6 +229,13 @@ export class SelectedInsight {
 }
 
 export class SelectedFilter {
+    constructor(
+        public id: string,
+        public group: string
+    ) { }
+}
+
+export class SelectedPhase {
     constructor(
         public id: string,
         public group: string
