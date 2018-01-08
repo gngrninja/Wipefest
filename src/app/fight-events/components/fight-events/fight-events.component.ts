@@ -38,14 +38,19 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
     }
 
     ngOnChanges() {
-        if (this.configs && this.stateService.phases.length > 0) {
-            if (this.stateService.phases.every(phase => this.configs.find(config => config.group == phase.group) != undefined)) {
-                this.events.filter(x => x.config && x.config.eventType == "phase").map(x => <PhaseChangeEvent>x).forEach(x => x.show = false);
+        if (this.events && this.stateService.phases.length > 0) {
+            if (this.stateService.phases.every(phase => this.events.find(event => event.config && event.config.group == phase.group) != undefined)) {
+                let phaseEvents = this.events
+                    .filter(x => x.config && x.config.eventType == "phase")
+                    .map(x => <PhaseChangeEvent>x);
+                let timestamp = 0;
                 for (let i = 0; i < this.stateService.phases.length; i++) {
                     let phase = this.stateService.phases[i];
-                    let config = this.configs.find(x => x.id == phase.id && x.group == phase.group);
-                    if (config) {
-                        config.show = true;
+                    let event = phaseEvents
+                        .find(x => x.timestamp >= timestamp && x.config.id == phase.id && x.config.group == phase.group);
+                    if (event) {
+                        event.show = phase.selected;
+                        timestamp = event.timestamp;
                     }
                 }
             }

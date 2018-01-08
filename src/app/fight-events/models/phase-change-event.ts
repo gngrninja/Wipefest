@@ -7,7 +7,7 @@ export class PhaseChangeEvent extends FightEvent {
         public config: EventConfig,
         public timestamp: number,
         public phase: string,
-        public show = true) {
+        public show: boolean = true) {
 
         super(config, timestamp, null, null, null);
     }

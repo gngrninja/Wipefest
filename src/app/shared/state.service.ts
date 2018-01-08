@@ -182,7 +182,11 @@ export class StateService {
             this.queryParams.phases.split(",").forEach(groupAndPhases => {
                 let split = groupAndPhases.split("-");
                 let group = split[0];
-                split[1].match(/(..?)/g).forEach(id => phaseParams.push(new SelectedPhase(id, group)));
+                split[1].match(/(!?..?)/g).forEach(phase => {
+                    let selected = phase.indexOf("!") == -1;
+                    let id = phase.split("!").join("");
+                    phaseParams.push(new SelectedPhase(id, group, selected));
+                });
             });
         } catch (error) {
             return phaseParams;
@@ -194,16 +198,16 @@ export class StateService {
     set phases(value: SelectedPhase[]) {
         let phasesPerGroup: SelectedPhase[][] = [];
         value.forEach(x => {
-            let filter = new SelectedPhase(x.id, x.group);
+            let phase = new SelectedPhase(x.id, x.group, x.selected);
             let existingIndex = phasesPerGroup.findIndex(y => y.some(z => z.group == x.group));
             if (existingIndex === -1) {
-                phasesPerGroup.push([filter]);
+                phasesPerGroup.push([phase]);
             } else {
-                phasesPerGroup[existingIndex].push(filter);
+                phasesPerGroup[existingIndex].push(phase);
             }
         });
 
-        let phaseQueryString = phasesPerGroup.map(x => `${x[0].group}-${x.map(y => y.id).join("")}`).join(",");
+        let phaseQueryString = phasesPerGroup.map(x => `${x[0].group}-${x.map(y => `${y.selected ? "" : "!"}${y.id}`).join("")}`).join(",");
 
         this.queryParams.phases = phaseQueryString == "" ? undefined : phaseQueryString;
 
@@ -215,7 +219,7 @@ export class StateService {
         if (phaseEvents.every(x => x.show == !x.config.collapsedByDefault)) {
             this.phases = [];
         } else {
-            this.phases = phaseEvents.filter(x => x.show).map(x => new SelectedPhase(x.config.id, x.config.group));
+            this.phases = phaseEvents.map(x => new SelectedPhase(x.config.id, x.config.group, x.show));
         }
     }
 
@@ -238,6 +242,7 @@ export class SelectedFilter {
 export class SelectedPhase {
     constructor(
         public id: string,
-        public group: string
+        public group: string,
+        public selected: boolean
     ) { }
 }
