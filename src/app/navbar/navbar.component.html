@@ -37,11 +37,11 @@
             <a class="nav-link" routerLink="/discord">Discord</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer"
-               (click)="logPatreonClick()">Patreon</a>
+            <a class="nav-link" href="https://ideas.wipefest.net" target="_blank" rel="noopener noreferrer">Ideas</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="https://ideas.wipefest.net" target="_blank" rel="noopener noreferrer">Ideas</a>
+            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer"
+               (click)="logPatreonClick()">Patreon</a>
         </li>
     </ul>
     <ul class="nav navbar-nav ml-auto">
@@ -54,9 +54,6 @@
 </header>
 <div id="mobile-nav-links" [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav mr-auto">
-        <li class="nav-item px-3" [ngClass]="page == Page.Welcome ? 'active' : ''">
-            <a class="nav-link" routerLink="/" (click)="onMobileLinkClick()">Home</a>
-        </li>
         <li class="nav-item px-3" [ngClass]="page == Page.News ? 'active' : ''">
             <a class="nav-link" routerLink="/news" (click)="onMobileLinkClick()">News</a>
         </li>
@@ -73,12 +70,12 @@
             <a class="nav-link" routerLink="/discord" (click)="onMobileLinkClick()">Discord</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer"
-               (click)="onMobileLinkClick(); logPatreonClick()">Patreon</a>
-        </li>
-        <li class="nav-item px-3">
             <a class="nav-link" href="https://ideas.wipefest.net" target="_blank" rel="noopener noreferrer"
                (click)="onMobileLinkClick()">Ideas</a>
+        </li>
+        <li class="nav-item px-3">
+            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer"
+               (click)="onMobileLinkClick(); logPatreonClick()">Patreon</a>
         </li>
     </ul>
 </div>
