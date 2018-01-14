@@ -36,7 +36,7 @@ export class StateService {
     }
 
     private updateQueryParams() {
-        this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.queryParams })
+        this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.queryParams, replaceUrl: true });
     }
 
     private clean(obj) {
