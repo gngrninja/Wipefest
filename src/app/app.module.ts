@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { MarkdownModule } from 'angular2-markdown';
 
 import { AppComponent } from './app.component';
 import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
@@ -16,7 +17,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FightSummaryComponent } from './fight-summary/fight-summary.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { NewsComponent } from './news/news.component';
+import { NewsComponent } from './news/components/news.component';
 import { WipefestService } from "app/wipefest.service";
 import { ReportSummaryComponent } from './report-summary/report-summary.component';
 import { FightEventsComponent } from './fight-events/components/fight-events/fight-events.component';
@@ -51,6 +52,7 @@ import { AutoCompleteComponent } from "app/shared/autocomplete/auto-complete.com
 import { InsightsComponent } from "app/insights/components/insights.component";
 import { InsightService } from "app/insights/services/insight.service";
 import { StateService } from "app/shared/state.service";
+import { NewsService } from "app/news/services/news.service";
 
 // Core UI
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
@@ -102,6 +104,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
+        MarkdownModule.forRoot(),
         RouterModule.forRoot([
             {
                 path: "character/:character/:realm/:region/:zone",
@@ -170,6 +173,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         { provide: ErrorHandler, useClass: GlobalErrorHandler },
         WarcraftLogsService,
         WipefestService,
+        NewsService,
         EventConfigService,
         QueryService,
         FightEventService,

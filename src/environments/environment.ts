@@ -5,5 +5,6 @@
 
 export const environment = {
     production: false,
-    eventConfigsUrl: "assets/event-configs/"
+    eventConfigsUrl: "assets/event-configs/",
+    newsUrl: "assets/news/"
 };

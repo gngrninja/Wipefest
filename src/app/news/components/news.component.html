@@ -1,0 +1,55 @@
+<div class="app-body" [style.minHeight.px]="400">
+    <main class="main mt-4">
+        <div class="container mb-3">
+            <div class="title p-5 mb-2 banner">
+                <h1 class="mb-0 banner-text">Wipefest Banner</h1>
+            </div>
+
+            <div class="title p-3 mb-2">
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-9">
+                    <div *ngIf="article && article.body" class="title p-2 pl-3">
+                        <span class="date pull-right">{{ article.date }}</span>
+                        <h5 class="mb-0">{{ article.title }}</h5>
+                    </div>
+                    <div *ngIf="article && article.body" class="block p-2 pl-5 pr-5 mb-2">
+                        <markdown [data]="article.body"></markdown>
+                    </div>
+                    <div class="title p-2 pl-3">
+                        <h5 class="mb-0">About Wipefest</h5>
+                    </div>
+                    <div class="block p-2 pl-5 pr-5 mb-2">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                    </div>
+                </div>
+
+                <div class="side col-md-3">
+                    <div class="title p-2 pl-3">
+                        <h5 class="mb-0">Title 2</h5>
+                    </div>
+                    <div class="block p-2 pl-3 pr-3 mb-2">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                    </div>
+                    <div class="title p-2 pl-3">
+                        <h5 class="mb-0">Title 3</h5>
+                    </div>
+                    <div class="block p-2 pl-3 pr-3 mb-2">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                    </div>
+                    <div class="title p-2 pl-3">
+                        <h5 class="mb-0">Title 4</h5>
+                    </div>
+                    <div class="block p-2 pl-3 pr-3 mb-2">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+<wf-footer></wf-footer>
