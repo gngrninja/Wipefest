@@ -22,7 +22,7 @@ import { environment } from "environments/environment";
 import { LocalStorage } from "app/shared/local-storage";
 import { Raid, RaidFactory } from "app/raid/raid";
 import { ClassesService } from "app/warcraft-logs/classes.service";
-import { StateService } from "app/shared/state.service";
+import { StateService, SelectedFocus } from "app/shared/state.service";
 
 @Component({
     selector: 'fight-summary',
@@ -40,6 +40,7 @@ export class FightSummaryComponent implements OnInit {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
     }
 
+    focuses: SelectedFocus[] = [new SelectedFocus("R", "general/raid")];
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
     eventsBeforeDeathThreshold: FightEvent[] = [];
@@ -80,6 +81,7 @@ export class FightSummaryComponent implements OnInit {
         this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
 
         this.stateService.changes.subscribe(() => {
+            this.focuses = this.stateService.focuses == undefined ? [new SelectedFocus("R", "general/raid")] : this.stateService.focuses;
             this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
             this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
         });
@@ -214,7 +216,7 @@ export class FightSummaryComponent implements OnInit {
 
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
-            .flatMap(includes => this.eventConfigService.getEventConfigs(["general/raid"].concat(includes), this.eventConfigAccount, this.eventConfigBranch))
+            .flatMap(includes => this.eventConfigService.getEventConfigs(this.focuses.map(focus => focus.include).concat(includes), this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 

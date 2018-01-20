@@ -22,6 +22,7 @@ export class StateService {
             this.queryParams.insights = queryParams.hasOwnProperty("insights") ? queryParams.insights : undefined;
             this.queryParams.filters = queryParams.hasOwnProperty("filters") ? queryParams.filters : undefined;
             this.queryParams.phases = queryParams.hasOwnProperty("phases") ? queryParams.phases : undefined;
+            this.queryParams.focuses = queryParams.hasOwnProperty("focuses") ? queryParams.focuses : undefined;
 
             this.queryParams = this.clean(this.queryParams);
 
@@ -36,6 +37,7 @@ export class StateService {
     }
 
     private updateQueryParams() {
+        this.queryParams = this.clean(this.queryParams);
         this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.queryParams, replaceUrl: true });
     }
 
@@ -223,6 +225,28 @@ export class StateService {
         }
     }
 
+    get focuses(): SelectedFocus[] {
+        let focusIds: string[] = this.queryParams.focuses == undefined ? [] : this.queryParams.focuses.split(",");
+        return focusIds
+            .map(id => this.availableFocuses.find(focus => focus.id == id))
+            .filter(focus => focus != undefined);
+    }
+
+    set focuses(value: SelectedFocus[]) {
+        if (value) {
+            this.queryParams.focuses = value.map(focus => focus.id).join(",");
+        } else {
+            this.queryParams.focuses = undefined;
+        }
+
+        this.updateQueryParams();
+    }
+
+    private availableFocuses: SelectedFocus[] = [
+        new SelectedFocus("R", "general/raid"),
+        new SelectedFocus("HP", "priest/holy")
+    ];
+
 }
 
 export class SelectedInsight {
@@ -244,5 +268,12 @@ export class SelectedPhase {
         public id: string,
         public group: string,
         public selected: boolean
+    ) { }
+}
+
+export class SelectedFocus {
+    constructor(
+        public id: string,
+        public include: string
     ) { }
 }
