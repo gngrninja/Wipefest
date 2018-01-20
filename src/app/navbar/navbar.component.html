@@ -22,9 +22,6 @@
             <a class="navbar-brand px-3" routerLink="/"></a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" routerLink="/news">News</a>
-        </li>
-        <li class="nav-item px-3">
             <a class="nav-link" routerLink="/character">Character</a>
         </li>
         <li class="nav-item px-3">
@@ -53,9 +50,6 @@
     <ul class="navbar-nav mr-auto">
         <li class="nav-item px-3" [ngClass]="page == Page.Welcome ? 'active' : ''">
             <a class="nav-link" routerLink="/" (click)="onMobileLinkClick()">Home</a>
-        </li>
-        <li class="nav-item px-3" [ngClass]="page == Page.News ? 'active' : ''">
-            <a class="nav-link" routerLink="/news" (click)="onMobileLinkClick()">News</a>
         </li>
         <li class="nav-item px-3" [ngClass]="page == Page.CharacterSearchResults ? 'active' : ''">
             <a class="nav-link" routerLink="/character" (click)="onMobileLinkClick()">Character</a>
