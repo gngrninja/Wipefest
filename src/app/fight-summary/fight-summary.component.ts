@@ -272,7 +272,7 @@ export class FightSummaryComponent implements OnInit {
 
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
-            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(["general/raid"].concat(this.focuses.map(focus => focus.include)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
+            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(["general/raid"].concat(this.focuses.map(focus => focus.include).filter((x, index, array) => array.indexOf(x) == index)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 

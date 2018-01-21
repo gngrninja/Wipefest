@@ -7,10 +7,15 @@
           {{role.name}}
           <span class="badge badge-info">{{role.players.length}}</span>
         </h6>
-        <div *ngFor="let player of role.players" class="ml-3">
+        <div *ngFor="let player of role.players" class="player ml-3" (click)="toggleFocus(player)">
           <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
           <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.specialization.className, player.name))"></span>
           <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
+          <span class="pull-right">
+            <i class="focus-icon fa fa-lg"
+                [ngClass]="isFocused(player) ? 'fa-check-square-o' : 'fa-square-o'"
+                aria-hidden="true"></i>
+          </span>
         </div>
       </div>
     </ng-container>
