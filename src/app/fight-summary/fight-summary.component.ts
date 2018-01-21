@@ -218,7 +218,27 @@ export class FightSummaryComponent implements OnInit {
         this.events.push(new EndOfFightEvent(this.fight.end_time - this.fight.start_time, this.fight.kill));
         this.events.push(...events);
         this.events = this.sortEvents(this.events);
-        this.events = this.events.filter((x, index, array) => (<any>array).findIndex(y => y.timestamp == x.timestamp && y.title == x.title && ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance)) == index); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown)
+        this.events = this.events.filter((x, index, array) => {
+            let allOccurences = (<any>array).filter(y =>
+                y.timestamp == x.timestamp &&
+                y.title == x.title &&
+                ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance));
+
+            if (allOccurences.some(x => x.config && x.config.group != "R")) {
+                let indexOfFirstNonRaidOccurence = (<any>array).findIndex(y =>
+                    y.config && y.config.group != "R" &&
+                    y.timestamp == x.timestamp &&
+                    y.title == x.title &&
+                    ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance));
+                return indexOfFirstNonRaidOccurence == index;
+            } else {
+                let indexOfFirstOccurence = (<any>array).findIndex(y =>
+                    y.timestamp == x.timestamp &&
+                    y.title == x.title &&
+                    ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance));
+                return indexOfFirstOccurence == index;
+            }
+        }); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown)
         this.events = this.events.filter(event => {
             if (event.config) {
                 let weAreFocusing = this.focuses.length > 0;
