@@ -39,8 +39,7 @@ export class FightSummaryComponent implements OnInit {
     get warcraftLogsLink(): string {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
     }
-
-    private routeParams: Params;
+    
     focuses: SelectedFocus[] = [];
     private previousFocuses: SelectedFocus[] = [];
     configs: EventConfig[] = [];
@@ -89,7 +88,6 @@ export class FightSummaryComponent implements OnInit {
         this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
 
         this.route.params.subscribe((params) => {
-            this.routeParams = params;
             this.handleRoute(params);
         });
 
@@ -100,7 +98,15 @@ export class FightSummaryComponent implements OnInit {
 
             if (this.previousFocuses.map(x => x.id).join(",") != this.focuses.map(x => x.id).join(",")) {
                 this.previousFocuses = this.focuses;
-                this.handleRoute(this.routeParams);
+
+                if (this.combatEventSubscription) {
+                    this.combatEventSubscription.unsubscribe();
+                }
+                if (this.deathsSubscription) {
+                    this.deathsSubscription.unsubscribe();
+                }
+
+                this.loadData();
             }
         });
     }
@@ -172,14 +178,14 @@ export class FightSummaryComponent implements OnInit {
     private selectFight(fight: Fight) {
         this.fight = fight;
         this.wipefestService.selectFight(this.fight);
-
+        
+        this.raid = null;
         this.loadData();
     }
 
     private loadData() {
         this.events = [];
         this.eventsBeforeDeathThreshold = [];
-        this.raid = null;
 
         if (this.report && this.fight) {
             let combatEvents = [];
@@ -250,7 +256,8 @@ export class FightSummaryComponent implements OnInit {
                 let weAreFocusing = this.focuses.length > 0;
                 let eventConfigIsFromABossInclude = !(event.config.group == "R" || this.classesService.specializations.map(spec => spec.group).some(group => group == event.config.group));
                 let eventConfigIsPlayerSpecific = event.config.tags.some(tag => ["player", "interrupt", "tank"].includes(tag));
-                if (weAreFocusing && (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)) {
+                let eventIsHeroism = event.config.eventType == "heroism";
+                if (!eventIsHeroism && weAreFocusing && (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)) {
                     let untypedEvent = <any>event;
                     let isSource = false;
                     let isTarget = false;
