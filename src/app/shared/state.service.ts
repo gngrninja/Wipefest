@@ -13,9 +13,7 @@ export class StateService {
 
     queryParams: any;
     private report: Report;
-    private availableFocuses: SelectedFocus[] = [
-        new SelectedFocus("R", "general/raid")
-    ];
+    private availableFocuses: SelectedFocus[] = [];
 
     constructor(
         private wipefestService: WipefestService,
@@ -41,12 +39,10 @@ export class StateService {
         this.wipefestService.selectedReport.subscribe(report => this.report = report);
 
         this.wipefestService.selectedRaid.subscribe(raid => {
-            this.availableFocuses = [
-                new SelectedFocus("R", "general/raid")
-            ].concat(raid ? raid.players.map(player => {
+            this.availableFocuses = raid ? raid.players.map(player => {
                 let friendly = this.report.friendlies.find(friendly => friendly.name == player.name);
                 return new SelectedFocus(friendly.id.toString(), player.specialization.include);
-            }) : []);
+            }) : [];
         });
     }
 

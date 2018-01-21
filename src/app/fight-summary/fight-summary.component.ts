@@ -41,7 +41,7 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private routeParams: Params;
-    focuses: SelectedFocus[] = [new SelectedFocus("R", "general/raid")];
+    focuses: SelectedFocus[] = [];
     private previousFocuses: SelectedFocus[] = [];
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
@@ -88,7 +88,7 @@ export class FightSummaryComponent implements OnInit {
         });
 
         this.stateService.changes.subscribe(() => {
-            this.focuses = this.stateService.focuses == undefined ? [new SelectedFocus("R", "general/raid")] : this.stateService.focuses;
+            this.focuses = this.stateService.focuses == undefined ? [] : this.stateService.focuses;
             this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
             this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
 
@@ -219,6 +219,27 @@ export class FightSummaryComponent implements OnInit {
         this.events.push(...events);
         this.events = this.sortEvents(this.events);
         this.events = this.events.filter((x, index, array) => (<any>array).findIndex(y => y.timestamp == x.timestamp && y.title == x.title && ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance)) == index); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown)
+        this.events = this.events.filter(event => {
+            if (event.config) {
+                let weAreFocusing = this.focuses.length > 0;
+                let eventConfigIsFromABossInclude = !(event.config.group == "R" || this.classesService.specializations.map(spec => spec.group).some(group => group == event.config.group));
+                let eventConfigHasThePlayerTag = event.config.tags.includes("player");
+                if (weAreFocusing && (eventConfigHasThePlayerTag || !eventConfigIsFromABossInclude)) {
+                    let untypedEvent = <any>event;
+                    let isSource = false;
+                    let isTarget = false;
+                    if (untypedEvent.source && untypedEvent.source.id) {
+                        isSource = this.focuses.some(focus => untypedEvent.source.id.toString() == focus.id);
+                    }
+                    if (untypedEvent.target && untypedEvent.target.id) {
+                        isTarget = this.focuses.some(focus => untypedEvent.target.id.toString() == focus.id);
+                    }
+                    return isSource || isTarget;
+                }
+            }
+
+            return true;
+        });
         this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(this.events, this.deathThreshold);
     }
 
@@ -227,7 +248,7 @@ export class FightSummaryComponent implements OnInit {
 
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
-            .flatMap(includes => this.eventConfigService.getEventConfigs(this.focuses.map(focus => focus.include).concat(includes), this.eventConfigAccount, this.eventConfigBranch))
+            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(["general/raid"].concat(this.focuses.map(focus => focus.include)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 
