@@ -36,7 +36,7 @@ export class InsightsComponent implements OnChanges {
     calculateInsights() {
         this.insights = [];
 
-        if (this.stateService.focuses.length == 0 && this.events.length > 0) {
+        if (this.events.length > 0) {
             let context = new InsightContext(this.report, this.fight, this.raid ? this.raid : new Raid([]), this.events);
             this.insights = this.insightService.getInsights(this.fight.boss, context);
         }

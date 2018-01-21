@@ -45,7 +45,13 @@ export class FightSummaryComponent implements OnInit {
     private previousFocuses: SelectedFocus[] = [];
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
+    get focusedEvents(): FightEvent[] {
+        return this.events.filter(x => x.isFocused);
+    }
     eventsBeforeDeathThreshold: FightEvent[] = [];
+    get focusedEventsBeforeDeathThreshold(): FightEvent[] {
+        return this.eventsBeforeDeathThreshold.filter(x => x.isFocused);
+    }
     combatantInfos: CombatEvent[] = [];
     raid: Raid;
 
@@ -238,13 +244,13 @@ export class FightSummaryComponent implements OnInit {
                     ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance));
                 return indexOfFirstOccurence == index;
             }
-        }); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown)
-        this.events = this.events.filter(event => {
+        }); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but priotise non-general/raid-originating events
+        this.events.forEach(event => {
             if (event.config) {
                 let weAreFocusing = this.focuses.length > 0;
                 let eventConfigIsFromABossInclude = !(event.config.group == "R" || this.classesService.specializations.map(spec => spec.group).some(group => group == event.config.group));
-                let eventConfigHasThePlayerTag = event.config.tags.includes("player");
-                if (weAreFocusing && (eventConfigHasThePlayerTag || !eventConfigIsFromABossInclude)) {
+                let eventConfigIsPlayerSpecific = event.config.tags.some(tag => ["player", "interrupt", "tank"].includes(tag));
+                if (weAreFocusing && (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)) {
                     let untypedEvent = <any>event;
                     let isSource = false;
                     let isTarget = false;
@@ -254,11 +260,9 @@ export class FightSummaryComponent implements OnInit {
                     if (untypedEvent.target && untypedEvent.target.id) {
                         isTarget = this.focuses.some(focus => untypedEvent.target.id.toString() == focus.id);
                     }
-                    return isSource || isTarget;
+                    event.isFocused =  isSource || isTarget;
                 }
             }
-
-            return true;
         });
         this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(this.events, this.deathThreshold);
     }

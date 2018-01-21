@@ -11,7 +11,8 @@ export abstract class FightEvent {
         public x: number,
         public y: number,
         public childEvents: FightEvent[] = []) { }
-    
+
+    isFocused = true;
     collapsed = true;
     get canCollapse(): boolean {
         return this.childEvents.length > 0 || this.details != null;
