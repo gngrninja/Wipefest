@@ -40,7 +40,9 @@ export class FightSummaryComponent implements OnInit {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
     }
 
+    private routeParams: Params;
     focuses: SelectedFocus[] = [new SelectedFocus("R", "general/raid")];
+    private previousFocuses: SelectedFocus[] = [];
     configs: EventConfig[] = [];
     events: FightEvent[] = [];
     eventsBeforeDeathThreshold: FightEvent[] = [];
@@ -80,13 +82,21 @@ export class FightSummaryComponent implements OnInit {
         this.eventConfigAccount = this.localStorage.get("eventConfigAccount") || "JoshYaxley";
         this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
 
+        this.route.params.subscribe((params) => {
+            this.routeParams = params;
+            this.handleRoute(params);
+        });
+
         this.stateService.changes.subscribe(() => {
             this.focuses = this.stateService.focuses == undefined ? [new SelectedFocus("R", "general/raid")] : this.stateService.focuses;
             this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
             this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
-        });
 
-        this.route.params.subscribe((params) => this.handleRoute(params));
+            if (this.previousFocuses.map(x => x.id).join(",") != this.focuses.map(x => x.id).join(",")) {
+                this.previousFocuses = this.focuses;
+                this.handleRoute(this.routeParams);
+            }
+        });
     }
 
     private handleRoute(params: Params) {
@@ -192,7 +202,8 @@ export class FightSummaryComponent implements OnInit {
 
     private populateEvents(combatEvents: CombatEvent[], deaths: Death[]) {
         this.combatantInfos = combatEvents.filter(x => x.type == "combatantinfo");
-        this.raid = RaidFactory.Get(this.combatantInfos, this.getPlayersForFight(this.fight.id), this.classesService)
+        this.raid = RaidFactory.Get(this.combatantInfos, this.getPlayersForFight(this.fight.id), this.classesService);
+        this.wipefestService.selectRaid(this.raid);
 
         let events: FightEvent[] = [].concat.apply([], this.configs.map(config => {
             let matchingCombatEvents = this.eventConfigService.filterToMatchingCombatEvents(config, combatEvents, this.fight, this.report);

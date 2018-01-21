@@ -5,13 +5,20 @@ import { Observable } from "rxjs/Rx";
 import { EventConfig } from "app/event-config/event-config";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { FightEvent } from "app/fight-events/models/fight-event";
+import { WipefestService } from "app/wipefest.service";
+import { Report } from "app/warcraft-logs/report";
 
 @Injectable()
 export class StateService {
 
     queryParams: any;
+    private report: Report;
+    private availableFocuses: SelectedFocus[] = [
+        new SelectedFocus("R", "general/raid")
+    ];
 
     constructor(
+        private wipefestService: WipefestService,
         private route: ActivatedRoute,
         private router: Router) {
 
@@ -30,10 +37,21 @@ export class StateService {
                 console.log(this.queryParams);
             }
         });
+
+        this.wipefestService.selectedReport.subscribe(report => this.report = report);
+
+        this.wipefestService.selectedRaid.subscribe(raid => {
+            this.availableFocuses = [
+                new SelectedFocus("R", "general/raid")
+            ].concat(raid ? raid.players.map(player => {
+                let friendly = this.report.friendlies.find(friendly => friendly.name == player.name);
+                return new SelectedFocus(friendly.id.toString(), player.specialization.include);
+            }) : []);
+        });
     }
 
     get changes(): Observable<Params> {
-        return this.route.queryParams;
+        return Observable.merge(this.route.queryParams, this.wipefestService.selectedRaid);
     }
 
     private updateQueryParams() {
@@ -241,11 +259,6 @@ export class StateService {
 
         this.updateQueryParams();
     }
-
-    private availableFocuses: SelectedFocus[] = [
-        new SelectedFocus("R", "general/raid"),
-        new SelectedFocus("HP", "priest/holy")
-    ];
 
 }
 

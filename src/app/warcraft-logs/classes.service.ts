@@ -57,6 +57,14 @@ export class Specialization {
         return `https://www.warcraftlogs.com/img/icons/${this.className.replace(' ', '')}-${this.name.replace(' ', '')}.jpg`;
     }
 
+    get include(): string {
+        return `${this.className.split(" ").join("-").toLowerCase()}/${this.name.split(" ").join("-").toLowerCase()}`;
+    }
+
+    get group(): string {
+        return `${this.className.substr(0, 2).toUpperCase()}${this.name.substr(0, 2).toUpperCase()}`;
+    }
+
     constructor(
         public id: number,
         public type: string,
