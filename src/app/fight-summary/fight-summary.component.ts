@@ -62,6 +62,7 @@ export class FightSummaryComponent implements OnInit {
     private reportSubscription: Subscription;
     private combatEventSubscription: Subscription;
     private deathsSubscription: Subscription;
+    private loadDataSubscription: Subscription;
 
     Difficulty = Difficulty;
     eventConfigAccount: string;
@@ -106,7 +107,13 @@ export class FightSummaryComponent implements OnInit {
                     this.deathsSubscription.unsubscribe();
                 }
 
-                setTimeout(() => { this.loadData(); }, 1000); // TODO: use a subscription instead so it can be cancelled
+                if (this.loadDataSubscription) {
+                    this.loadDataSubscription.unsubscribe();
+                }
+
+                this.loadDataSubscription = new Observable(observer => {
+                    setTimeout(() => { observer.next(); }, 1000);
+                }).subscribe(() => { this.loadData(); })
             }
         });
     }
