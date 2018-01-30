@@ -40,4 +40,9 @@ export class FightSummaryRaidComponent {
         }
         this.stateService.focuses = this.focuses;
     }
+
+    clearFocus() {
+        this.focuses = [];
+        this.stateService.focuses = this.focuses;
+    }
 }

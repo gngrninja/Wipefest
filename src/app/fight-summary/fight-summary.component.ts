@@ -106,7 +106,7 @@ export class FightSummaryComponent implements OnInit {
                     this.deathsSubscription.unsubscribe();
                 }
 
-                this.loadData();
+                setTimeout(() => { this.loadData(); }, 1000); // TODO: use a subscription instead so it can be cancelled
             }
         });
     }
