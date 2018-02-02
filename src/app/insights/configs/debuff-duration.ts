@@ -7,6 +7,7 @@ import { RemoveDebuffEvent } from "app/fight-events/models/remove-debuff-event";
 import { PlayerAndDuration } from "app/insights/models/player-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { InsightContext } from "app/insights/models/insight-context";
+import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
 
 export class DebuffDuration extends InsightConfig {
 
@@ -52,9 +53,28 @@ export class DebuffDuration extends InsightConfig {
                     return new PlayerAndDuration(gained.target, context.fight.end_time - context.fight.start_time - gained.timestamp);
                 }
 
-                let duration = removeDebuffEvent.timestamp - gained.timestamp
+                let duration = removeDebuffEvent.timestamp - gained.timestamp;
 
                 return new PlayerAndDuration(removeDebuffEvent.target, duration);
+            })
+            .filter(x => x != null);
+
+        let playersWithDurationsOverThresholdAndTimestamps = debuffEvents
+            .map(gained => {
+                let removeDebuffEvent = removeDebuffEvents.find(lost => gained.target == lost.target && gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
+                if (!removeDebuffEvent) {
+                    let duration = context.fight.end_time - context.fight.start_time - gained.timestamp;
+                    if (duration < this.threshold)
+                        return null;
+
+                    return new PlayerAndTimestamp(gained.target, context.fight.end_time - context.fight.start_time);
+                }
+
+                let duration = removeDebuffEvent.timestamp - gained.timestamp;
+                if (duration < this.threshold)
+                    return null;
+
+                return new PlayerAndTimestamp(removeDebuffEvent.target, removeDebuffEvent.timestamp);
             })
             .filter(x => x != null);
 
@@ -75,7 +95,9 @@ export class DebuffDuration extends InsightConfig {
             totalDuration: MarkupHelper.Info(Timestamp.ToSeconds(totalDuration)),
             totalFrequencyOverThreshold: MarkupHelper.Info(totalFrequencyOverThreshold),
             plural: this.getPlural(totalFrequencyOverThreshold),
+            possesivePronoun: totalFrequencyOverThreshold == 1 ? "its" : "their",
             playersAndDurationsOverThreshold: MarkupHelper.PlayersAndDurations(playersAndDurationsOverThreshold),
+            playersWithDurationsOverThresholdAndTimestamps: MarkupHelper.PlayersAndTimestamps(playersWithDurationsOverThresholdAndTimestamps),
             threshold: MarkupHelper.Info(Timestamp.ToSeconds(this.threshold))
         }
     }

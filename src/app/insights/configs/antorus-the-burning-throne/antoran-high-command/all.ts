@@ -40,6 +40,14 @@ which deals large single-target damage to a player if not interrupted.`),
 
             new PodDuration("3"),
 
+            new DebuffDuration("8", 2070, "Chaos Pulse", "Chaos Pulse (Removed)", 0, null, null, `
+Players inside of pods are granted extra abilities.
+Their first ability applies {ability:244420:Chaos Pulse:fire} to an enemy.
+This should be constantly used on the currently active boss.
+{ability:244420:Chaos Pulse:fire} stacks up to 15 times, increasing the bosses damage taken by 15%.
+This damage taken increase is crucial for meeting the damage requirement of this encounter.
+The debuff lasts for 6 seconds, so can be kept at full stacks even when a new player is entering a pod.`),
+
             new Death("4", 2070, [244172], null, null, `
 When a player enters a pod, they gain {ability:244172:Psychic Assault:shadow},
 which deals increasing ticking damage while they are inside.

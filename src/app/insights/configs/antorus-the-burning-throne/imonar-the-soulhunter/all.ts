@@ -26,8 +26,7 @@ export module ImonarTheSoulHunterInsightConfigs {
             // Sever stacks too high
             new Debuff("4", 2082, ["Charged Blasts"], [247716], null, null, "This includes people targeted, who cannot avoid getting hit."),
             new Debuff("5", 2082, ["Shrapnel Blast"], [247932]),
-
-            new HitWithoutDebuff("6", 2082, ["Empowered Pulse Grenade"], [250007], ["Empowered Pulse Grenade"], [250006], 600000),
+            
             new Debuff("7", 2082, ["Empowered Shrapnel Blast"], [248094]),
 
             new PhaseDuration("8", 2082, "Transition 1", "Had a {phase} duration of {averageDuration}.", ""),

@@ -55,7 +55,7 @@ export class InsightTableRow {
     }
 
     get hasDetails(): boolean {
-        return (this.insight.details && this.insight.details != ".") || (this.insight.tip && this.insight.tip != ".");
+        return this.insight.details != null || this.insight.tip != null;
     }
     private showDetails = false;
 
