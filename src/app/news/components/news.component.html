@@ -2,49 +2,92 @@
     <main class="main mt-4">
         <div class="container mb-3">
             <div class="title p-5 mb-2 banner">
-                <h1 class="mb-0 banner-text">Wipefest Banner</h1>
             </div>
 
             <div class="title p-3 mb-2">
-
+                <search></search>
             </div>
 
             <div class="row">
 
                 <div class="col-md-9">
-                    <div *ngIf="article && article.body" class="title p-2 pl-3">
+                    <div *ngIf="article && article.body" class="title p-2 pl-3 pr-3">
                         <span class="date pull-right">{{ article.date }}</span>
                         <h5 class="mb-0">{{ article.title }}</h5>
                     </div>
-                    <div *ngIf="article && article.body" class="block p-2 pl-5 pr-5 mb-2">
+                    <div *ngIf="article && article.body" class="block p-2 pl-4 pr-4 mb-2">
                         <markdown [data]="article.body"></markdown>
                     </div>
                     <div class="title p-2 pl-3">
                         <h5 class="mb-0">About Wipefest</h5>
                     </div>
-                    <div class="block p-2 pl-5 pr-5 mb-2">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                    <div class="block p-2 pl-4 pr-4 mb-2">
+                        <p>
+                            Wipefest uses data from <a href="https://www.warcraftlogs.com" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
+                            to display insights and timelines for raid encounters.
+                        </p>
+                        <p>
+                            Insights aim to answer common questions that you might have about each pull,
+                            such as <a href="https://www.wipefest.net/report/7HFRByQ6hYNA9wmc/fight/5?insights=2076-6" target="_blank" rel="noopener noreferrer">"Who is soaking Annihilations on Garothi Worldbreaker?"</a>,
+                            or <a href="https://www.wipefest.net/report/yxW1hraPm9NfgcDR/fight/13?insights=2070-3" target="_blank" rel="noopener noreferrer">"What pod rotation did we use on Antoran High Command?"</a>.
+                        </p>
+                        <p>
+                            The timeline aims to provide a concise overview of the important events within a fight,
+                            such as major boss abilities, big cooldowns, and deaths.
+                            Timelines can be filtered using the filters on the left-hand side,
+                            letting you quickly dig into certain mechanics,
+                            such as <a href="https://www.wipefest.net/report/7HFRByQ6hYNA9wmc/fight/12?filters=R-MH09,2070-0F04" target="_blank" rel="noopener noreferrer">Fusillades, Fel Shields, and healing cooldowns</a>,
+                            or <a href="https://www.wipefest.net/report/vkmJtn6pzA4WV1bC/fight/17?filters=R-0506PD0D" target="_blank" rel="noopener noreferrer">if people used defensive cooldowns before they died</a>.
+                        </p>
                     </div>
                 </div>
 
                 <div class="side col-md-3">
                     <div class="title p-2 pl-3">
-                        <h5 class="mb-0">Title 2</h5>
+                        <h5 class="mb-0">Discord</h5>
                     </div>
                     <div class="block p-2 pl-3 pr-3 mb-2">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                        <p>
+                            Have any questions? Want to talk about anything Wipefest-related? Join our
+                            <a href="https://discord.gg/QhE4hfS" target="_blank" rel="noopener noreferrer"
+                               (click)="logDiscordClick()">
+                                Discord server!</a>
+                        </p>
+                        <p class="text-center">
+                            <a href="https://discord.gg/QhE4hfS" class="btn discord" role="button" target="_blank" rel="noopener noreferrer"
+                               (click)="logDiscordClick()">
+                                <img src="https://wowanalyzer.com/static/media/Discord-Logo+Wordmark-White.192cb945.svg" />
+                            </a>
+                        </p>
+                        <p>
+                            Want quick links to Wipefest timelines from your Warcraft Logs links in Discord? Invite 
+                            <a href="https://discordapp.com/api/oauth2/authorize?client_id=354726853459836938&scope=bot&permissions=1"
+                               target="_blank" rel="noopener noreferrer"
+                               (click)="logDiscordBotClick()">
+                                Wipefest Bot
+                            </a>
+                            to your server.
+                        </p>
                     </div>
                     <div class="title p-2 pl-3">
-                        <h5 class="mb-0">Title 3</h5>
+                        <h5 class="mb-0">Ideas</h5>
                     </div>
                     <div class="block p-2 pl-3 pr-3 mb-2">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                        <p>
+                            Vote for, discuss, and share ideas for Wipefest on our
+                            <a href="https://ideas.wipefest.net/" target="_blank" rel="noopener noreferrer">
+                                feedback forum.
+                            </a>
+                        </p>
                     </div>
                     <div class="title p-2 pl-3">
-                        <h5 class="mb-0">Title 4</h5>
+                        <h5 class="mb-0">Patreon</h5>
                     </div>
                     <div class="block p-2 pl-3 pr-3 mb-2">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed elementum tempus egestas sed. Risus feugiat in ante metus dictum at tempor.</p>
+                        <p>
+                            Support the development costs of Wipefest by
+                            <a href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer" (click)="logPatreonClick()">becoming a Patron!</a>
+                        </p>
                     </div>
                 </div>
 

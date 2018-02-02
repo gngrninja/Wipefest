@@ -28,4 +28,16 @@ export class NewsComponent {
         });
     }
 
+    logDiscordClick() {
+        this.loggerService.logDiscordClick();
+    }
+
+    logDiscordBotClick() {
+        this.loggerService.logDiscordBotClick();
+    }
+
+    logPatreonClick() {
+        this.loggerService.logPatreonClick();
+    }
+
 }
