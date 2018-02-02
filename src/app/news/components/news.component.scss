@@ -2,11 +2,16 @@
 @import "../../../scss/bootstrap/mixins/breakpoints";
 
 .banner {
-    height: 150px;
-}
+    @include media-breakpoint-up(md) {
+        height: 150px;
+        background-image: url(../../../img/banner.jpg);
+    }
 
-.banner-text {
-    text-align: center;
+    @include media-breakpoint-down(sm) {
+        height: 88px;
+        background-image: url(../../../img/banner-mobile.jpg);
+        background-position: center;
+    }
 }
 
 .date {
