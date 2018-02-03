@@ -16,6 +16,7 @@ export class EventConfig {
     icon: string;
     style: string;
     target: string;
+    includePetTargets: boolean;
     showTarget: boolean;
     tags: string[];
     show: boolean;
