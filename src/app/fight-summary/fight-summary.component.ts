@@ -20,7 +20,7 @@ import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { DeathEvent } from "app/fight-events/models/death-event";
 import { environment } from "environments/environment";
 import { LocalStorage } from "app/shared/local-storage";
-import { Raid, RaidFactory } from "app/raid/raid";
+import { Raid, RaidFactory, Player } from "app/raid/raid";
 import { ClassesService } from "app/warcraft-logs/classes.service";
 import { StateService, SelectedFocus } from "app/shared/state.service";
 
@@ -302,7 +302,7 @@ export class FightSummaryComponent implements OnInit {
 
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
-            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(["general/raid"].concat(this.focuses.map(focus => focus.include).filter((x, index, array) => array.indexOf(x) == index)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
+            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(this.getGeneralIncludes().concat(this.focuses.map(focus => focus.include).filter((x, index, array) => array.indexOf(x) == index)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 
@@ -312,6 +312,22 @@ export class FightSummaryComponent implements OnInit {
                 this.logger.logError(error);
                 return Observable.empty();
             });
+    }
+
+    private getGeneralIncludes(): string[] {
+        return ["general/raid"]
+            .concat(this.focuses.length > 0 ? ["general/focus"] : [])
+            .concat(
+            this.focuses
+                .map(x => this.getPlayer(x.id).specialization.role.toLowerCase())
+                .filter((x, index, array) => array.indexOf(x) == index)
+                .map(x => "general/" + x)
+        );
+    }
+
+    private getPlayer(id: string): Player {
+        let friendly = this.report.friendlies.find(f => f.id.toString() == id);
+        return this.raid.players.find(p => p.name == friendly.name);
     }
 
     private loadDeaths(): Observable<Death[]> {

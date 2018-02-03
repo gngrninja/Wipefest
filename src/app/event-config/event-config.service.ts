@@ -45,6 +45,11 @@ export class EventConfigService {
 
         switch (file) {
             case "general/raid": return "R";
+            case "general/focus": return "F";
+            case "general/tank": return "T";
+            case "general/healer": return "H";
+            case "general/ranged": return "RA";
+            case "general/melee": return "M";
         }
 
         for (var i = 0; i < encounters.length; i++) {
