@@ -1,11 +1,17 @@
 @import "../../../scss/bootstrap/variables";
+@import "../../../scss/bootstrap/mixins/breakpoints";
 
 .banner {
-    height: 150px;
-}
+    @include media-breakpoint-up(md) {
+        height: 150px;
+        background-image: url(../../../img/banner.jpg);
+    }
 
-.banner-text {
-    text-align: center;
+    @include media-breakpoint-down(sm) {
+        height: 88px;
+        background-image: url(../../../img/banner-mobile.jpg);
+        background-position: center;
+    }
 }
 
 .date {
@@ -13,5 +19,22 @@
 }
 
 .side {
-    padding-left: 0;
+    @include media-breakpoint-up(md) {
+        padding-left: 0;
+    }
+}
+
+.btn.discord {
+    padding-top: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 4px;
+    height: 38px;
+    border: 0;
+    background: #7289da;
+
+    img {
+        height: 38px;
+        margin-top: -2px;
+    }
 }

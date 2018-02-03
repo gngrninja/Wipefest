@@ -156,7 +156,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
             },
             {
                 path: "",
-                component: WelcomeComponent
+                component: NewsComponent
             },
             {
                 path: "**",
