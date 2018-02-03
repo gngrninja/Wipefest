@@ -32,7 +32,7 @@ export class ClassesService {
         new Specialization(254, "Hunter", "Hunter", "Marksmanship", "Ranged"),
         new Specialization(255, "Hunter", "Hunter", "Survival", "Damage"),
         new Specialization(256, "Priest", "Priest", "Discipline", "Healer"),
-        new Specialization(257, "Priest", "Priest", "Holy", "Healer"),
+        new Specialization(257, "Priest", "Priest", "Holy", "Healer", true),
         new Specialization(258, "Priest", "Priest", "Shadow", "Ranged"),
         new Specialization(259, "Rogue", "Rogue", "Assassination", "Melee"),
         new Specialization(260, "Rogue", "Rogue", "Combat", "Melee"),
@@ -70,6 +70,7 @@ export class Specialization {
         public type: string,
         public className: string,
         public name: string,
-        public role: string) { }
+        public role: string,
+        public focusEnabled: boolean = false) { }
 
 }
