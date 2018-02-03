@@ -31,6 +31,7 @@ import { StateService, SelectedFocus } from "app/shared/state.service";
 })
 export class FightSummaryComponent implements OnInit {
 
+    private initialLoad = true;
     report: Report;
     fight: Fight;
     get fightIndex(): number {
@@ -97,25 +98,40 @@ export class FightSummaryComponent implements OnInit {
             this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
             this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
 
+            if (this.loadDataSubscription) {
+                this.loadDataSubscription.unsubscribe();
+            }
+
             if (this.previousFocuses.map(x => x.id).join(",") != this.focuses.map(x => x.id).join(",")) {
-                this.previousFocuses = this.focuses;
-
-                if (this.combatEventSubscription) {
-                    this.combatEventSubscription.unsubscribe();
-                }
-                if (this.deathsSubscription) {
-                    this.deathsSubscription.unsubscribe();
-                }
-
-                if (this.loadDataSubscription) {
-                    this.loadDataSubscription.unsubscribe();
-                }
-
                 this.loadDataSubscription = new Observable(observer => {
-                    setTimeout(() => { observer.next(); }, 1000);
-                }).subscribe(() => { this.loadData(); })
+                    if (this.initialLoad) {
+                        this.initialLoad = false;
+                        this.loadFocuses();
+                    } else {
+                        setTimeout(() => { observer.next(); }, 1000);
+                    }
+                }).subscribe(() => {
+                    this.loadFocuses();
+                });
             }
         });
+    }
+
+    private loadFocuses() {
+        this.previousFocuses = this.focuses;
+
+        if (this.combatEventSubscription) {
+            this.combatEventSubscription.unsubscribe();
+        }
+        if (this.deathsSubscription) {
+            this.deathsSubscription.unsubscribe();
+        }
+
+        if (this.loadDataSubscription) {
+            this.loadDataSubscription.unsubscribe();
+        }
+
+        this.loadData();
     }
 
     private handleRoute(params: Params) {

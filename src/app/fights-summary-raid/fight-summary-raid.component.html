@@ -2,7 +2,7 @@
   <div class="ltr">
     <ng-container *ngIf="raid.itemLevel != 0">
       <h4>{{raid.players.length}}<span class="ml-2 badge badge-default">{{raid.itemLevel | number : '1.0-1'}}</span></h4>
-      <div *ngIf="focuses.length > 0" class="player" (click)="clearFocus()">
+      <div *ngIf="focuses.length > 0" class="focus-enabled" (click)="clearFocus()">
         <span class="player h6">
           Focus Set
         </span>
