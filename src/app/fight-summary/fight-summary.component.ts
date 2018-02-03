@@ -277,7 +277,7 @@ export class FightSummaryComponent implements OnInit {
         this.events.forEach(event => {
             if (event.config) {
                 let weAreFocusing = this.focuses.length > 0;
-                let eventConfigIsFromABossInclude = !(event.config.group == "R" || this.classesService.specializations.map(spec => spec.group).some(group => group == event.config.group));
+                let eventConfigIsFromABossInclude = !(["R", "F", "T", "H", "RA", "M"].some(x => x == event.config.group) || this.classesService.specializations.map(spec => spec.group).some(group => group == event.config.group));
                 let eventConfigIsPlayerSpecific = event.config.tags.some(tag => ["player", "interrupt", "tank"].includes(tag));
                 let eventIsHeroism = event.config.eventType == "heroism";
                 if (!eventIsHeroism && weAreFocusing && (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)) {
@@ -290,7 +290,7 @@ export class FightSummaryComponent implements OnInit {
                     if (untypedEvent.target && untypedEvent.target.id) {
                         isTarget = this.focuses.some(focus => untypedEvent.target.id.toString() == focus.id);
                     }
-                    event.isFocused =  isSource || isTarget;
+                    event.isFocused = isSource || isTarget;
                 }
             }
         });
