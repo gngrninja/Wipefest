@@ -315,6 +315,9 @@ export class FightSummaryComponent implements OnInit {
     }
 
     private getGeneralIncludes(): string[] {
+        if (this.raid == null)
+            return ["general/raid"];
+
         return ["general/raid"]
             .concat(this.focuses.length > 0 ? ["general/focus"] : [])
             .concat(
