@@ -27,7 +27,8 @@ export class Interrupt extends InsightConfig {
         let interruptEvents = context.events
             .filter(x => x.config)
             .filter(x => this.eventConfigNames.indexOf(x.config.name) != -1 && x.config.eventType == "interrupt")
-            .map(x => <InterruptEvent>x);
+            .map(x => <InterruptEvent>x)
+            .filter(x => x.isFriendly);
 
         let abilityEvents = context.events
             .filter(x => x.config)
