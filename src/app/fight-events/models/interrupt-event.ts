@@ -16,7 +16,7 @@ export class InterruptEvent extends FightEvent {
         public source: Actor,
         private ability: Ability,
         private sequence: number,
-        private target: Actor,
+        public target: Actor,
         private showTarget: boolean) {
 
         super(config, timestamp, isFriendly, x, y);

@@ -5,13 +5,18 @@ import { Observable } from "rxjs/Rx";
 import { EventConfig } from "app/event-config/event-config";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { FightEvent } from "app/fight-events/models/fight-event";
+import { WipefestService } from "app/wipefest.service";
+import { Report } from "app/warcraft-logs/report";
 
 @Injectable()
 export class StateService {
 
     queryParams: any;
+    private report: Report;
+    private availableFocuses: SelectedFocus[] = [];
 
     constructor(
+        private wipefestService: WipefestService,
         private route: ActivatedRoute,
         private router: Router) {
 
@@ -22,6 +27,7 @@ export class StateService {
             this.queryParams.insights = queryParams.hasOwnProperty("insights") ? queryParams.insights : undefined;
             this.queryParams.filters = queryParams.hasOwnProperty("filters") ? queryParams.filters : undefined;
             this.queryParams.phases = queryParams.hasOwnProperty("phases") ? queryParams.phases : undefined;
+            this.queryParams.focuses = queryParams.hasOwnProperty("focuses") ? queryParams.focuses : undefined;
 
             this.queryParams = this.clean(this.queryParams);
 
@@ -29,13 +35,23 @@ export class StateService {
                 console.log(this.queryParams);
             }
         });
+
+        this.wipefestService.selectedReport.subscribe(report => this.report = report);
+
+        this.wipefestService.selectedRaid.subscribe(raid => {
+            this.availableFocuses = raid ? raid.players.map(player => {
+                let friendly = this.report.friendlies.find(friendly => friendly.name == player.name);
+                return new SelectedFocus(friendly.id.toString(), player.specialization.include);
+            }) : [];
+        });
     }
 
     get changes(): Observable<Params> {
-        return this.route.queryParams;
+        return Observable.merge(this.route.queryParams, this.wipefestService.selectedRaid);
     }
 
     private updateQueryParams() {
+        this.queryParams = this.clean(this.queryParams);
         this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.queryParams, replaceUrl: true });
     }
 
@@ -223,6 +239,23 @@ export class StateService {
         }
     }
 
+    get focuses(): SelectedFocus[] {
+        let focusIds: string[] = this.queryParams.focuses == undefined ? [] : this.queryParams.focuses.split(",");
+        return focusIds
+            .map(id => this.availableFocuses.find(focus => focus.id == id))
+            .filter(focus => focus != undefined);
+    }
+
+    set focuses(value: SelectedFocus[]) {
+        if (value) {
+            this.queryParams.focuses = value.map(focus => focus.id).join(",");
+        } else {
+            this.queryParams.focuses = undefined;
+        }
+
+        this.updateQueryParams();
+    }
+
 }
 
 export class SelectedInsight {
@@ -244,5 +277,12 @@ export class SelectedPhase {
         public id: string,
         public group: string,
         public selected: boolean
+    ) { }
+}
+
+export class SelectedFocus {
+    constructor(
+        public id: string,
+        public include: string
     ) { }
 }

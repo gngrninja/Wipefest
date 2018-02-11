@@ -1,7 +1,8 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from "@angular/http";
 import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { Report, Fight } from "app/warcraft-logs/report";
+import { Raid } from "app/raid/raid";
 
 @Injectable()
 export class WipefestService {
@@ -15,12 +16,16 @@ export class WipefestService {
     private selectedFight$ = new BehaviorSubject<Fight>(null);
     selectedFight: Observable<Fight>;
 
+    private selectedRaid$ = new BehaviorSubject<Raid>(null);
+    selectedRaid: Observable<Raid>;
+
     private errors: Response[] = [];
 
     constructor() {
         this.selectedPage = this.selectedPage$.asObservable();
         this.selectedReport = this.selectedReport$.asObservable();
         this.selectedFight = this.selectedFight$.asObservable();
+        this.selectedRaid = this.selectedRaid$.asObservable();
     }
 
     selectPage(page: Page) {
@@ -33,6 +38,10 @@ export class WipefestService {
 
     selectFight(fight: Fight) {
         this.selectedFight$.next(fight);
+    }
+
+    selectRaid(raid: Raid) {
+        this.selectedRaid$.next(raid);
     }
 
     throwError(error: Response) {

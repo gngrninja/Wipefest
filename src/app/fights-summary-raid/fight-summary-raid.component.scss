@@ -1,0 +1,33 @@
+@import "../../scss/bootstrap-variables";
+
+img {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.aside-menu-scrollable {
+  padding: 16px;
+}
+
+.focus-enabled {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray;
+
+    .focus-icon {
+      color: #fff;
+    }
+  }
+}
+
+.focus-icon {
+  width: 18px;
+}

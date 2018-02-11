@@ -32,7 +32,7 @@ export class ClassesService {
         new Specialization(254, "Hunter", "Hunter", "Marksmanship", "Ranged"),
         new Specialization(255, "Hunter", "Hunter", "Survival", "Damage"),
         new Specialization(256, "Priest", "Priest", "Discipline", "Healer"),
-        new Specialization(257, "Priest", "Priest", "Holy", "Healer"),
+        new Specialization(257, "Priest", "Priest", "Holy", "Healer", true),
         new Specialization(258, "Priest", "Priest", "Shadow", "Ranged"),
         new Specialization(259, "Rogue", "Rogue", "Assassination", "Melee"),
         new Specialization(260, "Rogue", "Rogue", "Combat", "Melee"),
@@ -57,11 +57,20 @@ export class Specialization {
         return `https://www.warcraftlogs.com/img/icons/${this.className.replace(' ', '')}-${this.name.replace(' ', '')}.jpg`;
     }
 
+    get include(): string {
+        return `${this.className.split(" ").join("-").toLowerCase()}/${this.name.split(" ").join("-").toLowerCase()}`;
+    }
+
+    get group(): string {
+        return `${this.className.substr(0, 2).toUpperCase()}${this.name.substr(0, 2).toUpperCase()}`;
+    }
+
     constructor(
         public id: number,
         public type: string,
         public className: string,
         public name: string,
-        public role: string) { }
+        public role: string,
+        public focusEnabled: boolean = false) { }
 
 }

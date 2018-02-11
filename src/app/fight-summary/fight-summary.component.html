@@ -1,6 +1,6 @@
 <div class="app-body">
   <div class="sidebar">
-    <fight-summary-filters *ngIf="configs && events" [configs]="configs" [events]="events"></fight-summary-filters>
+    <fight-summary-filters *ngIf="configs && events" [configs]="configs" [events]="focusedEvents"></fight-summary-filters>
   </div>
   <main class="main">
     <div class="container-fluid">
@@ -83,13 +83,13 @@
             <error [error]="error"></error>
           </div>
           <insights *ngIf="events && !error" [report]="report" [raid]="raid" [fight]="fight" [events]="eventsBeforeDeathThreshold"></insights>
-          <fight-events *ngIf="events && !error" [fight]="fight" [events]="eventsBeforeDeathThreshold"></fight-events>
+          <fight-events *ngIf="events && !error" [fight]="fight" [events]="focusedEventsBeforeDeathThreshold"></fight-events>
         </div>
       </div>
     </div>
     <wf-footer></wf-footer>
   </main>
   <aside class="aside-menu">
-    <fight-summary-raid *ngIf="raid" [raid]="raid"></fight-summary-raid>
+    <fight-summary-raid *ngIf="raid" [report]="report" [raid]="raid"></fight-summary-raid>
   </aside>
 </div>

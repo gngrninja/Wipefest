@@ -7,11 +7,12 @@ import { Report, Fight } from "app/warcraft-logs/report";
 import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
+import { ClassesService } from "app/warcraft-logs/classes.service";
 
 @Injectable()
 export class EventConfigService {
 
-    constructor(private warcraftLogsService: WarcraftLogsService, private http: Http, private logger: LoggerService) { }
+    constructor(private warcraftLogsService: WarcraftLogsService, private classesService: ClassesService, private http: Http, private logger: LoggerService) { }
 
     getEventConfigs(includes: string[], eventConfigAccount: string, eventConfigBranch: string): Observable<EventConfig[]> {
         let url = this.getBaseUrl(eventConfigAccount, eventConfigBranch);
@@ -44,6 +45,11 @@ export class EventConfigService {
 
         switch (file) {
             case "general/raid": return "R";
+            case "general/focus": return "F";
+            case "general/tank": return "T";
+            case "general/healer": return "H";
+            case "general/ranged": return "RA";
+            case "general/melee": return "M";
         }
 
         for (var i = 0; i < encounters.length; i++) {
@@ -52,6 +58,13 @@ export class EventConfigService {
             let normalizedName = this.normalize(encounter.name);
             if (normalizedFile.indexOf(normalizedName) != -1) {
                 return encounter.id.toString();
+            }
+        }
+
+        for (var i = 0; i < this.classesService.specializations.length; i++) {
+            let specialization = this.classesService.specializations[i];
+            if (file == specialization.include) {
+                return specialization.group;
             }
         }
 

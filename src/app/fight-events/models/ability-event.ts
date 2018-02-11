@@ -15,7 +15,7 @@ export class AbilityEvent extends FightEvent {
         public source: Actor,
         public ability: Ability,
         private sequence: number,
-        private target: Actor,
+        public target: Actor,
         private showTarget: boolean) {
 
         super(config, timestamp, isFriendly, x, y);
