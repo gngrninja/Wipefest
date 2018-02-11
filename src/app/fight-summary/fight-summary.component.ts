@@ -304,6 +304,12 @@ export class FightSummaryComponent implements OnInit {
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
             .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(this.getGeneralIncludes().concat(this.focuses.map(focus => focus.include).filter((x, index, array) => array.indexOf(x) == index)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
+                // Check for non-unique ids within a group (as this will break when storing state in URL)
+                let duplicates = this.getDuplicates(configs);
+                if (duplicates.length > 0) {
+                    throw "Error: Cannot have duplicate ids within the same group. " + duplicates.map(x => `${x.id} (${x.file}) is a duplicate id in group ${x.group}`).join(", ") + ".";
+                }
+
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 
                 return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs));
@@ -331,6 +337,21 @@ export class FightSummaryComponent implements OnInit {
     private getPlayer(id: string): Player {
         let friendly = this.report.friendlies.find(f => f.id.toString() == id);
         return this.raid.players.find(p => p.name == friendly.name);
+    }
+
+    private getDuplicates(configs: EventConfig[]): EventConfig[] {
+        let groupedConfigs: EventConfig[][] = [];
+        configs.forEach(config => {
+            let index = groupedConfigs.findIndex(x => x.some(y => y.group == config.group && y.id == config.id));
+            if (index != -1) {
+                groupedConfigs[index].push(config);
+            } else {
+                groupedConfigs.push([config]);
+            }
+        });
+        let duplicates = groupedConfigs.filter(x => x.length > 1).map(x => x[0]);
+
+        return duplicates;
     }
 
     private loadDeaths(): Observable<Death[]> {
