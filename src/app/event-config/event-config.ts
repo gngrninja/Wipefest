@@ -9,30 +9,40 @@ export class EventConfigIndex {
 
 export class EventConfig {
 
-    file: string;
+    // Identifiers
     id: string;
-    group: string;
     name: string;
-    icon: string;
-    style: string;
-    target: string;
-    includePetTargets: boolean;
-    showTarget: boolean;
+
+    // Basic configuration
     tags: string[];
     show: boolean;
-    showByDefault: boolean;
-    collapsed: boolean;
-    collapsedByDefault: boolean;
     eventType: string;
-    timestamp: number;
-    timestamps: number[];
     friendly: boolean;
+    filter: EventConfigFilter;
+
+    // Further configuration
+    difficulties: number[];
+    target: string;
+    showTarget: boolean;
+    includePetTargets: boolean;
     source: string;
     showSource: boolean;
     title: string;
+
+    // Rare configuration
+    timestamp: number;
+    timestamps: number[];
     titles: string[];
-    difficulties: number[];
-    filter: EventConfigFilter;
+    collapsed: boolean;
+    icon: string;
+    style: string;
+
+    // Non-configurable
+    file: string;
+    group: string;
+    showByDefault: boolean;
+    collapsedByDefault: boolean;
+    
 
     public constructor(init?: Partial<EventConfig>) {
         Object.assign(this, init);
@@ -42,19 +52,22 @@ export class EventConfig {
 
 export class EventConfigFilter {
 
+    // Basic configuration
     type: string;
     types: string[];
-    first: boolean;
-    index: number;
-    firstPerInstance: boolean;
-    stack: number;
-    range: number;
-    rangePerActor: number;
-    minimum: number;
     ability: EventConfigFilterAbility;
     actor: EventConfigFilterActor;
-    query: string;
 
+    // Further configuration
+    first: boolean;
+    firstPerInstance: boolean;
+    index: number;
+    minimum: number;
+    range: number;
+    rangePerActor: number;
+    stack: number;
+    query: string;
+    
 }
 
 export class EventConfigCombinedFilter {
