@@ -10,8 +10,8 @@ import { Article } from "app/news/models/article";
     styleUrls: ['./news.component.scss']
 })
 export class NewsComponent {
-
-    article: Article;
+    
+    articles: Article[];
 
     constructor(private wipefestService: WipefestService, private newsService: NewsService, private loggerService: LoggerService) { }
 
@@ -21,10 +21,12 @@ export class NewsComponent {
         this.wipefestService.selectFight(null);
 
         this.newsService.getIndex().subscribe(articles => {
-            this.article = articles[0];
-            this.newsService.getArticleBody(this.article).subscribe(body => {
-                this.article.body = body;
-            });
+            this.articles = articles.slice(0, 3);
+            this.articles.forEach(article => {
+                this.newsService.getArticleBody(article).subscribe(body => {
+                    article.body = body;
+                });
+            })
         });
     }
 
