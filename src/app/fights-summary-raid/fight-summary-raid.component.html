@@ -18,7 +18,7 @@
           <span class="badge badge-info">{{role.players.length}}</span>
         </h6>
         <ng-container *ngFor="let player of role.players">
-          <div *ngIf="player.specialization.focusEnabled" class="focus-enabled ml-3" (click)="toggleFocus(player)">
+          <div *ngIf="player.specialization.focusEnabled || showAllFocuses" class="focus-enabled ml-3" (click)="toggleFocus(player)">
             <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
             <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.specialization.className, player.name))"></span>
             <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
@@ -28,7 +28,7 @@
                  aria-hidden="true"></i>
             </span>
           </div>
-          <div *ngIf="!player.specialization.focusEnabled" class="ml-3">
+          <div *ngIf="!player.specialization.focusEnabled && !showAllFocuses" class="ml-3">
             <img src="{{player.specialization.icon}}" alt="{{player.specialization.name}} {{player.specialization.className}}" />
             <span [innerHtml]="MarkupParser.Parse(MarkupHelper.Class(player.specialization.className, player.name))"></span>
             <span class="badge badge-default">{{player.itemLevel | number : '1.0-1'}}</span>
