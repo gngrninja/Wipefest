@@ -6,7 +6,6 @@ import { MarkupHelper } from "app/helpers/markup-helper";
 import { MarkupParser } from "app/helpers/markup-parser";
 import { Raid, RaidFactory, Player } from "app/raid/raid";
 import { StateService, SelectedFocus } from "app/shared/state.service";
-import { environment } from 'environments/environment';
 
 @Component({
     selector: 'fight-summary-raid',
@@ -22,7 +21,7 @@ export class FightSummaryRaidComponent {
     @Input() raid: Raid;
 
     private focuses: SelectedFocus[] = [];
-    showAllFocuses: boolean = !environment.production;
+    showAllFocuses = window.location.href.indexOf("www.wipefest.net") == -1;
 
     constructor(private stateService: StateService) {
         this.stateService.changes.subscribe(() => this.focuses = this.stateService.focuses);
