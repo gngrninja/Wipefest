@@ -43,12 +43,12 @@
             <strong>Report</strong>: <a routerLink="/report/{{report.id}}">{{report.title}}</a>,
             <strong>Fight</strong>:
             <a *ngIf="fightIndex > 0" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex - 1].id}}" [queryParams]="stateService.queryParams" class="icon-link">
-              Previous <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              <span class="hidden-xs-down">Previous </span><i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             {{fightIndex + 1}}
             <a *ngIf="fightIndex < report.fights.length - 1" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex + 1].id}}" [queryParams]="stateService.queryParams" class="icon-link">
-              <i class="fa fa-arrow-right" aria-hidden="true"></i> Next
-            </a>,
+              <i class="fa fa-arrow-right" aria-hidden="true"></i><span class="hidden-xs-down"> Next</span>
+</a>,
             <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
           </div>
           <div class="block p-1 pl-3">
