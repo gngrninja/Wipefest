@@ -29,7 +29,13 @@ export module TheCovenOfShivarraInsightConfigs {
             new Hit("5", 2073, ["Shadow Blades"], [246374]),
             new Hit("6", 2073, ["Whirling Saber"], [245634]),
             new HitWithoutDebuff("7", 2073, ["Fulminating Burst"], [253588], ["Fulminating Pulse"], [253520], 15000),
-            new Debuff("8", 2073, ["Chilled Blood (Frozen)"], [256356])
+            new Debuff("8", 2073, ["Chilled Blood (Frozen)"], [256356]),
+            new HitWithoutDebuff("9", 2073, ["Cosmic Glare"], [250912], ["Cosmic Glare"], [250757], 8000, null, null, `
+On mythic difficulty, {npc:Thu'raya} debuffs two players with {ability:250912:Cosmic Glare:fire}.
+Shortly after, a fel beam is conjured between those two players,
+damaging them and anyone caught in the beam.
+The two debuffed players should position themselves away from the raid,
+so that no players are inbetween them.`)
         ];
     }
 
