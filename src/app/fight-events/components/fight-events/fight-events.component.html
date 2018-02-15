@@ -11,7 +11,7 @@
             <em>
               This is the timeline view.
               Events on the left represent events that the raid had some control over.
-              Events on the right represent events that could not be prevented.
+              Events on the right represent events that the raid did not have much control over.
               It is recommended that users with smaller screens try the table view.
             </em>
           </div>
@@ -27,14 +27,6 @@
       <ng-template ngbTabTitle><i id="table-icon" class="fa fa-list-ul" aria-hidden="true"></i> Table</ng-template>
       <ng-template ngbTabContent>
         <div class="table-view">
-          <div class="block p-1 pl-3">
-            <em>
-              This is the table view.
-              Events marked with a green arrow represent events that the raid had some control over.
-              Events marked with a red arrow represent events that could not be prevented.
-            </em>
-          </div>
-
           <table class="table-hover">
             <tbody *ngFor="let event of shownEvents" table-fight-event [event]="event" [fight]="fight" [events]="events"></tbody>
           </table>
