@@ -108,7 +108,7 @@ export class FightSummaryComponent implements OnInit {
                         this.initialLoad = false;
                         this.loadFocuses();
                     } else {
-                        setTimeout(() => { observer.next(); }, 1000);
+                        setTimeout(() => { observer.next(); }, 1500);
                     }
                 }).subscribe(() => {
                     this.loadFocuses();
