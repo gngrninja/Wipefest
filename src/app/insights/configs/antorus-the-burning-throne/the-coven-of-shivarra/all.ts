@@ -35,7 +35,9 @@ On mythic difficulty, {npc:Thu'raya} debuffs two players with {ability:250912:Co
 Shortly after, a fel beam is conjured between those two players,
 damaging them and anyone caught in the beam.
 The two debuffed players should position themselves away from the raid,
-so that no players are inbetween them.`)
+so that no players are inbetween them.`),
+
+            new Interrupt("A", 2073, ["Touch of the Cosmos"], [250648]),
         ];
     }
 
