@@ -32,7 +32,7 @@ export class StateService {
             this.queryParams = this.clean(this.queryParams);
 
             if (!environment.production) {
-                console.log(this.queryParams);
+                console.log(this);
             }
         });
 
@@ -41,7 +41,7 @@ export class StateService {
         this.wipefestService.selectedRaid.subscribe(raid => {
             this.availableFocuses = raid ? raid.players.map(player => {
                 let friendly = this.report.friendlies.find(friendly => friendly.name == player.name);
-                return new SelectedFocus(friendly.id.toString(), player.specialization.include);
+                return new SelectedFocus(friendly.id.toString(), [player.specialization.include, player.specialization.generalInclude]);
             }) : [];
         });
     }
@@ -283,6 +283,6 @@ export class SelectedPhase {
 export class SelectedFocus {
     constructor(
         public id: string,
-        public include: string
+        public includes: string[]
     ) { }
 }

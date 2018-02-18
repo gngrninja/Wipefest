@@ -40,7 +40,7 @@ export class FightSummaryComponent implements OnInit {
     get warcraftLogsLink(): string {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
     }
-    
+
     focuses: SelectedFocus[] = [];
     private previousFocuses: SelectedFocus[] = [];
     configs: EventConfig[] = [];
@@ -201,7 +201,7 @@ export class FightSummaryComponent implements OnInit {
     private selectFight(fight: Fight) {
         this.fight = fight;
         this.wipefestService.selectFight(this.fight);
-        
+
         this.raid = null;
         this.loadData();
     }
@@ -277,7 +277,7 @@ export class FightSummaryComponent implements OnInit {
         this.events.forEach(event => {
             if (event.config) {
                 let weAreFocusing = this.focuses.length > 0;
-                let eventConfigIsFromABossInclude = !(["R", "F", "T", "H", "RA", "M"].some(x => x == event.config.group) || this.classesService.specializations.map(spec => spec.group).some(group => group == event.config.group));
+                let eventConfigIsFromABossInclude = !(["R", "F", "T", "H", "RA", "M"].some(x => x == event.config.group) || this.classesService.specializations.map(spec => [spec.group, spec.generalGroup]).reduce((x, y) => x.concat(y)).some(group => group == event.config.group));
                 let eventConfigIsPlayerSpecific = event.config.tags.some(tag => ["player", "interrupt", "tank"].includes(tag));
                 let eventIsHeroism = event.config.eventType == "heroism";
                 if (!eventIsHeroism && weAreFocusing && (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)) {
@@ -302,7 +302,13 @@ export class FightSummaryComponent implements OnInit {
 
         return this.eventConfigService
             .getIncludes(this.fight.boss, this.eventConfigAccount, this.eventConfigBranch)
-            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(this.getGeneralIncludes().concat(this.focuses.map(focus => focus.include).filter((x, index, array) => array.indexOf(x) == index)).concat(bossIncludes), this.eventConfigAccount, this.eventConfigBranch))
+            .flatMap(bossIncludes => this.eventConfigService.getEventConfigs(
+                this.getGeneralIncludes()
+                    .concat(this.focuses
+                        .map(focus => focus.includes[0])
+                        .filter((x, index, array) => array.indexOf(x) == index))
+                    .concat(bossIncludes),
+                this.eventConfigAccount, this.eventConfigBranch))
             .flatMap(configs => {
                 // Check for non-unique ids within a group (as this will break when storing state in URL)
                 let duplicates = this.getDuplicates(configs);
@@ -330,8 +336,12 @@ export class FightSummaryComponent implements OnInit {
             this.focuses
                 .map(x => this.getPlayer(x.id).specialization.role.toLowerCase())
                 .filter((x, index, array) => array.indexOf(x) == index)
-                .map(x => "general/" + x)
-        );
+                .map(x => "general/" + x))
+            .concat(
+            this.focuses
+                .map(x => this.getPlayer(x.id).specialization.generalInclude)
+                .filter((x, index, array) => array.indexOf(x) == index));
+        
     }
 
     private getPlayer(id: string): Player {

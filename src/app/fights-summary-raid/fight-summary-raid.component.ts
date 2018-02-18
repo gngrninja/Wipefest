@@ -37,7 +37,7 @@ export class FightSummaryRaidComponent {
         if (this.isFocused(player)) {
             this.focuses = this.focuses.filter(focus => focus.id != friendly.id.toString());
         } else {
-            this.focuses.push(new SelectedFocus(friendly.id.toString(), player.specialization.include));
+            this.focuses.push(new SelectedFocus(friendly.id.toString(), [player.specialization.include, player.specialization.generalInclude]));
         }
         this.stateService.focuses = this.focuses;
     }

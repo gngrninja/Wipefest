@@ -66,6 +66,9 @@ export class EventConfigService {
             if (file == specialization.include) {
                 return specialization.group;
             }
+            if (file == specialization.generalInclude) {
+                return specialization.generalGroup;
+            }
         }
 
         return "ungrouped";

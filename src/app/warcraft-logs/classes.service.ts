@@ -65,6 +65,14 @@ export class Specialization {
         return `${this.className.substr(0, 2).toUpperCase()}${this.name.substr(0, 2).toUpperCase()}`;
     }
 
+    get generalInclude(): string {
+        return `${this.className.split(" ").join("-").toLowerCase()}/${this.className.split(" ").join("-").toLowerCase()}`;
+    }
+
+    get generalGroup(): string {
+        return `${this.className.substr(0, 4).toUpperCase()}`;
+    }
+
     constructor(
         public id: number,
         public type: string,
