@@ -273,7 +273,7 @@ export class FightSummaryComponent implements OnInit {
                     ((!y.source && !(<any>x).source) || y.source.instance == (<any>x).source.instance));
                 return indexOfFirstOccurence == index;
             }
-        }); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but priotise non-general/raid-originating events
+        }); // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but prioritise non-general/raid-originating events
         this.events.forEach(event => {
             if (event.config) {
                 let weAreFocusing = this.focuses.length > 0;

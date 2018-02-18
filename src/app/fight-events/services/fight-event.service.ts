@@ -261,7 +261,7 @@ export class FightEventService {
         return combatEvents.map((combatEvent, index) => new TitleEvent(combatEvent.timestamp, title, index + 1, true));
     }
 
-    getCombatEventSource(event: CombatEvent, report: Report) {
+    private getCombatEventSource(event: CombatEvent, report: Report) {
         if (event.sourceIsFriendly) {
             let id = event.sourceID;
             let pet = report.friendlyPets.find(x => x.id == id);
@@ -285,7 +285,7 @@ export class FightEventService {
         }
     }
 
-    getCombatEventTarget(event: CombatEvent, report: Report) {
+    private getCombatEventTarget(event: CombatEvent, report: Report) {
         if (event.targetIsFriendly) {
             let id = event.targetID;
             let pet = report.friendlyPets.find(x => x.id == id);
@@ -299,7 +299,7 @@ export class FightEventService {
         }
     }
 
-    getFriendly(id: number, report: Report): Actor {
+    private getFriendly(id: number, report: Report): Actor {
         return report.friendlies.find(x => x.id === id);
     }
 
