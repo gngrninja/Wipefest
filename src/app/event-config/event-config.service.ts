@@ -8,11 +8,12 @@ import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { ClassesService } from "app/warcraft-logs/classes.service";
+import { CacheService } from 'app/shared/cache.service';
 
 @Injectable()
 export class EventConfigService {
 
-    constructor(private warcraftLogsService: WarcraftLogsService, private classesService: ClassesService, private http: Http, private logger: LoggerService) { }
+    constructor(private cacheService: CacheService, private warcraftLogsService: WarcraftLogsService, private classesService: ClassesService, private http: Http, private logger: LoggerService) { }
 
     getEventConfigs(includes: string[], eventConfigAccount: string, eventConfigBranch: string): Observable<EventConfig[]> {
         let url = this.getBaseUrl(eventConfigAccount, eventConfigBranch);
@@ -20,7 +21,8 @@ export class EventConfigService {
         let batch: Observable<EventConfig[]>[] = [];
 
         includes.forEach(include => {
-            let observable = this.http.get(url + include + ".json")
+            let fullUrl = url + include + ".json";
+            let observable = this.cacheService.get(fullUrl, this.http.get(fullUrl)
                 .map(response => {
                     let configs = response.json().map(config => {
                         config.showByDefault = config.show;
@@ -31,7 +33,7 @@ export class EventConfigService {
                     });
                     return configs;
                 })
-                .catch(error => this.handleError(error));
+                .catch(error => this.handleError(error)));
 
             batch.push(observable);
         });
@@ -85,9 +87,11 @@ export class EventConfigService {
     }
 
     private getEventConfigIndex(url: string): Observable<EventConfigIndex[]> {
-        return this.http.get(url + "index.json")
+        let fullUrl = url + "index.json";
+
+        return this.cacheService.get(fullUrl, this.http.get(fullUrl)
             .map(response => response.json())
-            .catch(error => this.handleError(error));
+            .catch(error => this.handleError(error)));
     }
 
     filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], fight: Fight, report: Report): CombatEvent[] {
