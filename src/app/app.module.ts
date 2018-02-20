@@ -59,6 +59,7 @@ import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
 import { AsideToggleDirective, MobileAsideMenuToggleDirective } from './core-ui/aside.directive';
 import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
+import { CacheService } from 'app/shared/cache.service';
 
 @NgModule({
     declarations: [
@@ -171,6 +172,7 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         LoggerService,
         { provide: ErrorHandler, useClass: GlobalErrorHandler },
+        CacheService,
         WarcraftLogsService,
         WipefestService,
         NewsService,
