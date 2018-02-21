@@ -106,12 +106,12 @@ export class FightSummaryComponent implements OnInit {
         this.focuses = this.stateService.focuses == undefined ? [] : this.stateService.focuses;
         this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
         this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
-
-        if (this.loadDataSubscription) {
-            this.loadDataSubscription.unsubscribe();
-        }
-
+        
         if (this.previousFocuses.map(x => x.id).join(",") != this.focuses.map(x => x.id).join(",")) {
+            //if (this.loadDataSubscription) {
+            //    this.loadDataSubscription.unsubscribe();
+            //}
+
             this.loadDataSubscription = new Observable(observer => {
                 if (this.initialLoad) {
                     this.initialLoad = false;

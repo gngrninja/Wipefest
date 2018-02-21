@@ -25,7 +25,7 @@ export class WarcraftLogsService {
         private classesService: ClassesService,
         private logger: LoggerService) { }
 
-    private get(url: string, useCache: boolean = true): Observable<Response> {
+    private get(url: string, useCache: boolean = false): Observable<Response> {
         this.logger.logGetRequest(url);
 
         if (useCache)
