@@ -46,7 +46,7 @@ export class ClassesService {
         new Specialization(268, "Monk", "Monk", "Brewmaster", "Tank", true),
         new Specialization(269, "Monk", "Monk", "Windwalker", "Melee"),
         new Specialization(270, "Monk", "Monk", "Mistweaver", "Healer"),
-        new Specialization(577, "DemonHunter", "Demon Hunter", "Havoc", "Melee"),
+        new Specialization(577, "DemonHunter", "Demon Hunter", "Havoc", "Melee", true),
         new Specialization(581, "DemonHunter", "Demon Hunter", "Vengeance", "Tank")
     ];
 }
