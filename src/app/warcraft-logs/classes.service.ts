@@ -24,7 +24,7 @@ export class ClassesService {
         new Specialization(102, "Druid", "Druid", "Balance", "Ranged"),
         new Specialization(103, "Druid", "Druid", "Feral", "Melee"),
         new Specialization(104, "Druid", "Druid", "Guardian", "Tank"),
-        new Specialization(105, "Druid", "Druid", "Restoration", "Healer"),
+        new Specialization(105, "Druid", "Druid", "Restoration", "Healer", true),
         new Specialization(250, "DeathKnight", "Death Knight", "Blood", "Tank", true),
         new Specialization(251, "DeathKnight", "Death Knight", "Frost", "Melee", true),
         new Specialization(252, "DeathKnight", "Death Knight", "Unholy", "Melee", true),
