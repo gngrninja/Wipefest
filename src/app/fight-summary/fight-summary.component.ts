@@ -324,10 +324,10 @@ export class FightSummaryComponent implements OnInit {
                 if (duplicates.length > 0) {
                     throw "Error: Cannot have duplicate ids within the same group. " + duplicates.map(x => `${x.id} (${x.file}) is a duplicate id in group ${x.group}`).join(", ") + ".";
                 }
-
+                
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 
-                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs));
+                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(this.configs));
             }).catch((error, caught) => {
                 this.error = error;
                 this.logger.logError(error);

@@ -18,7 +18,7 @@ export module PortalKeeperHasabelInsightConfigs {
             // If heroic: Don't get Caustic Slime debuff or Caustic Detonation damage
             // If heroic: Don't get Cloying Shadows debuff or Hungering Gloom damage
 
-            new Hit("0", 2064, ["Collapsing World > 3m"], [243984], `Stood in {abilities} {totalHits} time{plural}.`, null, `
+            new Hit("0", 2064, ["Collapsing World"], [243984], `Stood in {abilities} {totalHits} time{plural}.`, null, `
 {npc:Portal Keeper Hasabel} casts {ability:243984:Collapsing World:shadow} periodically,
 spawning a large black circle at her location.
 When she finishes casting, all players take small damage, and players stood within the circle take huge damage.
