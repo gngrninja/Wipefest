@@ -41,6 +41,9 @@ export class FightSummaryComponent implements OnInit {
     get warcraftLogsLink(): string {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
     }
+    get wowAnalyzerLink(): string {
+        return `https://www.wowanalyzer.com/report/${this.report.id}/${this.fight.id}`;
+    }
 
     focuses: SelectedFocus[] = [];
     private previousFocuses: SelectedFocus[] = [];
