@@ -48,8 +48,7 @@
             {{fightIndex + 1}}
             <a *ngIf="fightIndex < report.fights.length - 1" routerLink="/report/{{report.id}}/fight/{{report.fights[fightIndex + 1].id}}" [queryParams]="stateService.queryParams" class="icon-link">
               <i class="fa fa-arrow-right" aria-hidden="true"></i><span class="hidden-xs-down"> Next</span>
-</a>,
-            <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">Warcraft Logs</a>
+            </a>
           </div>
           <div class="block p-1 pl-3">
             <form class="death-threshold">
@@ -83,6 +82,18 @@
             <error [error]="error"></error>
           </div>
           <insights *ngIf="events && !error" [report]="report" [raid]="raid" [fight]="fight" [events]="eventsBeforeDeathThreshold"></insights>
+
+          <div class="block p-1 pl-3 referrers">
+            <a [href]="warcraftLogsLink" target="_blank" rel="noopener noreferrer">
+              <img class="icon mr-1" src="https://www.warcraftlogs.com/img/common/warcraft-logo.png" />
+              Warcraft Logs
+            </a>
+            <a [href]="wowAnalyzerLink" target="_blank" rel="noopener noreferrer" class="pl-2">
+              <img class="icon mr-1" src="https://wowanalyzer.com/favicon.png" />
+              WoWAnalyzer
+            </a>
+          </div>
+
           <fight-events *ngIf="events && !error" [fight]="fight" [events]="focusedEventsBeforeDeathThreshold"></fight-events>
         </div>
       </div>

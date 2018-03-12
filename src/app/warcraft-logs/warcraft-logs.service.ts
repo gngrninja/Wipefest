@@ -11,6 +11,7 @@ import { GuildReport } from "app/warcraft-logs/guild-report";
 import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";
 import { ClassesService } from "app/warcraft-logs/classes.service";
+import { CacheService } from 'app/shared/cache.service';
 
 @Injectable()
 export class WarcraftLogsService {
@@ -20,11 +21,16 @@ export class WarcraftLogsService {
 
     constructor(
         private http: Http,
+        private cacheService: CacheService,
         private classesService: ClassesService,
         private logger: LoggerService) { }
 
-    private get(url: string): Observable<Response> {
+    private get(url: string, useCache: boolean = false): Observable<Response> {
         this.logger.logGetRequest(url);
+
+        if (useCache)
+            return this.cacheService.get(url, this.http.get(url, { headers: new Headers() }));
+
         return this.http.get(url, { headers: new Headers() });
     }
 
@@ -86,7 +92,7 @@ export class WarcraftLogsService {
         return this.get(this.url
             + "report/fights/" + reportId
             + "?api_key=" + this.apiKey
-            + "&random=" + this.getRandomString())
+            + "&random=" + this.getRandomString(), false)
             .map(response => {
                 let report = response.json();
                 report.id = reportId;

@@ -23,6 +23,7 @@ import { LocalStorage } from "app/shared/local-storage";
 import { Raid, RaidFactory, Player } from "app/raid/raid";
 import { ClassesService } from "app/warcraft-logs/classes.service";
 import { StateService, SelectedFocus } from "app/shared/state.service";
+import { CacheService } from 'app/shared/cache.service';
 
 @Component({
     selector: 'fight-summary',
@@ -39,6 +40,9 @@ export class FightSummaryComponent implements OnInit {
     }
     get warcraftLogsLink(): string {
         return `https://www.warcraftlogs.com/reports/${this.report.id}#fight=${this.fight.id}`;
+    }
+    get wowAnalyzerLink(): string {
+        return `https://www.wowanalyzer.com/report/${this.report.id}/${this.fight.id}`;
     }
 
     focuses: SelectedFocus[] = [];
@@ -74,6 +78,7 @@ export class FightSummaryComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private wipefestService: WipefestService,
+        private cacheService: CacheService,
         private eventConfigService: EventConfigService,
         private queryService: QueryService,
         private eventService: FightEventService,
@@ -90,31 +95,37 @@ export class FightSummaryComponent implements OnInit {
         this.eventConfigBranch = this.localStorage.get("eventConfigBranch") || "master";
 
         this.route.params.subscribe((params) => {
+            this.previousFocuses = [];
+            this.initialLoad = true;
             this.handleRoute(params);
         });
 
         this.stateService.changes.subscribe(() => {
-            this.focuses = this.stateService.focuses == undefined ? [] : this.stateService.focuses;
-            this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
-            this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
-
-            if (this.loadDataSubscription) {
-                this.loadDataSubscription.unsubscribe();
-            }
-
-            if (this.previousFocuses.map(x => x.id).join(",") != this.focuses.map(x => x.id).join(",")) {
-                this.loadDataSubscription = new Observable(observer => {
-                    if (this.initialLoad) {
-                        this.initialLoad = false;
-                        this.loadFocuses();
-                    } else {
-                        setTimeout(() => { observer.next(); }, 1500);
-                    }
-                }).subscribe(() => {
-                    this.loadFocuses();
-                });
-            }
+            this.handleState();
         });
+    }
+
+    private handleState() {
+        this.focuses = this.stateService.focuses == undefined ? [] : this.stateService.focuses;
+        this.enableDeathThreshold = this.stateService.ignore == undefined ? false : this.stateService.ignore;
+        this.deathThreshold = this.stateService.deathThreshold == undefined ? 2 : this.stateService.deathThreshold;
+        
+        if (this.previousFocuses.map(x => x.id).join(",") != this.focuses.map(x => x.id).join(",")) {
+            //if (this.loadDataSubscription) {
+            //    this.loadDataSubscription.unsubscribe();
+            //}
+
+            this.loadDataSubscription = new Observable(observer => {
+                if (this.initialLoad) {
+                    this.initialLoad = false;
+                    this.loadFocuses();
+                } else {
+                    setTimeout(() => { observer.next(); }, 1000);
+                }
+            }).subscribe(() => {
+                this.loadFocuses();
+            });
+        }
     }
 
     private loadFocuses() {
@@ -213,6 +224,9 @@ export class FightSummaryComponent implements OnInit {
         if (this.report && this.fight) {
             let combatEvents = [];
             let loadingCombatEvents = true;
+            let deaths = [];
+            let loadingDeaths = true;
+
             this.combatEventSubscription = this.loadCombatEvents().subscribe(x => {
                 combatEvents = x;
                 loadingCombatEvents = false;
@@ -222,8 +236,6 @@ export class FightSummaryComponent implements OnInit {
                 }
             });
 
-            let deaths = [];
-            let loadingDeaths = true;
             this.deathsSubscription = this.loadDeaths().subscribe(x => {
                 deaths = x;
                 loadingDeaths = false;
@@ -315,10 +327,10 @@ export class FightSummaryComponent implements OnInit {
                 if (duplicates.length > 0) {
                     throw "Error: Cannot have duplicate ids within the same group. " + duplicates.map(x => `${x.id} (${x.file}) is a duplicate id in group ${x.group}`).join(", ") + ".";
                 }
-
+                
                 this.configs = configs.filter(config => !config.difficulties || config.difficulties.indexOf(this.fight.difficulty) != -1);
 
-                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(configs));
+                return this.warcraftLogsService.getCombatEvents(this.report.id, this.fight.start_time, this.fight.end_time, this.queryService.getQuery(this.configs));
             }).catch((error, caught) => {
                 this.error = error;
                 this.logger.logError(error);

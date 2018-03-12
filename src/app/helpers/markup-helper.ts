@@ -50,6 +50,9 @@ export module MarkupHelper {
     }
 
     export function Actor(source: Actor): string {
+        if (!source)
+            return Style("error", "NULL");
+
         return Style(getStyleForActorType(source.type), source.name);
     }
 
