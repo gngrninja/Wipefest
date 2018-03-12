@@ -12,6 +12,11 @@
   }
 }
 
+.markup-error {
+  font-weight: bold;
+  color: $brand-danger;
+}
+
 // Tables
 table.markup-table-details {
   width: 100%;
