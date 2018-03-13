@@ -313,7 +313,7 @@ export class FightEventService {
         return report.friendlies.find(x => x.id === id);
     }
 
-    private filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], fight: Fight, report: Report): CombatEvent[] {
+    private filterToMatchingCombatEvents(config: EventConfig, combatEvents: CombatEvent[], fight: FightInfo, report: Report): CombatEvent[] {
         let matchingCombatEvents: CombatEvent[] = [];
         if (config.filter) {
             matchingCombatEvents = combatEvents.filter(this.getFilterExpression(config, fight, report));
@@ -421,7 +421,7 @@ export class FightEventService {
         return [].concat(...matchingCombatEventsOnePerRangePerActor);
     }
 
-    private getFilterExpression(config: EventConfig, fight: Fight, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
+    private getFilterExpression(config: EventConfig, fight: FightInfo, report: Report): (combatEvent: CombatEvent, index: number, array: CombatEvent[]) => boolean {
         if (config.filter.type == "firstseen") {
             let actor = report.enemies.find(x => x.guid == config.filter.actor.id);
 

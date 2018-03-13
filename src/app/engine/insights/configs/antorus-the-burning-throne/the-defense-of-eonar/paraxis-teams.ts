@@ -1,8 +1,8 @@
 import { InsightConfig } from "../../insight-config";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { InsightContext } from "../../../models/insight-context";
-import { DebuffEvent } from "../../../../fight-events/models/debuff-event";
 import { PlayerAndAbility } from "../../../models/player-and-ability";
+import { DebuffEvent } from "../../../../../fight-events/models/debuff-event";
 
 export class ParaxisTeams extends InsightConfig {
 
@@ -23,7 +23,7 @@ each ideally consisting of 1 healer and 3 DPS.`);
 
     getProperties(context: InsightContext): any {
 
-        if (context.fight.difficulty != 5)
+        if (context.fightInfo.difficulty != 5)
             return null;
 
         const eventConfigNames = [

@@ -26,7 +26,7 @@ or if the current boss casts {ability:245227:Assume Command:physical}.`);
     }
 
     getProperties(context: InsightContext): any {
-        if (context.fight.difficulty == 3) {
+        if (context.fightInfo.difficulty == 3) {
             return null;
         }
 

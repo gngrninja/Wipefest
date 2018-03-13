@@ -20,7 +20,7 @@ When one weapon is destroyed, the other weapon is empowered. On Mythic difficult
         }
 
         let weapon = null;
-        if (context.fight.difficulty == 5) {
+        if (context.fightInfo.difficulty == 5) {
           let decimatorDestroyed = context.events.filter(x => x.config).find(x => x.config.name == "Haywire (Decimation)");
           let annihilatorDestroyed = context.events.filter(x => x.config).find(x => x.config.name == "Haywire (Annihilation)");
 

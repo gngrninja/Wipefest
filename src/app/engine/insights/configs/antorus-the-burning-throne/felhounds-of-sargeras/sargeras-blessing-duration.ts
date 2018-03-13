@@ -37,7 +37,7 @@ Ranged players can stay between the two bosses, so that everything is within the
       .map(gained => {
         let removeDebuffEvent = removeDebuffEvents.find(lost => gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
         if (!removeDebuffEvent) {
-          return new PlayerAndDuration(gained.target, context.fight.end_time - context.fight.start_time - gained.timestamp);
+            return new PlayerAndDuration(gained.target, context.fightInfo.end_time - context.fightInfo.start_time - gained.timestamp);
         }
 
         let duration = removeDebuffEvent.timestamp - gained.timestamp

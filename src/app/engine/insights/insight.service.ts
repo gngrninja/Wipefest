@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightConfig } from 'app/engine/insights/configs/insight-config';
 import { InsightContext } from 'app/engine/insights/models/insight-context';
 import { TombOfSargerasInsightConfigs } from 'app/engine/insights/configs/tomb-of-sargeras/all';

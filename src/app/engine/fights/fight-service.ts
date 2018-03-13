@@ -11,7 +11,7 @@ import { CombatEvent } from "app/engine/combat-events/combat-event";
 import { SpecializationsService } from "app/engine/specializations/specializations.service";
 import { RaidFactory } from "app/engine/raid/raid";
 import { InsightService } from "app/engine/insights/insight.service";
-import { InsightContext } from "app/engine/insights/insight-context";
+import { InsightContext } from "app/engine/insights/models/insight-context";
 
 export class FightService {
 
