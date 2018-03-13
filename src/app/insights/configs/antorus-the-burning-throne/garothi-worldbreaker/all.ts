@@ -1,13 +1,8 @@
 import { InsightConfig } from "app/insights/configs/insight-config";
 import { Death } from "app/insights/configs/death";
-import { DebuffDuration } from "app/insights/configs/debuff-duration";
-import { Debuff } from "app/insights/configs/debuff";
-import { StackThreshold } from "app/insights/configs/stack-threshold";
 import { Hit } from "app/insights/configs/hit";
-import { Spawn } from "app/insights/configs/spawn";
 import { Cast } from "app/insights/configs/cast";
 import { HitHard } from "app/insights/configs/hit-hard";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { WeaponDestroyedFirst } from "app/insights/configs/antorus-the-burning-throne/garothi-worldbreaker/weapon-destroyed-first";
 import { Soak } from "app/insights/configs/soak";

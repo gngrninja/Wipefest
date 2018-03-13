@@ -1,6 +1,5 @@
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { EventConfig } from "app/event-config/event-config";
-import { Actor } from "app/warcraft-logs/report";
 
 export abstract class FightEvent {
 

@@ -1,12 +1,9 @@
 import { InsightConfig } from "../../insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { Hit } from "../../hit";
-import { HitBySomeoneElse } from "../../hit-by-someone-else";
 import { Debuff } from "../../debuff";
 import { HitWithoutDebuff } from "../../hit-without-debuff";
 import { DebuffUnlessRole } from "../../debuff-unless-role";
-import { DebuffDuration } from "../../debuff-duration";
 import { HitFriendly } from "../../hit-friendly";
 import { SargerasBlessingDuration } from "../../antorus-the-burning-throne/felhounds-of-sargeras/sargeras-blessing-duration";
 

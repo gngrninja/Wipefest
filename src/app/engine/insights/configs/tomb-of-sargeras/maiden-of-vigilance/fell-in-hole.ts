@@ -1,4 +1,3 @@
-import { MarkupHelper } from "app/helpers/markup-helper";
 import { DiedFromFalling } from "../../died-from-falling";
 
 export class FellInHole extends DiedFromFalling {

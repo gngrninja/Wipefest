@@ -1,10 +1,9 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { EventConfig } from "app/event-config/event-config";
 import { FightEvent } from "app/fight-events/models/fight-event";
 import { LoggerService } from "app/shared/logger.service";
 import { Ability } from "../fight-events/models/ability-event";
-import { StateService, SelectedFilter } from "app/shared/state.service";
-import { Fight } from "app/warcraft-logs/report";
+import { StateService } from "app/shared/state.service";
 
 @Component({
     selector: 'fight-summary-filters',

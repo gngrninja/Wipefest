@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { WipefestService, Page } from "app/wipefest.service";
-import { Report } from "app/warcraft-logs/report";
 import { LoggerService } from "app/shared/logger.service";
 
 @Component({

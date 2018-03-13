@@ -3,13 +3,9 @@ import { EventConfig } from "app/event-config/event-config";
 import { LoggerService } from "app/shared/logger.service";
 import { Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
-import { Difficulty } from "app/helpers/difficulty-helper";
 import { FightEvent } from "../../models/fight-event";
 import { PhaseChangeEvent } from "../../models/phase-change-event";
 import { EndOfFightEvent } from "../../models/end-of-fight-event";
-import { MarkupHelper } from "app/helpers/markup-helper";
-import { MarkupParser } from "app/helpers/markup-parser";
-import { DamageEvent } from "app/fight-events/models/damage-event";
 import { environment } from "environments/environment";
 import { StateService } from "app/shared/state.service";
 

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { CombatEvent } from "./combat-event";
 import { Parse } from "./parse";
 import { Report } from "./report";
-import { Router } from "@angular/router";
 import { Death } from "app/warcraft-logs/death";
-import { WipefestService } from "app/wipefest.service";
 import { GuildReport } from "app/warcraft-logs/guild-report";
 import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";

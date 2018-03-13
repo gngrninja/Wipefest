@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Insight } from "app/insights/models/insight";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { InsightConfig } from "app/insights/configs/insight-config";
 import { TombOfSargerasInsightConfigs } from "app/insights/configs/tomb-of-sargeras/all";
 import { AntorusTheBurningThroneInsightConfigs } from "app/insights/configs/antorus-the-burning-throne/all";

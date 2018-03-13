@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Report, Fight } from "app/warcraft-logs/report";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { CombatEvent } from "app/warcraft-logs/combat-event";
@@ -18,7 +18,6 @@ import { Subscription } from "rxjs/Subscription";
 import { Death } from "app/warcraft-logs/death";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { DeathEvent } from "app/fight-events/models/death-event";
-import { environment } from "environments/environment";
 import { LocalStorage } from "app/shared/local-storage";
 import { Raid, RaidFactory, Player } from "app/raid/raid";
 import { ClassesService } from "app/warcraft-logs/classes.service";

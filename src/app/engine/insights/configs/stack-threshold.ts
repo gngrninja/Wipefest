@@ -1,6 +1,4 @@
 import { InsightConfig } from "../configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
-import { DamageEvent } from "app/fight-events/models/damage-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
 import { InsightContext } from "../models/insight-context";

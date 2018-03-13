@@ -1,6 +1,4 @@
 import { InsightConfig } from "../../insight-config";
-import { Death } from "../../death";
-import { DebuffDuration } from "../../debuff-duration";
 import { Debuff } from "../../debuff";
 import { StackThreshold } from "../../stack-threshold";
 import { Hit } from "../../hit";

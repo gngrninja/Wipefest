@@ -1,5 +1,4 @@
 import { InsightConfig } from "../configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { DeathEvent } from "app/fight-events/models/death-event";
 import { PlayerAndTimestamp } from "../models/player-and-timestamp";

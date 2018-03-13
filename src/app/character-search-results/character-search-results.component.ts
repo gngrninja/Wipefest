@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
-import { Parse, ParseSpecData } from "app/warcraft-logs/parse";
 import { WipefestService, Page } from "app/wipefest.service";
 import { Timestamp } from "app/helpers/timestamp-helper";
 import { Difficulty } from "app/helpers/difficulty-helper";

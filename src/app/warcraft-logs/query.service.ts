@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EventConfigFilter, EventConfig, EventConfigFilterAbility, EventConfigCombinedFilter } from "app/event-config/event-config";
-import { Http, Response } from "@angular/http";
-import { Observable } from "rxjs/Rx";
-import { CombatEvent } from "app/warcraft-logs/combat-event";
+import { EventConfigFilter, EventConfig, EventConfigCombinedFilter } from "app/event-config/event-config";
 import { environment } from "environments/environment";
 
 @Injectable()

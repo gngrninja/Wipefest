@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
-import { WipefestService } from "app/wipefest.service";
 import { Response } from "@angular/http";
 
 @Component({

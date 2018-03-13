@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Ability } from "app/fight-events/models/ability-event";
 
 @Component({
     selector: 'ability-icon',

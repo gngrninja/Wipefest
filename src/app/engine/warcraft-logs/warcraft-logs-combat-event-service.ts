@@ -1,6 +1,5 @@
 import { Observable } from "rxjs/Observable";
 import { Report, FightInfo } from "app/engine/reports/report";
-import { IReportService } from "app/engine/reports/report-service";
 import { Injectable } from "@angular/core";
 import { Http, Response, Headers } from "@angular/http";
 import { ICombatEventService } from "app/engine/combat-events/combat-event-service";

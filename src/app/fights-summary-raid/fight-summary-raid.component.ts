@@ -1,10 +1,8 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { CombatEvent } from "app/warcraft-logs/combat-event";
-import { Specialization, ClassesService } from "app/warcraft-logs/classes.service";
-import { Actor, Report } from "app/warcraft-logs/report";
+import { Component, Input } from '@angular/core';
+import { Report } from "app/warcraft-logs/report";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { MarkupParser } from "app/helpers/markup-parser";
-import { Raid, RaidFactory, Player } from "app/raid/raid";
+import { Raid, Player } from "app/raid/raid";
 import { StateService, SelectedFocus } from "app/shared/state.service";
 
 @Component({

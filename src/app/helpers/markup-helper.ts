@@ -7,7 +7,6 @@ import { AbilityAndTimestamp } from "app/insights/models/ability-and-timestamp";
 import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
 import { PlayerAndTimestamp } from "app/insights/models/player-and-timestamp";
 import { PlayerAndDamage } from "app/insights/models/player-and-damage";
-import { TimestampAndPlayers } from "app/insights/models/timestamp-and-players";
 import { Player } from "app/raid/raid";
 import { PlayerAndAbility } from "../insights/models/player-and-ability";
 

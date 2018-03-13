@@ -1,13 +1,11 @@
 import { Report, FightInfo } from "app/engine/reports/report";
 import { Fight } from "app/engine/fights/fight";
-import { EventConfigService } from "app/engine/event-configs/event-config-service";
 import { ICombatEventService } from "app/engine/combat-events/combat-event-service";
 import { EventConfig } from "app/event-config/event-config";
 import { Observable } from "rxjs/Observable";
 import { FightEventService } from "app/engine/fight-events/fight-event.service";
 import { IDeathService } from "app/engine/deaths/death.service";
 import { Death } from "app/engine/deaths/death";
-import { CombatEvent } from "app/engine/combat-events/combat-event";
 import { SpecializationsService } from "app/engine/specializations/specializations.service";
 import { RaidFactory } from "app/engine/raid/raid";
 import { InsightService } from "app/engine/insights/insight.service";

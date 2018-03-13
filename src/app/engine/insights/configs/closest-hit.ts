@@ -1,8 +1,6 @@
 import { InsightConfig } from "../configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { DamageEvent } from "app/fight-events/models/damage-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
-import { Fight, Report, Actor } from "app/warcraft-logs/report";
 import { InsightContext } from "../models/insight-context";
 import { TimestampAndPlayers } from "../models/timestamp-and-players";
 import { Timestamp } from "app/helpers/timestamp-helper";

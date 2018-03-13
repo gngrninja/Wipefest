@@ -1,8 +1,6 @@
 import { InsightConfig } from "app/insights/configs/insight-config";
-import { Death } from "app/insights/configs/death";
 import { DebuffDuration } from "app/insights/configs/debuff-duration";
 import { Debuff } from "app/insights/configs/debuff";
-import { StackThreshold } from "app/insights/configs/stack-threshold";
 import { Hit } from "app/insights/configs/hit";
 import { Spawn } from "app/insights/configs/spawn";
 

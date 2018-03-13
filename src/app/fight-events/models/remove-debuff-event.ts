@@ -1,5 +1,4 @@
 import { FightEvent } from "./fight-event";
-import { CombatAbility } from "app/warcraft-logs/combat-event";
 import { Ability } from "./ability-event";
 import { EventConfig } from "app/event-config/event-config";
 import { Actor } from "app/warcraft-logs/report";

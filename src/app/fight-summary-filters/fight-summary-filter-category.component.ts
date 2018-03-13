@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EventConfigCategory, EventConfigFilter } from "./fight-summary-filters.component";
 import { EventConfig } from "app/event-config/event-config";
 import { LoggerService } from "../shared/logger.service";
-import { StateService, SelectedFilter } from "app/shared/state.service";
+import { StateService } from "app/shared/state.service";
 
 @Component({
     selector: 'fight-summary-filter-category',

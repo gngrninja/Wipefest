@@ -1,4 +1,3 @@
-import { Hit } from "app/insights/configs/hit";
 import { PhaseDuration } from "app/insights/configs/phase-duration";
 
 export class TitanicBulwark extends PhaseDuration {

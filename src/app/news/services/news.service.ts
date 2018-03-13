@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Rx";
-import { EventConfig, EventConfigIndex } from "app/event-config/event-config";
 import { Http, Response } from "@angular/http";
-import { CombatEvent } from "app/warcraft-logs/combat-event";
-import { Report, Fight } from "app/warcraft-logs/report";
 import { environment } from "environments/environment";
 import { LoggerService } from "app/shared/logger.service";
-import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Article } from "app/news/models/article";
 
 @Injectable()

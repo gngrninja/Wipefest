@@ -1,8 +1,6 @@
 import { InsightConfig } from "../configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
-import { AbilityAndTimestamp } from "../models/ability-and-timestamp";
 import { RemoveDebuffEvent } from "app/fight-events/models/remove-debuff-event";
 import { PlayerAndDuration } from "../models/player-and-duration";
 import { Timestamp } from "app/helpers/timestamp-helper";

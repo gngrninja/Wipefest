@@ -1,9 +1,7 @@
 import { InsightConfig } from "app/insights/configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { InsightContext } from "app/insights/models/insight-context";
 import { DebuffEvent } from "app/fight-events/models/debuff-event";
-import { Timestamp } from "app/helpers/timestamp-helper";
 import { AbilityEvent } from "app/fight-events/models/ability-event";
 
 export class FusilladeBeforeFelshield extends InsightConfig {

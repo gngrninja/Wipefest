@@ -1,4 +1,3 @@
-import { MarkupHelper } from "app/helpers/markup-helper";
 import { StackThreshold } from "../../stack-threshold";
 
 export class CreatorsGrace extends StackThreshold {

@@ -1,5 +1,4 @@
 import { InsightConfig } from "../configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
 import { MarkupHelper } from "app/helpers/markup-helper";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { PhaseAndDuration } from "../models/phase-and-duration";
