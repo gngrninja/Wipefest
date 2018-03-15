@@ -36,7 +36,7 @@ and prefers to target ranged players.`);
             .map(x => <DamageEvent>x)
             .filter(damage =>
                 !debuffEvents.some(debuff =>
-                    debuff.target == damage.target &&
+                    debuff.target.id === damage.target.id &&
                     debuff.timestamp < damage.timestamp &&
                     debuff.timestamp + 15000 > damage.timestamp));
 

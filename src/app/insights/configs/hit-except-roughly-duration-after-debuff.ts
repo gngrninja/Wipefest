@@ -39,7 +39,7 @@ export class HitExceptRoughlyDurationAfterDebuff extends InsightConfig {
             .map(x => <DamageEvent>x)
             .filter(damage =>
                 !debuffEvents.some(debuff =>
-                    debuff.target == damage.target &&
+                    debuff.target.id === damage.target.id &&
                     debuff.timestamp < damage.timestamp - this.debuffApplicationTimeRelativeToDamageTime + this.gracePeriod &&
                     debuff.timestamp > damage.timestamp - this.debuffApplicationTimeRelativeToDamageTime - this.gracePeriod));
 

@@ -38,7 +38,7 @@ export class HitWithoutDebuff extends InsightConfig {
             .map(x => <DamageEvent>x)
             .filter(damage =>
                 !debuffEvents.some(debuff =>
-                    debuff.target == damage.target &&
+                    debuff.target.id === damage.target.id &&
                     debuff.timestamp < damage.timestamp &&
                     debuff.timestamp + this.gracePeriod > damage.timestamp));
 

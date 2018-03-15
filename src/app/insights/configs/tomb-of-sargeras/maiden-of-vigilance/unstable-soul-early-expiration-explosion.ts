@@ -29,7 +29,7 @@ Also, if a debuffed player collides with a player of the opposite infusion, or t
             .map(x => <DebuffEvent>x)
             .filter(debuff =>
                 damageEvents.some(damage =>
-                    debuff.target == damage.source &&
+                    debuff.target.id === damage.source.id &&
                     damage.timestamp - debuff.timestamp < 7750 &&
                     damage.timestamp - debuff.timestamp > 0));
 

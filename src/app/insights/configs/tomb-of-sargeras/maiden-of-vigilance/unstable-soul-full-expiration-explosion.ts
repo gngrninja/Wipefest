@@ -32,7 +32,7 @@ If players jump too early, then they risk falling too far to be knocked out of t
             .map(x => <DebuffEvent>x)
             .filter(debuff =>
                 damageEvents.some(damage =>
-                    debuff.target == damage.source &&
+                    debuff.target.id === damage.source.id &&
                     debuff.timestamp < damage.timestamp - 7750 &&
                     debuff.timestamp > damage.timestamp - 8250));
 
