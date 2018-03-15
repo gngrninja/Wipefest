@@ -4,6 +4,9 @@ import { Observable } from "rxjs/Observable";
 import { Http, Headers, Response } from "@angular/http";
 import { IDeathService } from "app/engine/deaths/death.service";
 import { FightInfo, Report } from "app/engine/reports/report";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class WarcraftLogsDeathService implements IDeathService {
