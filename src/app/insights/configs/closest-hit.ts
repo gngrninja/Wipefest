@@ -29,7 +29,7 @@ export class ClosestHit extends InsightConfig {
     }
 
     getProperties(context: InsightContext): any {
-        let damageEvents = context.events
+        const damageEvents = context.events
             .filter(x => x.config)
             .filter(x => this.damageEventConfigNames.indexOf(x.config.name) != -1 && x.config.eventType == "damage")
             .map(x => <DamageEvent>x);
@@ -38,7 +38,7 @@ export class ClosestHit extends InsightConfig {
             return null;
         }
 
-        let triggers: DamageEvent[][] = [];
+        const triggers: DamageEvent[][] = [];
         let trigger = [damageEvents[0]];
         damageEvents.slice(1).forEach(x => {
             if (x.timestamp < trigger[0].timestamp + 100) {
@@ -54,21 +54,21 @@ export class ClosestHit extends InsightConfig {
             return null;
         }
 
-        let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
-        let total = triggers.length;
+        const abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
+        const total = triggers.length;
 
-        let allHitPlayers = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let allHitPlayersAndFrequencies = allHitPlayers.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
-        let timestampsAndSoakingPlayers = triggers.map(x => new TimestampAndPlayers(x[0].timestamp, x.map(y => this.getPlayerFromActor(y.target, context.raid)).sort(SortRaid.ByClassThenSpecializationThenName)));
+        const allHitPlayers = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        const allHitPlayersAndFrequencies = allHitPlayers.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
+        const timestampsAndSoakingPlayers = triggers.map(x => new TimestampAndPlayers(x[0].timestamp, x.map(y => this.getPlayerFromActor(y.target, context.raid)).sort(SortRaid.ByClassThenSpecializationThenName)));
 
-        let abilityEvents = context.events
+        const abilityEvents = context.events
             .filter(x => x.config)
             .filter(x => this.abilityEventConfigNames.indexOf(x.config.name) != -1 && x.config.eventType == "ability")
             .map(x => <AbilityEvent>x)
             .reverse();
 
-        let closestPlayers = triggers.map(trigger => {
-            let abilityEvent = abilityEvents.find(x => x.source.id == trigger[0].source.id && x.source.instance == trigger[0].source.instance && x.timestamp <= trigger[0].timestamp);
+        const closestPlayers = triggers.map(trigger => {
+            const abilityEvent = abilityEvents.find(x => x.source.id == trigger[0].source.id && x.source.instance == trigger[0].source.instance && x.timestamp <= trigger[0].timestamp);
 
             if (!abilityEvent) {
                 return null;
@@ -77,9 +77,9 @@ export class ClosestHit extends InsightConfig {
             let closest = trigger[0].target;
             let closestDistance = 100000000;
 
-            for (var i = 0; i < trigger.length; i++) {
-                let damageEvent = trigger[i];
-                let distance = this.distanceBetween(damageEvent.x, damageEvent.y, abilityEvent.x, abilityEvent.y);
+            for (let i = 0; i < trigger.length; i++) {
+                const damageEvent = trigger[i];
+                const distance = this.distanceBetween(damageEvent.x, damageEvent.y, abilityEvent.x, abilityEvent.y);
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     closest = damageEvent.target;
@@ -89,22 +89,21 @@ export class ClosestHit extends InsightConfig {
             return closest;
         });
 
-        let closestPlayersAndFrequencies = closestPlayers
-            .filter((x, index, array) => array.indexOf(x) == index)
-            .map(x => new PlayerAndFrequency(x, closestPlayers.filter(y => y == x).length))
+        const closestPlayersAndFrequencies = closestPlayers
+            .filter((x, index, array) => array.findIndex(y => y.id === x.id) === index)
+            .map(x => new PlayerAndFrequency(x, closestPlayers.filter(y => y.id === x.id).length))
             .sort((x, y) => y.frequency - x.frequency);
 
-        let timestampsAndPlayersTable =
-            new MarkupHelper.Table(timestampsAndSoakingPlayers.map((x, index) =>
+        const timestampsAndPlayersTable = new MarkupHelper.Table(timestampsAndSoakingPlayers.map((x, index) =>
                 new MarkupHelper.TableRow([
                     new MarkupHelper.TableCell(Timestamp.ToMinutesAndSeconds(x.timestamp)),
                     new MarkupHelper.TableCell(MarkupHelper.Actor(closestPlayers[index])),
                     new MarkupHelper.TableCell(x.players.map(p => MarkupHelper.Player(p)).join(", "))])),
-                new MarkupHelper.TableRow([
-                    new MarkupHelper.TableCell("Time"),
-                    new MarkupHelper.TableCell("Closest"),
-                    new MarkupHelper.TableCell("All Hit")]),
-                "table table-hover markup-table-details");
+            new MarkupHelper.TableRow([
+                new MarkupHelper.TableCell("Time"),
+                new MarkupHelper.TableCell("Closest"),
+                new MarkupHelper.TableCell("All Hit")]),
+            "table table-hover markup-table-details");
 
         return {
             abilities: MarkupHelper.AbilitiesWithIcons(abilities),
@@ -118,10 +117,10 @@ export class ClosestHit extends InsightConfig {
     }
 
     private distanceBetween(x1: number, y1: number, x2: number, y2: number): number {
-        var a = x1 - x2
-        var b = y1 - y2
+        const a = x1 - x2;
+        const b = y1 - y2;
 
-        var c = Math.sqrt(a * a + b * b);
+        const c = Math.sqrt(a * a + b * b);
 
         return c;
     }

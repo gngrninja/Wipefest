@@ -50,8 +50,8 @@ export class HitExceptRoughlyDurationAfterDebuff extends InsightConfig {
         let timestamps = damageEvents.map(x => x.timestamp);
         let damageAbilties = this.getAbilitiesIfTheyExist(damageEvents, this.damageAbilityIds);
         let debuffAbilities = this.getAbilitiesIfTheyExist(damageEvents, this.debuffAbilityIds);
-        let players = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let players = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
         let totalHits = playersAndHits.map(x => x.frequency).reduce((x, y) => x + y, 0);
         
         return {

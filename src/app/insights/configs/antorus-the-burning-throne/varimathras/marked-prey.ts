@@ -34,8 +34,8 @@ export class MarkedPrey extends InsightConfig {
 
         let abilities = this.getAbilitiesIfTheyExist(debuffEvents, [244042]);
 
-        let interceptors = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let interceptorsAndFrequencies = interceptors.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let interceptors = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        let interceptorsAndFrequencies = interceptors.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
         let totalFrequency = damageEvents.length;
 
         let targetsAndInterceptors = damageEvents.map(x => <any>{
