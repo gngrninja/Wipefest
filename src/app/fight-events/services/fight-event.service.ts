@@ -293,9 +293,19 @@ export class FightEventService {
                 return pet;
             }
 
-            return report.friendlies.find(x => x.id === event.targetID);
+            var friendly = JSON.parse(JSON.stringify(report.friendlies.find(x => x.id === event.targetID) || null));
+            if (friendly) {
+                friendly.instance = event.targetInstance;
+            }
+
+            return friendly;
         } else {
-            return report.enemies.find(x => x.id === event.targetID);
+            var enemy = JSON.parse(JSON.stringify(report.enemies.find(x => x.id === event.targetID) || null));
+            if (enemy) {
+                enemy.instance = event.targetInstance;
+            }
+
+            return enemy;
         }
     }
 

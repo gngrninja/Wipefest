@@ -52,7 +52,11 @@ export module MarkupHelper {
         if (!source)
             return Style("error", "NULL");
 
-        return Style(getStyleForActorType(source.type), source.name);
+        let instance = "";
+        if (source.instance)
+            instance = " #" + source.instance;
+
+        return Style(getStyleForActorType(source.type), `${source.name}${instance}`);
     }
 
     export function Player(player: Player): string {

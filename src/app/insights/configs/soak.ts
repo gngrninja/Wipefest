@@ -53,8 +53,8 @@ export class Soak extends InsightConfig {
         let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
         let average = soaks.map(x => x.length).reduce((x, y) => x + y) / soaks.length;
 
-        let players = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let players = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
 
         let timestampsAndSoakingPlayers = soaks.map(x => new TimestampAndPlayers(x[0].timestamp, x.map(y => this.getPlayerFromActor(y.target, context.raid)).sort(SortRaid.ByClassThenSpecializationThenName)));
         let timestampsAndNonSoakingPlayers = soaks.map(x =>

@@ -18,6 +18,8 @@ import { WarcraftLogsService } from "app/warcraft-logs/warcraft-logs.service";
 import { Difficulty } from "app/helpers/difficulty-helper";
 import { MarkupParser } from "app/helpers/markup-parser";
 import { StateService } from "app/shared/state.service";
+import { MarkupHelper } from "../../../helpers/markup-helper";
+import { Actor } from "../../../warcraft-logs/report";
 
 @Component({
     template: `Warning: Instead of using FightEventComponent, use one of its children`
@@ -54,6 +56,10 @@ export class FightEventComponent {
     }
 
     parse(input: string): string {
+        if (input.indexOf("{target}") !== -1 && this.event.hasOwnProperty("target")) {
+            input = input.split("{target}").join(MarkupHelper.Actor(<Actor>(<any>this.event).target));
+        }
+
         return MarkupParser.Parse(input);
     }
 }
