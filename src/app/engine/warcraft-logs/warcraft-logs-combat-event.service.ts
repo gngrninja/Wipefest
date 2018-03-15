@@ -6,6 +6,11 @@ import { ICombatEventService } from "app/engine/combat-events/combat-event-servi
 import { CombatEvent } from "app/engine/combat-events/combat-event";
 import { EventConfig } from "app/event-config/event-config";
 import { EventConfigService } from "app/engine/event-configs/event-config-service";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/expand';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/empty';
 
 @Injectable()
 export class WarcraftLogsCombatEventService implements ICombatEventService {
@@ -18,23 +23,23 @@ export class WarcraftLogsCombatEventService implements ICombatEventService {
 
     getCombatEvents(report: Report, fight: FightInfo, eventConfigs: EventConfig[]): Observable<CombatEvent[]> {
         var query = this.getQuery(eventConfigs);
-        return this.getPageOfCombatEvents(report, fight, query)
+        return this.getPageOfCombatEvents(report, fight.start_time, fight.end_time, query)
             .expand(page => {
                 if (!page.nextPageTimestamp) {
                     return Observable.empty();
                 }
 
-                return this.getPageOfCombatEvents(report, fight, query, page);
+                return this.getPageOfCombatEvents(report, page.nextPageTimestamp, fight.end_time, query, page);
             })
-            .map(x => x.events);
+            .map(x =>  x.events);
     }
 
-    private getPageOfCombatEvents(report: Report, fight: FightInfo, query: string, previousPage: CombatEventPage = null): Observable<CombatEventPage> {
+    private getPageOfCombatEvents(report: Report, start: number, end: number, query: string, previousPage: CombatEventPage = null): Observable<CombatEventPage> {
         return this.get(this.url
             + "report/events/" + report.id
             + "?api_key=" + this.apiKey
-            + "&start=" + fight.start_time
-            + "&end=" + fight.end_time
+            + "&start=" + start
+            + "&end=" + end
             + "&filter=" + query)
             .map(response => {
                 let page = response.json();
