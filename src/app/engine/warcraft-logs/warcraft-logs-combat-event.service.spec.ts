@@ -26,6 +26,7 @@ describe("WarcraftLogsCombatEventService", () => {
             id: "xyMd2kwb3W9zNrJF"
         } as Report;
         var fightInfo = {
+            id: 13,
             start_time: 2313891,
             end_time: 2724731
         } as FightInfo;
