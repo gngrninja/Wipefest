@@ -46,7 +46,7 @@ export class DebuffDuration extends InsightConfig {
 
         let playersAndDurations = debuffEvents
             .map(gained => {
-                let removeDebuffEvent = removeDebuffEvents.find(lost => gained.target == lost.target && gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
+                let removeDebuffEvent = removeDebuffEvents.find(lost => gained.target.id === lost.target.id && gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
                 if (!removeDebuffEvent) {
                     return new PlayerAndDuration(gained.target, context.fightInfo.end_time - context.fightInfo.start_time - gained.timestamp);
                 }
@@ -59,7 +59,7 @@ export class DebuffDuration extends InsightConfig {
 
         let playersWithDurationsOverThresholdAndTimestamps = debuffEvents
             .map(gained => {
-                let removeDebuffEvent = removeDebuffEvents.find(lost => gained.target == lost.target && gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
+                let removeDebuffEvent = removeDebuffEvents.find(lost => gained.target.id === lost.target.id && gained.ability.guid == lost.ability.guid && lost.timestamp > gained.timestamp);
                 if (!removeDebuffEvent) {
                     let duration = context.fightInfo.end_time - context.fightInfo.start_time - gained.timestamp;
                     if (duration < this.threshold)

@@ -35,8 +35,8 @@ export class Debuff extends InsightConfig {
         let abilities = this.getAbilitiesIfTheyExist(debuffEvents, this.abilityIds);
         let abilitiesAndTimestamps = debuffEvents.map(x => new AbilityAndTimestamp(x.ability, x.timestamp));
 
-        let players = debuffEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: debuffEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let players = debuffEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        let playersAndFrequencies = players.map(player => <any>{ player: player, frequency: debuffEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
 
         let totalHits = debuffEvents.length;
 

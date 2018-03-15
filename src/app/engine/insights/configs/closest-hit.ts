@@ -55,8 +55,8 @@ export class ClosestHit extends InsightConfig {
         let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
         let total = triggers.length;
 
-        let allHitPlayers = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let allHitPlayersAndFrequencies = allHitPlayers.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let allHitPlayers = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        let allHitPlayersAndFrequencies = allHitPlayers.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
         let timestampsAndSoakingPlayers = triggers.map(x => new TimestampAndPlayers(x[0].timestamp, x.map(y => this.getPlayerFromActor(y.target, context.raid)).sort(SortRaid.ByClassThenSpecializationThenName)));
 
         let abilityEvents = context.events
@@ -88,8 +88,8 @@ export class ClosestHit extends InsightConfig {
         });
 
         let closestPlayersAndFrequencies = closestPlayers
-            .filter((x, index, array) => array.indexOf(x) == index)
-            .map(x => new PlayerAndFrequency(x, closestPlayers.filter(y => y == x).length))
+            .filter((x, index, array) => array.findIndex(y => y.id === x.id) === index)
+            .map(x => new PlayerAndFrequency(x, closestPlayers.filter(y => y.id === x.id).length))
             .sort((x, y) => y.frequency - x.frequency);
 
         let timestampsAndPlayersTable =

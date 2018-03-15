@@ -33,8 +33,8 @@ export class HitFriendly extends InsightConfig {
         let timestamps = damageEvents.map(x => x.timestamp);
         let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
 
-        let targets = damageEvents.map(x => x.target).filter((x, index, array) => array.indexOf(x) == index);
-        let targetsAndHits = targets.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target == player).length }).sort((x, y) => y.frequency - x.frequency);
+        let targets = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
+        let targetsAndHits = targets.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
 
         let sources = damageEvents.map(x => x.source).filter((x, index, array) => array.map(y => y.id).indexOf(x.id) == index);
         let sourcesAndHits = sources.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.source.id == player.id).length }).sort((x, y) => y.frequency - x.frequency);
