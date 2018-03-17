@@ -27,7 +27,7 @@ describe("WarcraftLogsDeathService", () => {
             end_time: 2724731
         } as FightInfo;
 
-        var expectedResponse = require("./warcraft-logs-death.service.spec.data.json");
+        var expectedResponse = require("../testing/data/xyMd2kwb3W9zNrJF-13.json").deaths;
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
             let body = {};

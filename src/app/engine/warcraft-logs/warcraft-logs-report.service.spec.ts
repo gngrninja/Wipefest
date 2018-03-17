@@ -17,8 +17,8 @@ describe("WarcraftLogsReportService", () => {
     }));
 
     it("should return a report", async(inject([XHRBackend, Http], (mockBackend: MockBackend, http) => {
-        const reportId = "fCMRaqD3nc6gVZX9";
-        var expectedResponse = require("./warcraft-logs-report.service.spec.data.json");
+        const reportId = "xyMd2kwb3W9zNrJF";
+        var expectedResponse = require("../testing/data/xyMd2kwb3W9zNrJF-13.json").report;
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
             let body = {};

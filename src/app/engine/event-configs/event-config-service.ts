@@ -7,6 +7,7 @@ import { SpecializationsService } from "app/engine/specializations/specializatio
 import { EncountersService } from "app/engine/encounters/encounters.service";
 import { Raid } from "app/engine/raid/raid";
 import { Actor } from "app/engine/reports/report";
+import 'rxjs/add/observable/forkJoin';
 
 @Injectable()
 export class EventConfigService {

@@ -31,7 +31,7 @@ describe("WarcraftLogsCombatEventService", () => {
             end_time: 2724731
         } as FightInfo;
 
-        var data = require("./warcraft-logs-combat-event.service.spec.data.json");
+        var data = require("../testing/data/xyMd2kwb3W9zNrJF-13.json");
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
             let body = {};
