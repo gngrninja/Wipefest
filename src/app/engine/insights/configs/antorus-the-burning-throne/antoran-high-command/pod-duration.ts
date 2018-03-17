@@ -53,8 +53,8 @@ or if the current boss casts {ability:245227:Assume Command:physical}.`);
             let leavePodEvent: FightEvent =
                 leavePodEvents.find(leave => leave.target.id == enter.target.id && leave.timestamp >= enter.timestamp) ||
                 deathEvents.find(death => death.source.id == enter.target.id && death.timestamp >= enter.timestamp) ||
-                context.events.find(x => x.isInstanceOf(EndOfFightEvent));
-
+                context.events.find(x => x.config && x.config.eventType === "endOfFight");
+            
             return new PlayerAndDuration(enter.target, leavePodEvent.timestamp - enter.timestamp);
         });
 

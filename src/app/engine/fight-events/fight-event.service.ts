@@ -15,6 +15,7 @@ import { DebuffEvent } from 'app/fight-events/models/debuff-event';
 import { SpawnEvent } from 'app/fight-events/models/spawn-event';
 import { DeathEvent } from 'app/fight-events/models/death-event';
 import { FightInfo, Report, Actor } from 'app/engine/reports/report';
+import { EndOfFightEvent } from 'app/fight-events/models/end-of-fight-event';
 
 @Injectable()
 export class FightEventService {
@@ -26,7 +27,29 @@ export class FightEventService {
             return this.getEventsForConfig(report, fight, config, matchingCombatEvents, deaths);
         }));
 
+        if (!events.some(x => x.isInstanceOf(PhaseChangeEvent))) {
+            events.push(new TitleEvent(0, "Pull"));
+        }
+        events.push(new EndOfFightEvent(fight.end_time - fight.start_time, fight.kill));
+        events = this.sortEvents(events);
+
         return events;
+    }
+
+    private sortEvents(events: FightEvent[]): FightEvent[] {
+        return events.sort((a: any, b: any) => {
+            let sort = a.timestamp - b.timestamp;
+
+            if (a["sequence"] && b["sequence"]) {
+                sort = sort || a.sequence - b.sequence;
+            }
+
+            if (a["instance"] && b["instance"]) {
+                sort = sort || a.instance - b.instance;
+            }
+
+            return sort;
+        });
     }
 
     private getEventsForConfig(report: Report, fight: FightInfo, config: EventConfig, combatEvents: CombatEvent[], deaths: Death[], timestampOffset: number = 0, isChild: boolean = false): FightEvent[] {

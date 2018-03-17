@@ -1,4 +1,5 @@
 import { TitleEvent } from "./title-event";
+import { EventConfig } from "app/event-config/event-config";
 
 export class EndOfFightEvent extends TitleEvent {
 
@@ -7,6 +8,8 @@ export class EndOfFightEvent extends TitleEvent {
         public kill: boolean) {
 
         super(timestamp, kill ? "Kill" : "Wipe");
+
+        this.config = new EventConfig({ eventType: "endOfFight" });
     }
 
 }
