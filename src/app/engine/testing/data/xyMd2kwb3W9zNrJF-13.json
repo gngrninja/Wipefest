@@ -1,4 +1,4 @@
-{
+Ôªø{
   "report": {
     "fights": [
       {
@@ -729,7 +729,7 @@
         ]
       },
       {
-        "name": "YazÌd",
+        "name": "Yaz√≠d",
         "id": 13,
         "guid": 95096952,
         "type": "DemonHunter",
@@ -812,7 +812,7 @@
         ]
       },
       {
-        "name": "XÈnubis",
+        "name": "X√©nubis",
         "id": 19,
         "guid": 68005243,
         "type": "Paladin",
@@ -1661,7 +1661,7 @@
         ]
       },
       {
-        "name": "RaekÛn",
+        "name": "Raek√≥n",
         "id": 5,
         "guid": 84896926,
         "type": "Priest",
@@ -1999,7 +1999,7 @@
         ]
       },
       {
-        "name": "VanyalÌ",
+        "name": "Vanyal√≠",
         "id": 28,
         "guid": 68803783,
         "type": "Priest",
@@ -5369,12 +5369,12 @@
               "type": "Druid"
             },
             {
-              "name": "VanyalÌ",
+              "name": "Vanyal√≠",
               "total": 585836,
               "type": "Priest"
             },
             {
-              "name": "XÈnubis",
+              "name": "X√©nubis",
               "total": 41969,
               "type": "Paladin"
             }
@@ -5453,7 +5453,7 @@
         }
       },
       {
-        "name": "RaekÛn",
+        "name": "Raek√≥n",
         "id": 5,
         "guid": 84896926,
         "type": "Priest",
@@ -5560,12 +5560,12 @@
           ],
           "sources": [
             {
-              "name": "XÈnubis",
+              "name": "X√©nubis",
               "total": 2777278,
               "type": "Paladin"
             },
             {
-              "name": "RaekÛn",
+              "name": "Raek√≥n",
               "total": 1020752,
               "totalReduced": 764862,
               "type": "Priest"
@@ -5742,7 +5742,7 @@
               "type": "Druid"
             },
             {
-              "name": "XÈnubis",
+              "name": "X√©nubis",
               "total": 58344,
               "type": "Paladin"
             },
@@ -39199,5 +39199,347 @@
         }
       ]
     }
-  ]
+  ],
+  "raid": {
+    "players": [
+      {
+        "name": "Essence of Eonar",
+        "className": "Boss",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Icecdeath",
+        "className": "DeathKnight",
+        "specialization": {
+          "id": 251,
+          "type": "DeathKnight",
+          "className": "Death Knight",
+          "name": "Frost",
+          "role": "Melee",
+          "focusEnabled": false
+        },
+        "itemLevel": 965.4375
+      },
+      {
+        "name": "Rustdari",
+        "className": "DemonHunter",
+        "specialization": {
+          "id": 577,
+          "type": "DemonHunter",
+          "className": "Demon Hunter",
+          "name": "Havoc",
+          "role": "Melee",
+          "focusEnabled": false
+        },
+        "itemLevel": 961.5
+      },
+      {
+        "name": "Yaz√≠d",
+        "className": "DemonHunter",
+        "specialization": {
+          "id": 577,
+          "type": "DemonHunter",
+          "className": "Demon Hunter",
+          "name": "Havoc",
+          "role": "Melee",
+          "focusEnabled": false
+        },
+        "itemLevel": 967.0625
+      },
+      {
+        "name": "Ohnefell",
+        "className": "Druid",
+        "specialization": {
+          "id": 102,
+          "type": "Druid",
+          "className": "Druid",
+          "name": "Balance",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 961.4
+      },
+      {
+        "name": "Flucloxx",
+        "className": "Druid",
+        "specialization": {
+          "id": 105,
+          "type": "Druid",
+          "className": "Druid",
+          "name": "Restoration",
+          "role": "Healer",
+          "focusEnabled": false
+        },
+        "itemLevel": 963.1333333333333
+      },
+      {
+        "name": "Swyx",
+        "className": "Druid",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Heskeey",
+        "className": "Hunter",
+        "specialization": {
+          "id": 253,
+          "type": "Hunter",
+          "className": "Hunter",
+          "name": "Beast Mastery",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 965.0666666666667
+      },
+      {
+        "name": "Shotzone",
+        "className": "Hunter",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Rajer",
+        "className": "Mage",
+        "specialization": {
+          "id": 63,
+          "type": "Mage",
+          "className": "Mage",
+          "name": "Fire",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 965.0625
+      },
+      {
+        "name": "Poshbird",
+        "className": "Monk",
+        "specialization": {
+          "id": 268,
+          "type": "Monk",
+          "className": "Monk",
+          "name": "Brewmaster",
+          "role": "Tank",
+          "focusEnabled": false
+        },
+        "itemLevel": 957.7333333333333
+      },
+      {
+        "name": "Arciryas",
+        "className": "Monk",
+        "specialization": {
+          "id": 270,
+          "type": "Monk",
+          "className": "Monk",
+          "name": "Mistweaver",
+          "role": "Healer",
+          "focusEnabled": false
+        },
+        "itemLevel": 960.4
+      },
+      {
+        "name": "Admiral's Pod",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Engineer's Pod",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "General's Pod",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Lightforged Centurion",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Lightforged Cleric",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Lightforged Commander",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Lightforged Warframe",
+        "className": "NPC",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "X√©nubis",
+        "className": "Paladin",
+        "specialization": {
+          "id": 66,
+          "type": "Paladin",
+          "className": "Paladin",
+          "name": "Protection",
+          "role": "Tank",
+          "focusEnabled": false
+        },
+        "itemLevel": 970.5625
+      },
+      {
+        "name": "Hati",
+        "className": "Pet",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Healing Stream Totem",
+        "className": "Pet",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Void Tendril",
+        "className": "Pet",
+        "specialization": null,
+        "itemLevel": null
+      },
+      {
+        "name": "Lambkorma",
+        "className": "Priest",
+        "specialization": {
+          "id": 256,
+          "type": "Priest",
+          "className": "Priest",
+          "name": "Discipline",
+          "role": "Healer",
+          "focusEnabled": false
+        },
+        "itemLevel": 950.5333333333333
+      },
+      {
+        "name": "Vanyal√≠",
+        "className": "Priest",
+        "specialization": {
+          "id": 257,
+          "type": "Priest",
+          "className": "Priest",
+          "name": "Holy",
+          "role": "Healer",
+          "focusEnabled": true
+        },
+        "itemLevel": 969.4666666666667
+      },
+      {
+        "name": "Lytten",
+        "className": "Priest",
+        "specialization": {
+          "id": 258,
+          "type": "Priest",
+          "className": "Priest",
+          "name": "Shadow",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 959
+      },
+      {
+        "name": "Raek√≥n",
+        "className": "Priest",
+        "specialization": {
+          "id": 258,
+          "type": "Priest",
+          "className": "Priest",
+          "name": "Shadow",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 965.9375
+      },
+      {
+        "name": "Frankii",
+        "className": "Shaman",
+        "specialization": {
+          "id": 262,
+          "type": "Shaman",
+          "className": "Shaman",
+          "name": "Elemental",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 970.5625
+      },
+      {
+        "name": "Dissi",
+        "className": "Warlock",
+        "specialization": {
+          "id": 265,
+          "type": "Warlock",
+          "className": "Warlock",
+          "name": "Affliction",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 963.6
+      },
+      {
+        "name": "Skurry",
+        "className": "Warlock",
+        "specialization": {
+          "id": 265,
+          "type": "Warlock",
+          "className": "Warlock",
+          "name": "Affliction",
+          "role": "Ranged",
+          "focusEnabled": false
+        },
+        "itemLevel": 960.8
+      },
+      {
+        "name": "Colossal",
+        "className": "Warrior",
+        "specialization": {
+          "id": 72,
+          "type": "Warrior",
+          "className": "Warrior",
+          "name": "Fury",
+          "role": "Melee",
+          "focusEnabled": true
+        },
+        "itemLevel": 956
+      },
+      {
+        "name": "Garrow",
+        "className": "Warrior",
+        "specialization": {
+          "id": 72,
+          "type": "Warrior",
+          "className": "Warrior",
+          "name": "Fury",
+          "role": "Melee",
+          "focusEnabled": true
+        },
+        "itemLevel": 963.5
+      },
+      {
+        "name": "Plannk",
+        "className": "Warrior",
+        "specialization": {
+          "id": 72,
+          "type": "Warrior",
+          "className": "Warrior",
+          "name": "Fury",
+          "role": "Melee",
+          "focusEnabled": true
+        },
+        "itemLevel": 958
+      }
+    ]
+  }
 }
