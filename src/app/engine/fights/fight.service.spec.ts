@@ -2,14 +2,14 @@ import { TestBed, async, inject } from "@angular/core/testing";
 import { WarcraftLogsCombatEventService } from "../warcraft-logs/warcraft-logs-combat-event.service";
 import { Http, HttpModule, XHRBackend, Response, ResponseOptions } from "@angular/http";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { FightInfo } from "../reports/report";
 import { EventConfigService } from "../event-configs/event-config-service";
 import { EncountersService } from "../encounters/encounters.service";
 import { SpecializationsService } from "../specializations/specializations.service";
-import { FightService } from "app/engine/fights/fight.service";
-import { WarcraftLogsDeathService } from "app/engine/warcraft-logs/warcraft-logs-death.service";
-import { FightEventService } from "app/engine/fight-events/fight-event.service";
-import { InsightService } from "app/engine/insights/insight.service";
+import { FightService } from "../fights/fight.service";
+import { WarcraftLogsDeathService } from "../warcraft-logs/warcraft-logs-death.service";
+import { FightEventService } from "../fight-events/fight-event.service";
+import { InsightService } from "../insights/insight.service";
+import { TestDataService } from "../testing/test-data.service";
 
 describe("FightService", () => {
     const url = "https://www.warcraftlogs.com/v1/";
@@ -19,40 +19,33 @@ describe("FightService", () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
+                TestDataService,
                 { provide: XHRBackend, useClass: MockBackend }
             ]
         });
     }));
 
-    it("should return a fight", async(inject([XHRBackend, Http], (mockBackend: MockBackend, http) => {
-        var data = require("../testing/data/xyMd2kwb3W9zNrJF-13.json");
+    it("should return a fight", async(inject([TestDataService, XHRBackend, Http], (testDataService: TestDataService, mockBackend: MockBackend, http) => {
+        const data = testDataService.get("xyMd2kwb3W9zNrJF-13");
 
-        const report = data.report;
-        report.id = "xyMd2kwb3W9zNrJF";
-        var fightInfo = {
-            id: 13,
-            start_time: 2313891,
-            end_time: 2724731
-        } as FightInfo;
-        
         mockBackend.connections.subscribe((connection: MockConnection) => {
             let body = {};
-            if (connection.request.url.indexOf("report/events/" + report.id
+            if (connection.request.url.indexOf("report/events/" + data.report.id
                 + "?api_key=" + apiKey
-                + "&start=" + fightInfo.start_time
-                + "&end=" + fightInfo.end_time) !== -1) {
-                body = data.combatEvents[0];
-            } else if (connection.request.url.indexOf("report/events/" + report.id
+                + "&start=" + data.fightInfo.start_time
+                + "&end=" + data.fightInfo.end_time) !== -1) {
+                body = data.combatEventPages[0];
+            } else if (connection.request.url.indexOf("report/events/" + data.report.id
                 + "?api_key=" + apiKey
-                + "&start=" + data.combatEvents[0].nextPageTimestamp
-                + "&end=" + fightInfo.end_time) !== -1) {
-                body = data.combatEvents[1];
-            } else if (connection.request.url.indexOf("report/events/" + report.id
+                + "&start=" + data.combatEventPages[0].nextPageTimestamp
+                + "&end=" + data.fightInfo.end_time) !== -1) {
+                body = data.combatEventPages[1];
+            } else if (connection.request.url.indexOf("report/events/" + data.report.id
                 + "?api_key=" + apiKey
-                + "&start=" + data.combatEvents[1].nextPageTimestamp
-                + "&end=" + fightInfo.end_time) !== -1) {
-                body = data.combatEvents[2];
-            } else if (connection.request.url.indexOf(`report/tables/deaths/${report.id}?api_key=${apiKey}&start=${fightInfo.start_time}&end=${fightInfo.end_time}`) !== -1) {
+                + "&start=" + data.combatEventPages[1].nextPageTimestamp
+                + "&end=" + data.fightInfo.end_time) !== -1) {
+                body = data.combatEventPages[2];
+            } else if (connection.request.url.indexOf(`report/tables/deaths/${data.report.id}?api_key=${apiKey}&start=${data.fightInfo.start_time}&end=${data.fightInfo.end_time}`) !== -1) {
                 body = data.deaths;
             }
 
@@ -75,23 +68,23 @@ describe("FightService", () => {
             specializationsService,
             insightService);
 
-        const info = data.report.fights.find(x => x.id === fightInfo.id);
-        fightService.getFight(report, info, data.eventConfigs).subscribe(fight => {
-            // Re-parse so that Jasmine compares properly
-            const actual = JSON.parse(JSON.stringify(fight));
+        fightService.getFight(data.report, data.fightInfo, data.eventConfigs).subscribe(fight => {
+            expect(fight.report).toEqual(data.report);
+            expect(fight.info).toEqual(data.fightInfo);
+            expect(fight.eventConfigs).toEqual(data.eventConfigs);
+            expect(fight.raid).toEqual(data.raid);
+            expect(fight.insights).toEqual(data.insights);
 
-            expect(actual.report).toEqual(report);
-            expect(actual.info).toEqual(info);
-            expect(actual.eventConfigs).toEqual(data.eventConfigs);
-            expect(actual.events).toEqual(data.events.map(x => {
-                // When parsing, eventConfigs filter stack gets set to 0 as default
-                if (x.config && x.config.filter && !x.config.filter.stack)
-                    x.config.filter.stack = 0;
+            // Convert to Objects to Jasmine doesn't worry about types not matching
+            // (FightEvent != AbilityEvent etc)
+            expect(JSON.parse(JSON.stringify(fight.events)))
+                .toEqual(JSON.parse(JSON.stringify(data.events.map(x => {
+                    // When parsing, eventConfigs filter stack gets set to 0 as default
+                    if (x.config && x.config.filter && !x.config.filter.stack)
+                        x.config.filter.stack = 0;
 
-                return x;
-            }));
-            expect(actual.raid).toEqual(data.raid);
-            expect(actual.insights).toEqual(data.insights);
+                    return x;
+                }))));
         });
     })));
 });

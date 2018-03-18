@@ -1,27 +1,30 @@
-import { async } from "@angular/core/testing";
+import { async, TestBed, inject } from "@angular/core/testing";
 import { FightEventService } from "./fight-event.service";
-import { CombatEvent } from "../combat-events/combat-event";
+import { TestDataService } from "../testing/test-data.service";
 
 describe("FightEventService", () => {
 
-    it("should return fight events", async(() => {
-        var data = require("../testing/data/xyMd2kwb3W9zNrJF-13.json");
-        data.report.id = "xyMd2kwb3W9zNrJF";
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            providers: [
+                TestDataService
+            ]
+        });
+    }));
 
-        const fight = data.report.fights.find(x => x.id === 13);
-        const combatEvents = [].concat.apply([], data.combatEvents.map(x => x.events)) as CombatEvent[];
-
+    it("should return fight events", async(inject([TestDataService], (testDataService: TestDataService) => {
+        const data = testDataService.get("xyMd2kwb3W9zNrJF-13");
         const service = new FightEventService();
+
+        const events = service.getEvents(data.report, data.fightInfo, data.eventConfigs, data.combatEvents, data.deaths.entries);
         
-        const events = service.getEvents(data.report, fight, data.eventConfigs, combatEvents, data.deaths.entries);
-        
-        // Re-parse so that Jasmine compares properly
+        // Convert to Objects to Jasmine doesn't worry about types not matching
+        // (FightEvent != AbilityEvent etc)
         const actual = JSON.parse(JSON.stringify(events));
+        const expected = JSON.parse(JSON.stringify(data.events));
 
-        //document.body.innerText = JSON.stringify(events);
-
-        expect(actual).toEqual(data.events);
+        expect(actual).toEqual(expected);
 
         // TODO: Check that these events line up with current live behaviour
-    }));
+    })));
 });

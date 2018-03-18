@@ -1,5 +1,6 @@
 ﻿{
   "report": {
+    "id": "xyMd2kwb3W9zNrJF",
     "fights": [
       {
         "id": 1,
@@ -5245,6 +5246,20 @@
     "end": 1516226180174,
     "zone": 17
   },
+  "fightInfo": {
+    "id": 13,
+    "start_time": 2313891,
+    "end_time": 2724731,
+    "boss": 2070,
+    "size": 20,
+    "difficulty": 5,
+    "kill": true,
+    "partial": 3,
+    "bossPercentage": 0,
+    "fightPercentage": 0,
+    "lastPhaseForPercentageDisplay": 1,
+    "name": "Antoran High Command"
+  },
   "deaths": {
     "entries": [
       {
@@ -6418,7 +6433,7 @@
       }
     }
   ],
-  "combatEvents": [
+  "combatEventPages": [
     {
       "events": [
         {

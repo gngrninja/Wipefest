@@ -1,26 +1,31 @@
-import { async } from "@angular/core/testing";
+import { async, inject, TestBed } from "@angular/core/testing";
 import { SpecializationsService } from "../specializations/specializations.service";
-import { CombatEvent } from "../combat-events/combat-event";
 import { RaidFactory } from "../raid/raid";
+import { TestDataService } from "../testing/test-data.service";
 
 describe("RaidFactory", () => {
 
-    it("should return a raid", async(() => {
-        var data = require("../testing/data/xyMd2kwb3W9zNrJF-13.json");
-        
-        const combatEvents = [].concat.apply([], data.combatEvents.map(x => x.events)) as CombatEvent[];
-        const specializationsService = new SpecializationsService();
-
-        const raid = RaidFactory.Get(
-            combatEvents.filter(x => x.type === "combatantinfo"),
-            data.report.friendlies,
-            specializationsService);
-
-        // Re-parse so that Jasmine compares properly
-        const actual = JSON.parse(JSON.stringify(raid.players));
-
-        expect(actual).toEqual(data.raid.players);
-
-        // TODO: Check - is this supposed to return NPCs and Pets?
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            providers: [
+                TestDataService
+            ]
+        });
     }));
+
+    it("should return a raid",
+        async(inject([TestDataService], (testDataService: TestDataService) => {
+            const data = testDataService.get("xyMd2kwb3W9zNrJF-13");
+
+            const specializationsService = new SpecializationsService();
+
+            const raid = RaidFactory.Get(
+                data.combatEvents.filter(x => x.type === "combatantinfo"),
+                data.report.friendlies,
+                specializationsService);
+
+            expect(raid).toEqual(data.raid);
+
+            // TODO: Check - is this supposed to return NPCs and Pets?
+        })));
 });

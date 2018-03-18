@@ -9,6 +9,7 @@ import { EventConfigService } from "app/engine/event-configs/event-config-servic
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/expand';
+import 'rxjs/add/operator/last';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/empty';
 
@@ -31,7 +32,8 @@ export class WarcraftLogsCombatEventService implements ICombatEventService {
 
                 return this.getPageOfCombatEvents(report, page.nextPageTimestamp, fight.end_time, query, page);
             })
-            .map(x =>  x.events);
+            .map(x => x.events)
+            .last();
     }
 
     private getPageOfCombatEvents(report: Report, start: number, end: number, query: string, previousPage: CombatEventPage = null): Observable<CombatEventPage> {
