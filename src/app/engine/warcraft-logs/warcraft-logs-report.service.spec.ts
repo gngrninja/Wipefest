@@ -5,8 +5,8 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { TestDataService } from "../testing/test-data.service";
 
 describe("WarcraftLogsReportService", () => {
-    const url = "https://www.warcraftlogs.com/v1/";
-    const apiKey = "4755ffa6214768b13beab7deb1bfc85f";
+    const url = "URL";
+    const apiKey = "WCL_API_KEY";
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

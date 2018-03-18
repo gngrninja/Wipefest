@@ -12,8 +12,8 @@ import { InsightService } from "../insights/insight.service";
 import { TestDataService } from "../testing/test-data.service";
 
 describe("FightService", () => {
-    const url = "https://www.warcraftlogs.com/v1/";
-    const apiKey = "4755ffa6214768b13beab7deb1bfc85f";
+    const url = "URL";
+    const apiKey = "WCL_API_KEY";
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
