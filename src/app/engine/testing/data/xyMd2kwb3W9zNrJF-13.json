@@ -50247,7 +50247,8 @@
         "owner": "Fluclox",
         "start": 1516217053179,
         "end": 1516226180174,
-        "zone": 17
+        "zone": 17,
+        "id": "xyMd2kwb3W9zNrJF"
       },
       "fight": {
         "id": 13,
@@ -59289,7 +59290,8 @@
         "owner": "Fluclox",
         "start": 1516217053179,
         "end": 1516226180174,
-        "zone": 17
+        "zone": 17,
+        "id": "xyMd2kwb3W9zNrJF"
       },
       "fight": {
         "id": 13,
@@ -75124,7 +75126,8 @@
         "owner": "Fluclox",
         "start": 1516217053179,
         "end": 1516226180174,
-        "zone": 17
+        "zone": 17,
+        "id": "xyMd2kwb3W9zNrJF"
       },
       "fight": {
         "id": 13,
@@ -104138,7 +104141,8 @@
         "owner": "Fluclox",
         "start": 1516217053179,
         "end": 1516226180174,
-        "zone": 17
+        "zone": 17,
+        "id": "xyMd2kwb3W9zNrJF"
       },
       "fight": {
         "id": 13,
@@ -109210,14 +109214,14 @@
     {
       "id": "1",
       "boss": 2070,
-      "_title": "Triggered {[image=\"undefined\" url=\"http://wowhead.com/spell=245121\" style=\"icon\"] Entropic Blast} {[style=\"fire\"] Entropic Blast} {[style=\"info\"] 39} times.",
+      "_title": "Triggered {[image=\"https://www.warcraftlogs.com/img/icons/abilities/spell_fire_felflamering.jpg\" url=\"http://wowhead.com/spell=245121\" style=\"icon\"] Entropic Blast} {[style=\"fire\"] Entropic Blast} {[style=\"info\"] 39} times.",
       "_details": "<h6>Closest</h6><p>{[style=\"druid\"] Flucloxx} (9), {[style=\"paladin\"] Xénubis} (4), {[style=\"warrior\"] Garrow} (3), {[style=\"warrior\"] Colossal} (3), {[style=\"monk\"] Poshbird} (2), {[style=\"death-knight\"] Icecdeath} (2), {[style=\"demon-hunter\"] Rustdari} (2), {[style=\"warrior\"] Plannk} (2), {[style=\"druid\"] Ohnefell} (2), {[style=\"monk\"] Arciryas} (2), {[style=\"demon-hunter\"] Yazíd} (2), {[style=\"priest\"] Lambkorma} (1), {[style=\"warlock\"] Dissi} (1), {[style=\"priest\"] Raekón} (1), {[style=\"hunter\"] Heskeey} (1), {[style=\"priest\"] Lytten} (1), {[style=\"priest\"] Vanyalí} (1).</p><h6>All Hit</h6><p>{[style=\"monk\"] Poshbird} (10), {[style=\"demon-hunter\"] Rustdari} (10), {[style=\"death-knight\"] Icecdeath} (10), {[style=\"warrior\"] Colossal} (9), {[style=\"druid\"] Flucloxx} (9), {[style=\"warrior\"] Plannk} (8), {[style=\"warrior\"] Garrow} (7), {[style=\"paladin\"] Xénubis} (7), {[style=\"demon-hunter\"] Yazíd} (6), {[style=\"priest\"] Vanyalí} (5), {[style=\"druid\"] Ohnefell} (4), {[style=\"priest\"] Raekón} (4), {[style=\"priest\"] Lytten} (3), {[style=\"warlock\"] Dissi} (2), {[style=\"hunter\"] Heskeey} (2), {[style=\"priest\"] Lambkorma} (2), {[style=\"monk\"] Arciryas} (2), {[style=\"warlock\"] Skurry} (1), {[style=\"shaman\"] Frankii} (1), {[style=\"mage\"] Rajer} (1).</p> <table class=\"table table-hover markup-table-details\"><thead><tr><th>Time</th><th>Closest</th><th>All Hit</th></tr></thead><tbody><tr><td>0:19</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>0:28</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>0:30</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}, {[style=\"priest\"] Lytten}, {[style=\"priest\"] Raekón}, {[style=\"warlock\"] Dissi}, {[style=\"warlock\"] Skurry}</td></tr><tr><td>0:32</td><td>{[style=\"druid\"] Ohnefell}</td><td>{[style=\"druid\"] Ohnefell}</td></tr><tr><td>0:32</td><td>{[style=\"warrior\"] Garrow}</td><td>{[style=\"priest\"] Vanyalí}, {[style=\"warrior\"] Garrow}</td></tr><tr><td>0:41</td><td>{[style=\"priest\"] Lytten}</td><td>{[style=\"priest\"] Lytten}, {[style=\"priest\"] Raekón}</td></tr><tr><td>0:46</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>0:47</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>0:48</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>0:50</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>1:01</td><td>{[style=\"hunter\"] Heskeey}</td><td>{[style=\"hunter\"] Heskeey}</td></tr><tr><td>1:01</td><td>{[style=\"death-knight\"] Icecdeath}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"demon-hunter\"] Rustdari}, {[style=\"demon-hunter\"] Yazíd}, {[style=\"paladin\"] Xénubis}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>1:19</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}</td></tr><tr><td>1:20</td><td>{[style=\"druid\"] Flucloxx}</td><td>{[style=\"druid\"] Flucloxx}, {[style=\"priest\"] Raekón}</td></tr><tr><td>1:21</td><td>{[style=\"warrior\"] Colossal}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"warrior\"] Colossal}</td></tr><tr><td>1:22</td><td>{[style=\"priest\"] Raekón}</td><td>{[style=\"priest\"] Raekón}</td></tr><tr><td>1:31</td><td>{[style=\"priest\"] Vanyalí}</td><td>{[style=\"priest\"] Vanyalí}</td></tr><tr><td>1:40</td><td>{[style=\"warrior\"] Garrow}</td><td>{[style=\"warrior\"] Garrow}</td></tr><tr><td>3:08</td><td>{[style=\"warlock\"] Dissi}</td><td>{[style=\"warlock\"] Dissi}</td></tr><tr><td>3:17</td><td>{[style=\"demon-hunter\"] Yazíd}</td><td>{[style=\"demon-hunter\"] Yazíd}, {[style=\"shaman\"] Frankii}</td></tr><tr><td>3:39</td><td>{[style=\"warrior\"] Colossal}</td><td>{[style=\"demon-hunter\"] Rustdari}, {[style=\"demon-hunter\"] Yazíd}, {[style=\"druid\"] Ohnefell}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>3:49</td><td>{[style=\"warrior\"] Colossal}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"druid\"] Ohnefell}, {[style=\"hunter\"] Heskeey}, {[style=\"monk\"] Poshbird}, {[style=\"priest\"] Lambkorma}, {[style=\"priest\"] Lytten}, {[style=\"warrior\"] Colossal}</td></tr><tr><td>3:51</td><td>{[style=\"priest\"] Lambkorma}</td><td>{[style=\"priest\"] Lambkorma}</td></tr><tr><td>3:59</td><td>{[style=\"death-knight\"] Icecdeath}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"demon-hunter\"] Rustdari}, {[style=\"demon-hunter\"] Yazíd}, {[style=\"mage\"] Rajer}, {[style=\"monk\"] Poshbird}, {[style=\"paladin\"] Xénubis}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Garrow}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>4:00</td><td>{[style=\"paladin\"] Xénubis}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"monk\"] Poshbird}, {[style=\"paladin\"] Xénubis}</td></tr><tr><td>4:10</td><td>{[style=\"warrior\"] Garrow}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"demon-hunter\"] Rustdari}, {[style=\"monk\"] Poshbird}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Garrow}</td></tr><tr><td>4:37</td><td>{[style=\"paladin\"] Xénubis}</td><td>{[style=\"demon-hunter\"] Rustdari}, {[style=\"demon-hunter\"] Yazíd}, {[style=\"monk\"] Poshbird}, {[style=\"paladin\"] Xénubis}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Garrow}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>4:41</td><td>{[style=\"warrior\"] Plannk}</td><td>{[style=\"warrior\"] Plannk}</td></tr><tr><td>4:52</td><td>{[style=\"monk\"] Poshbird}</td><td>{[style=\"monk\"] Poshbird}</td></tr><tr><td>5:41</td><td>{[style=\"demon-hunter\"] Yazíd}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"demon-hunter\"] Rustdari}, {[style=\"demon-hunter\"] Yazíd}, {[style=\"monk\"] Poshbird}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>5:51</td><td>{[style=\"monk\"] Arciryas}</td><td>{[style=\"monk\"] Arciryas}, {[style=\"priest\"] Vanyalí}</td></tr><tr><td>5:55</td><td>{[style=\"paladin\"] Xénubis}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"paladin\"] Xénubis}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>6:05</td><td>{[style=\"warrior\"] Plannk}</td><td>{[style=\"demon-hunter\"] Rustdari}, {[style=\"priest\"] Vanyalí}, {[style=\"warrior\"] Plannk}</td></tr><tr><td>6:14</td><td>{[style=\"demon-hunter\"] Rustdari}</td><td>{[style=\"demon-hunter\"] Rustdari}, {[style=\"warrior\"] Colossal}, {[style=\"warrior\"] Garrow}</td></tr><tr><td>6:17</td><td>{[style=\"druid\"] Ohnefell}</td><td>{[style=\"druid\"] Ohnefell}</td></tr><tr><td>6:17</td><td>{[style=\"paladin\"] Xénubis}</td><td>{[style=\"paladin\"] Xénubis}</td></tr><tr><td>6:23</td><td>{[style=\"monk\"] Arciryas}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"demon-hunter\"] Rustdari}, {[style=\"monk\"] Poshbird}, {[style=\"monk\"] Arciryas}, {[style=\"priest\"] Vanyalí}</td></tr><tr><td>6:31</td><td>{[style=\"demon-hunter\"] Rustdari}</td><td>{[style=\"death-knight\"] Icecdeath}, {[style=\"demon-hunter\"] Rustdari}, {[style=\"monk\"] Poshbird}, {[style=\"paladin\"] Xénubis}, {[style=\"warrior\"] Garrow}</td></tr><tr><td>6:40</td><td>{[style=\"monk\"] Poshbird}</td><td>{[style=\"monk\"] Poshbird}</td></tr></tbody></table>",
       "_tip": "\nWhile {[style=\"boss\"] Chief Engineer Ishkar} is in his pod,\nhe will cast {[url=\"http://wowhead.com/spell=245161\" style=\"physical\"] Entropic Mine}, spawning mines near players.\nThe raid should avoid these mines, moving around the room to safe areas if necessary.\nThese mines explode naturally after 3:45, so it is a good idea to gradually clear them to control the damage.\nSafely explode 2 or 3 at a time, and then allow time for the DoT to drop off before exploding more."
     },
     {
       "id": "2",
       "boss": 2070,
-      "_title": "Interrupted {[image=\"undefined\" url=\"http://wowhead.com/spell=246505\" style=\"icon\"] Pyroblast} {[style=\"fire\"] Pyroblast} {[style=\"info\"] 16}/{[style=\"info\"] 18} times.",
+      "_title": "Interrupted {[image=\"https://www.warcraftlogs.com/img/icons/abilities/spell_fire_fireball02.jpg\" url=\"http://wowhead.com/spell=246505\" style=\"icon\"] Pyroblast} {[style=\"fire\"] Pyroblast} {[style=\"info\"] 16}/{[style=\"info\"] 18} times.",
       "_details": "<h6>Players</h6><p>{[style=\"demon-hunter\"] Rustdari} (6), {[style=\"monk\"] Poshbird} (3), {[style=\"warrior\"] Colossal} (3), {[style=\"druid\"] Ohnefell} (2), {[style=\"demon-hunter\"] Yazíd} (1), {[style=\"hunter\"] Heskeey} (1).</p><h6>Interrupts</h6><p>{[style=\"demon-hunter\"] Rustdari} (0:49), {[style=\"demon-hunter\"] Yazíd} (1:26), {[style=\"monk\"] Poshbird} (1:31), {[style=\"warrior\"] Colossal} (1:52), {[style=\"monk\"] Poshbird} (1:58), {[style=\"hunter\"] Heskeey} (2:04), {[style=\"druid\"] Ohnefell} (2:27), {[style=\"monk\"] Poshbird} (2:38), {[style=\"warrior\"] Colossal} (2:44), {[style=\"warrior\"] Colossal} (3:02), {[style=\"demon-hunter\"] Rustdari} (3:10), {[style=\"demon-hunter\"] Rustdari} (4:53), {[style=\"druid\"] Ohnefell} (5:27), {[style=\"demon-hunter\"] Rustdari} (5:37), {[style=\"demon-hunter\"] Rustdari} (6:07), {[style=\"demon-hunter\"] Rustdari} (6:33).</p><h6>Casts</h6>6:41, 6:46",
       "_tip": "\nWhile {[style=\"boss\"] General Erodus} is in his pod,\nhe will cast {[url=\"http://wowhead.com/spell=245546\" style=\"physical\"] Summon Reinforcements}, spawning\n{[style=\"npc\"] Felblade Shocktrooper}s and {[style=\"npc\"] Fanatical Pyromancer}s.\n{[style=\"npc\"] Fanatical Pyromancer}s cast {[url=\"http://wowhead.com/spell=246505\" style=\"fire\"] Pyroblast},\nwhich deals large single-target damage to a player if not interrupted."
     },
@@ -109231,14 +109235,14 @@
     {
       "id": "8",
       "boss": 2070,
-      "_title": "Had an average {[image=\"undefined\" url=\"http://wowhead.com/spell=244420\" style=\"icon\"] Chaos Pulse} {[style=\"fire\"] Chaos Pulse} duration of {[style=\"info\"] 53.6s}.",
+      "_title": "Had an average {[image=\"https://www.warcraftlogs.com/img/icons/abilities/spell_fire_felpyroblast.jpg\" url=\"http://wowhead.com/spell=244420\" style=\"icon\"] Chaos Pulse} {[style=\"fire\"] Chaos Pulse} duration of {[style=\"info\"] 53.6s}.",
       "_details": "{[style=\"boss\"] Admiral Svirax} (86.9s), {[style=\"boss\"] Chief Engineer Ishkar} (46.6s), {[style=\"boss\"] Chief Engineer Ishkar} (41.9s), {[style=\"boss\"] General Erodus} (88s), {[style=\"boss\"] Admiral Svirax} (45s), {[style=\"boss\"] Admiral Svirax} (32.8s), {[style=\"boss\"] Chief Engineer Ishkar} (33.9s).",
       "_tip": "\nPlayers inside of pods are granted extra abilities.\nTheir first ability applies {[url=\"http://wowhead.com/spell=244420\" style=\"fire\"] Chaos Pulse} to an enemy.\nThis should be constantly used on the currently active boss.\n{[url=\"http://wowhead.com/spell=244420\" style=\"fire\"] Chaos Pulse} stacks up to 15 times, increasing the bosses damage taken by 15%.\nThis damage taken increase is crucial for meeting the damage requirement of this encounter.\nThe debuff lasts for 6 seconds, so can be kept at full stacks even when a new player is entering a pod."
     },
     {
       "id": "7",
       "boss": 2070,
-      "_title": "Hit by {[image=\"undefined\" url=\"http://wowhead.com/spell=244748\" style=\"icon\"] Shocked} {[style=\"fire\"] Shocked} {[style=\"info\"] 8} times (except after gaining {[image=\"undefined\" url=\"http://wowhead.com/spell=244737\" style=\"icon\"] Shock Grenade} {[style=\"fire\"] Shock Grenade}).",
+      "_title": "Hit by {[image=\"https://www.warcraftlogs.com/img/icons/abilities/ability_monk_cracklingjadelightning.jpg\" url=\"http://wowhead.com/spell=244748\" style=\"icon\"] Shocked} {[style=\"fire\"] Shocked} {[style=\"info\"] 8} times (except after gaining {[image=\"https://www.warcraftlogs.com/img/icons/abilities/inv_gizmo_felironbomb.jpg\" url=\"http://wowhead.com/spell=244737\" style=\"icon\"] Shock Grenade} {[style=\"fire\"] Shock Grenade}).",
       "_details": "{[style=\"hunter\"] Heskeey} (2), {[style=\"mage\"] Rajer} (1), {[style=\"monk\"] Arciryas} (1), {[style=\"priest\"] Lambkorma} (1), {[style=\"priest\"] Vanyalí} (1), {[style=\"druid\"] Flucloxx} (1), {[style=\"priest\"] Raekón} (1).",
       "_tip": "\nEvery 15 to 20 seconds, 3 players will be afflicted with {[url=\"http://wowhead.com/spell=244737\" style=\"fire\"] Shock Grenade}.\n5 seconds later, these players will explode, dealing damage and stunning players within 8 yards.\nPlayers with {[url=\"http://wowhead.com/spell=244737\" style=\"fire\"] Shock Grenade} should find a safe position, where they won't hit anyone else when they explode."
     }
