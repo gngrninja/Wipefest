@@ -127,20 +127,17 @@ export class EventConfigService {
             if (!filter.types) {
                 filter.types = [filter.type];
             }
-            if (!filter.stack) {
-                filter.stack = 0;
-            }
 
             filter.types.forEach(type => {
                 if (filter.query && !combinedFilters.some(x => x.query == filter.query)) {
-                    combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter], filter.query));
+                    combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack ? filter.stack : 0, [filter], filter.query));
                 } else {
-                    let index = combinedFilters.findIndex(x => !x.query && x.type == type && x.stack == filter.stack);
+                    let index = combinedFilters.findIndex(x => !x.query && x.type == type && x.stack == (filter.stack ? filter.stack : 0));
 
                     if (index != -1) {
                         combinedFilters[index].filters.push(filter);
                     } else {
-                        combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack, [filter]));
+                        combinedFilters.push(new EventConfigCombinedFilter(type, filter.stack ? filter.stack : 0, [filter]));
                     }
                 }
             });

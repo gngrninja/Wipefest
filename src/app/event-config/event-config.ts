@@ -96,7 +96,7 @@ export class EventConfigCombinedFilter {
 
         let query = `type = '${this.type}' and ability.id in (${this.filters.map(x => x.ability).map(x => [].concat.apply([], x.ids ? x.ids : [x.id])).join(", ")})`;
 
-        if (this.stack > 0) {
+        if (this.stack && this.stack > 0) {
             query += ` and stack = ${this.stack}`;
         }
 

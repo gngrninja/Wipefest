@@ -78,13 +78,7 @@ describe("FightService", () => {
             // Convert to Objects to Jasmine doesn't worry about types not matching
             // (FightEvent != AbilityEvent etc)
             expect(JSON.parse(JSON.stringify(fight.events)))
-                .toEqual(JSON.parse(JSON.stringify(data.events.map(x => {
-                    // When parsing, eventConfigs filter stack gets set to 0 as default
-                    if (x.config && x.config.filter && !x.config.filter.stack)
-                        x.config.filter.stack = 0;
-
-                    return x;
-                }))));
+                .toEqual(JSON.parse(JSON.stringify(data.events)));
         });
     })));
 });
