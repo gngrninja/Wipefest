@@ -105,8 +105,12 @@ export class CharacterSearchResultsComponent implements OnInit {
     }
 
     encounterImage(encounterName: string) {
-        let id = this.warcraftLogsService.getEncounters().find(x => x.name == encounterName).id;
-        return this.domSanitizer.bypassSecurityTrustStyle(`url('http://warcraftlogs.com/img/bosses/${id}-execution.png')`);
+        let encounter = this.warcraftLogsService.getEncounters().find(x => x.name == encounterName);
+        if (encounter === undefined) {
+            return this.domSanitizer.bypassSecurityTrustStyle(`url('')`);
+        }
+
+        return this.domSanitizer.bypassSecurityTrustStyle(`url('http://warcraftlogs.com/img/bosses/${encounter.id}-execution.png')`);
     }
 
     rankingQuality(percent: number) {
