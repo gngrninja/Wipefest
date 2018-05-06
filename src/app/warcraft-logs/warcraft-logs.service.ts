@@ -163,29 +163,7 @@ export class WarcraftLogsService {
             new Encounter(2069, "Varimathras"),
             new Encounter(2073, "The Coven of Shivarra"),
             new Encounter(2063, "Aggramar"),
-            new Encounter(2092, "Argus the Unmaker"),
-
-            // Remove after april fool's
-            new Encounter(2032, "Loot Pinata"),
-            new Encounter(2048, "Infinite Add Generator"),
-            new Encounter(2036, "Harjatan The Man"),
-            new Encounter(2037, "STOP HITTING THE ADDS I MEAN IT"),
-            new Encounter(2050, "Crossing the Boundary Over and Over is Bad, Ok?"),
-            new Encounter(2054, "Desolate of Any Difficult Mechanics"),
-            new Encounter(2052, "It's the Players Who Had To Be Vigilant, Not The Maiden"),
-            new Encounter(2038, "I Left This Guy In Lava at 5% And It Still Haunts Me"),
-            new Encounter(2051, "No Pressure, Safe Spot Spotters, No Pressure"),
-            new Encounter(2076, "Fel Reaver 2.0"),
-            new Encounter(2074, "Must Be Stacked To Parse"),
-            new Encounter(2070, "Could You Try Not To Hit Every Single One of Them?"),
-            new Encounter(2075, "Glorified Trash"),
-            new Encounter(2064, "Demonstration of Imbalanced Horde Racials"),
-            new Encounter(2082, "Hits Like A Truck"),
-            new Encounter(2088, "Purple Player Eater"),
-            new Encounter(2069, "Look, Man. We Know It Was You Who Wiped Us"),
-            new Encounter(2073, "Can You Multi Dot? No? Say Hello To My Wooden Friend: The Bench."),
-            new Encounter(2063, "Hope You Have Death Knight Alts"),
-            new Encounter(2092, "No I Cant Tell You Who Hit the Ghosts Stop Asking")
+            new Encounter(2092, "Argus the Unmaker")
         ];
     }
 
