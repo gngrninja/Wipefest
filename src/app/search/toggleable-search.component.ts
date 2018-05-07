@@ -1,9 +1,9 @@
-﻿import { Component, Input } from '@angular/core';
-import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'toggleable-search',
-    template: `
+  selector: 'toggleable-search',
+  template: `
 <div class="ml-2 mb-3">
   <button class="btn btn-sm btn-secondary" (click)="open(content)"><i class="fa fa-search"></i> {{text}}</button>
 </div>
@@ -20,16 +20,14 @@ import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
   </div>
 </ng-template>
 `,
-    styles: [``]
+  styles: [``]
 })
 export class ToggleableSearchComponent {
+  @Input() text = 'Search';
 
-    @Input() text = "Search";
+  constructor(private modal: NgbModal) {}
 
-    constructor(private modal: NgbModal) { }
-
-    open(content) {
-        this.modal.open(content, { size: "lg" });
-    }
-
+  open(content) {
+    this.modal.open(content, { size: 'lg' });
+  }
 }

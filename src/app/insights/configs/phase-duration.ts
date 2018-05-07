@@ -1,56 +1,65 @@
-import { InsightConfig } from "app/insights/configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
-import { MarkupHelper } from "app/helpers/markup-helper";
-import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
-import { PhaseAndDuration } from "app/insights/models/phase-and-duration";
-import { Timestamp } from "app/helpers/timestamp-helper";
-import { InsightContext } from "app/insights/models/insight-context";
+import { PhaseChangeEvent } from 'app/fight-events/models/phase-change-event';
+import { MarkupHelper } from 'app/helpers/markup-helper';
+import { Timestamp } from 'app/helpers/timestamp-helper';
+import { InsightConfig } from 'app/insights/configs/insight-config';
+import { InsightContext } from 'app/insights/models/insight-context';
+import { PhaseAndDuration } from 'app/insights/models/phase-and-duration';
 
 export class PhaseDuration extends InsightConfig {
+  constructor(
+    id: string,
+    boss: number,
+    private phase: string,
+    insightTemplate: string = null,
+    detailsTemplate: string = null,
+    tipTemplate: string = null
+  ) {
+    super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
-    constructor(
-        id: string,
-        boss: number,
-        private phase: string,
-        insightTemplate: string = null,
-        detailsTemplate: string = null,
-        tipTemplate: string = null) {
+    if (insightTemplate == null) {
+      this.insightTemplate =
+        'Had an average {phase} duration of {averageDuration}.';
+    }
+    if (detailsTemplate == null) {
+      this.detailsTemplate = '{phasesAndDurations}';
+    }
+  }
 
-        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
+  getProperties(context: InsightContext): any {
+    const phaseEvents = context.events
+      .filter(x => x.config)
+      .filter(x => x.config.eventType == 'phase')
+      .map(x => x as PhaseChangeEvent)
+      .sort((x, y) => x.timestamp - y.timestamp);
 
-        if (insightTemplate == null) this.insightTemplate = "Had an average {phase} duration of {averageDuration}.";
-        if (detailsTemplate == null) this.detailsTemplate = "{phasesAndDurations}";
+    const phasesAndDurations = phaseEvents
+      .map(phase => {
+        const nextPhase = phaseEvents.find(x => x.timestamp > phase.timestamp);
+        if (!nextPhase) {
+          return null;
+        }
+        return new PhaseAndDuration(
+          phase.config.name,
+          nextPhase.timestamp - phase.timestamp
+        );
+      })
+      .filter(x => x != null)
+      .filter(x => x.phase == this.phase);
+
+    if (phasesAndDurations.length == 0) {
+      return null;
     }
 
-    getProperties(context: InsightContext): any {
-        let phaseEvents = context.events
-            .filter(x => x.config)
-            .filter(x => x.config.eventType == "phase")
-            .map(x => <PhaseChangeEvent>x)
-            .sort((x, y) => x.timestamp - y.timestamp);
+    const averageDuration =
+      phasesAndDurations.map(x => x.duration).reduce((x, y) => x + y) /
+      phasesAndDurations.length;
 
-        let phasesAndDurations = phaseEvents
-            .map(phase => {
-                let nextPhase = phaseEvents.find(x => x.timestamp > phase.timestamp);
-                if (!nextPhase) {
-                    return null;
-                }
-                return new PhaseAndDuration(phase.config.name, nextPhase.timestamp - phase.timestamp);
-            })
-            .filter(x => x != null)
-            .filter(x => x.phase == this.phase);
-
-        if (phasesAndDurations.length == 0) {
-            return null;
-        }
-
-        let averageDuration = phasesAndDurations.map(x => x.duration).reduce((x, y) => x + y) / phasesAndDurations.length;
-
-        return {
-            phase: MarkupHelper.Info(this.phase),
-            averageDuration: MarkupHelper.Info(Timestamp.ToMinutesAndSeconds(averageDuration)),
-            phasesAndDurations: MarkupHelper.PhasesAndDurations(phasesAndDurations)
-        }
-    }
-
+    return {
+      phase: MarkupHelper.Info(this.phase),
+      averageDuration: MarkupHelper.Info(
+        Timestamp.ToMinutesAndSeconds(averageDuration)
+      ),
+      phasesAndDurations: MarkupHelper.PhasesAndDurations(phasesAndDurations)
+    };
+  }
 }

@@ -1,8 +1,8 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'wf-footer',
-    template: `
+  selector: 'wf-footer',
+  template: `
   <footer>
     <hr />
     <div class="container mb-3">
@@ -10,6 +10,6 @@
     </div>
   </footer>
   `,
-    styles: [`hr {border: 0; border-top: 1px solid #222222;}`]
+  styles: [`hr {border: 0; border-top: 1px solid #222222;}`]
 })
-export class FooterComponent { }
+export class FooterComponent {}

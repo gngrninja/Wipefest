@@ -1,13 +1,7 @@
-import { TitleEvent } from "./title-event";
-import { EventConfig } from "app/event-config/event-config";
+import { TitleEvent } from './title-event';
 
 export class EndOfFightEvent extends TitleEvent {
-
-    constructor(
-        public timestamp: number,
-        public kill: boolean) {
-
-        super(timestamp, kill ? "Kill" : "Wipe");
-    }
-
+  constructor(public timestamp: number, public kill: boolean) {
+    super(timestamp, kill ? 'Kill' : 'Wipe');
+  }
 }

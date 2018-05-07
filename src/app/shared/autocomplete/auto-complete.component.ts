@@ -1,184 +1,214 @@
-import { Component, Input, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed';
 
 @Component({
-    selector: 'auto-complete',
-    templateUrl: './auto-complete.component.html',
-    styleUrls: ['./auto-complete.component.scss']
+  selector: 'auto-complete',
+  templateUrl: './auto-complete.component.html',
+  styleUrls: ['./auto-complete.component.scss']
 })
 export class AutoCompleteComponent implements OnInit {
+  @ViewChild('autoComplete') autoComplete;
 
-    @ViewChild("autoComplete") autoComplete;
+  @Input() data: AutoCompleteCategory[];
+  @Input() placeholder: string;
+  @Input() height = 200;
+  @Input() selectedCategory = '';
+  @Input() selectedValue = '';
 
-    @Input() data: AutoCompleteCategory[];
-    @Input() placeholder: string;
-    @Input() height = 200;
-    @Input() selectedCategory = "";
-    @Input() selectedValue = "";
+  highlightedCategory = '';
+  highlightedValue = '';
 
-    highlightedCategory = "";
-    highlightedValue = "";
+  @Output() valueSelected = new EventEmitter<AutoCompleteSelectedValue>();
 
-    @Output() valueSelected = new EventEmitter<AutoCompleteSelectedValue>();
+  @ViewChild('value') value;
+  get width() {
+    return this.value.nativeElement.scrollWidth + 0.5;
+  }
 
-    @ViewChild("value") value;
-    get width() {
-        return this.value.nativeElement.scrollWidth + 0.5;
+  collapsed = true;
+
+  get displayValue() {
+    if (this.selectedValue == '') {
+      return this.placeholder;
+    } else {
+      return `${this.selectedValue} (${this.selectedCategory})`;
+    }
+  }
+
+  search = '';
+  @ViewChild('searchBox') searchBox;
+
+  filteredData: AutoCompleteCategory[] = [];
+  filter(search: string) {
+    if (this.search != search) {
+      this.search = search;
+      this.filteredData = this.filterData();
+    }
+  }
+  filterData(): AutoCompleteCategory[] {
+    if (this.search.trim().length < 1) {
+      return [];
     }
 
-    collapsed = true;
+    return this.clone(this.data)
+      .map(x => {
+        x.values = x.values.filter(
+          v => v.toLowerCase().indexOf(this.search.trim().toLowerCase()) != -1
+        );
+        return x;
+      })
+      .filter(x => x.values.length > 0);
+  }
 
-    get displayValue() {
-        if (this.selectedValue == "") {
-            return this.placeholder;
-        } else {
-            return `${this.selectedValue} (${this.selectedCategory})`
-        }
-    }
+  private clone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
 
-    search = "";
-    @ViewChild("searchBox") searchBox;
-
-    filteredData: AutoCompleteCategory[] = [];
-    filter(search: string) {
-        if (this.search != search) {
-            this.search = search;
-            this.filteredData = this.filterData();
-        }
-    }
-    filterData(): AutoCompleteCategory[] {
-        if (this.search.trim().length < 1) return [];
-
-        return this.clone(this.data)
-            .map(x => {
-                x.values = x.values
-                    .filter(v => v.toLowerCase().indexOf(this.search.trim().toLowerCase()) != -1);
-                return x;
-            })
-            .filter(x => x.values.length > 0);
-    }
-
-    private clone(obj) {
-        return JSON.parse(JSON.stringify(obj));
-    }
-
-    ngOnInit() {
-        window.addEventListener("click", (e: any) => {
-            let dataContainer = document.getElementsByClassName("data-container").item(0);
-            if (dataContainer && !dataContainer.contains(e.target) && !this.value.nativeElement.contains(e.target)) {
-                this.collapsed = true;
-            }
-        });
-    }
-
-    toggle() {
-        if (this.collapsed) this.open();
-        else this.close();
-    }
-
-    open() {
-        if (this.collapsed) {
-            this.collapsed = false;
-            this.scrollToHighlighted();
-            setTimeout(() => this.searchBox.nativeElement.focus(), 50);
-        }
-    }
-
-    close() {
+  ngOnInit() {
+    window.addEventListener('click', (e: any) => {
+      const dataContainer = document
+        .getElementsByClassName('data-container')
+        .item(0);
+      if (
+        dataContainer &&
+        !dataContainer.contains(e.target) &&
+        !this.value.nativeElement.contains(e.target)
+      ) {
         this.collapsed = true;
-        this.autoComplete.nativeElement.focus();
+      }
+    });
+  }
+
+  toggle() {
+    if (this.collapsed) {
+      this.open();
+    } else {
+      this.close();
     }
-    
-    up(event: Event) {
-        event.preventDefault();
+  }
 
-        if (this.highlightedCategory == "" && this.highlightedValue == "") {
-            return;
-        }
+  open() {
+    if (this.collapsed) {
+      this.collapsed = false;
+      this.scrollToHighlighted();
+      setTimeout(() => this.searchBox.nativeElement.focus(), 50);
+    }
+  }
 
-        let filteredData = this.filteredData;
-        if (filteredData.length == 0) {
-            this.highlightedCategory = "";
-            this.highlightedValue = "";
-            return;
-        }
+  close() {
+    this.collapsed = true;
+    this.autoComplete.nativeElement.focus();
+  }
 
-        let categoryIndex = filteredData.findIndex(x => x.name == this.highlightedCategory);
-        let values = filteredData[categoryIndex].values;
-        let valueIndex = values.findIndex(x => x == this.highlightedValue);
+  up(event: Event) {
+    event.preventDefault();
 
-        if (valueIndex == 0) {
-            if (categoryIndex == 0) {
-                return;
-            }
-
-            this.highlightedCategory = filteredData[categoryIndex - 1].name;
-            this.highlightedValue = filteredData[categoryIndex - 1].values[filteredData[categoryIndex - 1].values.length - 1];
-            return;
-        }
-
-        this.highlightedValue = values[valueIndex - 1];
+    if (this.highlightedCategory == '' && this.highlightedValue == '') {
+      return;
     }
 
-    down(event: Event) {
-        event.preventDefault();
-
-        let filteredData = this.filteredData;
-        if (filteredData.length == 0) {
-            this.highlightedCategory = "";
-            this.highlightedValue = "";
-            return;
-        }
-
-        if (this.highlightedCategory == "" && this.highlightedValue == "") {
-            this.highlightedCategory = filteredData[0].name;
-            this.highlightedValue = filteredData[0].values[0];
-            return;
-        }
-
-        let categoryIndex = filteredData.findIndex(x => x.name == this.highlightedCategory);
-        let values = filteredData[categoryIndex].values;
-        let valueIndex = values.findIndex(x => x == this.highlightedValue);
-
-        if (valueIndex == values.length - 1) {
-            if (categoryIndex == filteredData.length - 1) {
-                return;
-            }
-
-            this.highlightedCategory = filteredData[categoryIndex + 1].name;
-            this.highlightedValue = filteredData[categoryIndex + 1].values[0];
-            return;
-        }
-
-        this.highlightedValue = values[valueIndex + 1];
+    const filteredData = this.filteredData;
+    if (filteredData.length == 0) {
+      this.highlightedCategory = '';
+      this.highlightedValue = '';
+      return;
     }
 
-    scrollToHighlighted() {
-        if (this.highlightedCategory != "" && this.highlightedValue != "") {
-            let li = document.getElementById(this.highlightedCategory + '-' + this.highlightedValue);
-            if (li) {
-                scrollIntoViewIfNeeded(li, false);
-            }
-        }
-    }
-    
-    select(category: string, value: string) {
-        this.close();
+    const categoryIndex = filteredData.findIndex(
+      x => x.name == this.highlightedCategory
+    );
+    const values = filteredData[categoryIndex].values;
+    const valueIndex = values.findIndex(x => x == this.highlightedValue);
 
-        if (!this.filteredData.some(x => x.name == category && x.values.some(y => y == value))) {
-            return;
-        }
+    if (valueIndex == 0) {
+      if (categoryIndex == 0) {
+        return;
+      }
 
-        this.selectedCategory = category;
-        this.selectedValue = value;
-        this.valueSelected.emit(new AutoCompleteSelectedValue(category, value));
+      this.highlightedCategory = filteredData[categoryIndex - 1].name;
+      this.highlightedValue =
+        filteredData[categoryIndex - 1].values[
+          filteredData[categoryIndex - 1].values.length - 1
+        ];
+      return;
     }
 
+    this.highlightedValue = values[valueIndex - 1];
+  }
+
+  down(event: Event) {
+    event.preventDefault();
+
+    const filteredData = this.filteredData;
+    if (filteredData.length == 0) {
+      this.highlightedCategory = '';
+      this.highlightedValue = '';
+      return;
+    }
+
+    if (this.highlightedCategory == '' && this.highlightedValue == '') {
+      this.highlightedCategory = filteredData[0].name;
+      this.highlightedValue = filteredData[0].values[0];
+      return;
+    }
+
+    const categoryIndex = filteredData.findIndex(
+      x => x.name == this.highlightedCategory
+    );
+    const values = filteredData[categoryIndex].values;
+    const valueIndex = values.findIndex(x => x == this.highlightedValue);
+
+    if (valueIndex == values.length - 1) {
+      if (categoryIndex == filteredData.length - 1) {
+        return;
+      }
+
+      this.highlightedCategory = filteredData[categoryIndex + 1].name;
+      this.highlightedValue = filteredData[categoryIndex + 1].values[0];
+      return;
+    }
+
+    this.highlightedValue = values[valueIndex + 1];
+  }
+
+  scrollToHighlighted() {
+    if (this.highlightedCategory != '' && this.highlightedValue != '') {
+      const li = document.getElementById(
+        this.highlightedCategory + '-' + this.highlightedValue
+      );
+      if (li) {
+        scrollIntoViewIfNeeded(li, false);
+      }
+    }
+  }
+
+  select(category: string, value: string) {
+    this.close();
+
+    if (
+      !this.filteredData.some(
+        x => x.name == category && x.values.some(y => y == value)
+      )
+    ) {
+      return;
+    }
+
+    this.selectedCategory = category;
+    this.selectedValue = value;
+    this.valueSelected.emit(new AutoCompleteSelectedValue(category, value));
+  }
 }
 
 export class AutoCompleteCategory {
-    constructor(public name: string, public values: string[]) { }
+  constructor(public name: string, public values: string[]) {}
 }
 export class AutoCompleteSelectedValue {
-    constructor(public category: string, public value: string) { }
+  constructor(public category: string, public value: string) {}
 }

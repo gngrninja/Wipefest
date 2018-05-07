@@ -1,35 +1,36 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LocalStorage {
+  get(key: string): string {
+    return localStorage.getItem(key);
+  }
 
-    get(key: string): string {
-        return localStorage.getItem(key);
+  set(key: string, value: string) {
+    localStorage.setItem(key, value);
+  }
+
+  setOrRemove(key: string, value: string) {
+    if (value) {
+      this.set(key, value);
+    } else {
+      this.remove(key);
     }
+  }
 
-    set(key: string, value: string) {
-        localStorage.setItem(key, value);
-    }
+  clear() {
+    localStorage.clear();
+  }
 
-    setOrRemove(key: string, value: string) {
-        if (value) this.set(key, value);
-        else this.remove(key);
-    }
+  remove(key: string) {
+    localStorage.removeItem(key);
+  }
 
-    clear() {
-        localStorage.clear();
-    }
+  key(index: number): string {
+    return localStorage.key(index);
+  }
 
-    remove(key: string) {
-        localStorage.removeItem(key);
-    }
-
-    key(index: number): string {
-        return localStorage.key(index);
-    }
-
-    get length() {
-        return localStorage.length;
-    }
-
+  get length() {
+    return localStorage.length;
+  }
 }

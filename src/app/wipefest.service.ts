@@ -1,65 +1,68 @@
 import { Injectable } from '@angular/core';
-import { Response } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs/Rx";
-import { Report, Fight } from "app/warcraft-logs/report";
-import { Raid } from "app/raid/raid";
+import { Response } from '@angular/http';
+import { Raid } from 'app/raid/raid';
+import { Fight, Report } from 'app/warcraft-logs/report';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class WipefestService {
+  private selectedPage$ = new BehaviorSubject<Page>(Page.None);
+  selectedPage: Observable<Page>;
 
-    private selectedPage$ = new BehaviorSubject<Page>(Page.None);
-    selectedPage: Observable<Page>;
+  private selectedReport$ = new BehaviorSubject<Report>(null);
+  selectedReport: Observable<Report>;
 
-    private selectedReport$ = new BehaviorSubject<Report>(null);
-    selectedReport: Observable<Report>;
+  private selectedFight$ = new BehaviorSubject<Fight>(null);
+  selectedFight: Observable<Fight>;
 
-    private selectedFight$ = new BehaviorSubject<Fight>(null);
-    selectedFight: Observable<Fight>;
+  private selectedRaid$ = new BehaviorSubject<Raid>(null);
+  selectedRaid: Observable<Raid>;
 
-    private selectedRaid$ = new BehaviorSubject<Raid>(null);
-    selectedRaid: Observable<Raid>;
+  private errors: Response[] = [];
 
-    private errors: Response[] = [];
+  constructor() {
+    this.selectedPage = this.selectedPage$.asObservable();
+    this.selectedReport = this.selectedReport$.asObservable();
+    this.selectedFight = this.selectedFight$.asObservable();
+    this.selectedRaid = this.selectedRaid$.asObservable();
+  }
 
-    constructor() {
-        this.selectedPage = this.selectedPage$.asObservable();
-        this.selectedReport = this.selectedReport$.asObservable();
-        this.selectedFight = this.selectedFight$.asObservable();
-        this.selectedRaid = this.selectedRaid$.asObservable();
+  selectPage(page: Page) {
+    this.selectedPage$.next(page);
+  }
+
+  selectReport(report: Report) {
+    this.selectedReport$.next(report);
+  }
+
+  selectFight(fight: Fight) {
+    this.selectedFight$.next(fight);
+  }
+
+  selectRaid(raid: Raid) {
+    this.selectedRaid$.next(raid);
+  }
+
+  throwError(error: Response) {
+    this.errors.push(error);
+  }
+
+  getLastError(): Response {
+    if (this.errors.length == 0) {
+      return null;
     }
 
-    selectPage(page: Page) {
-        this.selectedPage$.next(page);
-    }
-
-    selectReport(report: Report) {
-        this.selectedReport$.next(report);
-    }
-
-    selectFight(fight: Fight) {
-        this.selectedFight$.next(fight);
-    }
-
-    selectRaid(raid: Raid) {
-        this.selectedRaid$.next(raid);
-    }
-
-    throwError(error: Response) {
-        this.errors.push(error);
-    }
-
-    getLastError(): Response {
-        if (this.errors.length == 0) {
-            return null;
-        }
-
-        return this.errors[this.errors.length - 1];
-    }
-
+    return this.errors[this.errors.length - 1];
+  }
 }
 
 export enum Page {
-
-    None, Welcome, CharacterSearchResults, GuildSearchResults, ReportSummary, FightSummary, GetInvolved,
-    News
+  None,
+  Welcome,
+  CharacterSearchResults,
+  GuildSearchResults,
+  ReportSummary,
+  FightSummary,
+  GetInvolved,
+  News
 }

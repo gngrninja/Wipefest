@@ -1,28 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { WipefestService, Page } from "app/wipefest.service";
-import { LoggerService } from "app/shared/logger.service";
+import { LoggerService } from 'app/shared/logger.service';
+import { Page, WipefestService } from 'app/wipefest.service';
 
 @Component({
-    selector: 'app-discord',
-    templateUrl: './discord.component.html',
-    styleUrls: ['./discord.component.scss']
+  selector: 'app-discord',
+  templateUrl: './discord.component.html',
+  styleUrls: ['./discord.component.scss']
 })
 export class DiscordComponent implements OnInit {
+  constructor(
+    private wipefestService: WipefestService,
+    private loggerService: LoggerService
+  ) {}
 
-    constructor(
-        private wipefestService: WipefestService,
-        private loggerService: LoggerService) { }
+  ngOnInit() {
+    this.wipefestService.selectPage(Page.GetInvolved);
+  }
 
-    ngOnInit() {
-        this.wipefestService.selectPage(Page.GetInvolved);
-    }
+  logDiscordClick() {
+    this.loggerService.logDiscordClick();
+  }
 
-    logDiscordClick() {
-        this.loggerService.logDiscordClick();
-    }
-
-    logDiscordBotClick() {
-        this.loggerService.logDiscordBotClick();
-    }
-
+  logDiscordBotClick() {
+    this.loggerService.logDiscordBotClick();
+  }
 }

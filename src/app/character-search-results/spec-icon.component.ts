@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { Ability } from "app/fight-events/models/ability-event";
 
 @Component({
-    selector: 'spec-icon',
-    template: `
+  selector: 'spec-icon',
+  template: `
     <img src="https://www.warcraftlogs.com/img/icons/{{class}}-{{spec}}.jpg" alt="{{alt}}" />
   `,
-    styles: [`
+  styles: [
+    `
     a:hover {
       text-decoration: none;
     }
@@ -15,12 +15,11 @@ import { Ability } from "app/fight-events/models/ability-event";
       width: 20px;
       height: 20px;
       border-radius: 10px;
-    }`]
+    }`
+  ]
 })
 export class SpecIconComponent {
-
-    @Input() class: string;
-    @Input() spec: string;
-    @Input() alt: string;
-
+  @Input() class: string;
+  @Input() spec: string;
+  @Input() alt: string;
 }

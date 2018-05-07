@@ -1,8 +1,6 @@
 export class Article {
-
-    date: string;
-    title: string;
-    bodySource: string;
-    body: string;
-
+  date: string;
+  title: string;
+  bodySource: string;
+  body: string;
 }

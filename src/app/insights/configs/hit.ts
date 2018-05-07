@@ -1,50 +1,71 @@
-import { InsightConfig } from "app/insights/configs/insight-config";
-import { FightEvent } from "app/fight-events/models/fight-event";
-import { DamageEvent } from "app/fight-events/models/damage-event";
-import { MarkupHelper } from "app/helpers/markup-helper";
-import { InsightContext } from "app/insights/models/insight-context";
+import { DamageEvent } from 'app/fight-events/models/damage-event';
+import { MarkupHelper } from 'app/helpers/markup-helper';
+import { InsightConfig } from 'app/insights/configs/insight-config';
+import { InsightContext } from 'app/insights/models/insight-context';
 
 export class Hit extends InsightConfig {
+  constructor(
+    id: string,
+    boss: number,
+    private eventConfigNames: string[],
+    private abilityIds: number[],
+    insightTemplate: string = null,
+    detailsTemplate: string = null,
+    tipTemplate: string = null
+  ) {
+    super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
 
-    constructor(
-        id: string,
-        boss: number,
-        private eventConfigNames: string[],
-        private abilityIds: number[],
-        insightTemplate: string = null,
-        detailsTemplate: string = null,
-        tipTemplate: string = null) {
+    if (insightTemplate == null) {
+      this.insightTemplate = 'Hit by {abilities} {totalHits} time{plural}.';
+    }
+    if (detailsTemplate == null) {
+      this.detailsTemplate = '{playersAndHits}';
+    }
+  }
 
-        super(id, boss, insightTemplate, detailsTemplate, tipTemplate);
+  getProperties(context: InsightContext): any {
+    const damageEvents = context.events
+      .filter(x => x.config)
+      .filter(
+        x =>
+          this.eventConfigNames.indexOf(x.config.name) != -1 &&
+          x.config.eventType == 'damage'
+      )
+      .map(x => x as DamageEvent);
 
-        if (insightTemplate == null) this.insightTemplate = "Hit by {abilities} {totalHits} time{plural}.";
-        if (detailsTemplate == null) this.detailsTemplate = "{playersAndHits}";
+    if (damageEvents.length == 0) {
+      return null;
     }
 
-    getProperties(context: InsightContext): any {
-        let damageEvents = context.events
-            .filter(x => x.config)
-            .filter(x => this.eventConfigNames.indexOf(x.config.name) != -1 && x.config.eventType == "damage")
-            .map(x => <DamageEvent>x);
-
-        if (damageEvents.length == 0) {
-            return null;
-        }
-
-        let timestamps = damageEvents.map(x => x.timestamp);
-        let abilities = this.getAbilitiesIfTheyExist(damageEvents, this.abilityIds);
-        let players = damageEvents.map(x => x.target).filter((x, index, array) => array.findIndex(y => y.id === x.id) === index);
-        let playersAndHits = players.map(player => <any>{ player: player, frequency: damageEvents.filter(x => x.target.id === player.id).length }).sort((x, y) => y.frequency - x.frequency);
-        let totalHits = playersAndHits.map(x => x.frequency).reduce((x, y) => x + y, 0);
-        
+    const timestamps = damageEvents.map(x => x.timestamp);
+    const abilities = this.getAbilitiesIfTheyExist(
+      damageEvents,
+      this.abilityIds
+    );
+    const players = damageEvents
+      .map(x => x.target)
+      .filter(
+        (x, index, array) => array.findIndex(y => y.id === x.id) === index
+      );
+    const playersAndHits = players
+      .map(player => {
         return {
-            abilities: MarkupHelper.AbilitiesWithIcons(abilities),
-            abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
-            totalHits: MarkupHelper.Info(totalHits),
-            plural: this.getPlural(totalHits),
-            playersAndHits: MarkupHelper.PlayersAndFrequencies(playersAndHits),
-            timestamps: MarkupHelper.Timestamps(timestamps)
-        }
-    }
+          player: player,
+          frequency: damageEvents.filter(x => x.target.id === player.id).length
+        } as any;
+      })
+      .sort((x, y) => y.frequency - x.frequency);
+    const totalHits = playersAndHits
+      .map(x => x.frequency)
+      .reduce((x, y) => x + y, 0);
 
+    return {
+      abilities: MarkupHelper.AbilitiesWithIcons(abilities),
+      abilityTooltips: MarkupHelper.AbilitiesWithTooltips(abilities),
+      totalHits: MarkupHelper.Info(totalHits),
+      plural: this.getPlural(totalHits),
+      playersAndHits: MarkupHelper.PlayersAndFrequencies(playersAndHits),
+      timestamps: MarkupHelper.Timestamps(timestamps)
+    };
+  }
 }
