@@ -1,6 +1,5 @@
-// https://hackernoon.com/angular-simple-in-memory-cache-service-on-the-ui-with-rxjs-77f167387e39
 
-import { Observable } from 'rxjs/Observable';
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Subject } from 'rxjs/Rx';
 
 interface CacheContent {
@@ -41,7 +40,7 @@ export class CacheService {
             this.inFlightObservables.set(key, new Subject());
             return fallback.do((value) => { this.set(key, value, maxAge); });
         } else {
-            return Observable.throw('Requested key is not available in Cache');
+            return observableThrowError('Requested key is not available in Cache');
         }
 
     }

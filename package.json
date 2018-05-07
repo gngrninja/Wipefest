@@ -5,11 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build --prod"
+    "e2e": "ng e2e"
   },
   "engines": {
     "node": "8.9.1",
@@ -17,33 +16,35 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^4.0.0",
-    "@angular/cli": "^1.5.0",
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/forms": "^4.0.0",
-    "@angular/http": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
-    "@angular/router": "^4.0.0",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.25",
-    "angular2-markdown": "^1.5.2",
-    "angulartics2": "^4.0.0",
+    "@angular/animations": "6.0.0",
+    "@angular/cli": "6.0.0",
+    "@angular/common": "6.0.0",
+    "@angular/compiler": "6.0.0",
+    "@angular/compiler-cli": "6.0.0",
+    "@angular/core": "6.0.0",
+    "@angular/forms": "6.0.0",
+    "@angular/http": "6.0.0",
+    "@angular/platform-browser": "6.0.0",
+    "@angular/platform-browser-dynamic": "6.0.0",
+    "@angular/router": "6.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+    "angulartics2": "^6.0.0",
     "core-js": "^2.4.1",
     "express": "^4.15.4",
     "intl": "^1.2.5",
-    "rxjs": "^5.5.0",
+    "ngx-md": "^3.1.1",
+    "rxjs": "^6.1.0",
+    "rxjs-compat": "^6.1.0",
     "scroll-into-view-if-needed": "^1.1.0",
     "stacktrace-js": "^2.0.0",
-    "typescript": "2.3.4",
-    "zone.js": "^0.8.4"
+    "typescript": "2.7.2",
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.6.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
-    "codelyzer": "~2.0.0",
+    "codelyzer": "^4.3.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
     "karma": "~1.4.1",
@@ -54,6 +55,6 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
-    "tslint": "~4.5.0"
+    "tslint": "^5.0.0"
   }
 }

@@ -26,8 +26,7 @@ export class NewsService {
         let url = environment.newsUrl;
         return this.http
             .get(url + article.bodySource + ".md")
-            .map(response => response.text())
-            .catch(this.handleError);
+            .map(response => response.text());
     }
 
     private handleError(error: Response | any): Observable<Response> {

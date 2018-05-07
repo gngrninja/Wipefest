@@ -6,7 +6,7 @@ import { environment } from "environments/environment";
 export class GlobalErrorHandler extends ErrorHandler {
 
     constructor(private injector: Injector) {
-        super(true);
+        super();
     }
 
     handleError(error) {

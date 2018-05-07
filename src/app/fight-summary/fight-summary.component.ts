@@ -14,7 +14,7 @@ import { EndOfFightEvent } from "app/fight-events/models/end-of-fight-event";
 import { Difficulty } from "../helpers/difficulty-helper";
 import { LoggerService } from "app/shared/logger.service";
 import { TitleEvent } from "app/fight-events/models/title-event";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { Death } from "app/warcraft-logs/death";
 import { PhaseChangeEvent } from "app/fight-events/models/phase-change-event";
 import { DeathEvent } from "app/fight-events/models/death-event";

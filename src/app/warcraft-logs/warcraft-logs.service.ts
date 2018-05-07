@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError,  BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
 import { CombatEvent } from "./combat-event";
 import { Parse } from "./parse";
 import { Report } from "./report";
@@ -178,7 +179,7 @@ export class WarcraftLogsService {
             console.error(error);
         }
 
-        return Observable.throw(error);
+        return observableThrowError(error);
     }
 
     private getRandomString() {
