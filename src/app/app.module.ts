@@ -15,6 +15,16 @@ import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { MarkdownModule } from 'ngx-md';
 
+import { WipefestAPI } from '@wipefest/api-sdk';
+import {
+  ServiceClient,
+  ServiceClientOptions,
+  BaseFilter,
+  WebResource,
+  HttpOperationResponse,
+  LogFilter
+} from 'ms-rest-js';
+
 import { DiscordComponent } from 'app/discord/discord.component';
 import { EventConfigService } from 'app/event-config/event-config.service';
 import { FightSummaryRaidComponent } from 'app/fights-summary-raid/fight-summary-raid.component';
@@ -192,8 +202,39 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     ClassesService,
     InsightService,
     LocalStorage,
-    StateService
+    StateService,
+    {
+      provide: WipefestAPI,
+      useFactory: () => {
+        return new WipefestAPI('https://api.wipefest.net/', {
+          filters: [new HttpFilter()]
+        });
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+// Filthy hack to get around what seems to be a CORS bug in ms-rest-js
+// ms-rest-js always sends Content-Type: application/json, which nginx is setup to support
+// (can test that OPTIONS *does* work on https://www.test-cors.org/)
+// However, behaviour seems to be that ms-rest-js is not making the GET request after the successful OPTIONS
+// To get around this, this filter changes Content-Type to text/plain, making this a "simple" request
+// Browsers do not pre-flight check for "simple" requests
+// When the response comes back, need to set the "parsedBody" property to be the returned JSON
+export class HttpFilter extends BaseFilter {
+  before(request: WebResource): Promise<WebResource> {
+    // Even though there is a requestOptions.headers property in ServiceClientOptions,
+    // it doesn't seem to let us override Content-Type, so we have to do it here
+    request.headers = { 'Content-Type': 'text/plain' };
+    return Promise.resolve(request);
+  }
+
+  after(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    // This property *does* exist, even though accessing it via "." gives a compiler error 🤷
+    response['parsedBody'] = response.bodyAsJson;
+    console.log(response);
+    return Promise.resolve(response);
+  }
+}

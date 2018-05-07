@@ -3,9 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Timestamp } from 'app/helpers/timestamp-helper';
 import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
-import { GuildReport } from 'app/warcraft-logs/guild-report';
-import { WarcraftLogsService } from 'app/warcraft-logs/warcraft-logs.service';
 import { Page, WipefestService } from 'app/wipefest.service';
+import { WipefestAPI } from '@wipefest/api-sdk';
+import { GuildReport } from '@wipefest/api-sdk/typings/lib/models';
 
 @Component({
   selector: 'app-guild-search-results',
@@ -29,7 +29,7 @@ export class GuildSearchResultsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wipefestService: WipefestService,
-    private warcraftLogsService: WarcraftLogsService,
+    private wipefestApi: WipefestAPI,
     private localStorage: LocalStorage,
     private logger: LoggerService
   ) {}
@@ -52,29 +52,21 @@ export class GuildSearchResultsComponent implements OnInit {
       return;
     }
 
-    this.warcraftLogsService
-      .getGuildReports(
-        this.guild,
-        this.realm,
-        this.region,
-        0,
-        new Date().getTime()
-      )
-      .subscribe(
-        reports => {
-          this.loading = false;
-          this.error = null;
+    this.wipefestApi
+      .getGuildReports(this.region, this.realm, this.guild)
+      .then(reports => {
+        this.loading = false;
+        this.error = null;
 
-          reports = reports
-            .filter(x => x.zone == 13 || x.zone == 17)
-            .sort((a, b) => b.start - a.start);
-          this.reports = reports;
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-          this.reports = [];
-        }
-      );
+        reports = reports
+          .filter(x => x.zone === 13 || x.zone === 17)
+          .sort((a, b) => b.start - a.start);
+        this.reports = reports;
+      })
+      .catch(error => {
+        this.error = error;
+        this.loading = false;
+        this.reports = [];
+      });
   }
 }
