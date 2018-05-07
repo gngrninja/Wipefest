@@ -58,11 +58,13 @@ td.phase-change {
 
 .phase-icon {
   vertical-align: text-top;
+  margin-right: 8px !important;
 }
 
 .collapse-icon {
   vertical-align: middle;
   margin-top: -3px;
+  margin-right: 4px;
 }
 
 td.end-of-fight {
@@ -72,4 +74,16 @@ td.end-of-fight {
 
 tr.collapsable {
   cursor: pointer;
+}
+
+.friendly {
+  .event-icon {
+    margin-left: 4px;
+  }
+}
+
+.unfriendly {
+  .event-icon {
+    margin-right: 4px;
+  }
 }

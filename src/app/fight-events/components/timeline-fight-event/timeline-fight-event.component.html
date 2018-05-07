@@ -18,22 +18,24 @@
       <span class="hidden-md-down" [innerHtml]="parse(event.title)"></span>
       <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
       <span class="hidden-sm-up" [innerHtml]="parse(event.shortTitle)"></span>
-
+      
       <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(DebuffStackEvent) || event.isInstanceOf(RemoveDebuffEvent) || event.isInstanceOf(HeroismEvent)"
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
                     [alt]=""
-                    [linkToWowhead]="true"></ability-icon>
+                    [linkToWowhead]="true"
+                    class="event-icon"></ability-icon>
 
       <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
                     [abilityId]="event.killingBlow.guid"
                     [abilityIcon]="event.killingBlow.abilityIcon"
                     [alt]=""
-                    [linkToWowhead]="true"></ability-icon>
+                    [linkToWowhead]="true"
+                    class="event-icon"></ability-icon>
 
-      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
-      <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.config && event.config.icon" class="fa event-icon" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
     </div>
   </td>
   <td *ngIf="!isTitle(event)" class="timestamp">
@@ -45,11 +47,12 @@
                     [abilityId]="event.ability.guid"
                     [abilityIcon]="event.ability.abilityIcon"
                     [alt]=""
-                    [linkToWowhead]="true"></ability-icon>
+                    [linkToWowhead]="true"
+                    class="event-icon"></ability-icon>
 
-      <i *ngIf="event.config && event.config.icon" class="fa" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
-      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle" aria-hidden="true"></i>
+      <i *ngIf="event.config && event.config.icon" class="fa event-icon" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle event-icon" aria-hidden="true"></i>
 
       <span class="hidden-md-down" [innerHtml]="parse(event.title)"></span>
       <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
