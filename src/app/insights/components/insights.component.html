@@ -12,7 +12,7 @@
         <span [innerHtml]="MarkupParser.Parse(row.insight.title)"></span>
       </div>
 
-      <div *ngIf="row.showDetails && row.hasDetails" class="details">
+      <div [hidden]="!(row.showDetails && row.hasDetails)" class="details">
         <div *ngIf="row.insight.details && row.insight.details != '.'" class="alert alert-gray mt-3 mb-0">
           <div class="alert-title"><span><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i>Details</span></div>
           <div class="mt-2" [innerHtml]="MarkupParser.Parse(row.insight.details)"></div>
