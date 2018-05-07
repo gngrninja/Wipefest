@@ -1,8 +1,17 @@
 {
+  "extends": [
+    "tslint:latest",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
   "rules": {
+    "prettier": [
+      true,
+      { "singleQuote": true }
+    ],
     "callable-types": true,
     "class-name": true,
     "comment-format": [
