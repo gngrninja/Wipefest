@@ -5,7 +5,7 @@ import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
 import { Page, WipefestService } from 'app/wipefest.service';
 import { WipefestAPI } from '@wipefest/api-sdk';
-import { GuildReport } from '@wipefest/api-sdk/typings/lib/models';
+import { GuildReport } from '@wipefest/api-sdk/dist/lib/models';
 
 @Component({
   selector: 'app-guild-search-results',
