@@ -1,4 +1,5 @@
 ﻿const express = require('express');
+const helmet = require('helmet');
 const app = express();
 
 // Redirect http to https
@@ -13,6 +14,8 @@ const forceSSL = function () {
     }
 }
 app.use(forceSSL());
+
+app.use(helmet());
 
 // Gzip
 const compression = require('compression');
