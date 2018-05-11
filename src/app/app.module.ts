@@ -234,7 +234,6 @@ export class HttpFilter extends BaseFilter {
   after(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     // This property *does* exist, even though accessing it via "." gives a compiler error 🤷
     response['parsedBody'] = response.bodyAsJson;
-    console.log(response);
     return Promise.resolve(response);
   }
 }

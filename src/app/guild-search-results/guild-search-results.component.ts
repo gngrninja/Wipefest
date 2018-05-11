@@ -64,7 +64,7 @@ export class GuildSearchResultsComponent implements OnInit {
         this.reports = reports;
       })
       .catch(error => {
-        this.error = error;
+        this.error = error.body;
         this.loading = false;
         this.reports = [];
       });
