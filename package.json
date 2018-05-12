@@ -30,6 +30,7 @@
     "@angular/router": "6.0.0",
     "@ng-bootstrap/ng-bootstrap": "^2.0.0",
     "@wipefest/api-sdk": "^0.1.6",
+    "@wipefest/core": "^0.2.9",
     "angulartics2": "^6.0.0",
     "core-js": "^2.4.1",
     "express": "^4.15.4",

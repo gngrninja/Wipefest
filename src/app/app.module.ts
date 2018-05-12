@@ -24,6 +24,7 @@ import {
   HttpOperationResponse,
   LogFilter
 } from 'ms-rest-js';
+import { EncountersService } from '@wipefest/core';
 
 import { DiscordComponent } from 'app/discord/discord.component';
 import { EventConfigService } from 'app/event-config/event-config.service';
@@ -210,7 +211,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
           filters: [new HttpFilter()]
         });
       }
-    }
+    },
+    EncountersService
   ],
   bootstrap: [AppComponent]
 })

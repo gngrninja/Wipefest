@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Difficulty } from 'app/helpers/difficulty-helper';
 import { Timestamp } from 'app/helpers/timestamp-helper';
@@ -7,6 +7,9 @@ import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
 import { WarcraftLogsService } from 'app/warcraft-logs/warcraft-logs.service';
 import { Page, WipefestService } from 'app/wipefest.service';
+import { WipefestAPI } from '@wipefest/api-sdk';
+import { ParseDto } from '@wipefest/api-sdk/dist/lib/models';
+import { EncountersService } from '@wipefest/core';
 
 @Component({
   selector: 'character-search-results',
@@ -37,18 +40,46 @@ export class CharacterSearchResultsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wipefestService: WipefestService,
-    private warcraftLogsService: WarcraftLogsService,
+    private wipefestApi: WipefestAPI,
+    private encountersService: EncountersService,
     private domSanitizer: DomSanitizer,
     private localStorage: LocalStorage,
     private logger: LoggerService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wipefestService.selectPage(Page.CharacterSearchResults);
     this.route.params.subscribe(params => this.handleRoute(params));
   }
 
-  private handleRoute(params: Params) {
+  encounterImage(encounterName: string): SafeStyle {
+    const encounter = this.encountersService
+      .getEncounters()
+      .find(x => x.name === encounterName);
+    if (encounter === undefined) {
+      return this.domSanitizer.bypassSecurityTrustStyle(`url('')`);
+    }
+
+    return this.domSanitizer.bypassSecurityTrustStyle(
+      `url('http://warcraftlogs.com/img/bosses/${encounter.id}-execution.png')`
+    );
+  }
+
+  rankingQuality(percent: number): string {
+    return percent === 100
+      ? 'artifact'
+      : percent >= 95
+        ? 'legendary'
+        : percent >= 75
+          ? 'epic'
+          : percent >= 50
+            ? 'rare'
+            : percent >= 25
+              ? 'uncommon'
+              : 'common';
+  }
+
+  private handleRoute(params: Params): void {
     this.loading = true;
 
     this.character = params.character || this.localStorage.get('character');
@@ -63,34 +94,31 @@ export class CharacterSearchResultsComponent implements OnInit {
       return;
     }
 
-    this.warcraftLogsService
-      .getParses(
-        this.character,
-        this.realm,
-        this.region,
-        this.selectedZone.id,
-        this.selectedZone.partitions
-      )
-      .subscribe(
+    this.wipefestApi
+      .getCharacterParses(this.region, this.realm, this.character, {
+        zone: this.selectedZone.id,
+        partitions: this.selectedZone.partitions
+      })
+      .then(
         parses => {
           this.loading = false;
           this.error = null;
           parses.forEach(parse => {
-            if (![3, 4, 5].some(x => x == parse.difficulty)) {
+            if (![3, 4, 5].some(x => x === parse.difficulty)) {
               // Normal, Heroic, Mythic
               return;
             }
 
-            if (!this.encounters.some(x => x.name == parse.name)) {
+            if (!this.encounters.some(x => x.name === parse.name)) {
               this.encounters.push(
                 new CharacterSearchResultEncounter(parse.name)
               );
             }
 
-            const encounter = this.encounters.find(x => x.name == parse.name);
+            const encounter = this.encounters.find(x => x.name === parse.name);
             if (
               !encounter.difficulties.some(
-                x => x.difficulty == parse.difficulty
+                x => x.difficulty === parse.difficulty
               )
             ) {
               encounter.difficulties.push(
@@ -99,26 +127,26 @@ export class CharacterSearchResultsComponent implements OnInit {
             }
 
             const difficulty = encounter.difficulties.find(
-              x => x.difficulty == parse.difficulty
+              x => x.difficulty === parse.difficulty
             );
-            parse.specs.forEach(spec => {
+            parse.specializations.forEach(spec => {
               difficulty.fights = difficulty.fights
                 .concat(
                   spec.data.map(
                     fight =>
                       new CharacterSearchResultFight(
-                        fight.start_time,
-                        spec.class,
-                        spec.spec,
-                        fight.historical_percent,
-                        fight.ilvl,
-                        fight.report_code,
-                        fight.report_fight
+                        fight.startTime,
+                        spec.classProperty,
+                        spec.specialization,
+                        fight.historicalPercent,
+                        fight.itemLevel,
+                        fight.reportId,
+                        fight.fightId
                       )
                   )
                 )
                 .filter(
-                  x => !['Healing', 'Melee', 'Ranged'].some(y => y == x.spec)
+                  x => !['Healing', 'Melee', 'Ranged'].some(y => y === x.spec)
                 )
                 .sort((a, b) => b.timestamp - a.timestamp);
             });
@@ -130,33 +158,6 @@ export class CharacterSearchResultsComponent implements OnInit {
           this.encounters = [];
         }
       );
-  }
-
-  encounterImage(encounterName: string) {
-    const encounter = this.warcraftLogsService
-      .getEncounters()
-      .find(x => x.name == encounterName);
-    if (encounter === undefined) {
-      return this.domSanitizer.bypassSecurityTrustStyle(`url('')`);
-    }
-
-    return this.domSanitizer.bypassSecurityTrustStyle(
-      `url('http://warcraftlogs.com/img/bosses/${encounter.id}-execution.png')`
-    );
-  }
-
-  rankingQuality(percent: number) {
-    return percent == 100
-      ? 'artifact'
-      : percent >= 95
-        ? 'legendary'
-        : percent >= 75
-          ? 'epic'
-          : percent >= 50
-            ? 'rare'
-            : percent >= 25
-              ? 'uncommon'
-              : 'common';
   }
 }
 
