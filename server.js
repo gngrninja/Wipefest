@@ -23,7 +23,7 @@ app.use(helmet.referrerPolicy());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'unsafe-inline'", "use.fontawesome.com", "wow.zamimg.com", "www.google-analytics.com", "wipefest.net", "wipefest-dev.herokuapp.com"],
+        scriptSrc: ["'unsafe-inline'", "use.fontawesome.com", "wow.zamimg.com", "www.google-analytics.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com"],
         styleSrc: ["'unsafe-inline'", "use.fontawesome.com", "maxcdn.bootstrapcdn.com", "wow.zamimg.com", "fonts.googleapis.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com"],
         fontSrc: ["use.fontawesome.com", "fonts.gstatic.com"],
         connectSrc: ["raw.githubusercontent.com", "www.warcraftlogs.com", "api.wipefest.net", "www.google-analytics.com"],
