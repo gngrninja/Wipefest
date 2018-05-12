@@ -21,14 +21,13 @@ app.use(forceSSL());
 app.use(helmet());
 app.use(helmet.referrerPolicy());
 app.use(helmet.contentSecurityPolicy({
-    reportOnly: true,
     directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'unsafe-inline'", "use.fontawesome.com", "wow.zamimg.com", "www.google-analytics.com", "wipefest.net", "wipefest-dev.herokuapp.com"],
         styleSrc: ["'unsafe-inline'", "use.fontawesome.com", "maxcdn.bootstrapcdn.com", "wow.zamimg.com", "fonts.googleapis.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com"],
         fontSrc: ["use.fontawesome.com", "fonts.gstatic.com"],
-        connectSrc: ["raw.githubusercontent.com", "www.warcraftlogs.com"],
-        imgSrc: ["data:", "wowanalyzer.com", "www.google-analytics.com", "*.imgur.com", "www.warcraftlogs.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com"]
+        connectSrc: ["raw.githubusercontent.com", "www.warcraftlogs.com", "api.wipefest.net", "www.google-analytics.com"],
+        imgSrc: ["data:", "http:", "wowanalyzer.com", "www.google-analytics.com", "*.imgur.com", "warcraftlogs.com", "www.warcraftlogs.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com"]
     }
 }));
 
