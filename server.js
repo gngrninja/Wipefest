@@ -28,7 +28,7 @@ app.use(helmet.contentSecurityPolicy({
         styleSrc: ["'unsafe-inline'", "use.fontawesome.com", "maxcdn.bootstrapcdn.com", "wow.zaming.com", "fonts.googleapis.com"],
         fontSrc: ["use.fontawesome.com", "fonts.gstatic.com"],
         connectSrc: ["raw.githubusercontent.com", "warcraftlogs.com"],
-        imageSrc: ["wowanalyzer.com", "google-analytics.com", "*.imgur.com", "warcraftlogs.com"]
+        imgSrc: ["wowanalyzer.com", "google-analytics.com", "*.imgur.com", "warcraftlogs.com"]
     }
 }));
 
