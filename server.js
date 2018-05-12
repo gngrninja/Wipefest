@@ -5,6 +5,9 @@ const app = express();
 // Redirect http to https
 const forceSSL = function () {
     return function (req, res, next) {
+        if (req.get('Host').indexOf('localhost') != -1) {
+            return;
+        }
         if (req.headers['x-forwarded-proto'] !== 'https') {
             return res.redirect(
                 ['https://', req.get('Host'), req.url].join('')
@@ -16,6 +19,13 @@ const forceSSL = function () {
 app.use(forceSSL());
 
 app.use(helmet());
+app.use(helmet.referrerPolicy());
+app.use(helmet.contentSecurityPolicy({
+    reportOnly: true,
+    directives: {
+        defaultSrc: ["'self'"]
+    }
+}));
 
 // Gzip
 const compression = require('compression');
