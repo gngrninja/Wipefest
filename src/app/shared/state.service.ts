@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventConfig } from 'app/event-config/event-config';
 import { FightEvent } from 'app/fight-events/models/fight-event';
 import { PhaseChangeEvent } from 'app/fight-events/models/phase-change-event';
 import { Report } from 'app/warcraft-logs/report';
 import { WipefestService } from 'app/wipefest.service';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Rx';
+import {
+  ReportDto,
+  EventConfig,
+  EventDto
+} from '@wipefest/api-sdk/dist/lib/models';
 
 @Injectable()
 export class StateService {
   queryParams: any;
-  private report: Report;
+  configs: EventConfig[];
+  private report: ReportDto;
   private availableFocuses: SelectedFocus[] = [];
 
   constructor(
@@ -56,15 +61,19 @@ export class StateService {
     this.wipefestService.selectedRaid.subscribe(raid => {
       this.availableFocuses = raid
         ? raid.players.map(player => {
-            const friendly = this.report.friendlies.find(
-              friendly => friendly.name == player.name
-            );
-            return new SelectedFocus(friendly.id.toString(), [
-              player.specialization.include,
-              player.specialization.generalInclude
-            ]);
-          })
+          const friendly = this.report.friendlies.find(
+            friendly => friendly.name == player.name
+          );
+          return new SelectedFocus(friendly.id.toString(), [
+            player.specialization.include,
+            player.specialization.generalInclude
+          ]);
+        })
         : [];
+    });
+
+    this.wipefestService.selectedConfigs.subscribe(configs => {
+      this.configs = configs;
     });
   }
 
@@ -73,24 +82,6 @@ export class StateService {
       this.route.queryParams,
       this.wipefestService.selectedRaid
     );
-  }
-
-  private updateQueryParams() {
-    this.queryParams = this.clean(this.queryParams);
-    this.router.navigate([this.router.url.split('?')[0]], {
-      queryParams: this.queryParams,
-      replaceUrl: true
-    });
-  }
-
-  private clean(obj) {
-    for (const propName in obj) {
-      if (obj[propName] === null || obj[propName] === undefined) {
-        delete obj[propName];
-      }
-    }
-
-    return obj;
   }
 
   get ignore(): boolean {
@@ -138,7 +129,7 @@ export class StateService {
     value.forEach(x => {
       const insight = new SelectedInsight(x.id, x.boss);
       const existingIndex = insightsPerBoss.findIndex(y =>
-        y.some(z => z.boss == x.boss)
+        y.some(z => z.boss === x.boss)
       );
       if (existingIndex === -1) {
         insightsPerBoss.push([insight]);
@@ -287,17 +278,27 @@ export class StateService {
     this.updateQueryParams();
   }
 
-  selectPhasesFromEvents(events: FightEvent[]) {
-    const phaseEvents = events
-      .filter(x => x.config && x.config.eventType == 'phase')
-      .map(x => x as PhaseChangeEvent);
-    if (phaseEvents.every(x => x.show == !x.config.collapsedByDefault)) {
+  selectPhasesFromEvents(events: EventDto[]): void {
+    const phaseEvents = events.filter(x => x.configId && x.type === 'phase');
+    if (
+      phaseEvents.every(x => {
+        const config = this.getConfig(x);
+        return config.show === !config.collapsedByDefault;
+      })
+    ) {
       this.phases = [];
     } else {
       this.phases = phaseEvents.map(
-        x => new SelectedPhase(x.config.id, x.config.group, x.show)
+        x =>
+          new SelectedPhase(x.configId, x.configGroup, this.getConfig(x).show)
       );
     }
+  }
+
+  getConfig(event: EventDto): EventConfig {
+    return this.configs.find(
+      x => x.id === event.configId && x.group === event.configGroup
+    );
   }
 
   get focuses(): SelectedFocus[] {
@@ -318,6 +319,24 @@ export class StateService {
     }
 
     this.updateQueryParams();
+  }
+
+  private updateQueryParams(): void {
+    this.queryParams = this.clean(this.queryParams);
+    this.router.navigate([this.router.url.split('?')[0]], {
+      queryParams: this.queryParams,
+      replaceUrl: true
+    });
+  }
+
+  private clean(obj: any): any {
+    for (const propName in obj) {
+      if (obj[propName] === null || obj[propName] === undefined) {
+        delete obj[propName];
+      }
+    }
+
+    return obj;
   }
 }
 

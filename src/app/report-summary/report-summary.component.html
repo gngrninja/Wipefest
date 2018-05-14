@@ -47,8 +47,8 @@
                          [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
                       <div class="fight-details">
                         <span>Last Pull</span>
-                        <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
-                        <span class="time">{{Timestamp.ToTime(fight.start_time + report.start)}}</span>
+                        <span> ({{Timestamp.ToMinutesAndSeconds(fight.endTime - fight.startTime)}})</span>
+                        <span class="time"> {{Timestamp.ToTime(fight.startTime + report.start)}}</span>
                       </div>
                       <div class="fight-progress-bg" *ngIf="!fight.kill">
                         <div class="fight-progress-fg" [style.width]="100 - Math.ceil(fight.fightPercentage / 100) + '%'"></div>
@@ -65,8 +65,8 @@
                          [ngClass]="{'kill': fight.kill, 'wipe': !fight.kill}">
                       <div class="fight-details">
                         <span *ngIf="!fight.kill">{{i + 1}}.</span>
-                        <span>({{Timestamp.ToMinutesAndSeconds(fight.end_time - fight.start_time)}})</span>
-                        <span class="time">{{Timestamp.ToTime(fight.start_time + report.start)}}</span>
+                        <span> ({{Timestamp.ToMinutesAndSeconds(fight.endTime - fight.startTime)}})</span>
+                        <span class="time"> {{Timestamp.ToTime(fight.startTime + report.start)}}</span>
                       </div>
                       <div class="fight-progress-bg" *ngIf="!fight.kill">
                         <div class="fight-progress-fg" [style.width]="100 - Math.ceil(fight.fightPercentage / 100) + '%'"></div>

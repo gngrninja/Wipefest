@@ -1,41 +1,32 @@
-<tr class="{{event.rowClasses}}" [ngClass]="event.canCollapse ? 'collapsable' : ''" (click)="event.collapsed = !event.collapsed">
-  <td *ngIf="event.isInstanceOf(PhaseChangeEvent)" colspan="3"
+<tr class="{{rowClasses(event)}}" [ngClass]="canCollapse(event) ? 'collapsable' : ''" (click)="collapsed = !collapsed">
+  <td *ngIf="event.type === 'phase'" colspan="3"
       unselectable="on"
       class="phase-change"
       (click)="togglePhaseCollapse(event)">
-    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="event.show ? 'down' : 'right'" aria-hidden="true"></i>
+    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="getConfig(event).show ? 'down' : 'right'" aria-hidden="true"></i>
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
-  <td *ngIf="event.isInstanceOf(TitleEvent)" colspan="3" class="end-of-fight">
-    <h5 *ngIf="!event.subtitle">{{event.title}}</h5>
-    <h6 *ngIf="event.subtitle">{{event.title}}</h6>
+  <td *ngIf="event.type === 'title'" colspan="3" class="end-of-fight">
+    <h5 *ngIf="!event.isSubtitle">{{event.title}}</h5>
+    <h6 *ngIf="event.isSubtitle">{{event.title}}</h6>
   </td>
 
   <td *ngIf="!isTitle(event)" class="event">
     <div *ngIf="event.isFriendly" class="friendly">
-      <i *ngIf="event.canCollapse" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="event.collapsed ? 'right' : 'down'" aria-hidden="true"></i>
+      <i *ngIf="canCollapse(event)" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="collapsed ? 'right' : 'down'" aria-hidden="true"></i>
 
-      <span class="hidden-md-down" [innerHtml]="parse(event.title)"></span>
-      <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
-      <span class="hidden-sm-up" [innerHtml]="parse(event.shortTitle)"></span>
+      <span [innerHtml]="parse(event.title)"></span>
       
-      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(DebuffStackEvent) || event.isInstanceOf(RemoveDebuffEvent) || event.isInstanceOf(HeroismEvent)"
-                    [abilityId]="event.ability.guid"
-                    [abilityIcon]="event.ability.abilityIcon"
+      <ability-icon *ngIf="ability && ability.guid !== -1"
+                    [abilityId]="ability.guid"
+                    [abilityIcon]="ability.abilityIcon"
                     [alt]=""
                     [linkToWowhead]="true"
                     class="event-icon"></ability-icon>
 
-      <ability-icon *ngIf="event.isInstanceOf(DeathEvent) && event.showKillingBlowIcon"
-                    [abilityId]="event.killingBlow.guid"
-                    [abilityIcon]="event.killingBlow.abilityIcon"
-                    [alt]=""
-                    [linkToWowhead]="true"
-                    class="event-icon"></ability-icon>
-
-      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle event-icon" aria-hidden="true"></i>
-      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle event-icon" aria-hidden="true"></i>
-      <i *ngIf="event.config && event.config.icon" class="fa event-icon" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
+      <i *ngIf="event.type === 'death'" class="fa fa-exclamation-triangle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.type === 'spawn'" class="fa fa-plus-circle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.configId && getConfig(event).icon" class="fa event-icon" [ngClass]="'fa-' + getConfig(event).icon" aria-hidden="true"></i>
     </div>
   </td>
   <td *ngIf="!isTitle(event)" class="timestamp">
@@ -43,27 +34,25 @@
   </td>
   <td *ngIf="!isTitle(event)" class="event">
     <div *ngIf="!event.isFriendly" class="unfriendly">
-      <ability-icon *ngIf="event.isInstanceOf(AbilityEvent) || event.isInstanceOf(InterruptEvent) || event.isInstanceOf(DamageEvent) || event.isInstanceOf(DebuffEvent) || event.isInstanceOf(DebuffStackEvent) || event.isInstanceOf(RemoveDebuffEvent)"
-                    [abilityId]="event.ability.guid"
-                    [abilityIcon]="event.ability.abilityIcon"
+      <ability-icon *ngIf="ability && ability.guid !== -1"
+                    [abilityId]="ability.guid"
+                    [abilityIcon]="ability.abilityIcon"
                     [alt]=""
                     [linkToWowhead]="true"
                     class="event-icon"></ability-icon>
 
-      <i *ngIf="event.config && event.config.icon" class="fa event-icon" [ngClass]="'fa-' + event.config.icon" aria-hidden="true"></i>
-      <i *ngIf="event.isInstanceOf(DeathEvent)" class="fa fa-exclamation-triangle event-icon" aria-hidden="true"></i>
-      <i *ngIf="event.isInstanceOf(SpawnEvent)" class="fa fa-plus-circle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.configId && getConfig(event).icon" class="fa event-icon" [ngClass]="'fa-' + getConfig(event).icon" aria-hidden="true"></i>
+      <i *ngIf="event.type === 'death'" class="fa fa-exclamation-triangle event-icon" aria-hidden="true"></i>
+      <i *ngIf="event.type === 'spawn'" class="fa fa-plus-circle event-icon" aria-hidden="true"></i>
 
-      <span class="hidden-md-down" [innerHtml]="parse(event.title)"></span>
-      <span class="hidden-lg-up hidden-xs-down" [innerHtml]="parse(event.mediumTitle)"></span>
-      <span class="hidden-sm-up" [innerHtml]="parse(event.shortTitle)"></span>
+      <span [innerHtml]="parse(event.title)"></span>
 
-      <i *ngIf="event.canCollapse" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="event.collapsed ? 'right' : 'down'" aria-hidden="true"></i>
+      <i *ngIf="canCollapse(event)" class="arrow collapse-icon fa fa-chevron-down" [ngClass]="collapsed ? 'right' : 'down'" aria-hidden="true"></i>
     </div>
   </td>
 </tr>
 
-<tr *ngIf="event.canCollapse && !event.collapsed">
+<tr *ngIf="canCollapse(event) && !collapsed">
   <td class="no-hover" id="child-events" colspan="3">
     <table class="table-hover">
       <tbody>
@@ -74,7 +63,7 @@
         </tr>
       </tbody>
       <ng-container *ngIf="event.childEvents.length > 0">
-        <tbody *ngFor="let childEvent of event.childEvents" timeline-fight-event [event]="childEvent" [fight]="fight"></tbody>
+        <tbody *ngFor="let childEvent of event.childEvents" timeline-fight-event [event]="childEvent" [ability]="ability" [fight]="fight" [events]="events" [configs]="configs"></tbody>
       </ng-container>
     </table>
   </td>

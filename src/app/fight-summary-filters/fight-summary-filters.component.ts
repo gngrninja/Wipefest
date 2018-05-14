@@ -1,9 +1,12 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { EventConfig } from 'app/event-config/event-config';
 import { FightEvent } from 'app/fight-events/models/fight-event';
 import { LoggerService } from 'app/shared/logger.service';
 import { StateService } from 'app/shared/state.service';
-import { Ability } from '../fight-events/models/ability-event';
+import {
+  EventDto,
+  EventConfig,
+  Ability
+} from '@wipefest/api-sdk/dist/lib/models';
 
 @Component({
   selector: 'fight-summary-filters',
@@ -12,17 +15,18 @@ import { Ability } from '../fight-events/models/ability-event';
 })
 export class FightSummaryFiltersComponent implements OnChanges {
   @Input() configs: EventConfig[];
-  @Input() events: FightEvent[] = [];
+  @Input() events: EventDto[] = [];
+  @Input() abilities: Ability[] = [];
   categories: EventConfigCategory[] = [];
-  categoryFilter = '';
+  categoryFilter: string = '';
 
   get uniqueConfigs(): EventConfig[] {
     return this.configs.filter(
       (config, index, array) =>
         array.findIndex(
           x =>
-            x.name == config.name && x.tags.join(' ') == config.tags.join(' ')
-        ) == index
+            x.name === config.name && x.tags.join(' ') === config.tags.join(' ')
+        ) === index
     );
   }
 
@@ -31,22 +35,22 @@ export class FightSummaryFiltersComponent implements OnChanges {
     private readonly logger: LoggerService
   ) {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     if (this.configs && this.stateService.filters.length > 0) {
       if (
         this.stateService.filters.every(
           filter =>
-            this.configs.find(config => config.group == filter.group) !=
+            this.configs.find(config => config.group === filter.group) !=
             undefined
         )
       ) {
         this.configs
-          .filter(x => x.eventType != 'phase' && x.eventType != 'title')
+          .filter(x => x.eventType !== 'phase' && x.eventType !== 'title')
           .forEach(x => (x.show = false));
         for (let i = 0; i < this.stateService.filters.length; i++) {
           const filter = this.stateService.filters[i];
           const config = this.configs.find(
-            x => x.id == filter.id && x.group == filter.group
+            x => x.id === filter.id && x.group === filter.group
           );
           if (config) {
             config.show = true;
@@ -58,21 +62,21 @@ export class FightSummaryFiltersComponent implements OnChanges {
     this.categories = this.getFilteredCategories();
   }
 
-  showAll() {
+  showAll(): void {
     this.configs.forEach(x => (x.show = true));
     this.stateService.selectFiltersFromConfigs(this.configs);
     this.logger.logShowAllFilters();
   }
 
-  hideAll() {
+  hideAll(): void {
     this.configs
-      .filter(x => ['phase', 'title'].indexOf(x.eventType) == -1)
+      .filter(x => ['phase', 'title'].indexOf(x.eventType) === -1)
       .forEach(x => (x.show = false));
     this.stateService.selectFiltersFromConfigs(this.configs);
     this.logger.logHideAllFilters();
   }
 
-  reset() {
+  reset(): void {
     this.configs.forEach(x => {
       x.show = x.showByDefault;
     });
@@ -89,7 +93,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
       const currentTags = [];
       tags.forEach(tag => {
         currentTags.push(tag);
-        const category = filteredCategories.find(x => x.name == tag);
+        const category = filteredCategories.find(x => x.name === tag);
         if (category) {
           filteredCategories = category.categories;
         } else {
@@ -99,20 +103,22 @@ export class FightSummaryFiltersComponent implements OnChanges {
               x =>
                 x.name
                   .toLowerCase()
-                  .indexOf(this.categoryFilter.toLowerCase()) != -1 ||
+                  .indexOf(this.categoryFilter.toLowerCase()) !== -1 ||
                 x.tags.some(
                   x =>
                     x
                       .toLowerCase()
-                      .indexOf(this.categoryFilter.toLowerCase()) != -1
+                      .indexOf(this.categoryFilter.toLowerCase()) !== -1
                 )
             );
           }
           const filters = configs.map(config => {
-            const events: any[] = this.getEventsForEventConfig(config);
-            const eventWithAbility = events.find(x => x.ability);
+            const events: EventDto[] = this.getEventsForEventConfig(config);
+            const eventWithAbility = events.find(x => !!x.abilityGuid);
             if (eventWithAbility) {
-              const ability: Ability = eventWithAbility.ability;
+              const ability: Ability = this.abilities.find(
+                x => x.guid === eventWithAbility.abilityGuid
+              );
               return new EventConfigFilter(
                 config,
                 ability.guid,
@@ -139,7 +145,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
     });
 
     categories = categories.filter(
-      x => ['phase', 'title'].indexOf(x.name) == -1
+      x => ['phase', 'title'].indexOf(x.name) === -1
     );
 
     return categories;
@@ -150,23 +156,32 @@ export class FightSummaryFiltersComponent implements OnChanges {
       .map(config => config.tags)
       .filter((tags, index, array) => {
         const arrayOfJoinedTags = array.map(x => x.join(' '));
-        return arrayOfJoinedTags.indexOf(tags.join(' ')) == index;
+        return arrayOfJoinedTags.indexOf(tags.join(' ')) === index;
       })
       .sort();
   }
 
   getEventConfigsForTags(tags: string[]): EventConfig[] {
     return this.uniqueConfigs
-      .filter(config => config.tags.join(' ') == tags.join(' '))
+      .filter(config => config.tags.join(' ') === tags.join(' '))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  getEventsForEventConfig(config: EventConfig) {
-    return this.events.filter(
-      x =>
-        x.config != null &&
-        x.config.name == config.name &&
-        x.config.tags.join(' ') == config.tags.join(' ')
+  getEventsForEventConfig(config: EventConfig): EventDto[] {
+    return this.events.filter(event => {
+      const configs = this.getConfigsWithinTheSameFilter(config);
+      return (
+        event.configId &&
+        configs.findIndex(
+          x => x.id === event.configId && x.group === event.configGroup
+        ) > -1
+      );
+    });
+  }
+
+  private getConfigsWithinTheSameFilter(config: EventConfig): EventConfig[] {
+    return this.configs.filter(
+      x => x.name === config.name && x.tags.join(' ') === config.tags.join(' ')
     );
   }
 }
@@ -194,7 +209,7 @@ export class EventConfigCategory {
     );
   }
 
-  private categoryHasFilters(category: EventConfigCategory) {
+  private categoryHasFilters(category: EventConfigCategory): boolean {
     return (
       category.filters.length > 0 ||
       category.categories.some(x => this.categoryHasFilters(x))

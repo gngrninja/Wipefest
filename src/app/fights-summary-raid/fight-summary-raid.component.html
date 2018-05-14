@@ -12,7 +12,7 @@
         </span>
       </div>
       <h6 *ngIf="focuses.length == 0">No Focus Set</h6>
-      <div *ngFor="let role of raid.roles" class="mt-2">
+      <div *ngFor="let role of roles" class="mt-2">
         <h6>
           {{role.name}}
           <span class="badge badge-info">{{role.players.length}}</span>

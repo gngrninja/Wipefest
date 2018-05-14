@@ -5,15 +5,15 @@ import {
   OnChanges,
   ViewChild
 } from '@angular/core';
-import { EventConfig } from 'app/event-config/event-config';
 import { LoggerService } from 'app/shared/logger.service';
 import { StateService } from 'app/shared/state.service';
-import { Fight } from 'app/warcraft-logs/report';
-import { WarcraftLogsService } from 'app/warcraft-logs/warcraft-logs.service';
 import { environment } from 'environments/environment';
-import { EndOfFightEvent } from '../../models/end-of-fight-event';
-import { FightEvent } from '../../models/fight-event';
-import { PhaseChangeEvent } from '../../models/phase-change-event';
+import {
+  FightInfo,
+  EventDto,
+  EventConfig,
+  Ability
+} from '@wipefest/api-sdk/dist/lib/models';
 
 @Component({
   selector: 'fight-events',
@@ -21,48 +21,46 @@ import { PhaseChangeEvent } from '../../models/phase-change-event';
   styleUrls: ['./fight-events.component.scss']
 })
 export class FightEventsComponent implements AfterViewInit, OnChanges {
-  @Input() fight: Fight;
-  @Input() events: FightEvent[];
-  @Input() configs: EventConfig[];
-  @ViewChild('tabs') tabs;
+  @Input() fight: FightInfo;
+  @Input() events: EventDto[];
+  @Input() configs: EventConfig[] = [];
+  @Input() abilities: Ability[] = [];
+  @ViewChild('tabs') tabs: any;
 
-  view = FightEventsView.Table;
-  FightEventsView = FightEventsView;
+  view: FightEventsView = FightEventsView.Table;
+  FightEventsView: any = FightEventsView;
 
   constructor(
-    private warcraftLogsService: WarcraftLogsService,
     private stateService: StateService,
     private logger: LoggerService
   ) {}
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     setTimeout(() => this.selectDefaultTab(), 1);
   }
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     if (this.events && this.stateService.phases.length > 0) {
       if (
         this.stateService.phases.every(
           phase =>
             this.events.find(
-              event => event.config && event.config.group == phase.group
+              event => event.configId && event.configGroup === phase.group
             ) != undefined
         )
       ) {
-        const phaseEvents = this.events
-          .filter(x => x.config && x.config.eventType == 'phase')
-          .map(x => x as PhaseChangeEvent);
+        const phaseEvents = this.events.filter(x => x.type === 'phase');
         let timestamp = 0;
         for (let i = 0; i < this.stateService.phases.length; i++) {
           const phase = this.stateService.phases[i];
           const event = phaseEvents.find(
             x =>
               x.timestamp >= timestamp &&
-              x.config.id == phase.id &&
-              x.config.group == phase.group
+              x.configId === phase.id &&
+              x.configGroup === phase.group
           );
           if (event) {
-            event.show = phase.selected;
+            this.getConfig(event).show = phase.selected;
             timestamp = event.timestamp;
           }
         }
@@ -72,13 +70,11 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
 
   get hiddenIntervals(): Interval[] {
     return this.events
-      .filter(
-        x => x.isInstanceOf(PhaseChangeEvent) || x.isInstanceOf(EndOfFightEvent)
-      )
+      .filter(x => x.type === 'phase' || x.type === 'endOfFight')
       .map((x, index, array) => {
-        if (x.isInstanceOf(PhaseChangeEvent)) {
-          const phase = x as PhaseChangeEvent;
-          if (!phase.show) {
+        if (x.type === 'phase') {
+          const phase = x;
+          if (this.configs.length > 0 && !this.getConfig(phase).show) {
             return new Interval(x.timestamp, array[index + 1].timestamp);
           }
         }
@@ -87,7 +83,7 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
       .filter(x => x != null);
   }
 
-  get shownEvents(): FightEvent[] {
+  get shownEvents(): EventDto[] {
     const shownEvents = this.events.filter(
       x => !this.eventIsFiltered(x) && !this.eventIsHidden(x)
     );
@@ -99,23 +95,35 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
     return shownEvents;
   }
 
-  selectDefaultTab() {
+  selectDefaultTab(): void {
     if (window.innerWidth < 1300) {
       this.tabs.select('table-tab');
     }
   }
 
-  private eventIsFiltered(event: FightEvent): boolean {
-    return event.config && !event.config.show;
+  getAbility(event: EventDto): Ability {
+    return this.abilities.find(x => x.guid === event.abilityGuid);
   }
 
-  private eventIsHidden(event: FightEvent): boolean {
+  private eventIsFiltered(event: EventDto): boolean {
     return (
-      !event.isInstanceOf(PhaseChangeEvent) &&
-      !event.isInstanceOf(EndOfFightEvent) &&
+      this.configs.length > 0 && event.configId && !this.getConfig(event).show
+    );
+  }
+
+  private eventIsHidden(event: EventDto): boolean {
+    return (
+      !(event.type === 'phase') &&
+      !(event.type === 'endOfFight') &&
       this.hiddenIntervals.some(
         i => i.start <= event.timestamp && i.end >= event.timestamp
       )
+    );
+  }
+
+  private getConfig(event: EventDto): EventConfig {
+    return this.configs.find(
+      x => x.id === event.configId && x.group === event.configGroup
     );
   }
 }

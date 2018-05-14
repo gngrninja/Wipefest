@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { EventConfig } from 'app/event-config/event-config';
 import { StateService } from 'app/shared/state.service';
 import { LoggerService } from '../shared/logger.service';
 import {
   EventConfigCategory,
   EventConfigFilter
 } from './fight-summary-filters.component';
+import { EventConfig, Ability } from '@wipefest/api-sdk/dist/lib/models';
 
 @Component({
   selector: 'fight-summary-filter-category',
@@ -27,7 +27,7 @@ export class FightSummaryFilterCategoryComponent {
     private readonly logger: LoggerService
   ) {}
 
-  getButtonClass(config: EventConfig, count: number) {
+  getButtonClass(config: EventConfig, count: number): string {
     let classes = 'filter ';
     if (count > 0) {
       classes += config.show ? 'enabled show' : 'enabled';
@@ -38,10 +38,11 @@ export class FightSummaryFilterCategoryComponent {
     return classes;
   }
 
-  toggleConfig(config: EventConfig, configs: EventConfig[]) {
+  toggleConfig(config: EventConfig, configs: EventConfig[]): void {
     configs
       .filter(
-        x => x.name == config.name && x.tags.join(' ') == config.tags.join(' ')
+        x =>
+          x.name === config.name && x.tags.join(' ') === config.tags.join(' ')
       )
       .forEach(x => {
         x.show = !x.show;
