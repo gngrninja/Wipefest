@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Difficulty } from 'app/helpers/difficulty-helper';
 import { MarkupParser } from 'app/helpers/markup-parser';
 import { LoggerService } from 'app/shared/logger.service';
@@ -30,16 +30,23 @@ export class FightEventComponent {
     private logger: LoggerService
   ) {}
 
+  ngOnInit() {
+    this.stateService.changes.take(1).subscribe(() => {
+      if (this.event.type === 'phase') {
+        const phaseEvents = this.events.filter(x => x.type === 'phase');
+        const phaseIndex = phaseEvents.findIndex(x => x.timestamp === this.event.timestamp);
+        const selectedPhases = this.stateService.phases.filter(x => x.group === this.event.configGroup);
+        if (selectedPhases.length >= phaseIndex) {
+          this.collapsed = selectedPhases[phaseIndex].selected;
+        }
+      }
+    });
+  }
+
   togglePhaseCollapse(event: EventDto): void {
-    const config = this.getConfig(event);
-    config.show = !config.show;
-    this.stateService.selectPhasesFromEvents(this.events);
-    this.logger.logTogglePhase(
-      Difficulty.ToString(this.fight.difficulty),
-      this.encountersService.getEncounter(this.fight.boss).name,
-      event.title,
-      config.show
-    );
+    const phases = this.events.filter(x => x.type === 'phase');
+    const phaseIndex = phases.findIndex(x => x.timestamp === event.timestamp);
+    this.stateService.togglePhase(phaseIndex, phases[0].configGroup, phases.length);
   }
 
   isTitle(event: EventDto): boolean {

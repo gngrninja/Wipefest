@@ -3,7 +3,7 @@
       unselectable="on"
       class="phase-change"
       (click)="togglePhaseCollapse(event)">
-    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="getConfig(event).show ? 'down' : 'right'" aria-hidden="true"></i>
+    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="collapsed ? 'down' : 'right'" aria-hidden="true"></i>
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
   <td *ngIf="event.type === 'title'" colspan="3" class="end-of-fight">

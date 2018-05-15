@@ -236,11 +236,7 @@ export class StateService {
       this.queryParams.phases.split(',').forEach(groupAndPhases => {
         const split = groupAndPhases.split('-');
         const group = split[0];
-        split[1].match(/(!?..?)/g).forEach(phase => {
-          const selected = phase.indexOf('!') == -1;
-          const id = phase.split('!').join('');
-          phaseParams.push(new SelectedPhase(id, group, selected));
-        });
+        phaseParams.push(...split[1].split('').map((c, index) => new SelectedPhase(index, group, c === '1')));
       });
     } catch (error) {
       return phaseParams;
@@ -252,7 +248,7 @@ export class StateService {
   set phases(value: SelectedPhase[]) {
     const phasesPerGroup: SelectedPhase[][] = [];
     value.forEach(x => {
-      const phase = new SelectedPhase(x.id, x.group, x.selected);
+      const phase = new SelectedPhase(x.index, x.group, x.selected);
       const existingIndex = phasesPerGroup.findIndex(y =>
         y.some(z => z.group == x.group)
       );
@@ -267,7 +263,8 @@ export class StateService {
       .map(
         x =>
           `${x[0].group}-${x
-            .map(y => `${y.selected ? '' : '!'}${y.id}`)
+            .sort((a, b) => a.index - b.index)
+            .map(y => `${y.selected ? '1' : '0'}`)
             .join('')}`
       )
       .join(',');
@@ -278,21 +275,20 @@ export class StateService {
     this.updateQueryParams();
   }
 
-  selectPhasesFromEvents(events: EventDto[]): void {
-    const phaseEvents = events.filter(x => x.configId && x.type === 'phase');
-    if (
-      phaseEvents.every(x => {
-        const config = this.getConfig(x);
-        return config.show === !config.collapsedByDefault;
-      })
-    ) {
-      this.phases = [];
-    } else {
-      this.phases = phaseEvents.map(
-        x =>
-          new SelectedPhase(x.configId, x.configGroup, this.getConfig(x).show)
-      );
+  togglePhase(index: number, group: string, totalPhases: number) {
+    if (this.phases === undefined) this.phases = [];
+    let phases = this.phases;
+
+    const groupPhases = phases.filter(x => x.group === group);
+    if (groupPhases.length !== totalPhases) {
+      const groupPhases = Array.from({length: totalPhases}, (v, i) => i)
+        .map((_, i) => new SelectedPhase(i, group, true));
+      phases = this.phases.filter(x => x.group !== group).concat(...groupPhases);
     }
+    const phase = phases.find(x => x.group === group && x.index === index);
+    phase.selected = !phase.selected;
+
+    this.phases = phases;
   }
 
   getConfig(event: EventDto): EventConfig {
@@ -350,7 +346,7 @@ export class SelectedFilter {
 
 export class SelectedPhase {
   constructor(
-    public id: string,
+    public index: number,
     public group: string,
     public selected: boolean
   ) {}

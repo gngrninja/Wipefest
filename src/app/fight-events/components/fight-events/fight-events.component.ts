@@ -20,7 +20,7 @@ import {
   templateUrl: './fight-events.component.html',
   styleUrls: ['./fight-events.component.scss']
 })
-export class FightEventsComponent implements AfterViewInit, OnChanges {
+export class FightEventsComponent implements AfterViewInit {
   @Input() fight: FightInfo;
   @Input() events: EventDto[];
   @Input() configs: EventConfig[] = [];
@@ -39,57 +39,32 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
     setTimeout(() => this.selectDefaultTab(), 1);
   }
 
-  ngOnChanges(): void {
-    if (this.events && this.stateService.phases.length > 0) {
-      if (
-        this.stateService.phases.every(
-          phase =>
-            this.events.find(
-              event => event.configId && event.configGroup === phase.group
-            ) != undefined
-        )
-      ) {
-        const phaseEvents = this.events.filter(x => x.type === 'phase');
-        let timestamp = 0;
-        for (let i = 0; i < this.stateService.phases.length; i++) {
-          const phase = this.stateService.phases[i];
-          const event = phaseEvents.find(
-            x =>
-              x.timestamp >= timestamp &&
-              x.configId === phase.id &&
-              x.configGroup === phase.group
-          );
-          if (event) {
-            this.getConfig(event).show = phase.selected;
-            timestamp = event.timestamp;
-          }
-        }
-      }
-    }
-  }
+  getHiddenIntervals(): Interval[] {
+    if (this.events.length === 0) return [];
 
-  get hiddenIntervals(): Interval[] {
-    return this.events
-      .filter(x => x.type === 'phase' || x.type === 'endOfFight')
-      .map((x, index, array) => {
-        if (x.type === 'phase') {
-          const phase = x;
-          if (this.configs.length > 0 && !this.getConfig(phase).show) {
-            return new Interval(x.timestamp, array[index + 1].timestamp);
-          }
-        }
-        return null;
-      })
-      .filter(x => x != null);
+    const phaseEvents =
+      this.events.filter(x => x.type === 'phase' || x.type === 'endOfFight');
+
+    const intervals = this.stateService.phases
+      .filter(selectedPhase => selectedPhase.group === this.fight.boss.toString())
+      .map(selectedPhase => {
+        return selectedPhase.selected ? null : new Interval(
+          phaseEvents[selectedPhase.index].timestamp,
+          phaseEvents[selectedPhase.index + 1].timestamp
+        );
+      }).filter(x => x !== null);
+
+    return intervals;
   }
 
   get shownEvents(): EventDto[] {
+    const hiddenIntervals = this.getHiddenIntervals();
     const shownEvents = this.events.filter(
       x =>
         x.type === 'phase' ||
         x.type === 'endOfFight' ||
         (!this.eventIsFiltered(x) &&
-        !this.eventIsHidden(x))
+        !this.eventIsHidden(x, hiddenIntervals))
     );
 
     return shownEvents;
@@ -111,9 +86,9 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
     );
   }
 
-  private eventIsHidden(event: EventDto): boolean {
+  private eventIsHidden(event: EventDto, hiddenIntervals: Interval[]): boolean {
     return (
-      this.hiddenIntervals.some(
+      hiddenIntervals.some(
         i => i.start <= event.timestamp && i.end >= event.timestamp
       )
     );
