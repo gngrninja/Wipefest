@@ -85,12 +85,12 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
 
   get shownEvents(): EventDto[] {
     const shownEvents = this.events.filter(
-      x => !this.eventIsFiltered(x) && !this.eventIsHidden(x)
+      x =>
+        x.type === 'phase' ||
+        x.type === 'endOfFight' ||
+        (!this.eventIsFiltered(x) &&
+        !this.eventIsHidden(x))
     );
-
-    if (!environment.production) {
-      // console.log(shownEvents);
-    }
 
     return shownEvents;
   }
@@ -113,8 +113,6 @@ export class FightEventsComponent implements AfterViewInit, OnChanges {
 
   private eventIsHidden(event: EventDto): boolean {
     return (
-      !(event.type === 'phase') &&
-      !(event.type === 'endOfFight') &&
       this.hiddenIntervals.some(
         i => i.start <= event.timestamp && i.end >= event.timestamp
       )
