@@ -311,6 +311,9 @@ export class FightSummaryComponent implements OnInit {
 
           // Decide which events should be focused
           this.focusedEventIndexes = this.events.map(x => true);
+          const focusedPlayerNames = this.raid.players
+            .filter(player => this.focuses.map(f => parseInt(f.id)).indexOf(player.actorId) !== -1)
+            .map(player => player.name);
           this.events.forEach((event, i) => {
             if (event.configId) {
               const weAreFocusing = this.focuses.length > 0;
@@ -333,20 +336,7 @@ export class FightSummaryComponent implements OnInit {
                 weAreFocusing &&
                 (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)
               ) {
-                const untypedEvent = event as any;
-                let isSource = false;
-                let isTarget = false;
-                if (untypedEvent.source && untypedEvent.source.id) {
-                  isSource = this.focuses.some(
-                    focus => untypedEvent.source.id.toString() === focus.id
-                  );
-                }
-                if (untypedEvent.target && untypedEvent.target.id) {
-                  isTarget = this.focuses.some(
-                    focus => untypedEvent.target.id.toString() === focus.id
-                  );
-                }
-                this.focusedEventIndexes[i] = isSource || isTarget;
+                this.focusedEventIndexes[i] = focusedPlayerNames.some(name => event.title.indexOf(name) !== -1);
               }
             }
           });
