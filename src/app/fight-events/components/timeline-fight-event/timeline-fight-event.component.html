@@ -6,7 +6,7 @@
     <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="collapsed ? 'down' : 'right'" aria-hidden="true"></i>
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
-  <td *ngIf="event.type === 'title'" colspan="3" class="end-of-fight">
+  <td *ngIf="event.type === 'title' || event.type === 'endOfFight' || !event.type" colspan="3" class="end-of-fight">
     <h5 *ngIf="!event.isSubtitle">{{event.title}}</h5>
     <h6 *ngIf="event.isSubtitle">{{event.title}}</h6>
   </td>

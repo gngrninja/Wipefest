@@ -51,7 +51,7 @@ export class FightEventComponent {
   }
 
   isTitle(event: EventDto): boolean {
-    return event.type === 'phase' || event.type === 'title';
+    return event.type === 'phase' || event.type === 'title' || event.type === 'endOfFight' || !event.type;
   }
 
   parse(input: string): string {
