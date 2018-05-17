@@ -17,7 +17,7 @@
           </div>
 
           <table class="table-hover">
-            <tbody *ngFor="let event of shownEvents" timeline-fight-event [event]="event" [ability]="getAbility(event)" [fight]="fight" [events]="events" [configs]="configs"></tbody>
+            <tbody *ngFor="let event of shownEvents" timeline-fight-event [event]="event" [ability]="getAbility(event)" [abilities]="abilities" [fight]="fight" [events]="events" [configs]="configs"></tbody>
           </table>
         </div>
       </ng-template>
@@ -28,7 +28,7 @@
       <ng-template ngbTabContent>
         <div class="table-view">
           <table class="table-hover">
-            <tbody *ngFor="let event of shownEvents" table-fight-event [event]="event" [ability]="getAbility(event)" [fight]="fight" [events]="events" [configs]="configs"></tbody>
+            <tbody *ngFor="let event of shownEvents" table-fight-event [event]="event" [ability]="getAbility(event)" [abilities]="abilities" [fight]="fight" [events]="events" [configs]="configs"></tbody>
           </table>
         </div>
       </ng-template>

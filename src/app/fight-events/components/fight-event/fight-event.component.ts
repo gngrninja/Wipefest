@@ -18,6 +18,7 @@ import { Ability } from '../../models/ability-event';
 export class FightEventComponent {
   @Input() fight: FightInfo;
   @Input() event: EventDto;
+  @Input() abilities: Ability[];
   @Input() ability: Ability;
   @Input() events: EventDto[];
   @Input() configs: EventConfig[];
@@ -65,6 +66,10 @@ export class FightEventComponent {
     return this.configs.find(
       x => x.id === event.configId && x.group === event.configGroup
     );
+  }
+
+  getAbility(event: EventDto): Ability {
+    return this.abilities.find(x => x.guid === event.abilityGuid);
   }
 
   rowClasses(event: EventDto): string {

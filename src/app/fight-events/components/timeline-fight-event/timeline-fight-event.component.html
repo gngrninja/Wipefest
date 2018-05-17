@@ -1,4 +1,4 @@
-<tr class="{{rowClasses(event)}}" [ngClass]="canCollapse(event) ? 'collapsable' : ''" (click)="collapsed = !collapsed">
+<tr class="{{ rowClasses(event) }}" [ngClass]="canCollapse(event) ? 'collapsable' : ''" (click)="collapsed = !collapsed">
   <td *ngIf="event.type === 'phase'" colspan="3"
       unselectable="on"
       class="phase-change"
@@ -17,7 +17,7 @@
 
       <span [innerHtml]="parse(event.title)"></span>
       
-      <ability-icon *ngIf="ability && ability.guid !== -1"
+      <ability-icon *ngIf="ability && ability.guid !== 1"
                     [abilityId]="ability.guid"
                     [abilityIcon]="ability.abilityIcon"
                     [alt]=""
@@ -34,7 +34,7 @@
   </td>
   <td *ngIf="!isTitle(event)" class="event">
     <div *ngIf="!event.isFriendly" class="unfriendly">
-      <ability-icon *ngIf="ability && ability.guid !== -1"
+      <ability-icon *ngIf="ability && ability.guid !== 1"
                     [abilityId]="ability.guid"
                     [abilityIcon]="ability.abilityIcon"
                     [alt]=""
@@ -63,7 +63,7 @@
         </tr>
       </tbody>
       <ng-container *ngIf="event.childEvents.length > 0">
-        <tbody *ngFor="let childEvent of event.childEvents" timeline-fight-event [event]="childEvent" [ability]="ability" [fight]="fight" [events]="events" [configs]="configs"></tbody>
+        <tbody *ngFor="let childEvent of event.childEvents" timeline-fight-event [event]="childEvent" [ability]="getAbility(childEvent)" [abilities]="abilities" [fight]="fight" [events]="events" [configs]="configs"></tbody>
       </ng-container>
     </table>
   </td>
