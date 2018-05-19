@@ -27,7 +27,8 @@ import {
   RaidDto,
   EventDto,
   Player,
-  EventConfig
+  EventConfig,
+  Insight
 } from '@wipefest/api-sdk/dist/lib/models';
 
 @Component({
@@ -58,6 +59,7 @@ export class FightSummaryComponent implements OnInit {
   events: EventDto[] = [];
   abilities: Ability[] = [];
   focusedEventIndexes: boolean[] = [];
+  insights: Insight[] = [];
 
   get focusedEvents(): EventDto[] {
     return this.events.filter((x, i) => this.focusedEventIndexes[i]);
@@ -196,6 +198,7 @@ export class FightSummaryComponent implements OnInit {
 
     this.fight = null;
     this.events = [];
+    this.insights = [];
     this.combatantInfos = [];
     this.configs = [];
 
@@ -255,6 +258,7 @@ export class FightSummaryComponent implements OnInit {
   private loadData(): void {
     this.events = [];
     this.eventsBeforeDeathThreshold = [];
+    this.insights = [];
 
     if (this.report && this.fight) {
       const combatEvents = [];
@@ -276,6 +280,7 @@ export class FightSummaryComponent implements OnInit {
           this.configs = fight.eventConfigs;
           this.wipefestService.selectConfigs(fight.eventConfigs);
 
+          this.insights = fight.insights;
           this.events = fight.events;
           // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but priotise non-general/raid-originating events
           this.events = this.events.filter((x, index, array) => {
