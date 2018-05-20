@@ -143,13 +143,13 @@ export class StateService {
       .join(',');
 
     this.queryParams.insights =
-      insightQueryString == '' ? undefined : insightQueryString;
+      insightQueryString === '' ? undefined : insightQueryString;
 
     this.updateQueryParams();
   }
 
   isInsightSelected(id: string, boss: number): boolean {
-    return this.insights.some(x => x.id == id && x.boss == boss);
+    return this.insights.some(x => x.id === id && x.boss === boss);
   }
 
   selectInsight(id: string, boss: number) {
@@ -236,7 +236,11 @@ export class StateService {
       this.queryParams.phases.split(',').forEach(groupAndPhases => {
         const split = groupAndPhases.split('-');
         const group = split[0];
-        phaseParams.push(...split[1].split('').map((c, index) => new SelectedPhase(index, group, c === '1')));
+        phaseParams.push(
+          ...split[1]
+            .split('')
+            .map((c, index) => new SelectedPhase(index, group, c === '1'))
+        );
       });
     } catch (error) {
       return phaseParams;
@@ -275,15 +279,26 @@ export class StateService {
     this.updateQueryParams();
   }
 
-  togglePhase(index: number, group: string, totalPhases: number) {
+  togglePhase(index: number, group: string, totalPhases: number): void {
     if (this.phases === undefined) this.phases = [];
     let phases = this.phases;
 
     const groupPhases = phases.filter(x => x.group === group);
     if (groupPhases.length !== totalPhases) {
-      const groupPhases = Array.from({length: totalPhases}, (v, i) => i)
-        .map((_, i) => new SelectedPhase(i, group, true));
-      phases = this.phases.filter(x => x.group !== group).concat(...groupPhases);
+      const newGroupPhases = Array.from(
+        { length: totalPhases },
+        (v, i) => i
+      ).map(
+        (_, i) =>
+          new SelectedPhase(
+            i,
+            group,
+            groupPhases[i] !== undefined ? groupPhases[i].selected : true
+          )
+      );
+      phases = this.phases
+        .filter(x => x.group !== group)
+        .concat(...newGroupPhases);
     }
     const phase = phases.find(x => x.group === group && x.index === index);
     phase.selected = !phase.selected;
@@ -299,12 +314,12 @@ export class StateService {
 
   get focuses(): SelectedFocus[] {
     const focusIds: string[] =
-      this.queryParams.focuses == undefined
+      this.queryParams.focuses === undefined
         ? []
         : this.queryParams.focuses.split(',');
     return focusIds
-      .map(id => this.availableFocuses.find(focus => focus.id == id))
-      .filter(focus => focus != undefined);
+      .map(id => this.availableFocuses.find(focus => focus.id === id))
+      .filter(focus => focus !== undefined);
   }
 
   set focuses(value: SelectedFocus[]) {

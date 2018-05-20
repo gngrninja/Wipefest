@@ -29,17 +29,22 @@ export class FightEventComponent {
     private encountersService: EncountersService,
     private stateService: StateService,
     private logger: LoggerService
-  ) {}
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.stateService.changes.take(1).subscribe(() => {
       if (this.event.type === 'phase') {
         const phaseEvents = this.events.filter(x => x.type === 'phase');
-        const phaseIndex = phaseEvents.findIndex(x => x.timestamp === this.event.timestamp);
-        const selectedPhases = this.stateService.phases.filter(x => x.group === this.event.configGroup);
-        if (selectedPhases.length >= phaseIndex) {
-          this.collapsed = selectedPhases[phaseIndex].selected;
-        }
+        const phaseIndex = phaseEvents.findIndex(
+          x => x.timestamp === this.event.timestamp
+        );
+        const selectedPhases = this.stateService.phases.filter(
+          x => x.group === this.event.configGroup
+        );
+        this.collapsed =
+          selectedPhases[phaseIndex] !== undefined
+            ? selectedPhases[phaseIndex].selected
+            : true;
       }
     });
   }
@@ -47,11 +52,20 @@ export class FightEventComponent {
   togglePhaseCollapse(event: EventDto): void {
     const phases = this.events.filter(x => x.type === 'phase');
     const phaseIndex = phases.findIndex(x => x.timestamp === event.timestamp);
-    this.stateService.togglePhase(phaseIndex, phases[0].configGroup, phases.length);
+    this.stateService.togglePhase(
+      phaseIndex,
+      phases[0].configGroup,
+      phases.length
+    );
   }
 
   isTitle(event: EventDto): boolean {
-    return event.type === 'phase' || event.type === 'title' || event.type === 'endOfFight' || !event.type;
+    return (
+      event.type === 'phase' ||
+      event.type === 'title' ||
+      event.type === 'endOfFight' ||
+      !event.type
+    );
   }
 
   parse(input: string): string {

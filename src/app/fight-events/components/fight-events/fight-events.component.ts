@@ -33,7 +33,7 @@ export class FightEventsComponent implements AfterViewInit {
   constructor(
     private stateService: StateService,
     private logger: LoggerService
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     setTimeout(() => this.selectDefaultTab(), 1);
@@ -42,17 +42,24 @@ export class FightEventsComponent implements AfterViewInit {
   getHiddenIntervals(): Interval[] {
     if (this.events.length === 0) return [];
 
-    const phaseEvents =
-      this.events.filter(x => x.type === 'phase' || x.type === 'endOfFight');
+    const phaseEvents = this.events.filter(
+      x => x.type === 'phase' || x.type === 'endOfFight'
+    );
 
     const intervals = this.stateService.phases
-      .filter(selectedPhase => selectedPhase.group === this.fight.boss.toString())
+      .filter(
+        selectedPhase => selectedPhase.group === this.fight.boss.toString()
+      )
+      .slice(0, phaseEvents.length - 1)
       .map(selectedPhase => {
-        return selectedPhase.selected ? null : new Interval(
-          phaseEvents[selectedPhase.index].timestamp,
-          phaseEvents[selectedPhase.index + 1].timestamp
-        );
-      }).filter(x => x !== null);
+        return selectedPhase.selected
+          ? null
+          : new Interval(
+            phaseEvents[selectedPhase.index].timestamp,
+            phaseEvents[selectedPhase.index + 1].timestamp
+          );
+      })
+      .filter(x => x !== null);
 
     return intervals;
   }
@@ -63,8 +70,7 @@ export class FightEventsComponent implements AfterViewInit {
       x =>
         x.type === 'phase' ||
         x.type === 'endOfFight' ||
-        (!this.eventIsFiltered(x) &&
-        !this.eventIsHidden(x, hiddenIntervals))
+        (!this.eventIsFiltered(x) && !this.eventIsHidden(x, hiddenIntervals))
     );
 
     return shownEvents;
@@ -87,10 +93,8 @@ export class FightEventsComponent implements AfterViewInit {
   }
 
   private eventIsHidden(event: EventDto, hiddenIntervals: Interval[]): boolean {
-    return (
-      hiddenIntervals.some(
-        i => i.start <= event.timestamp && i.end >= event.timestamp
-      )
+    return hiddenIntervals.some(
+      i => i.start <= event.timestamp && i.end >= event.timestamp
     );
   }
 
@@ -102,7 +106,7 @@ export class FightEventsComponent implements AfterViewInit {
 }
 
 export class Interval {
-  constructor(public start: number, public end: number) {}
+  constructor(public start: number, public end: number) { }
 }
 
 export enum FightEventsView {
