@@ -149,10 +149,11 @@ export class StateService {
   }
 
   isInsightSelected(id: string, boss: number): boolean {
-    return this.insights.some(x => x.id === id && x.boss === boss);
+    // tslint:disable-next-line:triple-equals
+    return this.insights.some(x => x.id === id && x.boss == boss);
   }
 
-  selectInsight(id: string, boss: number) {
+  selectInsight(id: string, boss: number): void {
     if (!this.isInsightSelected(id, boss)) {
       const selectedInsights = this.insights;
       selectedInsights.push(new SelectedInsight(id, boss));
@@ -161,11 +162,12 @@ export class StateService {
     }
   }
 
-  deselectInsight(id: string, boss: number) {
+  deselectInsight(id: string, boss: number): void {
+    // tslint:disable-next-line:triple-equals
     this.insights = this.insights.filter(x => !(x.id == id && x.boss == boss));
   }
 
-  setInsightSelected(id: string, boss: number, selected: boolean) {
+  setInsightSelected(id: string, boss: number, selected: boolean): void {
     selected ? this.selectInsight(id, boss) : this.deselectInsight(id, boss);
   }
 
