@@ -121,8 +121,8 @@ export class FightSummaryFiltersComponent implements OnChanges {
               );
               return new EventConfigFilter(
                 config,
-                ability.guid,
-                ability.abilityIcon,
+                ability ? ability.guid : null,
+                ability ? ability.abilityIcon : null,
                 events.length,
                 this.configs
               );

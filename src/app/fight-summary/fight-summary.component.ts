@@ -75,6 +75,9 @@ export class FightSummaryComponent implements OnInit {
 
   enableDeathThreshold: boolean = false;
   deathThreshold: number = 2;
+  get maxDeathThreshold(): number {
+    return Math.min(5, this.events.filter(x => x.type === 'death').length + 1);
+  }
 
   error: any;
 
@@ -151,11 +154,11 @@ export class FightSummaryComponent implements OnInit {
 
   private handleState(): void {
     this.focuses =
-      this.stateService.focuses == undefined ? [] : this.stateService.focuses;
+      this.stateService.focuses === undefined ? [] : this.stateService.focuses;
     this.enableDeathThreshold =
-      this.stateService.ignore == undefined ? false : this.stateService.ignore;
+      this.stateService.ignore === undefined ? false : this.stateService.ignore;
     this.deathThreshold =
-      this.stateService.deathThreshold == undefined
+      this.stateService.deathThreshold === undefined
         ? 2
         : this.stateService.deathThreshold;
 
@@ -202,7 +205,7 @@ export class FightSummaryComponent implements OnInit {
     this.combatantInfos = [];
     this.configs = [];
 
-    if (this.report && this.report.id == reportId) {
+    if (this.report && this.report.id === reportId) {
       this.tryToSelectFightById(fightId);
       return;
     }
@@ -230,7 +233,7 @@ export class FightSummaryComponent implements OnInit {
 
   private tryToSelectFightById(fightId): void {
     if (fightId) {
-      if (fightId == 'last') {
+      if (fightId === 'last') {
         this.selectFight(this.fights[this.fights.length - 1]);
         return;
       }
@@ -317,7 +320,12 @@ export class FightSummaryComponent implements OnInit {
           // Decide which events should be focused
           this.focusedEventIndexes = this.events.map(x => true);
           const focusedPlayerNames = this.raid.players
-            .filter(player => this.focuses.map(f => parseInt(f.id)).indexOf(player.actorId) !== -1)
+            .filter(
+              player =>
+                this.focuses
+                  .map(f => parseInt(f.id))
+                  .indexOf(player.actorId) !== -1
+            )
             .map(player => player.name);
           this.events.forEach((event, i) => {
             if (event.configId) {
@@ -341,7 +349,9 @@ export class FightSummaryComponent implements OnInit {
                 weAreFocusing &&
                 (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)
               ) {
-                this.focusedEventIndexes[i] = focusedPlayerNames.some(name => event.title.indexOf(name) !== -1);
+                this.focusedEventIndexes[i] = focusedPlayerNames.some(
+                  name => event.title.indexOf(name) !== -1
+                );
               }
             }
           });
