@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MarkupParser } from 'app/helpers/markup-parser';
 import { StateService } from 'app/shared/state.service';
-import { Insight } from '@wipefest/api-sdk/dist/lib/models';
+import { Insight, InsightIntervalUnit } from '@wipefest/api-sdk/dist/lib/models';
 
 @Component({
   selector: 'insights',
@@ -21,9 +21,9 @@ export class InsightsComponent implements OnChanges {
   }
 
   setInsightRows(): void {
-    this.rows = this.insights.map(
-      x => new InsightTableRow(x, this.stateService)
-    );
+    this.rows = this.insights
+      .filter(x => x.interval.unit === InsightIntervalUnit.EntireFight)
+      .map(x => new InsightTableRow(x, this.stateService));
   }
 }
 
