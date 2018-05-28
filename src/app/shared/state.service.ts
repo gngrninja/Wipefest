@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FightEvent } from 'app/fight-events/models/fight-event';
-import { PhaseChangeEvent } from 'app/fight-events/models/phase-change-event';
-import { Report } from 'app/warcraft-logs/report';
 import { WipefestService } from 'app/wipefest.service';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Rx';

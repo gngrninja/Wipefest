@@ -27,11 +27,9 @@ import {
 import { EncountersService } from '@wipefest/core';
 
 import { DiscordComponent } from 'app/discord/discord.component';
-import { EventConfigService } from 'app/event-config/event-config.service';
 import { FightSummaryRaidComponent } from 'app/fights-summary-raid/fight-summary-raid.component';
 import { FooterComponent } from 'app/footer.component';
 import { InsightsComponent } from 'app/insights/components/insights.component';
-import { InsightService } from 'app/insights/services/insight.service';
 import { NewsService } from 'app/news/services/news.service';
 import { CharacterSearchComponent } from 'app/search/character-search.component';
 import { GuildSearchComponent } from 'app/search/guild-search.component';
@@ -52,7 +50,6 @@ import { FightEventComponent } from './fight-events/components/fight-event/fight
 import { FightEventsComponent } from './fight-events/components/fight-events/fight-events.component';
 import { TableFightEventComponent } from './fight-events/components/table-fight-event/table-fight-event.component';
 import { TimelineFightEventComponent } from './fight-events/components/timeline-fight-event/timeline-fight-event.component';
-import { FightEventService } from './fight-events/services/fight-event.service';
 import { FightSummaryFilterCategoryComponent } from './fight-summary-filters/fight-summary-filter-category.component';
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
 import { FightSummaryComponent } from './fight-summary/fight-summary.component';
@@ -66,12 +63,9 @@ import { ToggleableSearchComponent } from './search/toggleable-search.component'
 import { AbilityIconComponent } from './shared/ability-icon.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ProgressBarComponent } from './shared/progress-bar.component';
-import { QueryService } from './warcraft-logs/query.service';
-import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 // Core UI
-import { CacheService } from 'app/shared/cache.service';
 import {
   AsideToggleDirective,
   MobileAsideMenuToggleDirective
@@ -195,15 +189,9 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     LoggerService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    CacheService,
-    WarcraftLogsService,
     WipefestService,
     NewsService,
-    EventConfigService,
-    QueryService,
-    FightEventService,
     ClassesService,
-    InsightService,
     LocalStorage,
     StateService,
     {

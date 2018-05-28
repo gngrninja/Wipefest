@@ -3,8 +3,6 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Difficulty } from 'app/helpers/difficulty-helper';
 import { Timestamp } from 'app/helpers/timestamp-helper';
-import { Fight, Report } from 'app/warcraft-logs/report';
-import { WarcraftLogsService } from 'app/warcraft-logs/warcraft-logs.service';
 import { Page, WipefestService } from 'app/wipefest.service';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { ReportDto, FightInfo } from '@wipefest/api-sdk/dist/lib/models';
@@ -55,7 +53,7 @@ export class ReportSummaryComponent implements OnInit {
     this.route.params.subscribe(params => this.handleRoute(params));
   }
 
-  encounterImage(encounter: Fight): SafeStyle {
+  encounterImage(encounter: FightInfo): SafeStyle {
     return this.domSanitizer.bypassSecurityTrustStyle(
       `url('http://warcraftlogs.com/img/bosses/${
         encounter.boss

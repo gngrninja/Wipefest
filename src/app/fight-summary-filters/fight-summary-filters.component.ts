@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { FightEvent } from 'app/fight-events/models/fight-event';
 import { LoggerService } from 'app/shared/logger.service';
 import { StateService } from 'app/shared/state.service';
 import {

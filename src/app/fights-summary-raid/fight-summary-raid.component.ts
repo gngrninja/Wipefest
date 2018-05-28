@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { MarkupHelper } from 'app/helpers/markup-helper';
-import { MarkupParser } from 'app/helpers/markup-parser';
 import { SelectedFocus, StateService } from 'app/shared/state.service';
 import { RaidDto, Player, Report } from '@wipefest/api-sdk/dist/lib/models';
+import { MarkupHelper, MarkupParser } from '@wipefest/core';
 
 @Component({
   selector: 'fight-summary-raid',

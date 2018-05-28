@@ -1,16 +1,14 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Difficulty } from 'app/helpers/difficulty-helper';
-import { MarkupParser } from 'app/helpers/markup-parser';
 import { LoggerService } from 'app/shared/logger.service';
 import { StateService } from 'app/shared/state.service';
-import { MarkupHelper } from '../../../helpers/markup-helper';
 import {
+  Ability,
   EventDto,
   FightInfo,
   EventConfig
 } from '@wipefest/api-sdk/dist/lib/models';
-import { EncountersService } from '@wipefest/core';
-import { Ability } from '../../models/ability-event';
+import { EncountersService, MarkupParser } from '@wipefest/core';
 
 @Component({
   template: `Warning: Instead of using FightEventComponent, use one of its children`

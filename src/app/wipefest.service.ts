@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Raid } from 'app/raid/raid';
-import { Fight, Report } from 'app/warcraft-logs/report';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import {
   ReportDto,

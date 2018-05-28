@@ -1,19 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventConfigService } from 'app/event-config/event-config.service';
-import { DeathEvent } from 'app/fight-events/models/death-event';
-import { PhaseChangeEvent } from 'app/fight-events/models/phase-change-event';
-import { TitleEvent } from 'app/fight-events/models/title-event';
-import { CacheService } from 'app/shared/cache.service';
 import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
 import { SelectedFocus, StateService } from 'app/shared/state.service';
 import { ClassesService } from 'app/warcraft-logs/classes.service';
-import { CombatEvent } from 'app/warcraft-logs/combat-event';
-import { Death } from 'app/warcraft-logs/death';
-import { QueryService } from 'app/warcraft-logs/query.service';
-import { Fight, Report } from 'app/warcraft-logs/report';
-import { WarcraftLogsService } from 'app/warcraft-logs/warcraft-logs.service';
 import { Page, WipefestService } from 'app/wipefest.service';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Rx';
@@ -70,7 +60,6 @@ export class FightSummaryComponent implements OnInit {
       (x, i) => this.focusedEventIndexes[i]
     );
   }
-  combatantInfos: CombatEvent[] = [];
   raid: RaidDto;
 
   enableDeathThreshold: boolean = false;
@@ -98,11 +87,7 @@ export class FightSummaryComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wipefestService: WipefestService,
-    private cacheService: CacheService,
-    private eventConfigService: EventConfigService,
-    private queryService: QueryService,
     private wipefestApi: WipefestAPI,
-    private warcraftLogsService: WarcraftLogsService,
     private classesService: ClassesService,
     private localStorage: LocalStorage,
     private stateService: StateService,
@@ -192,17 +177,12 @@ export class FightSummaryComponent implements OnInit {
   }
 
   private handleRoute(params: Params): void {
-    // if (this.reportPromise) {
-    //   this.reportPromise().cancel() ???;
-    // }
-
     const reportId = params.reportId;
     const fightId = params.fightId;
 
     this.fight = null;
     this.events = [];
     this.insights = [];
-    this.combatantInfos = [];
     this.configs = [];
 
     if (this.report && this.report.id === reportId) {
@@ -231,6 +211,7 @@ export class FightSummaryComponent implements OnInit {
     }
   }
 
+  // tslint:disable-next-line:typedef - sometimes is "last"
   private tryToSelectFightById(fightId): void {
     if (fightId) {
       if (fightId === 'last') {

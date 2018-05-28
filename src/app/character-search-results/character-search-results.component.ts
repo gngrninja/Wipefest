@@ -5,7 +5,6 @@ import { Difficulty } from 'app/helpers/difficulty-helper';
 import { Timestamp } from 'app/helpers/timestamp-helper';
 import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
-import { WarcraftLogsService } from 'app/warcraft-logs/warcraft-logs.service';
 import { Page, WipefestService } from 'app/wipefest.service';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { ParseDto } from '@wipefest/api-sdk/dist/lib/models';

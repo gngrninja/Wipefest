@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { MarkupParser } from 'app/helpers/markup-parser';
 import { StateService } from 'app/shared/state.service';
 import {
   Insight,
   InsightIntervalUnit
 } from '@wipefest/api-sdk/dist/lib/models';
+import { MarkupParser } from '@wipefest/core';
 
 @Component({
   selector: 'insights',
