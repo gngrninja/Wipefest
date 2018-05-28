@@ -65,6 +65,7 @@ import { SearchComponent } from './search/search.component';
 import { ToggleableSearchComponent } from './search/toggleable-search.component';
 import { AbilityIconComponent } from './shared/ability-icon.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { ProgressBarComponent } from './shared/progress-bar.component';
 import { QueryService } from './warcraft-logs/query.service';
 import { WarcraftLogsService } from './warcraft-logs/warcraft-logs.service';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -85,6 +86,7 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     NavbarComponent,
     FooterComponent,
     SpinnerComponent,
+    ProgressBarComponent,
     FightSummaryComponent,
     WelcomeComponent,
     NewsComponent,

@@ -75,8 +75,8 @@
               </span>
             </form>
           </div>
-          <div *ngIf="events.length == 0 && !error" class="block p-1 pl-3">
-            <spinner></spinner>
+          <div *ngIf="events.length == 0 && !error" class="block p-5 text-center">
+            <progress-bar></progress-bar>
           </div>
           <div *ngIf="error" class="block p-3 text-center">
             <error [error]="error"></error>
