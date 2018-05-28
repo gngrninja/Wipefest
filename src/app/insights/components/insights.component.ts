@@ -29,7 +29,7 @@ export class InsightsComponent implements OnChanges {
 
   setInsightRows(): void {
     const ignore = this.stateService.ignore;
-    const deathThreshold = this.stateService.deathThreshold;
+    const deathThreshold = this.stateService.deathThreshold || 2;
     const totalDeaths = Math.max(
       ...this.insights
         .filter(x => x.interval.unit === InsightIntervalUnit.Death)
@@ -38,7 +38,8 @@ export class InsightsComponent implements OnChanges {
 
     this.rows = this.insights
       .filter(x => {
-        if (!ignore || deathThreshold > totalDeaths) return x.interval.unit === InsightIntervalUnit.EntireFight;
+        if (!ignore || deathThreshold > totalDeaths)
+          return x.interval.unit === InsightIntervalUnit.EntireFight;
 
         return (
           x.interval.unit === InsightIntervalUnit.Death &&
