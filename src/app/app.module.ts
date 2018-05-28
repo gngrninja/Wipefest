@@ -24,7 +24,7 @@ import {
   HttpOperationResponse,
   LogFilter
 } from 'ms-rest-js';
-import { EncountersService } from '@wipefest/core';
+import { EncountersService, SpecializationsService } from '@wipefest/core';
 
 import { DiscordComponent } from 'app/discord/discord.component';
 import { FightSummaryRaidComponent } from 'app/fights-summary-raid/fight-summary-raid.component';
@@ -39,7 +39,6 @@ import { GlobalErrorHandler } from 'app/shared/global-error-handler';
 import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
 import { StateService } from 'app/shared/state.service';
-import { ClassesService } from 'app/warcraft-logs/classes.service';
 import { WipefestService } from 'app/wipefest.service';
 import { AppComponent } from './app.component';
 import { CharacterSearchResultsComponent } from './character-search-results/character-search-results.component';
@@ -191,7 +190,6 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     WipefestService,
     NewsService,
-    ClassesService,
     LocalStorage,
     StateService,
     {
@@ -202,7 +200,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
         });
       }
     },
-    EncountersService
+    EncountersService,
+    SpecializationsService
   ],
   bootstrap: [AppComponent]
 })

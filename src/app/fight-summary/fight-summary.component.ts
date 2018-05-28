@@ -3,7 +3,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
 import { SelectedFocus, StateService } from 'app/shared/state.service';
-import { ClassesService } from 'app/warcraft-logs/classes.service';
 import { Page, WipefestService } from 'app/wipefest.service';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Rx';
@@ -20,6 +19,7 @@ import {
   EventConfig,
   Insight
 } from '@wipefest/api-sdk/dist/lib/models';
+import { SpecializationsService } from '@wipefest/core';
 
 @Component({
   selector: 'fight-summary',
@@ -88,7 +88,7 @@ export class FightSummaryComponent implements OnInit {
     private router: Router,
     private wipefestService: WipefestService,
     private wipefestApi: WipefestAPI,
-    private classesService: ClassesService,
+    private specializationsService: SpecializationsService,
     private localStorage: LocalStorage,
     private stateService: StateService,
     private logger: LoggerService
@@ -314,7 +314,8 @@ export class FightSummaryComponent implements OnInit {
                 ['R', 'F', 'T', 'H', 'RA', 'M'].some(
                   x => x === event.configGroup
                 ) ||
-                this.classesService.specializations
+                this.specializationsService
+                  .getSpecializations()
                   .map(spec => [spec.group, spec.generalGroup])
                   .reduce((x, y) => x.concat(y))
                   .some(group => group === event.configGroup)
