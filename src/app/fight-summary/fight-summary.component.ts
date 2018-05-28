@@ -271,7 +271,6 @@ export class FightSummaryComponent implements OnInit {
 
       this.wipefestApi
         .getFight(this.report.id, this.fight.id, {
-          deathThreshold: 0,
           includes: this.getFocusIncludes(),
           markupFormat: MarkupFormat.Markup
         })
