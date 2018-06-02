@@ -10,7 +10,6 @@ import { MarkupHelper, MarkupParser } from '@wipefest/core';
 })
 export class FightSummaryRaidComponent {
   MarkupHelper: any = MarkupHelper;
-  MarkupParser: any = MarkupParser;
 
   @Input() report: Report;
   @Input() raid: RaidDto;
@@ -80,6 +79,10 @@ export class FightSummaryRaidComponent {
   clearFocus(): void {
     this.focuses = [];
     this.stateService.focuses = this.focuses;
+  }
+
+  parse(markup: string): string {
+    return MarkupParser.Parse(markup, MarkupParser.RuleSets.html);
   }
 }
 

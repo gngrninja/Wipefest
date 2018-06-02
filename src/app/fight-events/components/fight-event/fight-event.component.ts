@@ -67,7 +67,7 @@ export class FightEventComponent {
   }
 
   parse(input: string): string {
-    return MarkupParser.Parse(input);
+    return MarkupParser.Parse(input, MarkupParser.RuleSets.html);
   }
 
   canCollapse(event: EventDto): boolean {

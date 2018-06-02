@@ -200,8 +200,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
         });
       }
     },
-    EncountersService,
-    SpecializationsService
+    { provide: EncountersService, useValue: new EncountersService() },
+    { provide: SpecializationsService, useValue: new SpecializationsService() }
   ],
   bootstrap: [AppComponent]
 })

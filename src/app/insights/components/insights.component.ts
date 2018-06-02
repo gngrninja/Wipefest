@@ -15,8 +15,6 @@ export class InsightsComponent implements OnChanges {
   @Input() insights: Insight[] = [];
   rows: InsightTableRow[] = [];
 
-  MarkupParser: any = MarkupParser;
-
   constructor(private stateService: StateService) {
     this.stateService.changes.subscribe(() => {
       this.setInsightRows();
@@ -48,6 +46,10 @@ export class InsightsComponent implements OnChanges {
         );
       })
       .map(x => new InsightTableRow(x, this.stateService));
+  }
+
+  parse(markup: string): string {
+    return MarkupParser.Parse(markup, MarkupParser.RuleSets.html);
   }
 }
 
