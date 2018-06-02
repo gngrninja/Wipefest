@@ -25,8 +25,8 @@ export class GlobalErrorHandler extends ErrorHandler {
     const logger = this.injector.get(LoggerService);
     logger.logError(error);
 
-    if (!environment.production) {
+    //if (!environment.production) {
       console.error(error);
-    }
+    //}
   }
 }
