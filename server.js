@@ -23,11 +23,11 @@ app.use(helmet.referrerPolicy());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'unsafe-inline'", "use.fontawesome.com", "wow.zamimg.com", "www.google-analytics.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"],
-        styleSrc: ["'unsafe-inline'", "use.fontawesome.com", "maxcdn.bootstrapcdn.com", "wow.zamimg.com", "fonts.googleapis.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"],
-        fontSrc: ["use.fontawesome.com", "fonts.gstatic.com"],
-        connectSrc: ["raw.githubusercontent.com", "www.warcraftlogs.com", "api.wipefest.net", "www.google-analytics.com", "www.wowhead.com"],
-        imgSrc: ["data:", "http:", "wowanalyzer.com", "www.google-analytics.com", "*.imgur.com", "warcraftlogs.com", "www.warcraftlogs.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"]
+        scriptSrc: ["'self'", "'unsafe-inline'", "use.fontawesome.com", "wow.zamimg.com", "www.google-analytics.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "use.fontawesome.com", "maxcdn.bootstrapcdn.com", "wow.zamimg.com", "fonts.googleapis.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"],
+        fontSrc: ["'self'", "use.fontawesome.com", "fonts.gstatic.com"],
+        connectSrc: ["'self'", "raw.githubusercontent.com", "www.warcraftlogs.com", "api.wipefest.net", "www.google-analytics.com", "www.wowhead.com"],
+        imgSrc: ["'self'", "data:", "http:", "wowanalyzer.com", "www.google-analytics.com", "*.imgur.com", "warcraftlogs.com", "www.warcraftlogs.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"]
     }
 }));
 
