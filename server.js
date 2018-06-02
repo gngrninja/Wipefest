@@ -21,6 +21,7 @@ app.use(forceSSL());
 app.use(helmet());
 app.use(helmet.referrerPolicy());
 app.use(helmet.contentSecurityPolicy({
+    reportOnly = true,
     directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "use.fontawesome.com", "wow.zamimg.com", "www.google-analytics.com", "wipefest.net", "www.wipefest.net", "wipefest-dev.herokuapp.com", "www.wowhead.com"],
