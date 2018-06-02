@@ -2,6 +2,7 @@ import { Location, PopStateEvent } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { MarkdownService } from 'ngx-md';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent {
   constructor(
     private router: Router,
     private location: Location,
-    private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
+    private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    private markdownService: MarkdownService
   ) {}
 
   ngOnInit() {
@@ -36,5 +38,16 @@ export class AppComponent {
       document.querySelector('body').classList.remove('sidebar-mobile-show');
       document.querySelector('body').classList.remove('aside-menu-mobile-show');
     });
+
+    this.markdownService.renderer.image = (href, title, text) => {
+      const attributes = ['class="markdown-img"', `src="${href}"`];
+      if (text && text.length) {
+        attributes.push(`alt="${text}"`);
+      }
+      if (title && title.length) {
+        attributes.push(`title="${title}"`);
+      }
+      return `<img ${attributes.join(' ')} />`;
+    };
   }
 }
