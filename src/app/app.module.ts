@@ -24,6 +24,7 @@ import {
   HttpOperationResponse,
   LogFilter
 } from 'ms-rest-js';
+
 import { EncountersService, SpecializationsService } from '@wipefest/core';
 
 import { DiscordComponent } from 'app/discord/discord.component';
