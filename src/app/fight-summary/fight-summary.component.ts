@@ -71,16 +71,11 @@ export class FightSummaryComponent implements OnInit {
   error: any;
 
   Difficulty: any = Difficulty;
-  eventConfigAccount: string;
-  eventConfigBranch: string;
-  canChangeEventConfigBranch: boolean = window.location.href.indexOf(
-    'www.wipefest.net'
-  ) === -1;
 
   private initialLoad: boolean = true;
   private previousFocuses: SelectedFocus[] = [];
 
-  private reportPromise: Promise<ReportDto>;
+  private reportPromise: Promise<void>;
   private loadDataSubscription: Subscription;
 
   constructor(
@@ -96,11 +91,6 @@ export class FightSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.wipefestService.selectPage(Page.FightSummary);
-
-    this.eventConfigAccount =
-      this.localStorage.get('eventConfigAccount') || 'JoshYaxley';
-    this.eventConfigBranch =
-      this.localStorage.get('eventConfigBranch') || 'master';
 
     this.route.params.subscribe(params => {
       this.previousFocuses = [];
@@ -130,11 +120,6 @@ export class FightSummaryComponent implements OnInit {
       }
     }
     return eventsBeforeDeathThreshold;
-  }
-
-  setEventConfigLocation(): void {
-    this.localStorage.set('eventConfigAccount', this.eventConfigAccount);
-    this.localStorage.set('eventConfigBranch', this.eventConfigBranch);
   }
 
   private handleState(): void {
@@ -192,11 +177,16 @@ export class FightSummaryComponent implements OnInit {
 
     this.report = null;
 
-    this.reportPromise = this.wipefestApi.getReport(reportId).then(report => {
-      this.error = null;
-      this.selectReport(report);
-      this.tryToSelectFightById(fightId);
-    }, error => (this.error = error));
+    this.reportPromise = this.wipefestApi.getReport(reportId).then(
+      report => {
+        this.error = null;
+        this.selectReport(report);
+        this.tryToSelectFightById(fightId);
+      },
+      error => {
+        this.error = error;
+      }
+    );
   }
 
   private selectReport(report: ReportDto): void {
@@ -255,92 +245,102 @@ export class FightSummaryComponent implements OnInit {
           includes: this.getFocusIncludes(),
           markupFormat: MarkupFormat.Markup
         })
-        .then(fight => {
-          this.abilities = fight.abilities;
-          this.raid = fight.raid;
-          this.wipefestService.selectRaid(fight.raid);
+        .then(
+          fight => {
+            this.abilities = fight.abilities;
+            this.raid = fight.raid;
+            this.wipefestService.selectRaid(fight.raid);
 
-          this.configs = fight.eventConfigs;
-          this.wipefestService.selectConfigs(fight.eventConfigs);
+            this.configs = fight.eventConfigs;
+            this.wipefestService.selectConfigs(fight.eventConfigs);
 
-          this.insights = fight.insights;
-          this.events = fight.events;
-          // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but priotise non-general/raid-originating events
-          this.events = this.events.filter((x, index, array) => {
-            const allOccurences = (array as any).filter(
-              y =>
-                y.timestamp === x.timestamp &&
-                y.title === x.title &&
-                ((!y.source && !(x as any).source) ||
-                  y.source.instance === (x as any).source.instance)
-            );
-            if (allOccurences.some(x => x.config && x.config.group !== 'R')) {
-              const indexOfFirstNonRaidOccurence = (array as any).findIndex(
-                y =>
-                  y.config &&
-                  y.config.group !== 'R' &&
-                  y.timestamp === x.timestamp &&
-                  y.title === x.title &&
-                  ((!y.source && !(x as any).source) ||
-                    y.source.instance === (x as any).source.instance)
-              );
-              return indexOfFirstNonRaidOccurence === index;
-            } else {
-              const indexOfFirstOccurence = (array as any).findIndex(
+            this.insights = fight.insights;
+            this.events = fight.events;
+            // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but priotise non-general/raid-originating events
+            this.events = this.events.filter((x, index, array) => {
+              const allOccurences = (array as any).filter(
                 y =>
                   y.timestamp === x.timestamp &&
                   y.title === x.title &&
                   ((!y.source && !(x as any).source) ||
                     y.source.instance === (x as any).source.instance)
               );
-              return indexOfFirstOccurence === index;
-            }
-          });
-
-          // Decide which events should be focused
-          this.focusedEventIndexes = this.events.map(x => true);
-          const focusedPlayerNames = this.raid.players
-            .filter(
-              player =>
-                this.focuses
-                  .map(f => parseInt(f.id))
-                  .indexOf(player.actorId) !== -1
-            )
-            .map(player => player.name);
-          this.events.forEach((event, i) => {
-            if (event.configId) {
-              const weAreFocusing = this.focuses.length > 0;
-              const eventConfigIsFromABossInclude = !(
-                ['R', 'F', 'T', 'H', 'RA', 'M'].some(
-                  x => x === event.configGroup
-                ) ||
-                this.specializationsService
-                  .getSpecializations()
-                  .map(spec => [spec.group, spec.generalGroup])
-                  .reduce((x, y) => x.concat(y))
-                  .some(group => group === event.configGroup)
-              );
-
-              const eventConfigIsPlayerSpecific = this.getConfig(
-                event
-              ).tags.some(tag => ['player', 'interrupt', 'tank'].includes(tag));
-              const eventIsHeroism = event.type === 'heroism';
-              if (
-                !eventIsHeroism &&
-                weAreFocusing &&
-                (eventConfigIsPlayerSpecific || !eventConfigIsFromABossInclude)
-              ) {
-                this.focusedEventIndexes[i] = focusedPlayerNames.some(
-                  name => event.title.indexOf(name) !== -1
+              if (allOccurences.some(x => x.config && x.config.group !== 'R')) {
+                const indexOfFirstNonRaidOccurence = (array as any).findIndex(
+                  y =>
+                    y.config &&
+                    y.config.group !== 'R' &&
+                    y.timestamp === x.timestamp &&
+                    y.title === x.title &&
+                    ((!y.source && !(x as any).source) ||
+                      y.source.instance === (x as any).source.instance)
                 );
+                return indexOfFirstNonRaidOccurence === index;
+              } else {
+                const indexOfFirstOccurence = (array as any).findIndex(
+                  y =>
+                    y.timestamp === x.timestamp &&
+                    y.title === x.title &&
+                    ((!y.source && !(x as any).source) ||
+                      y.source.instance === (x as any).source.instance)
+                );
+                return indexOfFirstOccurence === index;
               }
-            }
-          });
-          this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(
-            this.events,
-            this.deathThreshold
-          );
-        });
+            });
+
+            // Decide which events should be focused
+            this.focusedEventIndexes = this.events.map(x => true);
+            const focusedPlayerNames = this.raid.players
+              .filter(
+                player =>
+                  this.focuses
+                    .map(f => parseInt(f.id))
+                    .indexOf(player.actorId) !== -1
+              )
+              .map(player => player.name);
+            this.events.forEach((event, i) => {
+              if (event.configId) {
+                const weAreFocusing = this.focuses.length > 0;
+                const eventConfigIsFromABossInclude = !(
+                  ['R', 'F', 'T', 'H', 'RA', 'M'].some(
+                    x => x === event.configGroup
+                  ) ||
+                  this.specializationsService
+                    .getSpecializations()
+                    .map(spec => [spec.group, spec.generalGroup])
+                    .reduce((x, y) => x.concat(y))
+                    .some(group => group === event.configGroup)
+                );
+
+                const eventConfigIsPlayerSpecific = this.getConfig(
+                  event
+                ).tags.some(tag =>
+                  ['player', 'interrupt', 'tank'].includes(tag)
+                );
+                const eventIsHeroism = event.type === 'heroism';
+                if (
+                  !eventIsHeroism &&
+                  weAreFocusing &&
+                  (eventConfigIsPlayerSpecific ||
+                    !eventConfigIsFromABossInclude)
+                ) {
+                  this.focusedEventIndexes[i] = focusedPlayerNames.some(
+                    name => event.title.indexOf(name) !== -1
+                  );
+                }
+              }
+            });
+            this.eventsBeforeDeathThreshold = this.getEventsBeforeDeathThreshold(
+              this.events,
+              this.deathThreshold
+            );
+          },
+          error => {
+            this.error = error;
+            this.events = [];
+            this.insights = [];
+          }
+        );
     }
   }
 

@@ -17,23 +17,6 @@
           </div>
         </div>
         <div *ngIf="fight" class="col mt-4">
-          <div *ngIf="canChangeEventConfigBranch" class="title p-1 pl-3">
-            <h5 class="mb-0">
-              Event Configurations Location
-              <a href="https://github.com/JoshYaxley/Wipefest.EventConfigs/blob/master/readme.md" target="_blank" rel="noopener noreferrer">
-                <i class="fa fa-question-circle"></i>
-              </a>
-            </h5>
-          </div>
-          <div *ngIf="canChangeEventConfigBranch" class="block p-1 pl-3 mb-2">
-            <form class="form-inline">
-              <label class="mr-2" for="eventConfigAccount">Account:</label>
-              <input type="text" class="form-control-sm mr-2" name="eventConfigAccount" [(ngModel)]="eventConfigAccount" />
-              <label class="mr-2" for="eventConfigBranch">Branch:</label>
-              <input type="text" class="form-control-sm mr-2" name="eventConfigBranch" [(ngModel)]="eventConfigBranch" />
-              <button class="btn btn-sm btn-primary" (click)="setEventConfigLocation(); loadData()">Set</button>
-            </form>
-          </div>
           <div class="title p-2 pl-3" [ngClass]="fight.kill ? 'kill' : 'wipe'">
             <h3 class="mb-0">
               {{Difficulty.ToString(fight.difficulty)}} {{fight.name}}
