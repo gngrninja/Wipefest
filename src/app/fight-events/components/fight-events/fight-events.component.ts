@@ -33,7 +33,7 @@ export class FightEventsComponent implements AfterViewInit {
   constructor(
     private stateService: StateService,
     private logger: LoggerService
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     setTimeout(() => this.selectDefaultTab(), 1);
@@ -55,9 +55,9 @@ export class FightEventsComponent implements AfterViewInit {
         return selectedPhase.selected
           ? null
           : new Interval(
-            phaseEvents[selectedPhase.index].timestamp,
-            phaseEvents[selectedPhase.index + 1].timestamp
-          );
+              phaseEvents[selectedPhase.index].timestamp,
+              phaseEvents[selectedPhase.index + 1].timestamp
+            );
       })
       .filter(x => x !== null);
 
@@ -106,7 +106,7 @@ export class FightEventsComponent implements AfterViewInit {
 }
 
 export class Interval {
-  constructor(public start: number, public end: number) { }
+  constructor(public start: number, public end: number) {}
 }
 
 export enum FightEventsView {

@@ -8,7 +8,7 @@ import { LoggerService } from 'app/shared/logger.service';
 export class NotFoundComponent implements OnInit {
   constructor(private logger: LoggerService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.logger.logNotFound();
   }
 }

@@ -9,29 +9,29 @@ import { Page, WipefestService } from 'app/wipefest.service';
 })
 export class NavbarComponent implements OnInit {
   page: Page;
-  Page = Page;
+  Page: any = Page;
 
-  isCollapsed = true;
+  isCollapsed: boolean = true;
 
   constructor(
     private wipefestService: WipefestService,
     private logger: LoggerService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wipefestService.selectedPage.subscribe(page => (this.page = page));
   }
 
-  onMobileLinkClick() {
+  onMobileLinkClick(): void {
     this.isCollapsed = true;
   }
 
-  toggleMobileNavigation() {
+  toggleMobileNavigation(): void {
     this.isCollapsed = !this.isCollapsed;
     this.logger.logToggleMobileNavigation(!this.isCollapsed);
   }
 
-  logPatreonClick() {
+  logPatreonClick(): void {
     this.logger.logPatreonClick();
   }
 }

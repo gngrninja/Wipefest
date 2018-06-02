@@ -8,32 +8,12 @@ import * as StackTrace from 'stacktrace-js';
 export class LoggerService {
   constructor(private router: Router, private angulartics2: Angulartics2) {}
 
-  private log(log: Log) {
-    const analytic: any = {};
-    analytic.action = log.action;
-    analytic.properties = { category: log.category };
-    if (log.label) {
-      analytic.properties.label = log.label;
-    }
-    if (log.value) {
-      analytic.properties.value = log.value;
-    }
-
-    this.angulartics2.eventTrack.next(analytic);
-  }
-
-  private error(errorLog: ErrorLog) {
-    this.angulartics2.exceptionTrack.next(errorLog);
-  }
-
-  logError(error) {
+  logError(error: any): void {
     const message = error.message ? error.message : error.toString();
     StackTrace.fromError(error).then(stackframes => {
       const stackTrace = stackframes
         .splice(0, 20)
-        .map(function(sf) {
-          return sf.toString();
-        })
+        .map(sf => sf.toString())
         .join('\r\n');
 
       this.error(
@@ -47,7 +27,7 @@ export class LoggerService {
     });
   }
 
-  logErrorResponse(error: Response) {
+  logErrorResponse(error: Response): void {
     this.error(
       new ErrorLog(
         `Url: ${error.url}, Status: ${error.status}, Message: ${
@@ -58,13 +38,13 @@ export class LoggerService {
     );
   }
 
-  logNotFound() {
+  logNotFound(): void {
     this.error(
       new ErrorLog(`Url: ${this.router.url}, Message: Not found`, false)
     );
   }
 
-  logGetRequest(url: string) {
+  logGetRequest(url: string): void {
     this.log(new Log('HTTP', 'GET', url));
   }
 
@@ -73,7 +53,7 @@ export class LoggerService {
     character: string,
     realm: string,
     region: string
-  ) {
+  ): void {
     this.log(
       new Log(
         'Favourite',
@@ -88,7 +68,7 @@ export class LoggerService {
     guild: string,
     realm: string,
     region: string
-  ) {
+  ): void {
     this.log(
       new Log(
         'Favourite',
@@ -98,7 +78,7 @@ export class LoggerService {
     );
   }
 
-  logCharacterSearch(character: string, realm: string, region: string) {
+  logCharacterSearch(character: string, realm: string, region: string): void {
     this.log(
       new Log(
         'Search',
@@ -108,7 +88,7 @@ export class LoggerService {
     );
   }
 
-  logGuildSearch(guild: string, realm: string, region: string) {
+  logGuildSearch(guild: string, realm: string, region: string): void {
     this.log(
       new Log(
         'Search',
@@ -118,7 +98,7 @@ export class LoggerService {
     );
   }
 
-  logLinkSearch(warcraftLogsLink: string, wipefestLink: string) {
+  logLinkSearch(warcraftLogsLink: string, wipefestLink: string): void {
     this.log(
       new Log(
         'Search',
@@ -128,7 +108,7 @@ export class LoggerService {
     );
   }
 
-  logToggleDesktopFilterMenu(shown: boolean) {
+  logToggleDesktopFilterMenu(shown: boolean): void {
     this.log(
       new Log(
         'Fight Summary',
@@ -137,7 +117,7 @@ export class LoggerService {
     );
   }
 
-  logToggleDesktopRaidMenu(shown: boolean) {
+  logToggleDesktopRaidMenu(shown: boolean): void {
     this.log(
       new Log(
         'Fight Summary',
@@ -146,7 +126,7 @@ export class LoggerService {
     );
   }
 
-  logToggleMobileFilterMenu(shown: boolean) {
+  logToggleMobileFilterMenu(shown: boolean): void {
     this.log(
       new Log(
         'Fight Summary',
@@ -155,19 +135,19 @@ export class LoggerService {
     );
   }
 
-  logToggleMobileRaidMenu(shown: boolean) {
+  logToggleMobileRaidMenu(shown: boolean): void {
     this.log(
       new Log('Fight Summary', shown ? 'Show mobile raid' : 'Hide mobile raid')
     );
   }
 
-  logToggleMobileNavigation(shown: boolean) {
+  logToggleMobileNavigation(shown: boolean): void {
     this.log(
       new Log('Mobile Menu', shown ? 'Show navigation' : 'Hide navigation')
     );
   }
 
-  logToggleFilter(filter: string, enabled: boolean) {
+  logToggleFilter(filter: string, enabled: boolean): void {
     this.log(
       new Log(
         'Fight Summary',
@@ -177,15 +157,15 @@ export class LoggerService {
     );
   }
 
-  logShowAllFilters() {
+  logShowAllFilters(): void {
     this.log(new Log('Fight Summary', 'Show all filters'));
   }
 
-  logHideAllFilters() {
+  logHideAllFilters(): void {
     this.log(new Log('Fight Summary', 'Hide all filters'));
   }
 
-  logResetFilters() {
+  logResetFilters(): void {
     this.log(new Log('Fight Summary', 'Reset filters'));
   }
 
@@ -194,7 +174,7 @@ export class LoggerService {
     encounter: string,
     phase: string,
     shown: boolean
-  ) {
+  ): void {
     this.log(
       new Log(
         'Fight Summary',
@@ -204,20 +184,38 @@ export class LoggerService {
     );
   }
 
-  logSurveyClick() {
+  logSurveyClick(): void {
     this.log(new Log('Survey', 'Click'));
   }
 
-  logDiscordClick() {
+  logDiscordClick(): void {
     this.log(new Log('Discord', 'Click'));
   }
 
-  logDiscordBotClick() {
+  logDiscordBotClick(): void {
     this.log(new Log('Discord Bot', 'Click'));
   }
 
-  logPatreonClick() {
+  logPatreonClick(): void {
     this.log(new Log('Patreon', 'Click'));
+  }
+
+  private log(log: Log): void {
+    const analytic: any = {};
+    analytic.action = log.action;
+    analytic.properties = { category: log.category };
+    if (log.label) {
+      analytic.properties.label = log.label;
+    }
+    if (log.value) {
+      analytic.properties.value = log.value;
+    }
+
+    this.angulartics2.eventTrack.next(analytic);
+  }
+
+  private error(errorLog: ErrorLog): void {
+    this.angulartics2.exceptionTrack.next(errorLog);
   }
 }
 

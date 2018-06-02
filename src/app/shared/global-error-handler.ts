@@ -13,7 +13,7 @@ export class GlobalErrorHandler extends ErrorHandler {
     super();
   }
 
-  handleError(error) {
+  handleError(error: any): void {
     // Infinite error loop bug in dev mode, fix from: https://github.com/angular/angular/issues/17010
     const debugCtx = error.ngDebugContext;
     const changeDetectorRef =

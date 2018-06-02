@@ -14,19 +14,12 @@ import { Realms } from 'app/shared/realms';
   styleUrls: ['./search.component.css']
 })
 export class CharacterSearchComponent implements OnInit {
-  data = [];
-
-  constructor(
-    private router: Router,
-    private localStorage: LocalStorage,
-    private logger: LoggerService
-  ) {}
-
   @Input() character: string;
   @Input() realm: string;
   @Input() region: string;
 
-  private characterKey = 'character';
+  data: any[] = [];
+
   get favouriteCharacter(): string {
     return this.localStorage.get(this.characterKey);
   }
@@ -34,7 +27,6 @@ export class CharacterSearchComponent implements OnInit {
     this.localStorage.setOrRemove(this.characterKey, value);
   }
 
-  private realmKey = 'characterRealm';
   get favouriteRealm(): string {
     return this.localStorage.get(this.realmKey);
   }
@@ -42,7 +34,6 @@ export class CharacterSearchComponent implements OnInit {
     this.localStorage.setOrRemove(this.realmKey, value);
   }
 
-  private regionKey = 'characterRegion';
   get favouriteRegion(): string {
     return this.localStorage.get(this.regionKey);
   }
@@ -52,7 +43,17 @@ export class CharacterSearchComponent implements OnInit {
 
   favouriteCharacterIsSet: boolean;
 
-  ngOnInit() {
+  private characterKey: string = 'character';
+  private realmKey: string = 'characterRealm';
+  private regionKey: string = 'characterRegion';
+
+  constructor(
+    private router: Router,
+    private localStorage: LocalStorage,
+    private logger: LoggerService
+  ) {}
+
+  ngOnInit(): void {
     this.character = this.character || this.favouriteCharacter || '';
     this.realm = this.realm || this.favouriteRealm || '';
     this.region = this.region || this.favouriteRegion || '';
@@ -60,7 +61,7 @@ export class CharacterSearchComponent implements OnInit {
 
     this.data = [];
     Realms.forEach(x => {
-      const category = this.data.find(d => d.name == x.region);
+      const category = this.data.find(d => d.name === x.region);
       if (category) {
         category.values.push(x.realm);
       } else {
@@ -69,23 +70,23 @@ export class CharacterSearchComponent implements OnInit {
     });
   }
 
-  selectRealm(value: AutoCompleteSelectedValue) {
+  selectRealm(value: AutoCompleteSelectedValue): void {
     this.region = value.category;
     this.realm = value.value;
     this.update();
   }
 
-  update() {
+  update(): void {
     this.favouriteCharacterIsSet =
-      this.character == this.favouriteCharacter &&
-      this.realm == this.favouriteRealm &&
-      this.region == this.favouriteRegion &&
+      this.character === this.favouriteCharacter &&
+      this.realm === this.favouriteRealm &&
+      this.region === this.favouriteRegion &&
       !!this.character &&
       !!this.realm &&
       !!this.region;
   }
 
-  toggleFavouriteCharacter() {
+  toggleFavouriteCharacter(): void {
     if (this.favouriteCharacterIsSet) {
       this.favouriteCharacterIsSet = false;
 
@@ -123,13 +124,13 @@ export class CharacterSearchComponent implements OnInit {
     );
   }
 
-  trySearch() {
+  trySearch(): void {
     if (this.canSearch) {
       this.searchByCharacter();
     }
   }
 
-  searchByCharacter() {
+  searchByCharacter(): void {
     this.router
       .navigate([
         `/character/${this.clean(this.character)}/${this.clean(

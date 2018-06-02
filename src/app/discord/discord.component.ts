@@ -13,15 +13,15 @@ export class DiscordComponent implements OnInit {
     private loggerService: LoggerService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wipefestService.selectPage(Page.GetInvolved);
   }
 
-  logDiscordClick() {
+  logDiscordClick(): void {
     this.loggerService.logDiscordClick();
   }
 
-  logDiscordBotClick() {
+  logDiscordBotClick(): void {
     this.loggerService.logDiscordBotClick();
   }
 }

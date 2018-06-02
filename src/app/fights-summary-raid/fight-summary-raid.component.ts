@@ -43,6 +43,7 @@ export class FightSummaryRaidComponent {
     ];
   }
 
+  // tslint:disable-next-line:prettier
   showAllFocuses: boolean = window.location.href.indexOf('www.wipefest.net') === -1;
   private focuses: SelectedFocus[] = [];
 
