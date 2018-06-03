@@ -1,28 +1,65 @@
 ﻿# Wipefest
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.3.
+[Wipefest](https://www.wipefest.net/) uses data from [Warcraft Logs](https://www.warcraftlogs.com/) to display insights and timelines for raid encounters.
 
-## Development server
+This repository contains the code for the Wipefest frontend. The frontend is an [Angular 6](https://angular.io/) application, running inside of [Node.js](https://nodejs.org/en/) as an [Express](https://expressjs.com/) server.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## How does it all fit together?
 
-## Code scaffolding
+The architecture of the entire Wipefest solution is separated into a few distinct layers.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+This project focuses mostly on presentation and user experience, with all actual logic handled by the [Wipefest.Core](https://github.com/JoshYaxley/Wipefest.Core) library, and persistence handled by [Wipefest.Api](https://github.com/JoshYaxley/Wipefest.Api).
 
-## Build
+The relationships between the Wipefest family of projects is as follows:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+![](/docs/infrastructure.png)
 
-## Running unit tests
+To understand which layer is responsible for which domain, consider a user requesting Wipefest to process and return a fight:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Wipefest
 
-## Running end-to-end tests
+A user uses the Wipefest frontend to find the fight that they want to see data for. The frontend makes a HTTP request to Wipefest.Api for the data. When the data is returned, the frontend presents it appropriately.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+### Wipefest.Api
 
-## Further help
+When the API receives a request for fight data, it first checks if it has processed that fight before. If it has, it will pull the previous results from its [Redis](https://redis.io/) cache, and return that. Otherwise, it will call into the Wipefest.Core library. When Wipefest.Core returns the data, the API caches it and returns it.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Wipefest.Core
+
+The core library exists as an [NPM package](https://www.npmjs.com/package/@wipefest/core) that people can use in their own projects. When this library receives a request to process a fight, it pulls configuration data from [Wipefest.EventConfigs](https://github.com/JoshYaxley/Wipefest.EventConfigs/) to work out what events it should be building. It then makes the relevant requests to the [Warcraft Logs API](https://www.warcraftlogs.com/v1/docs) to get the data it needs to build the events. It then calculates insights based on these events, and returns everything.
+
+> An almost identical flow is used when people interact with Wipefest via Discord, except that the Wipefest frontend is replaced by the [Wipefest.Bot](https://github.com/JoshYaxley/Wipefest.Bot)
+
+## Run the application
+
+Install the Angular CLI globally:
+
+`npm install @angular.cli --global`
+
+Clone the repository:
+
+`git clone https://github.com/JoshYaxley/Wipefest.git`
+
+Change directory:
+
+`cd Wipefest`
+
+Install dependencies:
+
+`npm install`
+
+Serve the application locally:
+
+`ng serve`
+
+Then visit [http://localhost:4200](http://localhost:4200) in your browser.
+
+## Contribute
+
+1. Get in touch on our Discord server or using the issue tracker
+2. Fork this repository
+3. Make a feature branch
+4. Commit/push your changes
+5. Make a pull request
+
+> To contribute to [Wipefest.Core](https://github.com/JoshYaxley/Wipefest.Core), [Wipefest.Api](https://github.com/JoshYaxley/Wipefest.Api), [Wipefest.EventConfigs](https://github.com/JoshYaxley/Wipefest.EventConfigs), or [Wipefest.Bot](https://github.com/JoshYaxley/Wipefest.Bot), see their respective repositories.
