@@ -56,7 +56,7 @@ Then visit [http://localhost:4200](http://localhost:4200) in your browser.
 
 ## Contribute
 
-1. Get in touch on our Discord server or using the issue tracker
+1. Get in touch on our [Discord server](https://discord.gg/QhE4hfS) or using the issue tracker
 2. Fork this repository
 3. Make a feature branch
 4. Commit/push your changes
