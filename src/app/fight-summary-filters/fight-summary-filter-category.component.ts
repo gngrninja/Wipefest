@@ -17,6 +17,7 @@ export class FightSummaryFilterCategoryComponent {
   @Input() name: string;
   @Input() filters: EventConfigFilter[];
   @Input() categories: EventConfigCategory[];
+  @Input() trackState: boolean;
 
   get hasFilters(): boolean {
     return this.filters.length > 0 || this.categories.some(x => x.hasFilters);
@@ -48,7 +49,8 @@ export class FightSummaryFilterCategoryComponent {
         x.show = !x.show;
       });
 
-    this.stateService.selectFiltersFromConfigs(configs);
+    if (this.trackState) this.stateService.selectFiltersFromConfigs(configs);
+
     this.logger.logToggleFilter(
       `${config.name} (${config.tags.join(' ')})`,
       config.show

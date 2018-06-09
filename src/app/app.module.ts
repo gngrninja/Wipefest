@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { MarkdownModule } from 'ngx-md';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 import { WipefestAPI } from '@wipefest/api-sdk';
 import {
@@ -64,6 +65,7 @@ import { AbilityIconComponent } from './shared/ability-icon.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ProgressBarComponent } from './shared/progress-bar.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { DeveloperConsoleComponent } from './develop/developer-console.component';
 
 // Core UI
 import {
@@ -107,6 +109,7 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     DiscordComponent,
     AutoCompleteComponent,
     InsightsComponent,
+    DeveloperConsoleComponent,
     // Core UI
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
@@ -171,6 +174,10 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
           component: NewsComponent
         },
         {
+          path: 'develop',
+          component: DeveloperConsoleComponent
+        },
+        {
           path: '',
           component: NewsComponent
         },
@@ -182,7 +189,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
       { useHash: true }
     ),
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    MonacoEditorModule.forRoot()
   ],
   providers: [
     Location,
@@ -219,12 +227,13 @@ export class HttpFilter extends BaseFilter {
   before(request: WebResource): Promise<WebResource> {
     // Even though there is a requestOptions.headers property in ServiceClientOptions,
     // it doesn't seem to let us override Content-Type, so we have to do it here
-    request.headers = { 'Content-Type': 'text/plain' };
+    // request.headers = { 'Content-Type': 'text/plain' };
     return Promise.resolve(request);
   }
 
   after(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     // This property *does* exist, even though accessing it via "." gives a compiler error 🤷
+    // tslint:disable-next-line:no-string-literal
     response['parsedBody'] = response.bodyAsJson;
     return Promise.resolve(response);
   }

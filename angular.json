@@ -18,7 +18,16 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ngx-monaco-editor/assets/monaco",
+                "output": "./assets/monaco/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "./src/",
+                "output": "./"
+              }
             ],
             "styles": [
               "src/scss/style.scss"

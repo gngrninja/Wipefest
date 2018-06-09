@@ -1,0 +1,64 @@
+@import "../../scss/bootstrap-variables";
+
+.title {
+  border-top: 0;
+}
+
+.console {
+  background-color: $gray-dark;
+  border-bottom: 1px solid $gray-light;
+
+  .toolbar {
+    text-align: right;
+    border-top: 0;
+    height: 35px;
+    padding-right: 12px;
+
+    button {
+      margin-top: 5px;
+      height: 24px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+  }
+
+  .panel {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+
+  .editor {
+    margin-right: 8px;
+    width: calc((100vw - 320px) * 2 / 5 - 8px);
+    height: calc(100vh - 169px);
+  }
+
+  .filters {
+    width: 320px;
+    border-right: 1px solid $gray-light;
+  }
+
+  .fight-events {
+    width: calc((100vw - 320px) * 3 / 5 + 12px);
+    height: calc(100vh - 150px);
+    overflow-y: scroll;
+
+    .full-height {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .block {
+      border-left: 0 !important;
+      border-bottom: 0 !important;
+    }
+  }
+
+  div {
+    margin: 0;
+    padding: 0;
+  }
+}

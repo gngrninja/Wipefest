@@ -1,10 +1,11 @@
 <header class="app-header navbar" *ngIf="page != Page.Welcome">
     <!-- Mobile -->
-    <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left navbar-toggler-left-2 d-lg-none" type="button" appMobileSidebarToggler>
+    <button *ngIf="page == Page.FightSummary" class="navbar-toggler navbar-toggler-left navbar-toggler-left-2 d-lg-none" type="button"
+        appMobileSidebarToggler>
         <i class="fa fa-filter" aria-hidden="true"></i>
     </button>
-    <button type="button" class="navbar-toggler navbar-toggler-left d-lg-none" (click)="toggleMobileNavigation()"
-            [attr.aria-expanded]="!isCollapsed" aria-controls="mobile-nav-links">
+    <button type="button" class="navbar-toggler navbar-toggler-left d-lg-none" (click)="toggleMobileNavigation()" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="mobile-nav-links">
         <i class="fa fa-navicon" aria-hidden="true"></i>
     </button>
     <a class="navbar-brand hidden-lg-up" routerLink="/"></a>
@@ -34,11 +35,13 @@
             <a class="nav-link" routerLink="/discord">Discord</a>
         </li>
         <li class="nav-item px-3">
+            <a class="nav-link" routerLink="/develop">Develop</a>
+        </li>
+        <li class="nav-item px-3">
             <a class="nav-link" href="https://ideas.wipefest.net" target="_blank" rel="noopener noreferrer">Ideas</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer"
-               (click)="logPatreonClick()">Patreon</a>
+            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer" (click)="logPatreonClick()">Patreon</a>
         </li>
     </ul>
     <ul class="nav navbar-nav ml-auto">
@@ -64,12 +67,10 @@
             <a class="nav-link" routerLink="/discord" (click)="onMobileLinkClick()">Discord</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="https://ideas.wipefest.net" target="_blank" rel="noopener noreferrer"
-               (click)="onMobileLinkClick()">Ideas</a>
+            <a class="nav-link" href="https://ideas.wipefest.net" target="_blank" rel="noopener noreferrer" (click)="onMobileLinkClick()">Ideas</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer"
-               (click)="onMobileLinkClick(); logPatreonClick()">Patreon</a>
+            <a class="nav-link" href="https://www.patreon.com/wipefest" target="_blank" rel="noopener noreferrer" (click)="onMobileLinkClick(); logPatreonClick()">Patreon</a>
         </li>
     </ul>
 </div>

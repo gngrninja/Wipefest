@@ -102,6 +102,7 @@ export class CharacterSearchResultsComponent implements OnInit {
         parses => {
           this.loading = false;
           this.error = null;
+
           parses.forEach(parse => {
             if (![3, 4, 5].some(x => x === parse.difficulty)) {
               // Normal, Heroic, Mythic

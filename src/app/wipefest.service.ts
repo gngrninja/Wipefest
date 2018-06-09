@@ -83,5 +83,6 @@ export enum Page {
   ReportSummary,
   FightSummary,
   GetInvolved,
-  News
+  News,
+  DeveloperConsole
 }

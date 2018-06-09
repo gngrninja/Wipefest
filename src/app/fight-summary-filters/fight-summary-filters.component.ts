@@ -16,6 +16,7 @@ export class FightSummaryFiltersComponent implements OnChanges {
   @Input() configs: EventConfig[];
   @Input() events: EventDto[] = [];
   @Input() abilities: Ability[] = [];
+  @Input() trackState: boolean = true;
   categories: EventConfigCategory[] = [];
   categoryFilter: string = '';
 
@@ -35,7 +36,11 @@ export class FightSummaryFiltersComponent implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
-    if (this.configs && this.stateService.filters.length > 0) {
+    if (
+      this.trackState &&
+      this.configs &&
+      this.stateService.filters.length > 0
+    ) {
       if (
         this.stateService.filters.every(
           filter =>
@@ -63,7 +68,8 @@ export class FightSummaryFiltersComponent implements OnChanges {
 
   showAll(): void {
     this.configs.forEach(x => (x.show = true));
-    this.stateService.selectFiltersFromConfigs(this.configs);
+    if (this.trackState)
+      this.stateService.selectFiltersFromConfigs(this.configs);
     this.logger.logShowAllFilters();
   }
 
@@ -71,7 +77,8 @@ export class FightSummaryFiltersComponent implements OnChanges {
     this.configs
       .filter(x => ['phase', 'title'].indexOf(x.eventType) === -1)
       .forEach(x => (x.show = false));
-    this.stateService.selectFiltersFromConfigs(this.configs);
+    if (this.trackState)
+      this.stateService.selectFiltersFromConfigs(this.configs);
     this.logger.logHideAllFilters();
   }
 
@@ -79,7 +86,8 @@ export class FightSummaryFiltersComponent implements OnChanges {
     this.configs.forEach(x => {
       x.show = x.showByDefault;
     });
-    this.stateService.selectFiltersFromConfigs(this.configs);
+    if (this.trackState)
+      this.stateService.selectFiltersFromConfigs(this.configs);
     this.logger.logResetFilters();
   }
 
