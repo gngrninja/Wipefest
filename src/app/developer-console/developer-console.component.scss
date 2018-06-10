@@ -1,26 +1,8 @@
 @import "../../scss/bootstrap-variables";
 
-.title {
-  border-top: 0;
-}
-
 .console {
   background-color: $gray-dark;
   border-bottom: 1px solid $gray-light;
-
-  .toolbar {
-    text-align: right;
-    border-top: 0;
-    height: 35px;
-    padding-right: 12px;
-
-    button {
-      margin-top: 5px;
-      height: 24px;
-      padding-top: 3px;
-      padding-bottom: 3px;
-    }
-  }
 
   .panel {
     display: inline-block;
@@ -31,7 +13,7 @@
   .editor {
     margin-right: 8px;
     width: calc((100vw - 320px) * 2 / 5 - 8px);
-    height: calc(100vh - 169px);
+    height: calc(100vh - 195px);
   }
 
   .filters {
@@ -63,8 +45,8 @@
 
   .fight-events {
     width: calc((100vw - 320px) * 3 / 5 + 12px);
-    height: calc(100vh - 150px);
-    overflow-y: scroll;
+    height: calc(100vh - 200px);
+    overflow-y: auto;
 
     .full-height {
       display: flex;

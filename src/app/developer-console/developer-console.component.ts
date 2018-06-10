@@ -8,6 +8,7 @@ import {
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
+import { DeveloperConsoleTestCase } from './test-case/developer-console-test-case';
 // tslint:disable-next-line:no-require-imports
 const stripJsonComments = require('strip-json-comments');
 
@@ -48,6 +49,29 @@ export class DeveloperConsoleComponent implements OnInit {
   };
   editorOptions: any = { theme: 'vs-dark', language: 'json', tabSize: 2 };
 
+  testCases: DeveloperConsoleTestCase[] = [
+    {
+      name: 'Heroic Felhounds of Sargeras',
+      reportId: 'vLaYkKjMJCZ1WfrQ',
+      fightId: 4
+    },
+    {
+      name: null,
+      reportId: '',
+      fightId: 0
+    },
+    {
+      name: null,
+      reportId: '',
+      fightId: 0
+    },
+    {
+      name: null,
+      reportId: '',
+      fightId: 0
+    }
+  ];
+
   loading: boolean = false;
   errors: DeveloperConsoleError[] = [];
   recentlyChanged: boolean = false;
@@ -86,7 +110,7 @@ export class DeveloperConsoleComponent implements OnInit {
     });
   }
 
-  run(): void {
+  run(testCase: DeveloperConsoleTestCase): void {
     if (this.loading || this.recentlyChanged) return;
 
     this.fight = null;
@@ -130,7 +154,7 @@ export class DeveloperConsoleComponent implements OnInit {
     }
 
     this.wipefestApi
-      .getFightForEventConfigs('vLaYkKjMJCZ1WfrQ', 4, {
+      .getFightForEventConfigs(testCase.reportId, testCase.fightId, {
         eventConfigs: eventConfigs
       })
       .then(

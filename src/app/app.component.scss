@@ -3,6 +3,8 @@
 .container-fluid {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  min-height: calc(100vh - 55px);
 }
 
 .notice {

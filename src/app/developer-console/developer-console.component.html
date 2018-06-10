@@ -1,12 +1,11 @@
-<div class="title p-2 pl-5">
-  <h3>Developer Console</h3>
+<div class="block p-1">
+  <div class="col-md-4 col-lg-3 p-1 d-inline-block" *ngFor="let testCase of testCases; let i = index">
+    <developer-console-test-case [index]="i" [testCase]="testCase" [canRun]="!recentlyChanged" (run)="run($event)"></developer-console-test-case>
+  </div>
 </div>
 
 <div class="row console">
   <div class="panel editor">
-    <div class="title toolbar">
-      <button class="btn btn-primary" [disabled]="recentlyChanged" (click)="run()">Run</button>
-    </div>
     <ngx-monaco-editor class="editor" [options]="editorOptions" [model]="editorModel" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
   </div>
   <div class="panel filters">
@@ -43,7 +42,10 @@
     <div *ngIf="errors.length === 0 && !loading && events.length === 0" class="block p-5 text-center full-height">
       No events could be found.
     </div>
-    <fight-events *ngIf="!loading && events.length > 0" [fight]="fight" [events]="events" [configs]="configs" [abilities]="abilities"></fight-events>
+    <ng-container *ngIf="!loading && events.length > 0">
+      <fight-title [fightInfo]="fight"></fight-title>
+      <fight-events [fight]="fight" [events]="events" [configs]="configs" [abilities]="abilities"></fight-events>
+    </ng-container>
   </div>
 </div>
 

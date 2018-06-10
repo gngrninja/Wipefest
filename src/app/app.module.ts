@@ -26,7 +26,11 @@ import {
   LogFilter
 } from 'ms-rest-js';
 
-import { EncountersService, SpecializationsService } from '@wipefest/core';
+import {
+  EncountersService,
+  SpecializationsService,
+  LinkService
+} from '@wipefest/core';
 
 import { DiscordComponent } from 'app/discord/discord.component';
 import { FightSummaryRaidComponent } from 'app/fights-summary-raid/fight-summary-raid.component';
@@ -54,6 +58,7 @@ import { TimelineFightEventComponent } from './fight-events/components/timeline-
 import { FightSummaryFilterCategoryComponent } from './fight-summary-filters/fight-summary-filter-category.component';
 import { FightSummaryFiltersComponent } from './fight-summary-filters/fight-summary-filters.component';
 import { FightSummaryComponent } from './fight-summary/fight-summary.component';
+import { FightTitleComponent } from './fight-summary/title/fight-title.component';
 import { GetInvolvedComponent } from './get-involved/get-involved.component';
 import { GuildSearchResultsComponent } from './guild-search-results/guild-search-results.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -65,7 +70,8 @@ import { AbilityIconComponent } from './shared/ability-icon.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ProgressBarComponent } from './shared/progress-bar.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { DeveloperConsoleComponent } from './develop/developer-console.component';
+import { DeveloperConsoleComponent } from './developer-console/developer-console.component';
+import { DeveloperConsoleTestCaseComponent } from './developer-console/test-case/developer-console-test-case.component';
 
 // Core UI
 import {
@@ -84,6 +90,7 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     SpinnerComponent,
     ProgressBarComponent,
     FightSummaryComponent,
+    FightTitleComponent,
     WelcomeComponent,
     NewsComponent,
     ReportSummaryComponent,
@@ -110,6 +117,7 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     AutoCompleteComponent,
     InsightsComponent,
     DeveloperConsoleComponent,
+    DeveloperConsoleTestCaseComponent,
     // Core UI
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
@@ -190,8 +198,10 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     ),
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
     NgbModule.forRoot(),
-    // tslint:disable-next-line:no-require-imports
-    MonacoEditorModule.forRoot(require('./develop/wipefest-monaco-config'))
+    MonacoEditorModule.forRoot(
+      // tslint:disable-next-line:no-require-imports
+      require('./developer-console/wipefest-monaco-config')
+    )
   ],
   providers: [
     Location,
@@ -211,7 +221,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
       }
     },
     { provide: EncountersService, useValue: new EncountersService() },
-    { provide: SpecializationsService, useValue: new SpecializationsService() }
+    { provide: SpecializationsService, useValue: new SpecializationsService() },
+    { provide: LinkService, useValue: new LinkService() }
   ],
   bootstrap: [AppComponent]
 })

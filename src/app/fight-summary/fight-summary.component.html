@@ -17,11 +17,7 @@
           </div>
         </div>
         <div *ngIf="fight" class="col mt-4">
-          <div class="title p-2 pl-3" [ngClass]="fight.kill ? 'kill' : 'wipe'">
-            <h3 class="mb-0">
-              {{Difficulty.ToString(fight.difficulty)}} {{fight.name}}
-            </h3>
-          </div>
+          <fight-title [fightInfo]="fight"></fight-title>
           <div class="block p-1 pl-3">
             <strong>Report</strong>: <a routerLink="/report/{{report.id}}">{{report.title}}</a>,
             <strong>Fight</strong>:
