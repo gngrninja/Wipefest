@@ -39,6 +39,28 @@
     border-right: 1px solid $gray-light;
   }
 
+  .errors {
+    table {
+      thead {
+        tr {
+          th {
+            border-top: 0;
+            border-color: $brand-warning;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-color: $brand-warning;
+          }
+        }
+      }
+    }
+  }
+
   .fight-events {
     width: calc((100vw - 320px) * 3 / 5 + 12px);
     height: calc(100vh - 150px);

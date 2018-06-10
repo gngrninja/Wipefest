@@ -14,7 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { MarkdownModule } from 'ngx-md';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 
 import { WipefestAPI } from '@wipefest/api-sdk';
 import {
@@ -190,7 +190,8 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     ),
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
     NgbModule.forRoot(),
-    MonacoEditorModule.forRoot()
+    // tslint:disable-next-line:no-require-imports
+    MonacoEditorModule.forRoot(require('./develop/wipefest-monaco-config'))
   ],
   providers: [
     Location,
@@ -216,22 +217,9 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
 })
 export class AppModule {}
 
-// Filthy hack to get around what seems to be a CORS bug in ms-rest-js
-// ms-rest-js always sends Content-Type: application/json, which nginx is setup to support
-// (can test that OPTIONS *does* work on https://www.test-cors.org/)
-// However, behaviour seems to be that ms-rest-js is not making the GET request after the successful OPTIONS
-// To get around this, this filter changes Content-Type to text/plain, making this a "simple" request
-// Browsers do not pre-flight check for "simple" requests
-// When the response comes back, need to set the "parsedBody" property to be the returned JSON
 export class HttpFilter extends BaseFilter {
-  before(request: WebResource): Promise<WebResource> {
-    // Even though there is a requestOptions.headers property in ServiceClientOptions,
-    // it doesn't seem to let us override Content-Type, so we have to do it here
-    // request.headers = { 'Content-Type': 'text/plain' };
-    return Promise.resolve(request);
-  }
-
   after(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    // For some reason, this doesn't happen automatically
     // This property *does* exist, even though accessing it via "." gives a compiler error 🤷
     // tslint:disable-next-line:no-string-literal
     response['parsedBody'] = response.bodyAsJson;

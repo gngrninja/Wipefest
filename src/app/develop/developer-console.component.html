@@ -5,9 +5,9 @@
 <div class="row console">
   <div class="panel editor">
     <div class="title toolbar">
-      <button class="btn btn-primary" (click)="run()">Run</button>
+      <button class="btn btn-primary" [disabled]="recentlyChanged" (click)="run()">Run</button>
     </div>
-    <ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
+    <ngx-monaco-editor class="editor" [options]="editorOptions" [model]="editorModel" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
   </div>
   <div class="panel filters">
     <fight-summary-filters [events]="events" [configs]="configs" [abilities]="abilities" [trackState]="trackState"></fight-summary-filters>
@@ -16,10 +16,31 @@
     <div *ngIf="loading" class="block p-5">
       <progress-bar></progress-bar>
     </div>
-    <div *ngIf="error" class="block p-5 text-center full-height">
-      {{error}}
+    <div *ngIf="errors.length > 0" class="errors block">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Line</th>
+            <th>Position</th>
+            <th>Error</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let error of errors">
+            <td>
+              {{error.lineNumber}}
+            </td>
+            <td>
+              {{error.position}}
+            </td>
+            <td>
+              {{error.message}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div *ngIf="!error && !loading && events.length === 0" class="block p-5 text-center full-height">
+    <div *ngIf="errors.length === 0 && !loading && events.length === 0" class="block p-5 text-center full-height">
       No events could be found.
     </div>
     <fight-events *ngIf="!loading && events.length > 0" [fight]="fight" [events]="events" [configs]="configs" [abilities]="abilities"></fight-events>

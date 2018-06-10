@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Page, WipefestService } from 'app/wipefest.service';
 import {
   FightInfo,
@@ -17,7 +17,7 @@ const stripJsonComments = require('strip-json-comments');
   styleUrls: ['./developer-console.component.scss']
 })
 export class DeveloperConsoleComponent implements OnInit {
-  editorOptions: any = { theme: 'vs-dark', language: 'json', tabSize: 2 };
+  editor: any;
   code: string = `[
   {
     "id": "0D",
@@ -41,9 +41,17 @@ export class DeveloperConsoleComponent implements OnInit {
     }
   }
 ]`;
+  editorModel: NgxEditorModel = {
+    value: this.code,
+    language: 'json',
+    uri: 'event-configs.json'
+  };
+  editorOptions: any = { theme: 'vs-dark', language: 'json', tabSize: 2 };
 
   loading: boolean = false;
-  error: string = null;
+  errors: DeveloperConsoleError[] = [];
+  recentlyChanged: boolean = false;
+  recentlyChangedTimer: any;
 
   trackState: boolean = false;
 
@@ -54,7 +62,8 @@ export class DeveloperConsoleComponent implements OnInit {
 
   constructor(
     private wipefestService: WipefestService,
-    private wipefestApi: WipefestAPI
+    private wipefestApi: WipefestAPI,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -62,16 +71,44 @@ export class DeveloperConsoleComponent implements OnInit {
   }
 
   onInit(editor: any): void {
-    editor.getModel().updateOptions({ tabSize: 2 });
+    const model = editor.getModel();
+    model.updateOptions({ tabSize: 2 });
+    model.onDidChangeContent(e => {
+      if (this.recentlyChangedTimer) {
+        clearTimeout(this.recentlyChangedTimer);
+      }
+      this.recentlyChanged = true;
+      this.changeDetectorRef.detectChanges();
+      this.recentlyChangedTimer = setTimeout(() => {
+        this.recentlyChanged = false;
+        this.changeDetectorRef.detectChanges();
+      }, 500);
+    });
   }
 
   run(): void {
-    this.loading = true;
-    this.error = null;
+    if (this.loading || this.recentlyChanged) return;
+
     this.fight = null;
+    this.errors = [];
     this.events = [];
     this.configs = [];
     this.abilities = [];
+
+    const markers = (<any>window).monaco.editor.getModelMarkers({});
+    if (markers.length) {
+      this.errors = markers.map(m => {
+        return {
+          lineNumber: m.startLineNumber,
+          position: m.startColumn,
+          message: m.message
+        };
+      });
+
+      return;
+    }
+
+    this.loading = true;
 
     let eventConfigs: EventConfig[] = [];
     try {
@@ -83,7 +120,13 @@ export class DeveloperConsoleComponent implements OnInit {
       });
     } catch (error) {
       this.loading = false;
-      this.error = 'Failed to parse event configs. Invalid JSON.';
+      this.errors = [
+        {
+          lineNumber: 0,
+          position: 0,
+          message: 'Failed to parse event configs. Invalid JSON.'
+        }
+      ];
     }
 
     this.wipefestApi
@@ -101,7 +144,13 @@ export class DeveloperConsoleComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.error = this.cleanError(error.toString());
+          this.errors = [
+            {
+              lineNumber: 0,
+              position: 0,
+              message: this.cleanError(error.toString())
+            }
+          ];
         }
       );
   }
@@ -118,4 +167,10 @@ export class DeveloperConsoleComponent implements OnInit {
     }
     return error;
   }
+}
+
+interface DeveloperConsoleError {
+  lineNumber: number;
+  position: number;
+  message: string;
 }
