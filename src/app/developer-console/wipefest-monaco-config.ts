@@ -188,7 +188,7 @@ module.exports = {
                   }
                 }
               },
-              required: ['id', 'name', 'tags', 'show', 'eventType']
+              required: ['name', 'tags', 'show', 'eventType']
             }
           }
         }

@@ -21,14 +21,12 @@ export class DeveloperConsoleComponent implements OnInit {
   editor: any;
   code: string = `[
   {
-    "id": "0D",
     "name": "Deaths",
     "tags": [ "player" ],
     "show": true,
     "eventType": "death"
   },
   {
-    "id": "HS",
     "name": "Healthstone / Healing Tonic",
     "tags": [ "player" ],
     "show": false,
@@ -142,6 +140,19 @@ export class DeveloperConsoleComponent implements OnInit {
 
         return x;
       });
+      eventConfigs = eventConfigs.map(x => {
+        if (!x.id) {
+          let i = 0;
+          while (!x.id || eventConfigs.filter(y => y.id === x.id).length > 1) {
+            x.id = this.indexToId(i);
+            i++;
+
+            if (i > 500) break;
+          }
+        }
+
+        return x;
+      });
     } catch (error) {
       this.loading = false;
       this.errors = [
@@ -177,6 +188,13 @@ export class DeveloperConsoleComponent implements OnInit {
           ];
         }
       );
+  }
+
+  private indexToId(index: number): string {
+    const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const first = Math.floor(index / characters.length);
+    const second = index % characters.length;
+    return characters[first] + characters[second];
   }
 
   private cleanError(error: string): string {
