@@ -2,9 +2,15 @@
   <div class="row m-0">
     <div class="col-lg-12 p-0">
       <div [hidden]="editingName" (click)="startEditingName()" id="name-title">
-        <h5>{{testCase.name}}</h5>
+        <h5>
+          {{testCase.name}}
+          <span class="pull-right">
+            <i class="fa fa-pencil"></i>
+          </span>
+        </h5>
       </div>
-      <input [hidden]="!editingName" (blur)="finishEditingName()" class="form-control" [(ngModel)]="testCase.name" placeholder="Test Case {{index+1}}" id="name-input-{{index}}" />
+      <input [hidden]="!editingName" (blur)="finishEditingName()" class="form-control" [(ngModel)]="testCase.name" placeholder="Test Case {{index+1}}"
+        id="name-input-{{index}}" />
     </div>
   </div>
   <div class="row m-0">
