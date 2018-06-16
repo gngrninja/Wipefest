@@ -1,3 +1,25 @@
+<div class="block p-1 help">
+  <div>
+    <developer-console-examples></developer-console-examples>
+  </div>
+  <div class="bullet">
+    {{"\u2022"}}
+  </div>
+  <div>
+    <a href="https://github.com/JoshYaxley/Wipefest.EventConfigs/blob/master/docs/examples.md" target="_blank" rel="noopener noreferrer">
+      Read about valid Wipefest JSON
+    </a>
+  </div>
+  <div class="bullet">
+    {{"\u2022"}}
+  </div>
+  <div>
+    <a href="https://discord.gg/QhE4hfS" target="_blank" rel="noopener noreferrer">
+      Share your events in our Discord server
+    </a>
+  </div>
+</div>
+
 <div class="block p-1">
   <div class="col-md-4 col-lg-3 p-1 d-inline-block" *ngFor="let testCase of testCases; let i = index">
     <developer-console-test-case [index]="i" [testCase]="testCase" [canRun]="!recentlyChanged" (run)="run($event)"></developer-console-test-case>
@@ -8,10 +30,10 @@
   <div class="panel editor">
     <ngx-monaco-editor class="editor" [options]="editorOptions" [model]="editorModel" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
   </div>
-  <div class="panel filters">
+  <div *ngIf="configs.length > 0" class="panel filters">
     <fight-summary-filters [events]="events" [configs]="configs" [abilities]="abilities" [trackState]="trackState"></fight-summary-filters>
   </div>
-  <div class="panel fight-events">
+  <div class="panel fight-events" [ngClass]="events.length === 0 ? 'no-events' : ''">
     <div *ngIf="loading" class="block p-5">
       <progress-bar></progress-bar>
     </div>
@@ -39,8 +61,43 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="errors.length === 0 && !loading && events.length === 0" class="block p-5 text-center full-height">
-      No events could be found.
+    <div *ngIf="showHelpPanel" class="block p-5 text-center full-height">
+      <div class="info">
+        <h4>Welcome to the Developer Console!</h4>
+        <div>
+          All of the events that appear in Wipefest timelines are determined by JSON configuration.
+        </div>
+        <div>
+          JSON stands for JavaScript Object Notation, and is a simple format for expressing data.
+        </div>
+        <div>
+          <a href="https://www.w3schools.com/js/js_json_datatypes.asp" target="_blank" rel="noopener noreferrer">
+            You can read more about JSON here.
+          </a>
+        </div>
+        <div>
+          <a href="https://github.com/JoshYaxley/Wipefest.EventConfigs/blob/master/docs/examples.md" target="_blank" rel="noopener noreferrer">
+            You can read about valid Wipefest JSON here.
+          </a>
+        </div>
+        <div>
+          The code-editor on the left allows you to write your own events.
+        </div>
+        <div>
+          The test cases above let you specify different fights to test with by providing a Wipefest or Warcraft Logs URL. Clicking
+          the "Run" button for each test will generate a timeline based on the configuration that you provide on the left.
+        </div>
+        <div>
+          When you are happy with your configuration,
+          <a href="https://discord.gg/QhE4hfS" target="_blank" rel="noopener noreferrer">
+            share it in our Discord server
+          </a>
+          to get it added to Wipefest!
+        </div>
+        <div>
+          <developer-console-examples></developer-console-examples>
+        </div>
+      </div>
     </div>
     <ng-container *ngIf="!loading && events.length > 0">
       <fight-title [fightInfo]="fight"></fight-title>
@@ -48,4 +105,3 @@
     </ng-container>
   </div>
 </div>
-

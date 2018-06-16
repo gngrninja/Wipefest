@@ -82,6 +82,12 @@ export class DeveloperConsoleComponent implements OnInit {
   configs: EventConfig[] = [];
   abilities: Ability[] = [];
 
+  get showHelpPanel(): boolean {
+    return (
+      this.errors.length === 0 && !this.loading && this.events.length === 0
+    );
+  }
+
   constructor(
     private wipefestService: WipefestService,
     private wipefestApi: WipefestAPI,
@@ -162,6 +168,11 @@ export class DeveloperConsoleComponent implements OnInit {
           message: 'Failed to parse event configs. Invalid JSON.'
         }
       ];
+    }
+
+    if (eventConfigs.length === 0) {
+      this.loading = false;
+      return;
     }
 
     this.wipefestApi

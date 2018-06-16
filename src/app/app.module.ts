@@ -72,6 +72,7 @@ import { ProgressBarComponent } from './shared/progress-bar.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { DeveloperConsoleComponent } from './developer-console/developer-console.component';
 import { DeveloperConsoleTestCaseComponent } from './developer-console/test-case/developer-console-test-case.component';
+import { DeveloperConsoleExamplesComponent } from './developer-console/examples/developer-console-examples.component';
 
 // Core UI
 import {
@@ -118,6 +119,7 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
     InsightsComponent,
     DeveloperConsoleComponent,
     DeveloperConsoleTestCaseComponent,
+    DeveloperConsoleExamplesComponent,
     // Core UI
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,

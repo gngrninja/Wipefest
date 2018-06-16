@@ -1,5 +1,15 @@
 @import "../../scss/bootstrap-variables";
 
+.help {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .bullet {
+    padding: 12px;
+  }
+}
+
 .console {
   background-color: $gray-dark;
   border-bottom: 1px solid $gray-light;
@@ -13,7 +23,7 @@
   .editor {
     margin-right: 8px;
     width: calc((100vw - 320px) * 2 / 5 - 8px);
-    height: calc(100vh - 195px);
+    height: calc(100vh - 250px);
   }
 
   .filters {
@@ -45,14 +55,23 @@
 
   .fight-events {
     width: calc((100vw - 320px) * 3 / 5 + 12px);
-    height: calc(100vh - 200px);
+    height: calc(100vh - 255px);
     overflow-y: auto;
 
+    &.no-events {
+      width: calc((100vw - 320px) * 3 / 5 + 332px);
+    }
+
     .full-height {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100%;
+
+      .info {
+        text-align: left;
+
+        div {
+          margin-bottom: 8px;
+        }
+      }
     }
 
     .block {

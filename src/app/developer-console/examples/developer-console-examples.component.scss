@@ -1,0 +1,22 @@
+.form-group {
+  display: flex;
+  margin-bottom: 0;
+
+  .label {
+    label {
+      margin-left: 0;
+      padding-left: 0;
+    }
+  }
+
+  .dropdown {
+    select {
+      padding-top: 6px;
+    }
+  }
+
+  .button {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
