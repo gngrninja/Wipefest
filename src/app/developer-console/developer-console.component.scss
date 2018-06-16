@@ -1,5 +1,12 @@
 @import "../../scss/bootstrap-variables";
 
+.unsupported {
+  height: calc(100vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .help {
   display: flex;
   align-items: center;
