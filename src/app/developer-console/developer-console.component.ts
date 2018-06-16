@@ -9,6 +9,7 @@ import {
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
 import { DeveloperConsoleTestCase } from './test-case/developer-console-test-case';
+import { DeveloperConsoleExample } from './examples/developer-console-examples.component';
 // tslint:disable-next-line:no-require-imports
 const stripJsonComments = require('strip-json-comments');
 
@@ -20,25 +21,7 @@ const stripJsonComments = require('strip-json-comments');
 export class DeveloperConsoleComponent implements OnInit {
   editor: any;
   code: string = `[
-  {
-    "name": "Deaths",
-    "tags": [ "player" ],
-    "show": true,
-    "eventType": "death"
-  },
-  {
-    "name": "Healthstone / Healing Tonic",
-    "tags": [ "player" ],
-    "show": false,
-    "eventType": "ability",
-    "friendly": true,
-    "filter": {
-      "type": "cast",
-      "ability": {
-        "ids": [ 6262, 251645, 188016 ]
-      }
-    }
-  }
+  // What events would you love to see in Wipefest?
 ]`;
   editorModel: NgxEditorModel = {
     value: this.code,
@@ -49,9 +32,9 @@ export class DeveloperConsoleComponent implements OnInit {
 
   testCases: DeveloperConsoleTestCase[] = [
     {
-      name: 'Heroic Felhounds of Sargeras',
-      reportId: 'vLaYkKjMJCZ1WfrQ',
-      fightId: 4
+      name: null,
+      reportId: '',
+      fightId: 0
     },
     {
       name: null,
@@ -111,6 +94,19 @@ export class DeveloperConsoleComponent implements OnInit {
         this.recentlyChanged = false;
         this.changeDetectorRef.detectChanges();
       }, 500);
+    });
+  }
+
+  loadExample(example: DeveloperConsoleExample): void {
+    this.code = example.code;
+    this.testCases = this.testCases.map((x, index) => {
+      if (example.testCases[index]) return example.testCases[index];
+
+      return {
+        name: null,
+        reportId: '',
+        fightId: 0
+      };
     });
   }
 

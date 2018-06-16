@@ -5,13 +5,11 @@
     </label>
   </div>
   <div class="dropdown">
-    <select name="example" class="form-control d-inline">
-      <option>Healthstones</option>
-      <option>Holy Priest</option>
-      <option>Kin'garoth</option>
+    <select [(ngModel)]="selectedExample" name="example" class="form-control d-inline">
+      <option *ngFor="let example of examples" [ngValue]="example">{{ example.name }}</option>
     </select>
   </div>
   <div class="button">
-    <button class="btn btn-primary">Load</button>
+    <button class="btn btn-primary" (click)="load.emit(selectedExample)">Load</button>
   </div>
 </div>

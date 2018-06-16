@@ -5,7 +5,7 @@
 <div class="d-none d-lg-block">
   <div class="block p-1 help">
     <div>
-      <developer-console-examples></developer-console-examples>
+      <developer-console-examples (load)="loadExample($event)"></developer-console-examples>
     </div>
     <div class="bullet">
       {{"\u2022"}}
@@ -100,7 +100,7 @@
             to get it added to Wipefest!
           </div>
           <div>
-            <developer-console-examples></developer-console-examples>
+            <developer-console-examples (load)="loadExample($event)"></developer-console-examples>
           </div>
         </div>
       </div>
