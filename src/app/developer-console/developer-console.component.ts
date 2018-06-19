@@ -140,6 +140,8 @@ export class DeveloperConsoleComponent implements OnInit {
         if (!x.group) x.group = 'TEST';
         if (!x.file) x.file = 'code-editor';
 
+        x.showByDefault = x.show;
+
         return x;
       });
       eventConfigs = eventConfigs.map(x => {
