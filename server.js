@@ -36,7 +36,7 @@ const compression = require('compression');
 app.use(compression());
 
 // Serve assets
-app.use('/assets', express.static(path.join(__dirname, '/src/assets')));
+app.use('/assets', express.static(path.join(__dirname, '/dist/assets')));
 
 // Serve static files
 app.use(express.static(__dirname + '/dist'));
