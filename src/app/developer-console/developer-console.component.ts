@@ -10,6 +10,8 @@ import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
 import { DeveloperConsoleTestCase } from './test-case/developer-console-test-case';
 import { DeveloperConsoleExample } from './examples/developer-console-examples.component';
+import { DeveloperConsoleWorkspace } from './developer-console-workspace';
+import { LocalStorage } from '../shared/local-storage';
 // tslint:disable-next-line:no-require-imports
 const stripJsonComments = require('strip-json-comments');
 
@@ -65,24 +67,50 @@ export class DeveloperConsoleComponent implements OnInit {
   configs: EventConfig[] = [];
   abilities: Ability[] = [];
 
+  localStorageKey: string = 'developerConsoleWorkspace';
+
   get showHelpPanel(): boolean {
     return (
       this.errors.length === 0 && !this.loading && this.events.length === 0
     );
   }
 
+  get workspace(): DeveloperConsoleWorkspace {
+    return {
+      testCases: this.testCases,
+      code: this.code,
+      fight: this.fight,
+      events: this.events,
+      configs: this.configs,
+      abilities: this.abilities
+    };
+  }
+
+  set workspace(workspace: DeveloperConsoleWorkspace) {
+    this.testCases = workspace.testCases;
+    this.code = workspace.code;
+    this.fight = workspace.fight;
+    this.events = workspace.events;
+    this.configs = workspace.configs;
+    this.abilities = workspace.abilities;
+  }
+
   constructor(
     private wipefestService: WipefestService,
+    private localStorage: LocalStorage,
     private wipefestApi: WipefestAPI,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.wipefestService.selectPage(Page.DeveloperConsole);
+
+    this.syncWorkspace();
   }
 
-  onInit(editor: any): void {
+  editorOnInit(editor: any): void {
     const model = editor.getModel();
+    model.setValue(this.code);
     model.updateOptions({ tabSize: 2 });
     model.onDidChangeContent(e => {
       if (this.recentlyChangedTimer) {
@@ -91,6 +119,10 @@ export class DeveloperConsoleComponent implements OnInit {
       this.recentlyChanged = true;
       this.changeDetectorRef.detectChanges();
       this.recentlyChangedTimer = setTimeout(() => {
+        this.localStorage.set(
+          this.localStorageKey,
+          JSON.stringify(this.workspace)
+        );
         this.recentlyChanged = false;
         this.changeDetectorRef.detectChanges();
       }, 500);
@@ -197,6 +229,20 @@ export class DeveloperConsoleComponent implements OnInit {
           ];
         }
       );
+  }
+
+  private syncWorkspace(): void {
+    const workspace = this.localStorage.get(this.localStorageKey);
+    if (workspace) {
+      this.workspace = JSON.parse(workspace);
+    }
+
+    setInterval(() => {
+      this.localStorage.set(
+        this.localStorageKey,
+        JSON.stringify(this.workspace)
+      );
+    }, 5000);
   }
 
   private indexToId(index: number): string {

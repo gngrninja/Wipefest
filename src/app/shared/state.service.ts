@@ -58,14 +58,14 @@ export class StateService {
     this.wipefestService.selectedRaid.subscribe(raid => {
       this.availableFocuses = raid
         ? raid.players.map(player => {
-          const friendly = this.report.friendlies.find(
-            friendly => friendly.name == player.name
-          );
-          return new SelectedFocus(friendly.id.toString(), [
-            player.specialization.include,
-            player.specialization.generalInclude
-          ]);
-        })
+            const friendly = this.report.friendlies.find(
+              friendly => friendly.name === player.name
+            );
+            return new SelectedFocus(friendly.id.toString(), [
+              player.specialization.include,
+              player.specialization.generalInclude
+            ]);
+          })
         : [];
     });
 
@@ -82,7 +82,7 @@ export class StateService {
   }
 
   get ignore(): boolean {
-    return this.queryParams.ignore == 'true';
+    return this.queryParams.ignore === 'true';
   }
 
   set ignore(value: boolean) {
@@ -102,7 +102,7 @@ export class StateService {
   get insights(): SelectedInsight[] {
     const insightParams: SelectedInsight[] = [];
 
-    if (this.queryParams.insights == undefined) {
+    if (this.queryParams.insights === undefined) {
       return insightParams;
     }
 
@@ -171,7 +171,7 @@ export class StateService {
   get filters(): SelectedFilter[] {
     const filterParams: SelectedFilter[] = [];
 
-    if (this.queryParams.filters == undefined) {
+    if (this.queryParams.filters === undefined) {
       return filterParams;
     }
 
@@ -195,7 +195,7 @@ export class StateService {
     value.forEach(x => {
       const filter = new SelectedFilter(x.id, x.group);
       const existingIndex = filtersPerGroup.findIndex(y =>
-        y.some(z => z.group == x.group)
+        y.some(z => z.group === x.group)
       );
       if (existingIndex === -1) {
         filtersPerGroup.push([filter]);
@@ -209,17 +209,19 @@ export class StateService {
       .join(',');
 
     this.queryParams.filters =
-      filterQueryString == '' ? undefined : filterQueryString;
+      filterQueryString === '' ? undefined : filterQueryString;
 
     this.updateQueryParams();
   }
 
-  selectFiltersFromConfigs(configs: EventConfig[]) {
-    if (configs.every(x => x.show == x.showByDefault)) {
+  selectFiltersFromConfigs(configs: EventConfig[]): void {
+    if (configs.every(x => x.show === x.showByDefault)) {
       this.filters = [];
     } else {
       this.filters = configs
-        .filter(x => x.eventType != 'phase' && x.eventType != 'title' && x.show)
+        .filter(
+          x => x.eventType !== 'phase' && x.eventType !== 'title' && x.show
+        )
         .map(x => new SelectedFilter(x.id, x.group));
     }
   }
@@ -227,7 +229,7 @@ export class StateService {
   get phases(): SelectedPhase[] {
     const phaseParams: SelectedPhase[] = [];
 
-    if (this.queryParams.phases == undefined) {
+    if (this.queryParams.phases === undefined) {
       return phaseParams;
     }
 
@@ -253,7 +255,7 @@ export class StateService {
     value.forEach(x => {
       const phase = new SelectedPhase(x.index, x.group, x.selected);
       const existingIndex = phasesPerGroup.findIndex(y =>
-        y.some(z => z.group == x.group)
+        y.some(z => z.group === x.group)
       );
       if (existingIndex === -1) {
         phasesPerGroup.push([phase]);
@@ -273,7 +275,7 @@ export class StateService {
       .join(',');
 
     this.queryParams.phases =
-      phaseQueryString == '' ? undefined : phaseQueryString;
+      phaseQueryString === '' ? undefined : phaseQueryString;
 
     this.updateQueryParams();
   }

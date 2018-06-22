@@ -33,7 +33,7 @@
 
   <div class="row console">
     <div class="panel editor">
-      <ngx-monaco-editor class="editor" [options]="editorOptions" [model]="editorModel" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
+      <ngx-monaco-editor class="editor" [options]="editorOptions" [model]="editorModel" [(ngModel)]="code" (onInit)="editorOnInit($event)"></ngx-monaco-editor>
     </div>
     <div *ngIf="configs.length > 0" class="panel filters">
       <fight-summary-filters [events]="events" [configs]="configs" [abilities]="abilities" [trackState]="trackState"></fight-summary-filters>
