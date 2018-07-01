@@ -30,7 +30,7 @@ export class DeveloperConsoleTestCaseComponent implements OnInit {
   error: string;
 
   get url(): string {
-    if (!this.testCase.reportId.length) {
+    if (!this.testCase.reportId || !this.testCase.reportId.length) {
       return '';
     }
 

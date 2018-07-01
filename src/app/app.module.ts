@@ -385,6 +385,10 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
           component: NewsComponent
         },
         {
+          path: 'develop/:workspaceId',
+          component: DeveloperConsoleComponent
+        },
+        {
           path: 'develop',
           component: DeveloperConsoleComponent
         },

@@ -9,7 +9,7 @@ import {
 export interface DeveloperConsoleWorkspace {
   testCases: DeveloperConsoleTestCase[];
   code: string;
-  fight: FightInfo;
+  fightInfo: FightInfo;
   events: EventDto[];
   configs: EventConfig[];
   abilities: Ability[];

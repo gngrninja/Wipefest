@@ -4,7 +4,8 @@ import {
   FightInfo,
   EventDto,
   EventConfig,
-  Ability
+  Ability,
+  WorkspaceDto
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
@@ -12,6 +13,7 @@ import { DeveloperConsoleTestCase } from './test-case/developer-console-test-cas
 import { DeveloperConsoleExample } from './examples/developer-console-examples.component';
 import { DeveloperConsoleWorkspace } from './developer-console-workspace';
 import { LocalStorage } from '../shared/local-storage';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 // tslint:disable-next-line:no-require-imports
 const stripJsonComments = require('strip-json-comments');
 
@@ -56,13 +58,14 @@ export class DeveloperConsoleComponent implements OnInit {
   ];
 
   loading: boolean = false;
+  saving: boolean = false;
   errors: DeveloperConsoleError[] = [];
   recentlyChanged: boolean = false;
   recentlyChangedTimer: any;
 
   trackState: boolean = false;
 
-  fight: FightInfo;
+  fightInfo: FightInfo;
   events: EventDto[] = [];
   configs: EventConfig[] = [];
   abilities: Ability[] = [];
@@ -79,7 +82,7 @@ export class DeveloperConsoleComponent implements OnInit {
     return {
       testCases: this.testCases,
       code: this.code,
-      fight: this.fight,
+      fightInfo: this.fightInfo,
       events: this.events,
       configs: this.configs,
       abilities: this.abilities
@@ -89,23 +92,23 @@ export class DeveloperConsoleComponent implements OnInit {
   set workspace(workspace: DeveloperConsoleWorkspace) {
     this.testCases = workspace.testCases;
     this.code = workspace.code;
-    this.fight = workspace.fight;
+    this.fightInfo = workspace.fightInfo;
     this.events = workspace.events;
     this.configs = workspace.configs;
     this.abilities = workspace.abilities;
   }
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private wipefestService: WipefestService,
-    private localStorage: LocalStorage,
     private wipefestApi: WipefestAPI,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.wipefestService.selectPage(Page.DeveloperConsole);
-
-    this.syncWorkspace();
+    this.route.params.subscribe(params => this.handleRoute(params));
   }
 
   editorOnInit(editor: any): void {
@@ -119,10 +122,6 @@ export class DeveloperConsoleComponent implements OnInit {
       this.recentlyChanged = true;
       this.changeDetectorRef.detectChanges();
       this.recentlyChangedTimer = setTimeout(() => {
-        this.localStorage.set(
-          this.localStorageKey,
-          JSON.stringify(this.workspace)
-        );
         this.recentlyChanged = false;
         this.changeDetectorRef.detectChanges();
       }, 500);
@@ -145,7 +144,7 @@ export class DeveloperConsoleComponent implements OnInit {
   run(testCase: DeveloperConsoleTestCase): void {
     if (this.loading || this.recentlyChanged) return;
 
-    this.fight = null;
+    this.fightInfo = null;
     this.errors = [];
     this.events = [];
     this.configs = [];
@@ -211,7 +210,7 @@ export class DeveloperConsoleComponent implements OnInit {
       })
       .then(
         fight => {
-          this.fight = fight.info;
+          this.fightInfo = fight.info;
           this.events = fight.events;
           this.configs = fight.eventConfigs;
           this.abilities = fight.abilities;
@@ -231,18 +230,45 @@ export class DeveloperConsoleComponent implements OnInit {
       );
   }
 
-  private syncWorkspace(): void {
-    const workspace = this.localStorage.get(this.localStorageKey);
-    if (workspace) {
-      this.workspace = JSON.parse(workspace);
-    }
+  save(): void {
+    this.saving = true;
+    this.wipefestApi
+      .createWorkspace({
+        workspaceDto: this.workspace
+      })
+      .then(workspace => {
+        this.router.navigate(['/develop', workspace.id], {
+          replaceUrl: true
+        });
+        setTimeout(() => (this.saving = false), 1000);
+      })
+      .catch(error => {
+        setTimeout(() => (this.saving = false), 1000);
+      });
+  }
 
-    setInterval(() => {
-      this.localStorage.set(
-        this.localStorageKey,
-        JSON.stringify(this.workspace)
-      );
-    }, 5000);
+  private handleRoute(params: Params): void {
+    const workspaceId = params.workspaceId;
+
+    if (!workspaceId) return;
+
+    this.wipefestApi.getWorkspace(workspaceId).then(workspace => {
+      console.log(workspace);
+      this.workspace = {
+        testCases: workspace.testCases.map(x => {
+          return {
+            name: x.name,
+            reportId: x.reportId,
+            fightId: x.fightId
+          };
+        }),
+        code: workspace.code,
+        fightInfo: workspace.fightInfo,
+        events: workspace.events,
+        configs: workspace.configs,
+        abilities: workspace.abilities
+      };
+    });
   }
 
   private indexToId(index: number): string {

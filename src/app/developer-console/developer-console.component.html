@@ -23,6 +23,12 @@
         Share your events in our Discord server
       </a>
     </div>
+    <div class="bullet">
+      {{"\u2022"}}
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="save()" [disabled]="saving">Save</button>
+    </div>
   </div>
 
   <div class="block p-1">
@@ -105,8 +111,8 @@
         </div>
       </div>
       <ng-container *ngIf="!loading && events.length > 0">
-        <fight-title [fightInfo]="fight"></fight-title>
-        <fight-events [fight]="fight" [events]="events" [configs]="configs" [abilities]="abilities"></fight-events>
+        <fight-title [fightInfo]="fightInfo"></fight-title>
+        <fight-events [fight]="fightInfo" [events]="events" [configs]="configs" [abilities]="abilities"></fight-events>
       </ng-container>
     </div>
   </div>
