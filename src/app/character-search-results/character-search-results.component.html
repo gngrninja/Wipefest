@@ -48,7 +48,7 @@
                 <spec-icon [class]="fight.className" [spec]="fight.spec" [alt]="fight.spec + ' ' + fight.className"></spec-icon>
                 {{Math.floor(fight.percent)}}%
                 <div class="fight-details ml-1">
-                  <div class="item-level">{{fight.itemLevel}}</div>
+                  <div class="item-level">{{Math.floor(fight.itemLevel)}}</div>
                   <div class="date">{{Timestamp.ToDayAndMonth(fight.timestamp)}}</div>
                 </div>
               </div>

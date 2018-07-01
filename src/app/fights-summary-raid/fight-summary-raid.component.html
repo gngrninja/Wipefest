@@ -39,7 +39,7 @@
     <ng-container *ngIf="raid.itemLevel == 0 && raid.players.length > 0">
       <h4>{{raid.players.length}}</h4>
       <div *ngFor="let player of raid.players" class="ml-3">
-        <img src="https://www.warcraftlogs.com/img/icons/{{player.className}}.jpg" alt="{{player.className}}" />
+        <img src="https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/icons/{{player.className}}.jpg" alt="{{player.className}}" />
         <span [innerHtml]="parse(MarkupHelper.Class(player.className, player.name))"></span>
       </div>
     </ng-container>

@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'spec-icon',
   template: `
-    <img src="https://www.warcraftlogs.com/img/icons/{{class}}-{{spec}}.jpg" alt="{{alt}}" />
+    <img src="https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/icons/{{class}}-{{spec}}.jpg" alt="{{alt}}" />
   `,
   styles: [
     `
