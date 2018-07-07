@@ -31,8 +31,8 @@
     </div>
   </div>
 
-  <div class="block p-1">
-    <div class="col-md-4 col-lg-3 p-1 d-inline-block" *ngFor="let testCase of testCases; let i = index">
+  <div class="block p-0">
+    <div class="col-md-4 col-lg-3 p-0 d-inline-block" *ngFor="let testCase of testCases; let i = index">
       <developer-console-test-case [index]="i" [testCase]="testCase" [canRun]="!recentlyChanged" (run)="run($event)"></developer-console-test-case>
     </div>
   </div>

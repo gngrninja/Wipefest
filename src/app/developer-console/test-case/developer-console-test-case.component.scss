@@ -1,7 +1,7 @@
 @import "../../../scss/bootstrap-variables";
 
 .test-case {
-  border: 1px solid $gray-light;
+  border-right: 1px solid $gray-light;
   background-color: $gray-dark;
 
   #name-title {
