@@ -24,6 +24,7 @@ const stripJsonComments = require('strip-json-comments');
 })
 export class DeveloperConsoleComponent implements OnInit {
   editor: any;
+  ngxEditor: any;
   code: string = `[
   // What events would you love to see in Wipefest?
 ]`;
@@ -126,6 +127,9 @@ export class DeveloperConsoleComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }, 500);
     });
+
+    this.editor = (<any>window).monaco.editor;
+    this.ngxEditor = editor;
   }
 
   loadExample(example: DeveloperConsoleExample): void {
@@ -150,7 +154,7 @@ export class DeveloperConsoleComponent implements OnInit {
     this.configs = [];
     this.abilities = [];
 
-    const markers = (<any>window).monaco.editor.getModelMarkers({});
+    const markers = this.editor.getModelMarkers({});
     if (markers.length) {
       this.errors = markers.map(m => {
         return {
@@ -245,6 +249,13 @@ export class DeveloperConsoleComponent implements OnInit {
       .catch(error => {
         setTimeout(() => (this.saving = false), 1000);
       });
+  }
+
+  tidy(): void {
+    this.ngxEditor
+      .getActions()
+      .find(a => a.id === 'editor.action.formatDocument')
+      .run();
   }
 
   private handleRoute(params: Params): void {
