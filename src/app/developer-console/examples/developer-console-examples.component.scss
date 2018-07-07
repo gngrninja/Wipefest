@@ -1,22 +1,79 @@
-.form-group {
-  display: flex;
-  margin-bottom: 0;
+@import "../../../scss/bootstrap-variables";
 
-  .label {
-    label {
-      margin-left: 0;
-      padding-left: 0;
+.default {
+  &.form-group {
+    display: flex;
+    margin-bottom: 0;
+
+    .label {
+      label {
+        margin-left: 0;
+        padding-left: 0;
+      }
+    }
+
+    .dropdown {
+      select {
+        padding-top: 6px;
+      }
+    }
+
+    .button {
+      padding-left: 12px;
+      padding-right: 12px;
     }
   }
+}
 
-  .dropdown {
-    select {
-      padding-top: 6px;
+.action {
+  &.form-group {
+    display: flex;
+    margin-bottom: 0;
+
+    .label {
+      label {
+        margin-left: 0;
+        padding-left: 0;
+      }
     }
-  }
 
-  .button {
-    padding-left: 12px;
-    padding-right: 12px;
+    .dropdown {
+      select {
+        padding-top: 6px;
+        height: 45px;
+        background-color: $gray-dark;
+        color: $gray-lighter;
+
+        &:hover {
+          color: $gray-lightest;
+        }
+      }
+    }
+
+    button {
+      background-color: $gray-dark;
+      border: none;
+      color: $gray-lighter;
+      padding: 0px 16px;
+      height: 45px;
+      padding-bottom: 1px;
+
+      &:hover {
+        color: $gray-lightest;
+        cursor: pointer;
+        border-bottom: 1px solid $brand-info;
+        padding-bottom: 0;
+
+        &:disabled, &[disabled] {
+          cursor: not-allowed;
+          color: $gray-lighter;
+          border-bottom: 1px solid $brand-warning;
+        }
+      }
+
+      i.fa {
+        margin-right: 8px;
+      }
+    }
   }
 }

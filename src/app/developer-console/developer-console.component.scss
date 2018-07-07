@@ -27,13 +27,42 @@
   justify-content: center;
 }
 
-.help {
+.actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
-  .bullet {
-    padding: 12px;
+  .left-actions {
+    margin-left: 16px;
+  }
+  .right-actions {
+    margin-right: 16px;
+  }
+
+  button {
+    background-color: $gray-dark;
+    border: none;
+    color: $gray-lighter;
+    padding: 0px 16px;
+    height: 45px;
+    padding-bottom: 1px;
+
+    &:hover {
+      color: $gray-lightest;
+      cursor: pointer;
+      border-bottom: 1px solid $brand-info;
+      padding-bottom: 0;
+
+      &:disabled, &[disabled] {
+        cursor: not-allowed;
+        color: $gray-lighter;
+        border-bottom: 1px solid $brand-warning;
+      }
+    }
+
+    i.fa {
+      margin-right: 8px;
+    }
   }
 }
 

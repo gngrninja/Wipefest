@@ -3,31 +3,31 @@
 </div>
 
 <div class="d-none d-lg-block">
-  <div class="block p-1 help">
-    <div>
-      <developer-console-examples (load)="loadExample($event)"></developer-console-examples>
-    </div>
-    <div class="bullet">
-      {{"\u2022"}}
-    </div>
-    <div>
-      <a href="https://github.com/JoshYaxley/Wipefest.EventConfigs/blob/master/docs/examples.md" target="_blank" rel="noopener noreferrer">
-        Read about valid Wipefest JSON
+  <div class="block p-0 actions">
+    <div class="left-actions">
+      <button (click)="save()" [disabled]="saving">
+        <i class="fa fa-cloud-upload"></i>
+        Save
+      </button>
+      <button>
+        <i class="fa fa-clipboard"></i>
+        Copy Link
+      </button>
+      <button>
+        <i class="fa fa-indent"></i>
+        Tidy
+      </button>
+      <a href="https://github.com/JoshYaxley/Wipefest.EventConfigs/blob/master/docs/" target="_blank" rel="noopener noreferrer">
+        <button>
+        <i class="fa fa-info-circle"></i>
+          Help
+        </button>
       </a>
     </div>
-    <div class="bullet">
-      {{"\u2022"}}
-    </div>
-    <div>
-      <a href="https://discord.gg/QhE4hfS" target="_blank" rel="noopener noreferrer">
-        Share your events in our Discord server
-      </a>
-    </div>
-    <div class="bullet">
-      {{"\u2022"}}
-    </div>
-    <div>
-      <button class="btn btn-primary" (click)="save()" [disabled]="saving">Save</button>
+    <div class="right-actions">
+      <div>
+        <developer-console-examples style="action" label="" showIcon="true" (load)="loadExample($event)"></developer-console-examples>
+      </div>
     </div>
   </div>
 

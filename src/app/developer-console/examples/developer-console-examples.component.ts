@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { DeveloperConsoleTestCase } from '../test-case/developer-console-test-case';
 
 @Component({
@@ -7,6 +7,9 @@ import { DeveloperConsoleTestCase } from '../test-case/developer-console-test-ca
   styleUrls: ['./developer-console-examples.component.scss']
 })
 export class DeveloperConsoleExamplesComponent {
+  @Input() style: string = 'default';
+  @Input() showIcon: boolean = false;
+  @Input() label: string = 'Load example: ';
   @Output()
   load: EventEmitter<DeveloperConsoleExample> = new EventEmitter<
     DeveloperConsoleExample
