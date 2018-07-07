@@ -19,7 +19,11 @@ import {
   EventConfig,
   Insight
 } from '@wipefest/api-sdk/dist/lib/models';
-import { SpecializationsService } from '@wipefest/core';
+import {
+  SpecializationsService,
+  Encounter,
+  EncountersService
+} from '@wipefest/core';
 
 @Component({
   selector: 'fight-summary',
@@ -30,6 +34,7 @@ export class FightSummaryComponent implements OnInit {
   report: ReportDto;
   fights: FightInfo[];
   fight: FightInfo;
+  encounter: Encounter;
   get fightIndex(): number {
     return this.fights.indexOf(this.fight);
   }
@@ -84,6 +89,7 @@ export class FightSummaryComponent implements OnInit {
     private wipefestService: WipefestService,
     private wipefestApi: WipefestAPI,
     private specializationsService: SpecializationsService,
+    private encountersService: EncountersService,
     private localStorage: LocalStorage,
     private stateService: StateService,
     private logger: LoggerService
@@ -166,6 +172,7 @@ export class FightSummaryComponent implements OnInit {
     const fightId = params.fightId;
 
     this.fight = null;
+    this.encounter = null;
     this.events = [];
     this.insights = [];
     this.configs = [];
@@ -223,6 +230,7 @@ export class FightSummaryComponent implements OnInit {
 
   private selectFight(fight: FightInfo): void {
     this.fight = fight;
+    this.encounter = this.encountersService.getEncounter(this.fight.boss);
     this.wipefestService.selectFight(this.fight);
 
     this.raid = null;

@@ -7,7 +7,7 @@ import { LocalStorage } from 'app/shared/local-storage';
 import { LoggerService } from 'app/shared/logger.service';
 import { Page, WipefestService } from 'app/wipefest.service';
 import { WipefestAPI } from '@wipefest/api-sdk';
-import { ParseDto } from '@wipefest/api-sdk/dist/lib/models';
+import { ParsesForEncounter } from '@wipefest/api-sdk/dist/lib/models';
 import { EncountersService } from '@wipefest/core';
 
 @Component({
@@ -27,7 +27,7 @@ export class CharacterSearchResultsComponent implements OnInit {
     new Zone('Antorus, the Burning Throne', 'antorus', 17, [1])
   ];
   selectedZone: Zone;
-  encounters: CharacterSearchResultEncounter[] = [];
+  encounters: ParsesForEncounter[] = [];
 
   error: any;
 
@@ -60,7 +60,9 @@ export class CharacterSearchResultsComponent implements OnInit {
     }
 
     return this.domSanitizer.bypassSecurityTrustStyle(
-      `url('http://warcraftlogs.com/img/bosses/${encounter.id}-execution.png')`
+      `url('https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/bosses/${
+        encounter.id
+      }-execution.png')`
     );
   }
 
@@ -85,7 +87,7 @@ export class CharacterSearchResultsComponent implements OnInit {
     this.realm = params.realm || this.localStorage.get('characterRealm');
     this.region = params.region || this.localStorage.get('characterRegion');
     this.selectedZone =
-      this.zones.find(x => x.slug == params.zone) || this.zones[1];
+      this.zones.find(x => x.slug === params.zone) || this.zones[1];
     this.encounters = [];
 
     if (!this.character || !this.realm || !this.region) {
@@ -102,55 +104,31 @@ export class CharacterSearchResultsComponent implements OnInit {
         parses => {
           this.loading = false;
           this.error = null;
-
-          parses.forEach(parse => {
-            if (![3, 4, 5].some(x => x === parse.difficulty)) {
-              // Normal, Heroic, Mythic
-              return;
-            }
-
-            if (!this.encounters.some(x => x.name === parse.name)) {
-              this.encounters.push(
-                new CharacterSearchResultEncounter(parse.name)
-              );
-            }
-
-            const encounter = this.encounters.find(x => x.name === parse.name);
-            if (
-              !encounter.difficulties.some(
-                x => x.difficulty === parse.difficulty
-              )
-            ) {
-              encounter.difficulties.push(
-                new CharacterSearchResultDifficulty(parse.difficulty)
-              );
-            }
-
-            const difficulty = encounter.difficulties.find(
-              x => x.difficulty === parse.difficulty
-            );
-            parse.specializations.forEach(spec => {
-              difficulty.fights = difficulty.fights
-                .concat(
-                  spec.data.map(
-                    fight =>
-                      new CharacterSearchResultFight(
-                        fight.startTime,
-                        spec.classProperty,
-                        spec.specialization,
-                        fight.historicalPercent,
-                        fight.itemLevel,
-                        fight.reportId,
-                        fight.fightId
-                      )
-                  )
-                )
-                .filter(
-                  x => !['Healing', 'Melee', 'Ranged'].some(y => y === x.spec)
-                )
-                .sort((a, b) => b.timestamp - a.timestamp);
+          // Sort by encounter index
+          this.encounters = parses.sort(
+            (x, y) =>
+              this.encountersService
+                .getEncounters()
+                .findIndex(z => z.id === x.id) -
+              this.encountersService
+                  .getEncounters()
+                  .findIndex(z => z.id === y.id)
+            )
+            // Remove parses recorded within 10 seconds of each other (duplicate reports)
+            .map(parse => {
+              parse.difficulties = parse.difficulties.map(difficulty => {
+                difficulty.fights = difficulty.fights.filter(
+                  (fight, index, array) =>
+                    array.findIndex(
+                      otherFight =>
+                        fight.timestamp < otherFight.timestamp + 10000 &&
+                        fight.timestamp > otherFight.timestamp - 10000
+                    ) === index
+                );
+                return difficulty;
+              });
+              return parse;
             });
-          });
         },
         error => {
           this.error = error;
@@ -159,30 +137,6 @@ export class CharacterSearchResultsComponent implements OnInit {
         }
       );
   }
-}
-
-export class CharacterSearchResultEncounter {
-  difficulties: CharacterSearchResultDifficulty[] = [];
-
-  constructor(public name: string) {}
-}
-
-export class CharacterSearchResultDifficulty {
-  fights: CharacterSearchResultFight[] = [];
-
-  constructor(public difficulty: number) {}
-}
-
-export class CharacterSearchResultFight {
-  constructor(
-    public timestamp: number,
-    public className: string,
-    public spec: string,
-    public percent: number,
-    public itemLevel: number,
-    public reportId: string,
-    public fightId: number
-  ) {}
 }
 
 export class Zone {
