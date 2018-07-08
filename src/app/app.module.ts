@@ -386,6 +386,10 @@ import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
           component: NewsComponent
         },
         {
+          path: 'develop/:workspaceId/:workspaceRevision',
+          component: DeveloperConsoleComponent
+        },
+        {
           path: 'develop/:workspaceId',
           component: DeveloperConsoleComponent
         },

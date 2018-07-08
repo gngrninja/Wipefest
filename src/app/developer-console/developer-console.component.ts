@@ -5,7 +5,8 @@ import {
   EventDto,
   EventConfig,
   Ability,
-  WorkspaceDto
+  WorkspaceDto,
+  Workspace
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
@@ -82,8 +83,6 @@ export class DeveloperConsoleComponent implements OnInit {
 
   get workspace(): DeveloperConsoleWorkspace {
     return {
-      id: this.workspaceId,
-      revision: this.workspaceRevision,
       testCases: this.testCases,
       code: this.code,
       fightInfo: this.fightInfo,
@@ -94,8 +93,6 @@ export class DeveloperConsoleComponent implements OnInit {
   }
 
   set workspace(workspace: DeveloperConsoleWorkspace) {
-    this.workspaceId = workspace.id;
-    this.workspaceRevision = workspace.revision;
     this.testCases = workspace.testCases;
     this.code = workspace.code;
     this.fightInfo = workspace.fightInfo;
@@ -248,13 +245,27 @@ export class DeveloperConsoleComponent implements OnInit {
 
   save(): void {
     this.saving = true;
-    this.wipefestApi
-      .createWorkspace({
+
+    let promise: Promise<Workspace> = null;
+    if (this.workspaceId) {
+      promise = this.wipefestApi.updateWorkspace(this.workspaceId, {
         workspaceDto: this.workspace
-      })
+      });
+    } else {
+      promise = this.wipefestApi.createWorkspace({
+        workspaceDto: this.workspace
+      });
+    }
+
+    promise
       .then(workspace => {
-        this.workspaceId = workspace.id;
-        window.history.pushState({}, null, '/develop/' + workspace.id);
+        this.workspaceId = workspace.key.id;
+        this.workspaceRevision = workspace.key.revision;
+
+        let path = '/develop/' + workspace.key.id;
+        if (workspace.key.revision) path += '/' + workspace.key.revision;
+
+        window.history.pushState({}, null, path);
         setTimeout(() => (this.saving = false), 1000);
       })
       .catch(error => {
@@ -270,33 +281,38 @@ export class DeveloperConsoleComponent implements OnInit {
   }
 
   copyLink(): void {
-    const link = `https://www.wipefest.net/develop/${this.workspaceId}`;
+    let link = `https://www.wipefest.net/develop/${this.workspaceId}`;
+    if (this.workspaceRevision) link += '/' + this.workspaceRevision;
+
     this.copyToClipboard(link);
   }
 
   private handleRoute(params: Params): void {
     this.workspaceId = params.workspaceId;
+    this.workspaceRevision = params.workspaceRevision ? parseInt(params.workspaceRevision) : 0;
 
     if (!this.workspaceId) return;
 
-    this.wipefestApi.getWorkspace(this.workspaceId).then(workspace => {
-      this.workspace = {
-        id: this.workspaceId,
-        revision: 0,
-        testCases: workspace.testCases.map(x => {
-          return {
-            name: x.name,
-            reportId: x.reportId,
-            fightId: x.fightId
-          };
-        }),
-        code: workspace.code,
-        fightInfo: workspace.fightInfo,
-        events: workspace.events,
-        configs: workspace.configs,
-        abilities: workspace.abilities
-      };
-    });
+    this.wipefestApi
+      .getWorkspace(this.workspaceId, this.workspaceRevision)
+      .then(workspace => {
+        this.workspace = {
+          testCases: workspace.testCases.map(x => {
+            return {
+              name: x.name,
+              reportId: x.reportId,
+              fightId: x.fightId
+            };
+          }),
+          code: workspace.code,
+          fightInfo: workspace.fightInfo,
+          events: workspace.events,
+          configs: workspace.configs,
+          abilities: workspace.abilities
+        };
+
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   private indexToId(index: number): string {
