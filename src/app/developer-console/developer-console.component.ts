@@ -114,6 +114,14 @@ export class DeveloperConsoleComponent implements OnInit {
   ngOnInit(): void {
     this.wipefestService.selectPage(Page.DeveloperConsole);
     this.route.params.subscribe(params => this.handleRoute(params));
+    setTimeout(() => {
+      // tslint:disable-next-line:prettier
+      const editorContainers = document.getElementsByClassName('editor-container');
+      const editorFailedToLoad =
+        editorContainers.length > 0 && editorContainers[0].innerHTML === '';
+
+      if (editorFailedToLoad) location.reload();
+    }, 1000);
   }
 
   editorOnInit(editor: any): void {
