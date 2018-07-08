@@ -289,7 +289,9 @@ export class DeveloperConsoleComponent implements OnInit {
 
   private handleRoute(params: Params): void {
     this.workspaceId = params.workspaceId;
-    this.workspaceRevision = params.workspaceRevision ? parseInt(params.workspaceRevision) : 0;
+    this.workspaceRevision = params.workspaceRevision
+      ? parseInt(params.workspaceRevision)
+      : 0;
 
     if (!this.workspaceId) return;
 

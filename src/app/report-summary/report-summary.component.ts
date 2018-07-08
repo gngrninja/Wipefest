@@ -55,7 +55,7 @@ export class ReportSummaryComponent implements OnInit {
 
   encounterImage(encounter: FightInfo): SafeStyle {
     return this.domSanitizer.bypassSecurityTrustStyle(
-      `url('http://warcraftlogs.com/img/bosses/${
+      `url('https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/bosses/${
         encounter.boss
       }-execution.png')`
     );
