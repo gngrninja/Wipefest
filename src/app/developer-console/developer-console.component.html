@@ -5,11 +5,15 @@
 <div class="d-none d-lg-block">
   <div class="block p-0 actions">
     <div class="left-actions">
-      <button (click)="save()" [disabled]="saving">
+    <button *ngIf="!workspaceId" (click)="save()" [disabled]="saving">
         <i class="fa fa-cloud-upload"></i>
         Save
       </button>
-      <button>
+      <button *ngIf="workspaceId" (click)="save()" [disabled]="saving">
+        <i class="fa fa-cloud-upload"></i>
+        Update
+      </button>
+      <button *ngIf="workspaceId" (click)="copyLink()">
         <i class="fa fa-clipboard"></i>
         Copy Link
       </button>

@@ -7,6 +7,8 @@ import {
 } from '@wipefest/api-sdk/dist/lib/models';
 
 export interface DeveloperConsoleWorkspace {
+  id: string;
+  revision: number;
   testCases: DeveloperConsoleTestCase[];
   code: string;
   fightInfo: FightInfo;

@@ -34,6 +34,8 @@ export class DeveloperConsoleComponent implements OnInit {
   };
   editorOptions: any = { theme: 'vs-dark', language: 'json', tabSize: 2 };
 
+  workspaceId: string = null;
+  workspaceRevision: number = 0;
   testCases: DeveloperConsoleTestCase[] = [
     {
       name: null,
@@ -80,6 +82,8 @@ export class DeveloperConsoleComponent implements OnInit {
 
   get workspace(): DeveloperConsoleWorkspace {
     return {
+      id: this.workspaceId,
+      revision: this.workspaceRevision,
       testCases: this.testCases,
       code: this.code,
       fightInfo: this.fightInfo,
@@ -90,6 +94,8 @@ export class DeveloperConsoleComponent implements OnInit {
   }
 
   set workspace(workspace: DeveloperConsoleWorkspace) {
+    this.workspaceId = workspace.id;
+    this.workspaceRevision = workspace.revision;
     this.testCases = workspace.testCases;
     this.code = workspace.code;
     this.fightInfo = workspace.fightInfo;
@@ -100,7 +106,6 @@ export class DeveloperConsoleComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private wipefestService: WipefestService,
     private wipefestApi: WipefestAPI,
     private changeDetectorRef: ChangeDetectorRef
@@ -240,6 +245,7 @@ export class DeveloperConsoleComponent implements OnInit {
         workspaceDto: this.workspace
       })
       .then(workspace => {
+        this.workspaceId = workspace.id;
         window.history.pushState({}, null, '/develop/' + workspace.id);
         setTimeout(() => (this.saving = false), 1000);
       })
@@ -255,13 +261,20 @@ export class DeveloperConsoleComponent implements OnInit {
       .run();
   }
 
+  copyLink(): void {
+    const link = `https://www.wipefest.net/develop/${this.workspaceId}`;
+    this.copyToClipboard(link);
+  }
+
   private handleRoute(params: Params): void {
-    const workspaceId = params.workspaceId;
+    this.workspaceId = params.workspaceId;
 
-    if (!workspaceId) return;
+    if (!this.workspaceId) return;
 
-    this.wipefestApi.getWorkspace(workspaceId).then(workspace => {
+    this.wipefestApi.getWorkspace(this.workspaceId).then(workspace => {
       this.workspace = {
+        id: this.workspaceId,
+        revision: 0,
         testCases: workspace.testCases.map(x => {
           return {
             name: x.name,
@@ -296,6 +309,28 @@ export class DeveloperConsoleComponent implements OnInit {
       );
     }
     return error;
+  }
+
+  // From: https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
+  private copyToClipboard(str: string): void {
+    const el = document.createElement('textarea'); // Create a <textarea> element
+    el.value = str; // Set its value to the string that you want copied
+    el.setAttribute('readonly', ''); // Make it readonly to be tamper-proof
+    el.style.position = 'absolute';
+    el.style.left = '-9999px'; // Move outside the screen to make it invisible
+    document.body.appendChild(el); // Append the <textarea> element to the HTML document
+    const selected =
+      document.getSelection().rangeCount > 0 // Check if there is any content selected previously
+        ? document.getSelection().getRangeAt(0) // Store selection if found
+        : false; // Mark as false to know no selection existed before
+    el.select(); // Select the <textarea> content
+    document.execCommand('copy'); // Copy - only works as a result of a user action (e.g. click events)
+    document.body.removeChild(el); // Remove the <textarea> element
+    if (selected) {
+      // If a selection existed before copying
+      document.getSelection().removeAllRanges(); // Unselect everything on the HTML document
+      document.getSelection().addRange(selected); // Restore the original selection
+    }
   }
 }
 
