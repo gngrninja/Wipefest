@@ -12,7 +12,6 @@ import { NgxEditorModel } from 'ngx-monaco-editor';
 import { DeveloperConsoleTestCase } from './test-case/developer-console-test-case';
 import { DeveloperConsoleExample } from './examples/developer-console-examples.component';
 import { DeveloperConsoleWorkspace } from './developer-console-workspace';
-import { LocalStorage } from '../shared/local-storage';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 // tslint:disable-next-line:no-require-imports
 const stripJsonComments = require('strip-json-comments');
@@ -241,9 +240,7 @@ export class DeveloperConsoleComponent implements OnInit {
         workspaceDto: this.workspace
       })
       .then(workspace => {
-        this.router.navigate(['/develop', workspace.id], {
-          replaceUrl: true
-        });
+        window.history.pushState({}, null, '/develop/' + workspace.id);
         setTimeout(() => (this.saving = false), 1000);
       })
       .catch(error => {
@@ -264,7 +261,6 @@ export class DeveloperConsoleComponent implements OnInit {
     if (!workspaceId) return;
 
     this.wipefestApi.getWorkspace(workspaceId).then(workspace => {
-      console.log(workspace);
       this.workspace = {
         testCases: workspace.testCases.map(x => {
           return {

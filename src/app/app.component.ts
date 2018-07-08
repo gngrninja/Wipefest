@@ -20,15 +20,15 @@ export class AppComponent {
     private markdownService: MarkdownService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.location.subscribe((ev: PopStateEvent) => {
       this.lastPoppedUrl = ev.url;
     });
     this.router.events.subscribe(ev => {
       if (ev instanceof NavigationEnd) {
-        if (ev.url == this.lastPoppedUrl) {
+        if (ev.url === this.lastPoppedUrl) {
           this.lastPoppedUrl = undefined;
-        } else if (ev.url.split('?')[0] != this.lastUrl.split('?')[0]) {
+        } else if (ev.url.split('?')[0] !== this.lastUrl.split('?')[0]) {
           window.scrollTo(0, 0);
         }
 

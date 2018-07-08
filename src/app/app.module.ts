@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Angulartics2Module } from 'angulartics2';
@@ -283,6 +283,7 @@ import {
 import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
+import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 
 @NgModule({
   declarations: [
@@ -410,6 +411,7 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
   providers: [
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
     LoggerService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     WipefestService,
