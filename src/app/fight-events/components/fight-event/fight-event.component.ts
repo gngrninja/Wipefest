@@ -20,6 +20,7 @@ export class FightEventComponent {
   @Input() ability: Ability;
   @Input() events: EventDto[];
   @Input() configs: EventConfig[];
+  @Input() trackState: boolean = true;
 
   collapsed: boolean = true;
 
@@ -30,6 +31,9 @@ export class FightEventComponent {
   ) { }
 
   ngOnInit(): void {
+    if (!this.trackState)
+      return;
+      
     this.stateService.changes.take(1).subscribe(() => {
       if (this.event.type === 'phase') {
         const phaseEvents = this.events.filter(x => x.type === 'phase');
@@ -48,6 +52,9 @@ export class FightEventComponent {
   }
 
   togglePhaseCollapse(event: EventDto): void {
+    if (!this.trackState)
+      return;
+
     const phases = this.events.filter(x => x.type === 'phase');
     const phaseIndex = phases.findIndex(x => x.timestamp === event.timestamp);
     this.stateService.togglePhase(

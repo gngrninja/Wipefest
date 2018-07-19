@@ -25,6 +25,7 @@ export class FightEventsComponent implements AfterViewInit {
   @Input() events: EventDto[];
   @Input() configs: EventConfig[] = [];
   @Input() abilities: Ability[] = [];
+  @Input() trackState: boolean = true;
   @ViewChild('tabs') tabs: any;
 
   view: FightEventsView = FightEventsView.Table;
