@@ -2,8 +2,9 @@
   <td *ngIf="event.type === 'phase'" colspan="3"
       unselectable="on"
       class="phase-change"
-      (click)="togglePhaseCollapse(event)">
-    <i class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="collapsed ? 'down' : 'right'" aria-hidden="true"></i>
+      (click)="togglePhaseCollapse(event)"
+      [ngClass]="trackState ? 'track-state' : ''">
+    <i *ngIf="trackState" class="arrow phase-icon fa fa-chevron-down mr-1" [ngClass]="collapsed ? 'down' : 'right'" aria-hidden="true"></i>
     <h5 class="d-inline-block">{{event.title}}</h5>
   </td>
   <td *ngIf="event.type === 'title' || event.type === 'endOfFight' || !event.type" colspan="3" class="end-of-fight">
