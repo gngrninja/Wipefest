@@ -18,7 +18,7 @@ export class NewsComponent {
     private loggerService: LoggerService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wipefestService.selectPage(Page.News);
     this.wipefestService.selectReport(null);
     this.wipefestService.selectFight(null);
@@ -33,15 +33,15 @@ export class NewsComponent {
     });
   }
 
-  logDiscordClick() {
+  logDiscordClick(): void {
     this.loggerService.logDiscordClick();
   }
 
-  logDiscordBotClick() {
+  logDiscordBotClick(): void {
     this.loggerService.logDiscordBotClick();
   }
 
-  logPatreonClick() {
+  logPatreonClick(): void {
     this.loggerService.logPatreonClick();
   }
 }
