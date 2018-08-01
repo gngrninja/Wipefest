@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://dev.api.wipefest.net/',
   eventConfigsUrl: 'assets/event-configs/',
   newsUrl: 'assets/news/'
 };
