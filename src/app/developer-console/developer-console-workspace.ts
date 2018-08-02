@@ -3,7 +3,8 @@ import {
   FightInfo,
   EventDto,
   EventConfig,
-  Ability
+  Ability,
+  Insight
 } from '@wipefest/api-sdk/dist/lib/models';
 
 export interface DeveloperConsoleWorkspace {
@@ -11,6 +12,7 @@ export interface DeveloperConsoleWorkspace {
   code: string;
   fightInfo: FightInfo;
   events: EventDto[];
+  insights: Insight[];
   configs: EventConfig[];
   abilities: Ability[];
 }

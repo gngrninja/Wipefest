@@ -116,6 +116,7 @@
       </div>
       <ng-container *ngIf="!loading && events.length > 0">
         <fight-title [fightInfo]="fightInfo"></fight-title>
+        <insights *ngIf="insights" [insights]="insights"></insights>
         <fight-events [fight]="fightInfo" [events]="events" [configs]="configs" [abilities]="abilities" [trackState]="trackState"></fight-events>
       </ng-container>
     </div>

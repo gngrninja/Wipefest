@@ -984,6 +984,42 @@ export class DeveloperConsoleExamplesComponent {
     }
   ]
 }`
+    },
+    {
+      name: 'Death insight',
+      testCases: [
+        {
+          name: 'Mythic Taloc',
+          reportId: 'DJgyxa96WrvKnQBR',
+          fightId: 6
+        }
+      ],
+      code: `{
+  "eventConfigs": [
+    {
+      "id": "0D",
+      "group": "GERA",
+      "name": "Deaths",
+      "show": true,
+      "tags": [
+        "player",
+        "death"
+      ],
+      "eventType": "death"
+    }
+  ],
+  "insightConfigs": [
+    {
+      "id": "0",
+      "name": "Uldir Defensive Beam",
+      "type": "death",
+      "ability": {
+        "id": 275445
+      },
+      "require": "GERA-0D"
+    }
+  ]
+}`
     }
   ];
 

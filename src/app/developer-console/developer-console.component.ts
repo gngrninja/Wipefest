@@ -5,9 +5,9 @@ import {
   EventDto,
   EventConfig,
   Ability,
-  WorkspaceDto,
   Workspace,
-  FightConfig
+  FightConfig,
+  Insight
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
@@ -78,6 +78,7 @@ export class DeveloperConsoleComponent implements OnInit {
   events: EventDto[] = [];
   configs: EventConfig[] = [];
   abilities: Ability[] = [];
+  insights: Insight[] = [];
 
   localStorageKey: string = 'developerConsoleWorkspace';
 
@@ -93,6 +94,7 @@ export class DeveloperConsoleComponent implements OnInit {
       code: this.code,
       fightInfo: this.fightInfo,
       events: this.events,
+      insights: this.insights,
       configs: this.configs,
       abilities: this.abilities
     };
@@ -103,6 +105,7 @@ export class DeveloperConsoleComponent implements OnInit {
     this.code = workspace.code;
     this.fightInfo = workspace.fightInfo;
     this.events = workspace.events;
+    this.insights = workspace.insights;
     this.configs = workspace.configs;
     this.abilities = workspace.abilities;
   }
@@ -168,6 +171,7 @@ export class DeveloperConsoleComponent implements OnInit {
     this.events = [];
     this.configs = [];
     this.abilities = [];
+    this.insights = [];
 
     const markers = this.editor.getModelMarkers({});
     if (markers.length) {
@@ -244,6 +248,7 @@ export class DeveloperConsoleComponent implements OnInit {
           this.events = fight.events;
           this.configs = fight.eventConfigs;
           this.abilities = fight.abilities;
+          this.insights = fight.insights;
 
           this.loading = false;
         },
@@ -326,6 +331,7 @@ export class DeveloperConsoleComponent implements OnInit {
           code: workspace.code,
           fightInfo: workspace.fightInfo,
           events: workspace.events,
+          insights: workspace.insights,
           configs: workspace.configs,
           abilities: workspace.abilities
         };
