@@ -6,7 +6,8 @@ import {
   EventConfig,
   Ability,
   WorkspaceDto,
-  Workspace
+  Workspace,
+  FightConfig
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
@@ -25,13 +26,18 @@ const stripJsonComments = require('strip-json-comments');
 export class DeveloperConsoleComponent implements OnInit {
   editor: any;
   ngxEditor: any;
-  code: string = `[
-  // What events would you love to see in Wipefest?
-]`;
+  code: string = `{
+  "eventConfigs": [
+    // What events would you love to see in Wipefest?
+  ],
+  "insightConfigs": [
+    // What insights can we build from these events?
+  ]
+}`;
   editorModel: NgxEditorModel = {
     value: this.code,
     language: 'json',
-    uri: 'event-configs.json'
+    uri: 'fight-config.json'
   };
   editorOptions: any = { theme: 'vs-dark', language: 'json', tabSize: 2 };
 
@@ -178,51 +184,59 @@ export class DeveloperConsoleComponent implements OnInit {
 
     this.loading = true;
 
-    let eventConfigs: EventConfig[] = [];
+    let fightConfig: FightConfig = {
+      eventConfigs: [],
+      insightConfigs: []
+    };
     try {
-      eventConfigs = JSON.parse(stripJsonComments(this.code)).map(x => {
-        if (!x.group) x.group = 'TEST';
-        if (!x.file) x.file = 'code-editor';
+      fightConfig = JSON.parse(stripJsonComments(this.code));
+      fightConfig.eventConfigs = fightConfig.eventConfigs
+        .map(x => {
+          if (!x.group) x.group = 'TEST';
+          if (!x.file) x.file = 'code-editor';
 
-        x.showByDefault = x.show;
+          x.showByDefault = x.show;
 
-        return x;
-      });
-      eventConfigs = eventConfigs.map(x => {
-        if (!x.id) {
-          let i = 0;
-          while (!x.id || eventConfigs.filter(y => y.id === x.id).length > 1) {
-            x.id = this.indexToId(i);
-            i++;
+          return x;
+        })
+        .map(x => {
+          if (!x.id) {
+            let i = 0;
+            while (
+              !x.id ||
+              fightConfig.eventConfigs.filter(y => y.id === x.id).length > 1
+            ) {
+              x.id = this.indexToId(i);
+              i++;
 
-            if (i > 500) break;
+              if (i > 500) break;
+            }
           }
-        }
 
-        return x;
-      });
+          return x;
+        });
     } catch (error) {
       this.loading = false;
       this.errors = [
         {
           lineNumber: 0,
           position: 0,
-          message: 'Failed to parse event configs. Invalid JSON.'
+          message: 'Failed to parse fight config. Invalid JSON.'
         }
       ];
     }
 
-    if (eventConfigs.length === 0) {
+    if (!fightConfig.eventConfigs) fightConfig.eventConfigs = [];
+    if (!fightConfig.insightConfigs) fightConfig.insightConfigs = [];
+
+    if (fightConfig.eventConfigs.length === 0) {
       this.loading = false;
       return;
     }
 
     this.wipefestApi
       .getFightForFightConfig(testCase.reportId, testCase.fightId, {
-        fightConfig: {
-          eventConfigs: eventConfigs,
-          insightConfigs: []
-        }
+        fightConfig: fightConfig
       })
       .then(
         fight => {
