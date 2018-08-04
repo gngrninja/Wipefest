@@ -6,7 +6,7 @@ import {
   EventConfig,
   Ability,
   Workspace,
-  FightConfig,
+  FightConfigDto,
   Insight
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
@@ -188,37 +188,39 @@ export class DeveloperConsoleComponent implements OnInit {
 
     this.loading = true;
 
-    let fightConfig: FightConfig = {
+    let fightConfig: FightConfigDto = {
       eventConfigs: [],
       insightConfigs: []
     };
     try {
       fightConfig = JSON.parse(stripJsonComments(this.code));
       fightConfig.eventConfigs = fightConfig.eventConfigs
-        .map(x => {
-          if (!x.group) x.group = 'TEST';
-          if (!x.file) x.file = 'code-editor';
+        ? fightConfig.eventConfigs
+            .map(x => {
+              if (!x.group) x.group = 'TEST';
+              if (!x.file) x.file = 'code-editor';
 
-          x.showByDefault = x.show;
+              x.showByDefault = x.show;
 
-          return x;
-        })
-        .map(x => {
-          if (!x.id) {
-            let i = 0;
-            while (
-              !x.id ||
-              fightConfig.eventConfigs.filter(y => y.id === x.id).length > 1
-            ) {
-              x.id = this.indexToId(i);
-              i++;
+              return x;
+            })
+            .map(x => {
+              if (!x.id) {
+                let i = 0;
+                while (
+                  !x.id ||
+                  fightConfig.eventConfigs.filter(y => y.id === x.id).length > 1
+                ) {
+                  x.id = this.indexToId(i);
+                  i++;
 
-              if (i > 500) break;
-            }
-          }
+                  if (i > 500) break;
+                }
+              }
 
-          return x;
-        });
+              return x;
+            })
+        : [];
     } catch (error) {
       this.loading = false;
       this.errors = [
@@ -230,17 +232,22 @@ export class DeveloperConsoleComponent implements OnInit {
       ];
     }
 
+    if (!fightConfig.includes) fightConfig.includes = [];
     if (!fightConfig.eventConfigs) fightConfig.eventConfigs = [];
     if (!fightConfig.insightConfigs) fightConfig.insightConfigs = [];
 
-    if (fightConfig.eventConfigs.length === 0) {
+    if (
+      fightConfig.includes.length === 0 &&
+      fightConfig.eventConfigs.length === 0 &&
+      fightConfig.insightConfigs.length === 0
+    ) {
       this.loading = false;
       return;
     }
 
     this.wipefestApi
       .getFightForFightConfig(testCase.reportId, testCase.fightId, {
-        fightConfig: fightConfig
+        fightConfigDto: fightConfig
       })
       .then(
         fight => {
