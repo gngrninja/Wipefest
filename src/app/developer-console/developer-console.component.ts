@@ -218,11 +218,8 @@ export class DeveloperConsoleComponent implements OnInit {
     }
 
     this.wipefestApi
-      .getFightForFightConfig(testCase.reportId, testCase.fightId, {
-        fightConfig: {
-          eventConfigs: eventConfigs,
-          insightConfigs: []
-        }
+      .getFightForEventConfigs(testCase.reportId, testCase.fightId, {
+        eventConfigs: eventConfigs
       })
       .then(
         fight => {

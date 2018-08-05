@@ -284,7 +284,6 @@ import { BreadcrumbsComponent } from './core-ui/breadcrumb.component';
 import { NAV_DROPDOWN_DIRECTIVES } from './core-ui/nav-dropdown.directive';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './core-ui/sidebar.directive';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -426,7 +425,7 @@ import { environment } from '../environments/environment';
     {
       provide: WipefestAPI,
       useFactory: () => {
-        return new WipefestAPI(environment.apiUrl, {
+        return new WipefestAPI('https://api.wipefest.net/', {
           filters: [new HttpFilter()]
         });
       }

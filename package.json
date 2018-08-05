@@ -30,7 +30,7 @@
     "@angular/router": "6.0.0",
     "@ng-bootstrap/ng-bootstrap": "^2.0.0",
     "@types/strip-json-comments": "0.0.30",
-    "@wipefest/api-sdk": "^0.5.1",
+    "@wipefest/api-sdk": "^0.4.0",
     "@wipefest/core": "^0.4.23",
     "angulartics2": "^6.0.0",
     "core-js": "^2.4.1",
