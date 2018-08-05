@@ -13,6 +13,7 @@ import { MarkupParser } from '@wipefest/core';
 })
 export class InsightsComponent implements OnChanges {
   @Input() insights: Insight[] = [];
+  @Input() trackState: boolean = true;
   rows: InsightTableRow[] = [];
 
   constructor(private stateService: StateService) {
@@ -45,7 +46,9 @@ export class InsightsComponent implements OnChanges {
           x.interval.endUnit === Math.min(deathThreshold, totalDeaths)
         );
       })
-      .map(x => new InsightTableRow(x, this.stateService));
+      .map(
+        x => new InsightTableRow(x, this.trackState ? this.stateService : null)
+      );
   }
 
   parse(markup: string): string {
@@ -57,12 +60,14 @@ export class InsightTableRow {
   showDetails: boolean = false;
 
   constructor(public insight: Insight, private stateService: StateService) {
-    this.stateService.changes.subscribe(() => {
-      this.showDetails = this.stateService.isInsightSelected(
-        this.insight.id,
-        this.insight.boss
-      );
-    });
+    if (this.stateService) {
+      this.stateService.changes.subscribe(() => {
+        this.showDetails = this.stateService.isInsightSelected(
+          this.insight.id,
+          this.insight.boss
+        );
+      });
+    }
   }
 
   get hasDetails(): boolean {
@@ -72,11 +77,14 @@ export class InsightTableRow {
   toggle(): void {
     if (this.hasDetails) {
       this.showDetails = !this.showDetails;
-      this.stateService.setInsightSelected(
-        this.insight.id,
-        this.insight.boss,
-        this.showDetails
-      );
+
+      if (this.stateService) {
+        this.stateService.setInsightSelected(
+          this.insight.id,
+          this.insight.boss,
+          this.showDetails
+        );
+      }
     }
   }
 }
