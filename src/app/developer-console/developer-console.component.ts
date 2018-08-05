@@ -197,7 +197,7 @@ export class DeveloperConsoleComponent implements OnInit {
       fightConfig.eventConfigs = fightConfig.eventConfigs
         ? fightConfig.eventConfigs
             .map(x => {
-              if (!x.group) x.group = 'TEST';
+              if (!x.group) x.group = this.workspaceId ? this.workspaceId : 'TEST';
               if (!x.file) x.file = 'code-editor';
 
               x.showByDefault = x.show;
