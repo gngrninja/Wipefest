@@ -5,8 +5,9 @@ import {
   EventDto,
   EventConfig,
   Ability,
-  WorkspaceDto,
-  Workspace
+  Workspace,
+  FightConfigDto,
+  Insight
 } from '@wipefest/api-sdk/dist/lib/models';
 import { WipefestAPI } from '@wipefest/api-sdk';
 import { NgxEditorModel } from 'ngx-monaco-editor';
@@ -25,13 +26,18 @@ const stripJsonComments = require('strip-json-comments');
 export class DeveloperConsoleComponent implements OnInit {
   editor: any;
   ngxEditor: any;
-  code: string = `[
-  // What events would you love to see in Wipefest?
-]`;
+  code: string = `{
+  "eventConfigs": [
+    // What events would you love to see in Wipefest?
+  ],
+  "insightConfigs": [
+    // What insights can we build from these events?
+  ]
+}`;
   editorModel: NgxEditorModel = {
     value: this.code,
     language: 'json',
-    uri: 'event-configs.json'
+    uri: 'fight-config.json'
   };
   editorOptions: any = { theme: 'vs-dark', language: 'json', tabSize: 2 };
 
@@ -72,6 +78,7 @@ export class DeveloperConsoleComponent implements OnInit {
   events: EventDto[] = [];
   configs: EventConfig[] = [];
   abilities: Ability[] = [];
+  insights: Insight[] = [];
 
   localStorageKey: string = 'developerConsoleWorkspace';
 
@@ -87,6 +94,7 @@ export class DeveloperConsoleComponent implements OnInit {
       code: this.code,
       fightInfo: this.fightInfo,
       events: this.events,
+      insights: this.insights,
       configs: this.configs,
       abilities: this.abilities
     };
@@ -97,6 +105,7 @@ export class DeveloperConsoleComponent implements OnInit {
     this.code = workspace.code;
     this.fightInfo = workspace.fightInfo;
     this.events = workspace.events;
+    this.insights = workspace.insights;
     this.configs = workspace.configs;
     this.abilities = workspace.abilities;
   }
@@ -118,7 +127,7 @@ export class DeveloperConsoleComponent implements OnInit {
         editorContainers.length > 0 && editorContainers[0].innerHTML === '';
 
       if (editorFailedToLoad) location.reload();
-    }, 1000);
+    }, 2000);
   }
 
   editorOnInit(editor: any): void {
@@ -162,6 +171,7 @@ export class DeveloperConsoleComponent implements OnInit {
     this.events = [];
     this.configs = [];
     this.abilities = [];
+    this.insights = [];
 
     const markers = this.editor.getModelMarkers({});
     if (markers.length) {
@@ -178,48 +188,67 @@ export class DeveloperConsoleComponent implements OnInit {
 
     this.loading = true;
 
-    let eventConfigs: EventConfig[] = [];
+    let fightConfig: FightConfigDto = {
+      eventConfigs: [],
+      insightConfigs: []
+    };
     try {
-      eventConfigs = JSON.parse(stripJsonComments(this.code)).map(x => {
-        if (!x.group) x.group = 'TEST';
-        if (!x.file) x.file = 'code-editor';
+      fightConfig = JSON.parse(stripJsonComments(this.code));
+      fightConfig.eventConfigs = fightConfig.eventConfigs
+        ? fightConfig.eventConfigs
+            .map(x => {
+              if (!x.group)
+                x.group = this.workspaceId ? this.workspaceId : 'TEST';
+              if (!x.file) x.file = 'code-editor';
 
-        x.showByDefault = x.show;
+              x.showByDefault = x.show;
 
-        return x;
-      });
-      eventConfigs = eventConfigs.map(x => {
-        if (!x.id) {
-          let i = 0;
-          while (!x.id || eventConfigs.filter(y => y.id === x.id).length > 1) {
-            x.id = this.indexToId(i);
-            i++;
+              return x;
+            })
+            .map(x => {
+              if (!x.id) {
+                let i = 0;
+                while (
+                  !x.id ||
+                  fightConfig.eventConfigs.filter(y => y.id === x.id).length > 1
+                ) {
+                  x.id = this.indexToId(i);
+                  i++;
 
-            if (i > 500) break;
-          }
-        }
+                  if (i > 500) break;
+                }
+              }
 
-        return x;
-      });
+              return x;
+            })
+        : [];
     } catch (error) {
       this.loading = false;
       this.errors = [
         {
           lineNumber: 0,
           position: 0,
-          message: 'Failed to parse event configs. Invalid JSON.'
+          message: 'Failed to parse fight config. Invalid JSON.'
         }
       ];
     }
 
-    if (eventConfigs.length === 0) {
+    if (!fightConfig.includes) fightConfig.includes = [];
+    if (!fightConfig.eventConfigs) fightConfig.eventConfigs = [];
+    if (!fightConfig.insightConfigs) fightConfig.insightConfigs = [];
+
+    if (
+      fightConfig.includes.length === 0 &&
+      fightConfig.eventConfigs.length === 0 &&
+      fightConfig.insightConfigs.length === 0
+    ) {
       this.loading = false;
       return;
     }
 
     this.wipefestApi
-      .getFightForEventConfigs(testCase.reportId, testCase.fightId, {
-        eventConfigs: eventConfigs
+      .getFightForFightConfig(testCase.reportId, testCase.fightId, {
+        fightConfigDto: fightConfig
       })
       .then(
         fight => {
@@ -227,6 +256,7 @@ export class DeveloperConsoleComponent implements OnInit {
           this.events = fight.events;
           this.configs = fight.eventConfigs;
           this.abilities = fight.abilities;
+          this.insights = fight.insights;
 
           this.loading = false;
         },
@@ -295,26 +325,40 @@ export class DeveloperConsoleComponent implements OnInit {
 
     if (!this.workspaceId) return;
 
-    this.wipefestApi
-      .getWorkspace(this.workspaceId, this.workspaceRevision)
-      .then(workspace => {
-        this.workspace = {
-          testCases: workspace.testCases.map(x => {
-            return {
-              name: x.name,
-              reportId: x.reportId,
-              fightId: x.fightId
-            };
-          }),
-          code: workspace.code,
-          fightInfo: workspace.fightInfo,
-          events: workspace.events,
-          configs: workspace.configs,
-          abilities: workspace.abilities
-        };
+    const handleWorkspace = (workspace: Workspace) => {
+      this.workspace = {
+        testCases: workspace.testCases.map(x => {
+          return {
+            name: x.name,
+            reportId: x.reportId,
+            fightId: x.fightId
+          };
+        }),
+        code: workspace.code,
+        fightInfo: workspace.fightInfo,
+        events: workspace.events,
+        insights: workspace.insights,
+        configs: workspace.configs,
+        abilities: workspace.abilities
+      };
 
-        this.changeDetectorRef.detectChanges();
-      });
+      this.changeDetectorRef.detectChanges();
+
+      let path = '/develop/' + workspace.key.id;
+      if (workspace.key.revision) path += '/' + workspace.key.revision;
+
+      window.history.replaceState({}, null, path);
+    };
+
+    if (params.workspaceRevision) {
+      this.wipefestApi
+        .getWorkspace(this.workspaceId, this.workspaceRevision)
+        .then(handleWorkspace);
+    } else {
+      this.wipefestApi
+        .getLatestApprovedOrLatestWorkspace(this.workspaceId)
+        .then(handleWorkspace);
+    }
   }
 
   private indexToId(index: number): string {

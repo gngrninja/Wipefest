@@ -243,13 +243,9 @@ export class FightSummaryComponent implements OnInit {
     this.insights = [];
 
     if (this.report && this.fight) {
-      const combatEvents = [];
-      const loadingCombatEvents = true;
-      const deaths = [];
-      const loadingDeaths = true;
-
       this.wipefestApi
         .getFight(this.report.id, this.fight.id, {
+          group: this.fight.boss.toString(),
           includes: this.getFocusIncludes(),
           markupFormat: MarkupFormat.Markup
         })
