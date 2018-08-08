@@ -127,7 +127,7 @@ export class DeveloperConsoleComponent implements OnInit {
         editorContainers.length > 0 && editorContainers[0].innerHTML === '';
 
       if (editorFailedToLoad) location.reload();
-    }, 1000);
+    }, 2000);
   }
 
   editorOnInit(editor: any): void {
@@ -197,7 +197,8 @@ export class DeveloperConsoleComponent implements OnInit {
       fightConfig.eventConfigs = fightConfig.eventConfigs
         ? fightConfig.eventConfigs
             .map(x => {
-              if (!x.group) x.group = this.workspaceId ? this.workspaceId : 'TEST';
+              if (!x.group)
+                x.group = this.workspaceId ? this.workspaceId : 'TEST';
               if (!x.file) x.file = 'code-editor';
 
               x.showByDefault = x.show;
@@ -324,27 +325,40 @@ export class DeveloperConsoleComponent implements OnInit {
 
     if (!this.workspaceId) return;
 
-    this.wipefestApi
-      .getWorkspace(this.workspaceId, this.workspaceRevision)
-      .then(workspace => {
-        this.workspace = {
-          testCases: workspace.testCases.map(x => {
-            return {
-              name: x.name,
-              reportId: x.reportId,
-              fightId: x.fightId
-            };
-          }),
-          code: workspace.code,
-          fightInfo: workspace.fightInfo,
-          events: workspace.events,
-          insights: workspace.insights,
-          configs: workspace.configs,
-          abilities: workspace.abilities
-        };
+    const handleWorkspace = (workspace: Workspace) => {
+      this.workspace = {
+        testCases: workspace.testCases.map(x => {
+          return {
+            name: x.name,
+            reportId: x.reportId,
+            fightId: x.fightId
+          };
+        }),
+        code: workspace.code,
+        fightInfo: workspace.fightInfo,
+        events: workspace.events,
+        insights: workspace.insights,
+        configs: workspace.configs,
+        abilities: workspace.abilities
+      };
 
-        this.changeDetectorRef.detectChanges();
-      });
+      this.changeDetectorRef.detectChanges();
+
+      let path = '/develop/' + workspace.key.id;
+      if (workspace.key.revision) path += '/' + workspace.key.revision;
+
+      window.history.replaceState({}, null, path);
+    };
+
+    if (params.workspaceRevision) {
+      this.wipefestApi
+        .getWorkspace(this.workspaceId, this.workspaceRevision)
+        .then(handleWorkspace);
+    } else {
+      this.wipefestApi
+        .getLatestApprovedOrLatestWorkspace(this.workspaceId)
+        .then(handleWorkspace);
+    }
   }
 
   private indexToId(index: number): string {
