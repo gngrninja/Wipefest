@@ -109,10 +109,10 @@ export class StateService {
     try {
       this.queryParams.insights.split(',').forEach(bossAndInsights => {
         const split = bossAndInsights.split('-');
-        const boss = split[0] as number;
+        const group = split[0];
         split[1]
           .split('')
-          .forEach(id => insightParams.push(new SelectedInsight(id, boss)));
+          .forEach(id => insightParams.push(new SelectedInsight(id, group)));
       });
     } catch (error) {
       return insightParams;
@@ -124,9 +124,9 @@ export class StateService {
   set insights(value: SelectedInsight[]) {
     const insightsPerBoss: SelectedInsight[][] = [];
     value.forEach(x => {
-      const insight = new SelectedInsight(x.id, x.boss);
+      const insight = new SelectedInsight(x.id, x.group);
       const existingIndex = insightsPerBoss.findIndex(y =>
-        y.some(z => z.boss === x.boss)
+        y.some(z => z.group === x.group)
       );
       if (existingIndex === -1) {
         insightsPerBoss.push([insight]);
@@ -136,7 +136,7 @@ export class StateService {
     });
 
     const insightQueryString = insightsPerBoss
-      .map(x => `${x[0].boss}-${x.map(y => y.id).join('')}`)
+      .map(x => `${x[0].group}-${x.map(y => y.id).join('')}`)
       .join(',');
 
     this.queryParams.insights =
@@ -145,27 +145,29 @@ export class StateService {
     this.updateQueryParams();
   }
 
-  isInsightSelected(id: string, boss: number): boolean {
+  isInsightSelected(id: string, group: string): boolean {
     // tslint:disable-next-line:triple-equals
-    return this.insights.some(x => x.id === id && x.boss == boss);
+    return this.insights.some(x => x.id === id && x.group == group);
   }
 
-  selectInsight(id: string, boss: number): void {
-    if (!this.isInsightSelected(id, boss)) {
+  selectInsight(id: string, group: string): void {
+    if (!this.isInsightSelected(id, group)) {
       const selectedInsights = this.insights;
-      selectedInsights.push(new SelectedInsight(id, boss));
+      selectedInsights.push(new SelectedInsight(id, group));
 
       this.insights = selectedInsights;
     }
   }
 
-  deselectInsight(id: string, boss: number): void {
+  deselectInsight(id: string, group: string): void {
     // tslint:disable-next-line:triple-equals
-    this.insights = this.insights.filter(x => !(x.id == id && x.boss == boss));
+    this.insights = this.insights.filter(
+      x => !(x.id === id && x.group === group)
+    );
   }
 
-  setInsightSelected(id: string, boss: number, selected: boolean): void {
-    selected ? this.selectInsight(id, boss) : this.deselectInsight(id, boss);
+  setInsightSelected(id: string, group: string, selected: boolean): void {
+    selected ? this.selectInsight(id, group) : this.deselectInsight(id, group);
   }
 
   get filters(): SelectedFilter[] {
@@ -353,7 +355,7 @@ export class StateService {
 }
 
 export class SelectedInsight {
-  constructor(public id: string, public boss: number) {}
+  constructor(public id: string, public group: string) {}
 }
 
 export class SelectedFilter {

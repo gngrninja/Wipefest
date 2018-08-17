@@ -77,6 +77,7 @@ export function onMonacoLoad(): void {
                       'debuffstack',
                       'removedebuff',
                       'damage',
+                      'heal',
                       'phase',
                       'interrupt',
                       'spawn',
@@ -442,7 +443,7 @@ import { environment } from '../environments/environment';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 
 export class HttpFilter extends BaseFilter {
   after(response: HttpOperationResponse): Promise<HttpOperationResponse> {

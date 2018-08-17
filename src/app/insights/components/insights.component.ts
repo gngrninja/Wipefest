@@ -64,7 +64,7 @@ export class InsightTableRow {
       this.stateService.changes.subscribe(() => {
         this.showDetails = this.stateService.isInsightSelected(
           this.insight.id,
-          this.insight.boss
+          this.insight.group
         );
       });
     }
@@ -81,7 +81,7 @@ export class InsightTableRow {
       if (this.stateService) {
         this.stateService.setInsightSelected(
           this.insight.id,
-          this.insight.boss,
+          this.insight.group,
           this.showDetails
         );
       }
