@@ -215,6 +215,115 @@ export function onMonacoLoad(): void {
                 },
                 required: ['name', 'tags', 'show', 'eventType']
               }
+            },
+            insightConfigs: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: {
+                    type: 'string',
+                    description:
+                      'A 1 character alphanumeric ID that uniquely identifies this config within its group. Stored in the URL when saving state.',
+                    examples: ['0', '1', 'A'],
+                    minLength: 1,
+                    maxLength: 1,
+                    pattern: '[0-9a-zA-Z]{1}'
+                  },
+                  name: {
+                    type: 'string',
+                    description: 'A friendly name to refer to this config by.'
+                  },
+                  type: {
+                    description:
+                      'Determines how the insight is calculated and displayed.',
+                    enum: [
+                      'custom',
+                      'cast',
+                      'closestHit',
+                      'death',
+                      'debuffDuration',
+                      'debuffUnlessRole',
+                      'debuff',
+                      'diedFromFalling',
+                      'heal',
+                      'hitBySomeoneElse',
+                      'hitExceptRoughlyDurationAfterDebuff',
+                      'hitFriendly',
+                      'hitHard',
+                      'hitUnlessRole',
+                      'hitWithoutDebuff',
+                      'hit',
+                      'interrupt',
+                      'phaseDuration',
+                      'soak',
+                      'spawn',
+                      'stackThreshold'
+                    ]
+                  },
+                  title: {
+                    type: 'string',
+                    description:
+                      'Overrides the default title of the insight type. You can use markup in here as well as interpolate properties from the insight (for example, "hit" insights have several properties such as "abilities", "totalHits", "playersAndHits", that can be injected using curly braces (e.g. {playersAndHits})).'
+                  },
+                  details: {
+                    type: 'string',
+                    description:
+                      'Overrides the default details of the insight type. You can use markup in here as well as interpolate properties from the insight (for example, "hit" insights have several properties such as "abilities", "totalHits", "playersAndHits", that can be injected using curly braces (e.g. {playersAndHits})).'
+                  },
+                  tip: {
+                    type: 'string',
+                    description:
+                      'Adds a tip to this insight. You can use markup in here (such as {boss:Garothi Worldbreaker} to style a name in a certain colour, or {ability:244532:Fel Bombardment:fire} to add an ability link with tooltip).'
+                  },
+                  threshold: {
+                    type: 'number'
+                  },
+                  debuffApplicationTimeRelativeToDamageTime: {
+                    type: 'number'
+                  },
+                  gracePeriod: {
+                    type: 'number'
+                  },
+                  role: {
+                    enum: ['Tank', 'Healer', 'Ranged', 'Melee']
+                  },
+                  phase: {
+                    type: 'string'
+                  },
+                  stacks: {
+                    type: 'number'
+                  },
+                  ability: {
+                    type: 'object',
+                    properties: {
+                      id: {
+                        type: 'number'
+                      },
+                      ids: {
+                        type: 'array',
+                        uniqueItems: true
+                      }
+                    }
+                  },
+                  discord: {
+                    type: 'object',
+                    properties: {
+                      showDetails: {
+                        type: 'boolean',
+                        description:
+                          'Whether or not the details of this insight should be displayed within Discord fight summaries.'
+                      }
+                    }
+                  },
+                  require: {
+                    type: 'string',
+                    description:
+                      'Very important. Insights do that get the entire timeline passed to them when calculating. Instead, this properties indicates which events are passed. Specify events using the format "group:id1id2id3". For example, the Fel Bombardment insight requires the Fel Bombardment damage event. This event is in the Garothi Worldbreaker group (2076 - the bosses ID), and has an ID of FB, so the require property is "2076:FB". You can pass multiple events by specifying more IDs. For example, the Annihilation / Shrapnel event takes both Annihilation and Shrapnel damage events, with IDs of 0E and 0F, so the require property is "2076:0E0F". You can include events from multiple groups by separating groups with a comma. For example "2076:0E0F,raid:0D". For events to be used by an insight, you must supply an ID in their config so that it can be referred to in this property. The insight then takes these events to calculate it\'s values. For example, a "hit" insight takes the damage events that are passed to it and generates a summary of which players were hit and how often.' 
+                  }
+                },
+                required: ['id', 'name', 'type', 'require']
+              }
             }
           }
         }
