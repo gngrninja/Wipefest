@@ -59,7 +59,7 @@ export class GuildSearchResultsComponent implements OnInit {
         this.error = null;
 
         reports = reports
-          .filter(x => x.zone === 13 || x.zone === 17)
+          .filter(x => x.zone === 19)
           .sort((a, b) => b.start - a.start);
         this.reports = reports;
       })
