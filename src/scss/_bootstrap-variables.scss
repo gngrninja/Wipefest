@@ -17,6 +17,7 @@ $brand-warning:             #f8cb00;
 $brand-danger:              #f86c6b;*/
 
 $gray-base: #000 !default;
+$gray-darker: lighten($gray-base, 12%) !default;
 $gray-dark: lighten($gray-base, 13.5%) !default; // #222
 $gray: #303030 !default; // #333
 $gray-light: #464545 !default;

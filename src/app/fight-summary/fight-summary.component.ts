@@ -17,7 +17,8 @@ import {
   EventDto,
   Player,
   EventConfig,
-  Insight
+  Insight,
+  InsightConfig
 } from '@wipefest/api-sdk/dist/lib/models';
 import {
   SpecializationsService,
@@ -55,6 +56,7 @@ export class FightSummaryComponent implements OnInit {
   abilities: Ability[] = [];
   focusedEventIndexes: boolean[] = [];
   insights: Insight[] = [];
+  insightConfigs: InsightConfig[] = [];
 
   get focusedEvents(): EventDto[] {
     return this.events.filter((x, i) => this.focusedEventIndexes[i]);
@@ -175,6 +177,7 @@ export class FightSummaryComponent implements OnInit {
     this.encounter = null;
     this.events = [];
     this.insights = [];
+    this.insightConfigs = [];
     this.configs = [];
 
     if (this.report && this.report.id === reportId) {
@@ -241,6 +244,7 @@ export class FightSummaryComponent implements OnInit {
     this.events = [];
     this.eventsBeforeDeathThreshold = [];
     this.insights = [];
+    this.insightConfigs = [];
 
     if (this.report && this.fight) {
       this.wipefestApi
@@ -259,6 +263,7 @@ export class FightSummaryComponent implements OnInit {
             this.wipefestService.selectConfigs(fight.eventConfigs);
 
             this.insights = fight.insights;
+            this.insightConfigs = fight.insightConfigs;
             this.events = fight.events;
             // Remove duplicates (for example, AMS as a personal and as a minor tank cooldown), but priotise non-general/raid-originating events
             this.events = this.events.filter((x, index, array) => {
@@ -343,6 +348,7 @@ export class FightSummaryComponent implements OnInit {
             this.error = error;
             this.events = [];
             this.insights = [];
+            this.insightConfigs = [];
           }
         );
     }

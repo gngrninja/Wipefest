@@ -204,6 +204,26 @@ table.markup-table-details {
   color: $ability-chaos !important;
 }
 
+// Qualities
+.markup-artifact {
+  color: $quality-artifact;
+}
+.markup-legendary {
+  color: $quality-legendary;
+}
+.markup-epic {
+  color: $quality-epic;
+}
+.markup-rare {
+  color: $quality-rare;
+}
+.markup-uncommon {
+  color: $quality-uncommon;
+}
+.markup-common {
+  color: $quality-common;
+}
+
 
 .markup-icon {
   a {

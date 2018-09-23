@@ -2,7 +2,9 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { StateService } from 'app/shared/state.service';
 import {
   Insight,
-  InsightIntervalUnit
+  InsightIntervalUnit,
+  InsightConfig,
+  InsightStatistic
 } from '@wipefest/api-sdk/dist/lib/models';
 import { MarkupParser } from '@wipefest/core';
 
@@ -13,6 +15,7 @@ import { MarkupParser } from '@wipefest/core';
 })
 export class InsightsComponent implements OnChanges {
   @Input() insights: Insight[] = [];
+  @Input() insightConfigs: InsightConfig[] = [];
   @Input() trackState: boolean = true;
   rows: InsightTableRow[] = [];
 
@@ -47,7 +50,12 @@ export class InsightsComponent implements OnChanges {
         );
       })
       .map(
-        x => new InsightTableRow(x, this.trackState ? this.stateService : null)
+        x =>
+          new InsightTableRow(
+            x,
+            this.insightConfigs.find(c => c.id == x.id && c.group == x.group),
+            this.trackState ? this.stateService : null
+          )
       );
   }
 
@@ -58,13 +66,34 @@ export class InsightsComponent implements OnChanges {
 
 export class InsightTableRow {
   showDetails: boolean = false;
+  percentile: number;
+  percentileStyle: string;
+  statistics: InsightStatistic[];
 
-  constructor(public insight: Insight, private stateService: StateService) {
+  constructor(
+    public insight: Insight,
+    private config: InsightConfig,
+    private stateService: StateService
+  ) {
     if (this.stateService) {
       this.stateService.changes.subscribe(() => {
         this.showDetails = this.stateService.isInsightSelected(
           this.insight.id,
           this.insight.group
+        );
+
+        const mainStatistic = insight.statistics.find(
+          s => s.name === config.mainStatistic
+        );
+
+        if (mainStatistic) {
+          this.percentile = mainStatistic.percentile;
+          this.percentileStyle =
+            'markup-' + this.rankingQuality(this.percentile);
+        }
+
+        this.statistics = insight.statistics.filter(s =>
+          config.statistics.some(c => c.name === s.name)
         );
       });
     }
@@ -86,5 +115,19 @@ export class InsightTableRow {
         );
       }
     }
+  }
+
+  rankingQuality(percent: number): string {
+    return percent === 100
+      ? 'artifact'
+      : percent >= 95
+        ? 'legendary'
+        : percent >= 75
+          ? 'epic'
+          : percent >= 50
+            ? 'rare'
+            : percent >= 25
+              ? 'uncommon'
+              : 'common';
   }
 }

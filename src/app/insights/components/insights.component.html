@@ -4,8 +4,11 @@
 
 <table class="insight">
   <tr *ngFor="let row of rows">
-    <td>
-      <div class="insight-title pl-2" [ngClass]="{'showDetails': row.showDetails, 'clickable': row.hasDetails}"
+    <td class="percentile">
+      <span [class]="row.percentileStyle" *ngIf="row.percentile >= 0"><strong>{{ row.percentile }}</strong></span>
+    </td>
+    <td class="description">
+      <div class="insight-title pl-1" [ngClass]="{'showDetails': row.showDetails, 'clickable': row.hasDetails}"
            (click)="row.toggle()">
         <i *ngIf="row.hasDetails" class="arrow fa fa-chevron-down mr-1" [ngClass]="row.showDetails ? 'down' : 'right'" aria-hidden="true"></i>
         <i *ngIf="!row.hasDetails" class="arrow fa fa-info-circle mr-1 ml-1" aria-hidden="true"></i>
@@ -20,6 +23,18 @@
         <div *ngIf="row.insight.tip" class="alert alert-gray mt-3 mb-0">
           <div class="alert-title"><span><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Tip</span></div>
           <div class="mt-2" [innerHtml]="parse(row.insight.tip)"></div>
+        </div>
+        <div *ngIf="row.statistics.length > 0" class="alert alert-gray mt-3 mb-0 statistics">
+          <div class="alert-title"><span><i class="fa fa-signal mr-2" aria-hidden="true"></i>Statistics</span></div>
+          <div class="mt-2">
+            <table class="table table-hover">
+                <tr *ngFor="let statistic of row.statistics" class="statistic">
+                  <td [class]="'markup-' + row.rankingQuality(statistic.percentile)"><strong>{{ statistic.percentile }}</strong></td>
+                  <td>{{ statistic.name }}</td>
+                  <td>{{ statistic.value | number:'0.0-2' }}</td>
+                </tr>
+            </table>
+          </div>
         </div>
       </div>
     </td>

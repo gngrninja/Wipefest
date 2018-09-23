@@ -320,6 +320,30 @@ export function onMonacoLoad(): void {
                     type: 'string',
                     description:
                       'Very important. Insights do that get the entire timeline passed to them when calculating. Instead, this properties indicates which events are passed. Specify events using the format "group:id1id2id3". For example, the Fel Bombardment insight requires the Fel Bombardment damage event. This event is in the Garothi Worldbreaker group (2076 - the bosses ID), and has an ID of FB, so the require property is "2076:FB". You can pass multiple events by specifying more IDs. For example, the Annihilation / Shrapnel event takes both Annihilation and Shrapnel damage events, with IDs of 0E and 0F, so the require property is "2076:0E0F". You can include events from multiple groups by separating groups with a comma. For example "2076:0E0F,raid:0D". For events to be used by an insight, you must supply an ID in their config so that it can be referred to in this property. The insight then takes these events to calculate it\'s values. For example, a "hit" insight takes the damage events that are passed to it and generates a summary of which players were hit and how often.' 
+                  },
+                  statistics: {
+                    type: 'array',
+                    description: 'The statistics to store for this insight.',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string',
+                          description:
+                            'The name of the statistic to include for this insight. Must match one specified by the insight generator for this insight type.'
+                        },
+                        higherIsBetter: {
+                          type: 'boolean',
+                          description:
+                            'Whether a higher value should indicate a higher rank. For example, higher Healthstone healing is better, so this value should be true. However, higher enemy healing on Zul is worse, so this value should be false.'
+                        }
+                      }
+                    }
+                  },
+                  mainStatistic: {
+                    type: 'string',
+                    description:
+                      'The name of the statistic to use for rankings for this insight.'
                   }
                 },
                 required: ['id', 'name', 'type', 'require']
