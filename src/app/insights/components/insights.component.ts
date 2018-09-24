@@ -68,7 +68,7 @@ export class InsightTableRow {
   showDetails: boolean = false;
   percentile: number;
   percentileStyle: string;
-  statistics: InsightStatistic[];
+  statistics: InsightStatistic[] = [];
 
   constructor(
     public insight: Insight,
@@ -82,19 +82,21 @@ export class InsightTableRow {
           this.insight.group
         );
 
-        const mainStatistic = insight.statistics.find(
-          s => s.name === config.mainStatistic
-        );
+        if (config.statistics) {
+          const mainStatistic = insight.statistics.find(
+            s => s.name === config.mainStatistic
+          );
 
-        if (mainStatistic) {
-          this.percentile = mainStatistic.percentile;
-          this.percentileStyle =
-            'markup-' + this.rankingQuality(this.percentile);
+          if (mainStatistic) {
+            this.percentile = mainStatistic.percentile;
+            this.percentileStyle =
+              'markup-' + this.rankingQuality(this.percentile);
+          }
+
+          this.statistics = insight.statistics.filter(s =>
+            config.statistics.some(c => c.name === s.name)
+          );
         }
-
-        this.statistics = insight.statistics.filter(s =>
-          config.statistics.some(c => c.name === s.name)
-        );
       });
     }
   }
