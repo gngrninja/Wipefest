@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   //apiUrl: 'https://dev.api.wipefest.net/',
   apiUrl: 'http://localhost:4201/',
+  //apiUrl: 'http://localhost:9927/',
   eventConfigsUrl: 'assets/event-configs/',
   newsUrl: 'assets/news/'
 };
